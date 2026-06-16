@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>قرائت و ارزیابی — همدم حفظ</title>
+
+  <!-- Shared design-system stylesheets (own all tokens & components). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+    /* -------------------------------------------------------------------------
+       Screen-local styles. Tokens only — no raw values, reuse shared classes.
+       This page composes the recite/grade flow (07-components §5–§7) from the
+       existing .page-card / .grade-band / .btn / .badge / .action-band classes.
+       ------------------------------------------------------------------------- */
+
+    /* Recite flow is a focused full-screen route: its own slim top bar with a
+       calm exit (NN/g #3 — user control & freedom) and a quiet progress count. */
+    .recite-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: #F3F6F1;
+      border-bottom: 1px solid #D4DCCF;
+    }
+    .recite-bar__close {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 48px;
+      min-height: 48px;
+      border: none;
+      background: transparent;
+      color: #46514B;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 1.375rem;
+    }
+    .recite-bar__close:hover { background: #E7ECE4; }
+    .recite-bar__titles { flex: 1 1 auto; min-width: 0; }
+    .recite-bar__id {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #1A211E;
+    }
+    .recite-bar__sub {
+      font-size: 0.8125rem;
+      color: #5C665F;
+      margin-block-start: 2px;
+    }
+
+    /* Slim calm progress: "۳ از ۱۲" + a quiet track. Never a score/streak. */
+    .recite-progress { padding: 12px 16px 0; }
+    .recite-progress__row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      font-size: 0.8125rem;
+      color: #5C665F;
+      margin-block-end: 8px;
+    }
+    .recite-progress__count { color: #46514B; }
+    .recite-progress__track {
+      height: 4px;
+      border-radius: 999px;
+      background: #DCE3D9;
+      overflow: hidden;
+    }
+    .recite-progress__fill {
+      height: 100%;
+      width: 25%; /* ۳ از ۱۲ */
+      border-radius: 999px;
+      background: #1F6E5A;
+    }
+
+    /* The page card carries the demo muṣḥaf surface; we add a masked overlay
+       state on top of it for reveal-on-tap (retrieval practice, §5). */
+    .recite-card { position: relative; margin-block-start: 16px; }
+
+    /* The hidden / masked state: a calm "recite from memory" veil. NOT blurred
+       hard — a soft frosted scrim with an explicit instruction, never alarming. */
+    .recite-mask {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 24px;
+      text-align: center;
+      border-radius: 20px;
+      background: #E7ECE4;
+      border: 1px solid #D4DCCF;
+      cursor: pointer;
+      transition: opacity 250ms cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+    .recite-mask__icon {
+      width: 48px;
+      height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: #E2EFE9;
+      color: #1F6E5A;
+      font-size: 1.375rem;
+    }
+    .recite-mask__title {
+      font-size: 1.375rem;
+      font-weight: 500;
+      color: #1A211E;
+    }
+    .recite-mask__hint {
+      font-size: 0.8125rem;
+      color: #46514B;
+      max-width: 30ch;
+    }
+
+    /* Demo muṣḥaf text, line-by-line, so stumble-lines can be tapped (§5). */
+    .ayah-lines {
+      font-family: 'Amiri Quran', 'Vazirmatn', serif;
+      color: #1A211E;
+      text-align: center;
+      margin-block: 8px;
+    }
+    .ayah-line {
+      display: block;
+      width: 100%;
+      font-family: 'Amiri Quran', 'Vazirmatn', serif;
+      font-size: 1.75rem;
+      line-height: 2;
+      color: inherit;
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      padding-block: 4px;
+      cursor: default;
+      transition: background 150ms cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+    /* When stumble-marking is armed, the lines become ≥48dp tappable targets. */
+    .ayah-lines.is-marking .ayah-line {
+      cursor: pointer;
+      min-height: 48px;
+    }
+    .ayah-lines.is-marking .ayah-line:hover { background: #E7ECE4; }
+
+    /* A marked stumble line — color + a leading glyph + it is announced in text
+       (never color-only, SC 1.4.1). Uses the warm warning wash from tokens. */
+    .ayah-line.is-stumbled {
+      background: #F4ECD9;
+      box-shadow: inset 2px 0 0 #8A5A00;
+    }
+    .ayah-line__flag {
+      font-family: 'Vazirmatn', 'Estedad', system-ui, 'Segoe UI', Tahoma, sans-serif;
+      font-size: 0.8125rem;
+      color: #8A5A00;
+      margin-inline-start: 8px;
+      vertical-align: middle;
+    }
+    .ayah-line:not(.is-stumbled) .ayah-line__flag { display: none; }
+
+    /* Small "no mic / no AI" assurance row — make C2/R5 obvious & calm. */
+    .assurance {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-block-start: 12px;
+      font-size: 0.8125rem;
+      color: #5C665F;
+    }
+    .assurance__icon { color: #46514B; }
+
+    /* Stumble-marking control: a calm secondary toggle row above the grade band. */
+    .mark-toggle {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      min-height: 48px;
+      padding: 8px 12px;
+      margin-block-start: 12px;
+      background: #E7ECE4;
+      border: 1px solid #D4DCCF;
+      border-radius: 12px;
+      color: #1A211E;
+      font-family: 'Vazirmatn', 'Estedad', system-ui, 'Segoe UI', Tahoma, sans-serif;
+      font-size: 0.875rem;
+      text-align: start;
+      cursor: pointer;
+    }
+    .mark-toggle[disabled] { opacity: 0.55; cursor: not-allowed; }
+    .mark-toggle__lead {
+      flex: 0 0 auto;
+      width: 32px;
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: #E2EFE9;
+      color: #1F6E5A;
+    }
+    .mark-toggle__body { flex: 1 1 auto; min-width: 0; }
+    .mark-toggle__sub {
+      font-size: 0.8125rem;
+      color: #5C665F;
+      margin-block-start: 2px;
+    }
+    .mark-toggle.is-on { border-color: #1F6E5A; background: #E2EFE9; }
+    .mark-toggle__count {
+      flex: 0 0 auto;
+      font-size: 0.8125rem;
+      color: #46514B;
+    }
+
+    /* Teacher sign-off (talaqqī) — a Switch.adaptive analogue. First-class,
+       visibly distinct from a self-grade (§7). Calm, authoritative, not loud. */
+    .signoff {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      min-height: 48px;
+      padding: 12px;
+      margin-block-start: 8px;
+      background: #E7ECE4;
+      border: 1px solid #D4DCCF;
+      border-radius: 12px;
+    }
+    .signoff.is-on {
+      background: #E2EFE9;
+      border-color: #1F6E5A;
+    }
+    .signoff__body { flex: 1 1 auto; min-width: 0; }
+    .signoff__title {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #1A211E;
+    }
+    .signoff__sub {
+      font-size: 0.8125rem;
+      color: #5C665F;
+      margin-block-start: 2px;
+    }
+    /* iOS-style adaptive switch, recoloured from ColorScheme roles only. */
+    .switch {
+      flex: 0 0 auto;
+      position: relative;
+      width: 50px;
+      height: 30px;
+      border: none;
+      border-radius: 999px;
+      background: #DCE3D9;
+      cursor: pointer;
+      transition: background 150ms cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+    .switch__knob {
+      position: absolute;
+      inset-block-start: 3px;
+      inset-inline-start: 3px;
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      background: #F3F6F1;
+      box-shadow: 0 1px 2px rgba(26, 33, 30, 0.05), 0 2px 8px rgba(26, 33, 30, 0.04);
+      transition: inset-inline-start 150ms cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+    .switch[aria-checked="true"] { background: #1F6E5A; }
+    .switch[aria-checked="true"] .switch__knob { inset-inline-start: 23px; }
+
+    /* Grade band lives in the thumb zone. Disabled until a reveal happens (§6).
+       We extend the shared .grade-band with a calm "waiting" hint + verb subtitles. */
+    .grade-hint {
+      font-size: 0.8125rem;
+      color: #5C665F;
+      text-align: center;
+      margin-block-end: 8px;
+    }
+    .grade-band.is-locked { opacity: 0.5; pointer-events: none; }
+    .grade-band .btn {
+      flex-direction: column;
+      gap: 2px;
+      line-height: 1.2;
+    }
+    .grade-btn__verb {
+      font-size: 0.6875rem;
+      font-weight: 400;
+      opacity: 0.85;
+    }
+    /* Again/lapse + Hard read as tonal (not filled green) so a clean recital
+       isn't visually "rewarded" over an honest lapse — calm, non-judgemental. */
+    .grade-btn--soft {
+      background: #E7ECE4;
+      color: #1A211E;
+      border-color: #D4DCCF;
+    }
+    .grade-btn--soft:hover { background: #DCE3D9; }
+
+    /* Sacred-text guard note: shown when stumble lines are marked (§7.7). */
+    .guard-note {
+      display: none;
+      align-items: flex-start;
+      gap: 8px;
+      margin-block-start: 8px;
+      padding: 8px 12px;
+      border-radius: 12px;
+      background: #F4ECD9;
+      color: #8A5A00;
+      font-size: 0.8125rem;
+    }
+    .guard-note.is-shown { display: flex; }
+
+    /* Floating language pill, top corner (visual only). */
+    .lang-pill--float {
+      position: absolute;
+      inset-block-start: 24px;
+      inset-inline-start: 16px;
+      z-index: 5;
+    }
+  </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600&family=Amiri+Quran&display=swap" rel="stylesheet">
+  <style>
+/* ==== inlined tokens.css ==== */
+/* =============================================================================
+   Mihrab — Design Tokens (demo)
+   The Hifz Companion design system, distilled for a static HTML demo.
+
+   Source of truth: /docs/design-system/
+     - color  : 03-color-and-themes.md   (owns all color.*)
+     - type   : 04-typography.md          (owns all type.*)
+     - space  : 05-layout-spacing-touch.md(owns all space.*, touch.min)
+     - motion : 06-motion-and-haptics.md  (owns all motion.*)
+
+   Token discipline: app.css references var(--…) ONLY — never raw values.
+   Where a doc names a token but gives no hex, a tasteful low-arousal value
+   is chosen consistent with the stated palette and flagged "/* chosen */".
+
+   Fonts (bundled in the real Flutter app; CDN here is demo-only):
+     - UI            : Vazirmatn  (Perso-Arabic sans, OFL 1.1) — type.family.ui
+     - Sacred (demo) : Amiri Quran (Arabic Quran demo face)
+   The @import below fetches them from Google Fonts for the demo.
+   If you prefer <link>, drop the @import and add to each HTML <head>:
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600&family=Amiri+Quran&display=swap" rel="stylesheet">
+   NOTE: the real app NEVER renders the muṣḥaf with a UI/OS-shaped font and
+   never fetches fonts at runtime (Pillar 1; PRD R1). Amiri Quran is a DEMO
+   stand-in for the immutable per-page KFGQPC/QPC glyph fonts.
+============================================================================= */
+
+/* @import hoisted to <link> in <head> */
+
+:root {
+  /* ===========================================================================
+     COLOR — Light appearance (daytime default, positive polarity)
+     Audited anchors from 03-color-and-themes.md §7.
+     =========================================================================== */
+
+  /* Surfaces & backgrounds */
+  --color-bg-primary:          #F3F6F1; /* Light bg.primary (§7) */
+  --color-surface-container:   #E7ECE4; /* Light surface.container (§7) */
+  --color-surface-container-high: #DCE3D9; /* chosen: one tone darker than container, for raised cards */
+  --color-border:              #D4DCCF; /* chosen: hairline divider, low-chroma green-grey */
+  --color-scrim:               rgba(26, 33, 30, 0.32); /* chosen: text.primary @ low alpha for sheets */
+
+  /* Text */
+  --color-text-primary:        #1A211E; /* Light text.primary (§7) — 15.05:1 on bg */
+  --color-text-secondary:      #46514B; /* Light text.secondary (§7) — 7.59:1 */
+  --color-text-tertiary:       #5C665F; /* Light text.tertiary (§7) — 5.47:1 */
+  --color-text-on-accent:      #FFFFFF; /* Light on-accent (§7) */
+
+  /* Accent — the single interactive green (links, primary action, selected) */
+  --color-accent-green:        #1F6E5A; /* Light accent.green (§7) — 5.61:1 as text */
+  --color-accent-green-fill:   #1F6E5A; /* same hue; used as filled-button ground */
+  --color-accent-green-soft:   #E2EFE9; /* chosen: low-chroma green wash for selected chip / tint surface */
+
+  /* Semantic — tiny set; warning is the ONLY red-adjacent token (asset integrity) */
+  --color-semantic-warning:    #8A5A00; /* Light semantic.warning (§6) — 5.44:1 as text */
+  --color-semantic-warning-bg: #F4ECD9; /* chosen: warm low-chroma wash behind a warning row */
+
+  /* ---------------------------------------------------------------------------
+     Retention heat-map ramp — single-hue lightness ramp, green → muted neutral.
+     NEVER red, NEVER a traffic-light. Strong = calm green; faded = neutral grey.
+     Light values from 03-color-and-themes.md §5.
+     --------------------------------------------------------------------------- */
+  --color-heatmap-strong:      #2E7D5B; /* high retention (calm green) */
+  --color-heatmap-good:        #5FA382; /* solid */
+  --color-heatmap-fair:        #93BFA6; /* softening */
+  --color-heatmap-weak:        #B9C3BC; /* decaying (muted neutral) */
+  --color-heatmap-faded:       #D2D8D2; /* most-decayed / un-reviewed */
+  /* On-heat text: dark for the light/neutral steps, light for the strong step */
+  --color-heatmap-on-strong:   #FFFFFF; /* chosen: legible numeral on the strong green */
+  --color-heatmap-on-faded:    #46514B; /* chosen: text.secondary on the pale steps */
+
+  /* ===========================================================================
+     TYPE — 04-typography.md §4 ramp (sp ≈ rem here). UI font + sacred demo font.
+     =========================================================================== */
+  --type-family-ui:    'Vazirmatn', 'Estedad', system-ui, 'Segoe UI', Tahoma, sans-serif;
+  --type-family-quran: 'Amiri Quran', 'Vazirmatn', serif; /* DEMO ONLY — not the muṣḥaf pipeline */
+
+  /* Sizes (rem; 1rem = 16px). type.body is the 16sp workhorse. */
+  --type-display:   1.75rem;  /* 28sp — one per screen: Today day-header */
+  --type-title:     1.375rem; /* 22sp — screen/card/sheet titles */
+  --type-body:      1rem;     /* 16sp — default for everything */
+  --type-label:     0.875rem; /* 14sp — chips, buttons, tab labels, legend */
+  --type-caption:   0.8125rem;/* 13sp — timestamps, "last reviewed" (never load-bearing) */
+
+  /* Weights — restrained: Regular / Medium / Semibold. No Thin/Light, no italics. */
+  --type-weight-regular:  400;
+  --type-weight-medium:   500;
+  --type-weight-semibold: 600;
+
+  /* Line-height — inverted from Latin habits; Arabic needs generous leading (§6). */
+  --type-line-height-arabic: 1.55;  /* 1.5–1.6 band; 1.55 for general UI */
+  --type-line-height-tight:  1.4;   /* chosen: titles/display where marks still clear */
+
+  /* Letter-spacing — ZERO on all Arabic-script runs (§6). */
+  --type-letter-spacing-arabic: 0;
+
+  /* ===========================================================================
+     SPACE — 05-layout-spacing-touch.md §1. 4dp step on an 8dp grid.
+     =========================================================================== */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;  /* default card/sheet padding; compact edge margin */
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 48px;
+
+  --touch-min: 48px; /* touch.min — minimum hit target */
+
+  /* ===========================================================================
+     RADII — not owned by a doc; chosen calm/soft values, consistent with M3.
+     =========================================================================== */
+  --radius-sm:   8px;   /* chosen: chips, small controls */
+  --radius-md:   12px;  /* chosen: cards, list rows */
+  --radius-lg:   20px;  /* chosen: sheets, page-card */
+  --radius-pill: 999px; /* chosen: track chips, language pill, badges */
+
+  /* ===========================================================================
+     ELEVATION — calm, no gaudy shadows. Soft, low-spread, green-tinted dark.
+     Chosen; the docs call only for "subtle" depth (calm, not cute).
+     =========================================================================== */
+  --shadow-card:  0 1px 2px rgba(26, 33, 30, 0.05), 0 2px 8px rgba(26, 33, 30, 0.04);
+  --shadow-frame: 0 8px 40px rgba(26, 33, 30, 0.12); /* phone-frame mockup only */
+  --shadow-raised:0 2px 6px rgba(26, 33, 30, 0.07);
+
+  /* ===========================================================================
+     MOTION — 06-motion-and-haptics.md §1. Short/medium only; standard easing.
+     =========================================================================== */
+  --motion-duration-short:  150ms; /* Durations.short3 */
+  --motion-duration-medium: 250ms; /* Durations.medium1 */
+  --motion-curve-standard:   cubic-bezier(0.4, 0.0, 0.2, 1);   /* fastOutSlowIn */
+  --motion-curve-emphasized: cubic-bezier(0.05, 0.7, 0.1, 1.0);/* easeInOutCubicEmphasized (1 hero only) */
+
+  /* Phone-frame geometry — demo device mockup (~390px). */
+  --frame-width:  390px;
+  --frame-height: 844px;
+}
+
+/* =============================================================================
+   SEPIA — long murājaʿa in a dim room; positive polarity on warm paper (§3, §7).
+   bg.primary #F3EAD8; text.primary #2B2620; accent.green #1C6450.
+============================================================================= */
+[data-theme="sepia"] {
+  --color-bg-primary:          #F3EAD8; /* Sepia bg.primary (§7) */
+  --color-surface-container:   #EBE0C9; /* chosen: one warm tone above paper */
+  --color-surface-container-high: #E3D6BB; /* chosen */
+  --color-border:              #DACBAB; /* chosen: warm hairline */
+  --color-scrim:               rgba(43, 38, 32, 0.30); /* chosen */
+
+  --color-text-primary:        #2B2620; /* Sepia text.primary (§7) — 12.54:1 */
+  --color-text-secondary:      #5A5042; /* Sepia text.secondary (§7) — 6.60:1 */
+  --color-text-tertiary:       #6E624F; /* chosen: between secondary and paper, ≥4.5:1 */
+  --color-text-on-accent:      #FFFFFF;
+
+  --color-accent-green:        #1C6450; /* Sepia accent.green (§7) — 5.88:1 */
+  --color-accent-green-fill:   #1C6450;
+  --color-accent-green-soft:   #DDE7DB; /* chosen: cool-green wash kept low on warm paper */
+
+  --color-semantic-warning:    #8A5A00; /* reuse Light warm warning; reads on warm paper */
+  --color-semantic-warning-bg: #EFE0C2; /* chosen */
+
+  /* Heat-map on sepia: nudge the neutral steps warm so they sit on paper. */
+  --color-heatmap-strong:      #2E7D5B; /* chosen: keep the calm green anchor */
+  --color-heatmap-good:        #5FA382; /* chosen */
+  --color-heatmap-fair:        #9BBFA4; /* chosen: faintly warmer neutral-green */
+  --color-heatmap-weak:        #C2C1AE; /* chosen: muted warm neutral */
+  --color-heatmap-faded:       #DAD3BE; /* chosen: pale warm neutral (un-reviewed) */
+  --color-heatmap-on-strong:   #FFFFFF;
+  --color-heatmap-on-faded:    #5A5042;
+
+  --shadow-card:  0 1px 2px rgba(43, 38, 32, 0.05), 0 2px 8px rgba(43, 38, 32, 0.04);
+  --shadow-frame: 0 8px 40px rgba(43, 38, 32, 0.12);
+  --shadow-raised:0 2px 6px rgba(43, 38, 32, 0.07);
+}
+
+/* =============================================================================
+   DARK — low-light / OS dark. Off-black #121413, NEVER pure black. Desaturated,
+   lighter accents so nothing vibrates against the dark (§4, §7).
+============================================================================= */
+[data-theme="dark"] {
+  --color-bg-primary:          #121413; /* Dark bg.primary (§4, §7) */
+  --color-surface-container:   #1E211F; /* Dark surface.container (§7) — tone, not overlay */
+  --color-surface-container-high: #272B29; /* chosen: next tone up */
+  --color-border:              #313633; /* chosen: low-chroma dark hairline */
+  --color-scrim:               rgba(0, 0, 0, 0.50); /* chosen */
+
+  --color-text-primary:        #E6EAE3; /* Dark text.primary (§7) — 15.19:1 */
+  --color-text-secondary:      #A7B0A8; /* Dark text.secondary (§7) — 8.30:1 */
+  --color-text-tertiary:       #828B83; /* Dark text.tertiary (§7) — 5.26:1 */
+  --color-text-on-accent:      #0C140F; /* Dark on-accent (§7) */
+
+  --color-accent-green:        #6FC2A8; /* Dark accent.green (§4, §7) — 8.77:1; lighter/lower-chroma */
+  --color-accent-green-fill:   #6FC2A8;
+  --color-accent-green-soft:   #1C2A24; /* chosen: deep green-tinted surface for selected chip */
+
+  --color-semantic-warning:    #E8B23C; /* Dark semantic.warning (§6) — 9.57:1 */
+  --color-semantic-warning-bg: #2A2417; /* chosen: warm-dark wash */
+
+  /* Heat-map (Dark) — values from §5; direction flips: lighter = stronger. */
+  --color-heatmap-strong:      #4FB386; /* high retention */
+  --color-heatmap-good:        #3C7E61; /* solid */
+  --color-heatmap-fair:        #356B55; /* softening */
+  --color-heatmap-weak:        #38453E; /* decaying (muted neutral) */
+  --color-heatmap-faded:       #262B27; /* most-decayed / un-reviewed */
+  --color-heatmap-on-strong:   #0C140F; /* chosen: dark numeral on light-green strong step */
+  --color-heatmap-on-faded:    #A7B0A8; /* chosen: secondary text on dark steps */
+
+  /* Dark surfaces use tone, not shadow; keep shadows minimal/near-absent. */
+  --shadow-card:  0 1px 2px rgba(0, 0, 0, 0.30);
+  --shadow-frame: 0 8px 40px rgba(0, 0, 0, 0.55);
+  --shadow-raised:0 2px 6px rgba(0, 0, 0, 0.30);
+}
+
+/* ==== inlined app.css ==== */
+/* =============================================================================
+   Mihrab — Shared component styles (demo)
+   Built ON tokens.css. References var(--…) ONLY — never raw values.
+
+   Intent (from the design system): calm, reverent, generous spacing,
+   no gaudy shadows, RTL-native (logical insets / flex direction), and
+   consistent across every per-screen HTML page.
+
+   Load order in each HTML page:
+     <link rel="stylesheet" href="./styles/tokens.css">
+     <link rel="stylesheet" href="./styles/app.css">
+   And set the document up RTL, Persian-primary:
+     <html lang="fa" dir="rtl" data-theme="light">  (omit/keep light by default)
+============================================================================= */
+
+/* ---------------------------------------------------------------------------
+   Reset / base
+   --------------------------------------------------------------------------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+html[dir="rtl"] { direction: rtl; }
+
+body {
+  margin: 0;
+  font-family: 'Vazirmatn', 'Estedad', system-ui, 'Segoe UI', Tahoma, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+  color: #1A211E;
+  /* Page chrome around the device mockup — neutral, calm. */
+  background:
+    radial-gradient(120% 80% at 50% 0%, #E7ECE4 0%, #F3F6F1 60%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 16px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+p { margin: 0 0 12px; }
+
+a {
+  color: #1F6E5A;
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+/* Headings inherit the calm UI face; sizes come from the type ramp. */
+h1, h2, h3, h4 {
+  margin: 0;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* ---------------------------------------------------------------------------
+   PHONE FRAME — device mockup (~390px), centered, subtle shadow.
+   The screen scrolls; the frame is fixed-shape. Calm, not gaudy.
+   --------------------------------------------------------------------------- */
+.phone-frame {
+  position: relative;
+  width: 390px;
+  max-width: 100%;
+  height: 844px;
+  max-height: calc(100vh - 48px * 2);
+  background: #F3F6F1;
+  border-radius: 44px;
+  box-shadow: 0 8px 40px rgba(26, 33, 30, 0.12);
+  border: 1px solid #D4DCCF;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Status-bar / notch nod — purely cosmetic for the demo. */
+.phone-frame__statusbar {
+  flex: 0 0 auto;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: 20px;
+  padding-block-start: 8px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #46514B;
+  background: #F3F6F1;
+}
+
+/* Scrolling content region of the screen (sits between header and tab bar). */
+.phone-frame__screen {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  background: #F3F6F1;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ---------------------------------------------------------------------------
+   HEADER — screen / app bar. Title leading (start), rare action trailing (end).
+   --------------------------------------------------------------------------- */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 16px 12px;
+  background: #F3F6F1;
+}
+
+.header__titles {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.header__overline {
+  font-size: 0.8125rem;
+  color: #5C665F;
+  margin-block-end: 4px;
+}
+
+.header__title {
+  font-size: 1.375rem;
+  font-weight: 500;
+  color: #1A211E;
+}
+
+/* Once-per-screen hero day-header (Today). */
+.header__display {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #1A211E;
+  line-height: 1.4;
+}
+
+/* Action sits at the logical end (left in RTL); rare/destructive lives here. */
+.header__action {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  min-height: 48px;
+  border-radius: 999px;
+  color: #46514B;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.header__action:hover { background: #E7ECE4; }
+
+/* ---------------------------------------------------------------------------
+   PAGE PADDING — standard content gutter (compact edge margin = space.4).
+   --------------------------------------------------------------------------- */
+.page {
+  padding: 8px 16px 32px;
+}
+
+.section + .section { margin-block-start: 24px; }
+
+.section__title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #46514B;
+  margin-block-end: 12px;
+  /* leading start; RTL-correct via logical padding */
+  padding-inline-start: 4px;
+}
+
+/* ---------------------------------------------------------------------------
+   CARD — calm surface, soft radius, subtle (not gaudy) shadow.
+   --------------------------------------------------------------------------- */
+.card {
+  background: #E7ECE4;
+  border: 1px solid #D4DCCF;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 1px 2px rgba(26, 33, 30, 0.05), 0 2px 8px rgba(26, 33, 30, 0.04);
+}
+.card + .card { margin-block-start: 12px; }
+
+.card--flat { box-shadow: none; }
+
+.card--raised {
+  background: #DCE3D9;
+  box-shadow: 0 2px 6px rgba(26, 33, 30, 0.07);
+}
+
+.card__title {
+  font-size: 1.375rem;
+  font-weight: 500;
+  color: #1A211E;
+  margin-block-end: 8px;
+}
+
+.card__meta {
+  font-size: 0.8125rem;
+  color: #5C665F;
+}
+
+/* The page-card: a muṣḥaf-page surface (demo uses Amiri Quran, NOT the real
+   immutable QPC pipeline). Generous, reverent, paper-like. */
+.page-card {
+  background: #F3F6F1;
+  border: 1px solid #D4DCCF;
+  border-radius: 20px;
+  padding: 24px 20px;
+  box-shadow: 0 1px 2px rgba(26, 33, 30, 0.05), 0 2px 8px rgba(26, 33, 30, 0.04);
+  text-align: center;
+}
+
+.page-card__ayah {
+  font-family: 'Amiri Quran', 'Vazirmatn', serif;
+  font-size: 1.875rem; /* demo display size for the sacred face */
+  line-height: 2;       /* generous leading for stacked marks */
+  color: #1A211E;
+  margin-block: 16px;
+}
+
+.page-card__caption {
+  font-size: 0.8125rem;
+  color: #5C665F;
+}
+
+/* ---------------------------------------------------------------------------
+   LIST ROWS — leading icon at start, chevron/affordance at end (mirrors in RTL).
+   --------------------------------------------------------------------------- */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 12px 16px;
+  background: #E7ECE4;
+  border: 1px solid #D4DCCF;
+  border-radius: 12px;
+  color: #1A211E;
+  cursor: pointer;
+  transition: background 150ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+.list-row:hover { background: #DCE3D9; }
+
+/* Leading affordance/icon — sits at logical start. */
+.list-row__lead {
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #E2EFE9;
+  color: #1F6E5A;
+  font-size: 0.875rem;
+}
+
+.list-row__body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.list-row__title {
+  font-size: 1rem;
+  color: #1A211E;
+}
+
+.list-row__sub {
+  font-size: 0.8125rem;
+  color: #5C665F;
+  margin-block-start: 4px;
+}
+
+/* Trailing chevron — points to the logical end; flips with RTL automatically. */
+.list-row__chevron {
+  flex: 0 0 auto;
+  color: #5C665F;
+  font-size: 1rem;
+  transform: scaleX(1); /* glyph chosen so it already faces logical-end */
+}
+
+/* ---------------------------------------------------------------------------
+   CHIPS — track chips (named cycles). Calm, pill, selectable.
+   --------------------------------------------------------------------------- */
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;            /* reflow, never truncate (type §7) */
+  gap: 8px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 48px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid #D4DCCF;
+  background: #F3F6F1;
+  color: #46514B;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background 150ms cubic-bezier(0.4, 0.0, 0.2, 1),
+    border-color 150ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+.chip:hover { background: #E7ECE4; }
+
+.chip--selected {
+  background: #E2EFE9;
+  border-color: #1F6E5A;
+  color: #1F6E5A;
+}
+
+/* small leading dot inside a chip */
+.chip__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #1F6E5A;
+}
+
+/* ---------------------------------------------------------------------------
+   BUTTONS — calm. primary (filled green) / secondary (tonal) / text.
+   Hit target ≥ 48dp; grade band can be made taller via --grade.
+   --------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-family: 'Vazirmatn', 'Estedad', system-ui, 'Segoe UI', Tahoma, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  cursor: pointer;
+  transition:
+    background 150ms cubic-bezier(0.4, 0.0, 0.2, 1),
+    box-shadow 150ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.btn--primary {
+  background: #1F6E5A;
+  color: #FFFFFF;
+}
+.btn--primary:hover { box-shadow: 0 2px 6px rgba(26, 33, 30, 0.07); }
+
+.btn--secondary {
+  background: #E7ECE4;
+  color: #1F6E5A;
+  border-color: #D4DCCF;
+}
+.btn--secondary:hover { background: #DCE3D9; }
+
+.btn--text {
+  background: transparent;
+  color: #1F6E5A;
+  padding-inline: 12px;
+}
+.btn--text:hover { background: #E2EFE9; }
+
+.btn--block { width: 100%; }
+
+/* Bottom action band — primary action lives in the thumb zone (layout §5). */
+.action-band {
+  padding: 12px 16px 16px;
+  background: #F3F6F1;
+  border-top: 1px solid #D4DCCF;
+}
+
+/* Grade band — four large, equal buttons, ≥56dp tall, space.2 apart. */
+.grade-band {
+  display: flex;
+  gap: 8px;
+}
+.grade-band .btn {
+  flex: 1 1 0;
+  min-height: 56px;
+  padding-inline: 8px;
+}
+
+/* ---------------------------------------------------------------------------
+   BADGES & CERTAINTY LABELS — small, calm, redundant with text (never color-only).
+   --------------------------------------------------------------------------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  background: #E7ECE4;
+  color: #46514B;
+  border: 1px solid #D4DCCF;
+}
+
+.badge--accent {
+  background: #E2EFE9;
+  color: #1F6E5A;
+  border-color: transparent;
+}
+
+/* Warning badge — the ONLY red-adjacent token; always icon + text (§6). */
+.badge--warning {
+  background: #F4ECD9;
+  color: #8A5A00;
+  border-color: transparent;
+}
+
+/* Certainty label — uncertainty stated in words, never color alone (data-viz). */
+.certainty {
+  font-size: 0.8125rem;
+  color: #5C665F;
+}
+.certainty strong {
+  font-weight: 500;
+  color: #46514B;
+}
+
+/* ---------------------------------------------------------------------------
+   HEAT-MAP GRID — sequential single-hue ramp; each cell redundantly labelled.
+   space.1 gutter between cells (layout §2). Never a scoreboard, never red.
+   --------------------------------------------------------------------------- */
+.heatmap {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 4px;
+}
+
+.heat-cell {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  /* number/label carry the value; color is reinforcement (§5, SC 1.4.1). */
+}
+
+.heat-cell__num   { font-size: 0.875rem; line-height: 1; }
+.heat-cell__label { font-size: 0.6875rem; opacity: 0.85; line-height: 1; }
+
+/* Ramp steps — strong (calm green) → faded (muted neutral). */
+.heat-cell--strong { background: #2E7D5B; color: #FFFFFF; }
+.heat-cell--good   { background: #5FA382;   color: #FFFFFF; }
+.heat-cell--fair   { background: #93BFA6;   color: #46514B; }
+.heat-cell--weak   { background: #B9C3BC;   color: #46514B; }
+.heat-cell--faded  { background: #D2D8D2;  color: #46514B; }
+
+/* Heat-map legend row. */
+.heat-legend {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-block-start: 12px;
+  font-size: 0.8125rem;
+  color: #5C665F;
+}
+.heat-legend__swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+/* ---------------------------------------------------------------------------
+   BOTTOM TAB BAR — Today · Muṣḥaf · Mutashābihāt · Progress · Settings.
+   In RTL, "Today" (home) sits at the trailing/rightmost edge (layout §3).
+   Use plain DOM order (Today first); RTL places it at the right automatically.
+   --------------------------------------------------------------------------- */
+.tab-bar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: stretch;
+  background: #E7ECE4;
+  border-top: 1px solid #D4DCCF;
+  padding-block: 4px;
+  padding-inline: 4px;
+}
+
+.tab {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 48px;
+  padding: 4px;
+  background: transparent;
+  border: none;
+  color: #5C665F;
+  font-family: 'Vazirmatn', 'Estedad', system-ui, 'Segoe UI', Tahoma, sans-serif;
+  font-size: 0.6875rem;
+  cursor: pointer;
+}
+
+.tab__icon { font-size: 1.375rem; line-height: 1; }
+
+.tab--active { color: #1F6E5A; }
+.tab--active .tab__icon { color: #1F6E5A; }
+
+/* ---------------------------------------------------------------------------
+   LANGUAGE PILL — fa / ckb / ar switch. RTL-correct, calm pill segments.
+   --------------------------------------------------------------------------- */
+.lang-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px;
+  gap: 4px;
+  border-radius: 999px;
+  background: #E7ECE4;
+  border: 1px solid #D4DCCF;
+}
+
+.lang-pill__seg {
+  min-height: 36px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: #46514B;
+  font-family: 'Vazirmatn', 'Estedad', system-ui, 'Segoe UI', Tahoma, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+.lang-pill__seg--active {
+  background: #F3F6F1;
+  color: #1F6E5A;
+  box-shadow: 0 1px 2px rgba(26, 33, 30, 0.05), 0 2px 8px rgba(26, 33, 30, 0.04);
+}
+
+/* ---------------------------------------------------------------------------
+   RTL-CORRECT UTILITIES — logical margins/padding, flex direction, alignment.
+   Use these instead of physical left/right (layout §3).
+   --------------------------------------------------------------------------- */
+.u-row     { display: flex; flex-direction: row; align-items: center; }
+.u-col     { display: flex; flex-direction: column; }
+.u-between { display: flex; align-items: center; justify-content: space-between; }
+.u-gap-1   { gap: 4px; }
+.u-gap-2   { gap: 8px; }
+.u-gap-3   { gap: 12px; }
+.u-gap-4   { gap: 16px; }
+.u-grow    { flex: 1 1 auto; min-width: 0; }
+
+/* Logical spacing helpers (auto-flip in RTL). */
+.u-mt-2 { margin-block-start: 8px; }
+.u-mt-3 { margin-block-start: 12px; }
+.u-mt-4 { margin-block-start: 16px; }
+.u-mt-6 { margin-block-start: 24px; }
+.u-ms-2 { margin-inline-start: 8px; }
+.u-ms-3 { margin-inline-start: 12px; }
+.u-me-2 { margin-inline-end: 8px; }
+.u-me-3 { margin-inline-end: 12px; }
+
+.u-text-start  { text-align: start; }
+.u-text-end    { text-align: end; }
+.u-text-center { text-align: center; }
+
+/* Text-role helpers mapped to the type ramp. */
+.u-display   { font-size: 1.75rem; font-weight: 600; line-height: 1.4; }
+.u-title     { font-size: 1.375rem;   font-weight: 500; line-height: 1.4; }
+.u-body      { font-size: 1rem;     font-weight: 400; }
+.u-label     { font-size: 0.875rem;    font-weight: 500; }
+.u-caption   { font-size: 0.8125rem;  color: #5C665F; }
+
+.u-secondary { color: #46514B; }
+.u-tertiary  { color: #5C665F; }
+.u-accent    { color: #1F6E5A; }
+
+/* Numerals: let the locale digits render naturally; never tighten Arabic runs. */
+.u-numeral { letter-spacing: 0; }
+
+/* Reduce-motion: the OS flag always wins (motion §5). Demo honours it too. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+</style>
+</head>
+
+<body>
+  <!-- visual-only language switch, top corner -->
+  <div class="lang-pill lang-pill--float" role="group" aria-label="زبان رابط کاربری">
+    <button class="lang-pill__seg lang-pill__seg--active" type="button" aria-pressed="true">fa</button>
+    <button class="lang-pill__seg" type="button" aria-pressed="false">ckب</button>
+    <button class="lang-pill__seg" type="button" aria-pressed="false">ar</button>
+  </div>
+
+  <div class="phone-frame" role="group" aria-label="نمونهٔ دستگاه">
+    <!-- cosmetic status bar -->
+    <div class="phone-frame__statusbar" aria-hidden="true">
+      <span>۹:۴۱</span>
+      <span>۸۱٪ ▮</span>
+    </div>
+
+    <!-- Recite-flow top bar: calm exit + page identity + quiet progress count -->
+    <div class="recite-bar">
+      <a class="recite-bar__close" href="today.html" aria-label="بستن و بازگشت به امروز">×</a>
+      <div class="recite-bar__titles">
+        <div class="recite-bar__id" lang="fa">صفحهٔ ۲ · جزء ۱</div>
+        <div class="recite-bar__sub">مرور دور (منزل) · سورهٔ بقره</div>
+      </div>
+      <span class="badge" aria-label="نوع مرور: مرور دور">منزل</span>
+    </div>
+
+    <!-- scrolling screen body -->
+    <main class="phone-frame__screen">
+      <!-- Calm progress within today's session: "۳ از ۱۲" -->
+      <section class="recite-progress" aria-label="پیشرفت جلسهٔ امروز">
+        <div class="recite-progress__row">
+          <span>مرور امروز</span>
+          <span class="recite-progress__count" aria-live="polite">
+            <span lang="fa">۳ از ۱۲</span>
+          </span>
+        </div>
+        <div class="recite-progress__track" role="progressbar"
+             aria-valuemin="0" aria-valuemax="12" aria-valuenow="3"
+             aria-label="۳ صفحه از ۱۲ صفحهٔ امروز">
+          <div class="recite-progress__fill"></div>
+        </div>
+      </section>
+
+      <div class="page">
+        <!-- The muṣḥaf page (demo) with the reveal-on-tap mask over it -->
+        <div class="page-card recite-card">
+          <!-- Revealed content: short, well-known passage — start of al-Baqara.
+               Each āyah on its own line so stumble-lines are tappable (§5). -->
+          <div class="ayah-lines" id="ayahLines" aria-label="متن صفحه (نمونه)">
+            <span class="ayah-line" data-line="1" role="button" tabindex="-1">
+              الٓمٓ ۚ ذَٰلِكَ ٱلْكِتَٰبُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًۭى لِّلْمُتَّقِينَ ۝١
+              <span class="ayah-line__flag" aria-hidden="true">لغزش</span>
+            </span>
+            <span class="ayah-line" data-line="2" role="button" tabindex="-1">
+              ٱلَّذِينَ يُؤْمِنُونَ بِٱلْغَيْبِ وَيُقِيمُونَ ٱلصَّلَوٰةَ وَمِمَّا رَزَقْنَٰهُمْ يُنفِقُونَ ۝٢
+              <span class="ayah-line__flag" aria-hidden="true">لغزش</span>
+            </span>
+            <span class="ayah-line" data-line="3" role="button" tabindex="-1">
+              وَٱلَّذِينَ يُؤْمِنُونَ بِمَآ أُنزِلَ إِلَيْكَ وَمَآ أُنزِلَ مِن قَبْلِكَ وَبِٱلْءَاخِرَةِ هُمْ يُوقِنُونَ ۝٣
+              <span class="ayah-line__flag" aria-hidden="true">لغزش</span>
+            </span>
+          </div>
+
+          <p class="page-card__caption" id="demoCaption">
+            نمونه — متن مصحف در اپ نهایی با فونت‌های گلیف KFGQPC رندر می‌شود
+          </p>
+
+          <!-- The "recite from memory" mask (hidden state). Tap to reveal. -->
+          <button class="recite-mask" id="reciteMask" type="button"
+                  aria-label="از حفظ بخوانید، سپس برای آشکار شدن متن لمس کنید">
+            <span class="recite-mask__icon" aria-hidden="true">۝</span>
+            <span class="recite-mask__title">از حفظ بخوانید</span>
+            <span class="recite-mask__hint">
+              این صفحه را از حفظ تلاوت کنید؛ سپس برای دیدن متن و ارزیابی، لمس کنید.
+            </span>
+          </button>
+        </div>
+
+        <!-- No mic / no AI — make C2 / R5 / §8.3 obvious and calm -->
+        <p class="assurance">
+          <span class="assurance__icon" aria-hidden="true">🚫🎙</span>
+          بدون میکروفون، بدون ضبط صدا، بدون هوش مصنوعی — قرائت را شما یا استادتان می‌سنجید.
+        </p>
+
+        <!-- Optional stumble-line marking (enabled only after reveal) -->
+        <button class="mark-toggle" id="markToggle" type="button"
+                aria-pressed="false" disabled>
+          <span class="mark-toggle__lead" aria-hidden="true">⌖</span>
+          <span class="mark-toggle__body">
+            علامت‌گذاری سطرهای لغزش
+            <span class="mark-toggle__sub">سطرهایی را که در آن‌ها مکث یا اشتباه داشتید لمس کنید</span>
+          </span>
+          <span class="mark-toggle__count" id="markCount" aria-live="polite"></span>
+        </button>
+      </div>
+    </main>
+
+    <!-- Bottom action region: sign-off + grade band, in the thumb zone -->
+    <div class="action-band">
+      <!-- Teacher sign-off (talaqqī) — first-class human override (§7) -->
+      <div class="signoff" id="signoffRow">
+        <div class="switch" id="signoffSwitch" role="switch"
+             aria-checked="false" tabindex="0" aria-labelledby="signoffTitle">
+          <span class="switch__knob" aria-hidden="true"></span>
+        </div>
+        <div class="signoff__body">
+          <div class="signoff__title" id="signoffTitle">تأیید استاد (تلقّی)</div>
+          <div class="signoff__sub" id="signoffSub">
+            خاموش — این ارزیابی به‌عنوان خودسنجی ثبت می‌شود
+          </div>
+        </div>
+      </div>
+
+      <!-- Sacred-text guard: a marked word is never «خوب» (§7.7) -->
+      <div class="guard-note" id="guardNote" role="note">
+        <span aria-hidden="true">⚠</span>
+        <span>چون سطر لغزشی علامت خورده، بالاترین درجه «سخت» خواهد بود — کلمهٔ جاافتاده هرگز «خوب» نیست.</span>
+      </div>
+
+      <p class="grade-hint" id="gradeHint">برای ارزیابی، ابتدا متن را آشکار کنید</p>
+
+      <!-- Four-level grade band — RTL order: دوباره · سخت · خوب · آسان.
+           Locked until a reveal happens (§6). Verbs from PRD §6.3. -->
+      <div class="grade-band is-locked" id="gradeBand" role="group"
+           aria-label="ارزیابی قرائت" aria-disabled="true">
+        <button class="btn grade-btn--soft" type="button" disabled
+                aria-label="دوباره — به‌زودی دوباره مرور شود">
+          <span>دوباره</span>
+          <span class="grade-btn__verb">کمک لازم بود</span>
+        </button>
+        <button class="btn grade-btn--soft" type="button" disabled
+                aria-label="سخت — با مکث و اشتباه جزئی">
+          <span>سخت</span>
+          <span class="grade-btn__verb">اشتباه جزئی</span>
+        </button>
+        <button class="btn btn--secondary" type="button" disabled
+                aria-label="خوب — روان و بی‌اشتباه">
+          <span>خوب</span>
+          <span class="grade-btn__verb">روان و درست</span>
+        </button>
+        <button class="btn btn--primary" type="button" disabled
+                aria-label="آسان — بی‌هیچ درنگ">
+          <span>آسان</span>
+          <span class="grade-btn__verb">بی‌درنگ</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Bottom tab bar (RTL: امروز sits rightmost). Active = امروز (recite flow). -->
+    <nav class="tab-bar" aria-label="ناوبری اصلی">
+      <a class="tab tab--active" href="today.html" aria-current="page">
+        <span class="tab__icon" aria-hidden="true">☉</span>
+        <span>امروز</span>
+      </a>
+      <a class="tab" href="mushaf.html">
+        <span class="tab__icon" aria-hidden="true">▤</span>
+        <span>مصحف</span>
+      </a>
+      <a class="tab" href="mutashabihat.html">
+        <span class="tab__icon" aria-hidden="true">⇄</span>
+        <span>متشابهات</span>
+      </a>
+      <a class="tab" href="progress.html">
+        <span class="tab__icon" aria-hidden="true">▦</span>
+        <span>پیشرفت</span>
+      </a>
+      <a class="tab" href="settings.html">
+        <span class="tab__icon" aria-hidden="true">⚙</span>
+        <span>تنظیمات</span>
+      </a>
+    </nav>
+  </div>
+
+  <!-- Minimal vanilla JS: reveal-on-tap, stumble-marking, sign-off toggle.
+       Prototype interactivity only — the real app is Flutter. -->
+  <script>
+    (function () {
+      var mask      = document.getElementById('reciteMask');
+      var band      = document.getElementById('gradeBand');
+      var hint      = document.getElementById('gradeHint');
+      var markBtn   = document.getElementById('markToggle');
+      var lines     = document.getElementById('ayahLines');
+      var markCount = document.getElementById('markCount');
+      var guard     = document.getElementById('guardNote');
+      var sw        = document.getElementById('signoffSwitch');
+      var swRow     = document.getElementById('signoffRow');
+      var swSub     = document.getElementById('signoffSub');
+      var revealed  = false;
+
+      function refreshStumbles() {
+        var marked = lines.querySelectorAll('.ayah-line.is-stumbled').length;
+        markCount.textContent = marked ? ('۰۱۲۳۴۵۶۷۸۹'[marked] + ' سطر') : '';
+        guard.classList.toggle('is-shown', marked > 0);
+      }
+
+      // Persian digit helper for the simple counts used here.
+      function fa(n) { return String(n).replace(/\d/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'[d]; }); }
+
+      // Reveal-on-tap: hide the mask, enable grade band + stumble marking (§5/§6).
+      function reveal() {
+        if (revealed) return;
+        revealed = true;
+        mask.style.opacity = '0';
+        mask.style.pointerEvents = 'none';
+        setTimeout(function () { mask.style.display = 'none'; }, 250);
+
+        band.classList.remove('is-locked');
+        band.setAttribute('aria-disabled', 'false');
+        band.querySelectorAll('.btn').forEach(function (b) { b.disabled = false; });
+        hint.textContent = 'قرائت خود را صادقانه ارزیابی کنید';
+
+        markBtn.disabled = false;
+      }
+      mask.addEventListener('click', reveal);
+
+      // Stumble-line marking arm/disarm.
+      markBtn.addEventListener('click', function () {
+        if (markBtn.disabled) return;
+        var on = markBtn.classList.toggle('is-on');
+        markBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        lines.classList.toggle('is-marking', on);
+      });
+
+      // Tap a line to mark/unmark a stumble (only while marking is armed).
+      lines.querySelectorAll('.ayah-line').forEach(function (line) {
+        line.addEventListener('click', function () {
+          if (!lines.classList.contains('is-marking')) return;
+          line.classList.toggle('is-stumbled');
+          refreshStumbles();
+        });
+      });
+
+      // Teacher sign-off toggle — flips the grade source self → teacher (§7).
+      function toggleSignoff() {
+        var on = sw.getAttribute('aria-checked') !== 'true';
+        sw.setAttribute('aria-checked', on ? 'true' : 'false');
+        swRow.classList.toggle('is-on', on);
+        swSub.textContent = on
+          ? 'روشن — استاد حاضر است؛ این ارزیابی معتبر (تلقّی) ثبت می‌شود'
+          : 'خاموش — این ارزیابی به‌عنوان خودسنجی ثبت می‌شود';
+      }
+      sw.addEventListener('click', toggleSignoff);
+      sw.addEventListener('keydown', function (e) {
+        if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggleSignoff(); }
+      });
+    })();
+  </script>
+</body>
+</html>

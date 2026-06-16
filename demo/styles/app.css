@@ -1,0 +1,610 @@
+/* =============================================================================
+   Mihrab — Shared component styles (demo)
+   Built ON tokens.css. References var(--…) ONLY — never raw values.
+
+   Intent (from the design system): calm, reverent, generous spacing,
+   no gaudy shadows, RTL-native (logical insets / flex direction), and
+   consistent across every per-screen HTML page.
+
+   Load order in each HTML page:
+     <link rel="stylesheet" href="./styles/tokens.css">
+     <link rel="stylesheet" href="./styles/app.css">
+   And set the document up RTL, Persian-primary:
+     <html lang="fa" dir="rtl" data-theme="light">  (omit/keep light by default)
+============================================================================= */
+
+/* ---------------------------------------------------------------------------
+   Reset / base
+   --------------------------------------------------------------------------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+html[dir="rtl"] { direction: rtl; }
+
+body {
+  margin: 0;
+  font-family: var(--type-family-ui);
+  font-size: var(--type-body);
+  font-weight: var(--type-weight-regular);
+  line-height: var(--type-line-height-arabic);
+  letter-spacing: var(--type-letter-spacing-arabic);
+  color: var(--color-text-primary);
+  /* Page chrome around the device mockup — neutral, calm. */
+  background:
+    radial-gradient(120% 80% at 50% 0%, var(--color-surface-container) 0%, var(--color-bg-primary) 60%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-8) var(--space-4);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+p { margin: 0 0 var(--space-3); }
+
+a {
+  color: var(--color-accent-green);
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+/* Headings inherit the calm UI face; sizes come from the type ramp. */
+h1, h2, h3, h4 {
+  margin: 0;
+  font-weight: var(--type-weight-semibold);
+  line-height: var(--type-line-height-tight);
+}
+
+/* ---------------------------------------------------------------------------
+   PHONE FRAME — device mockup (~390px), centered, subtle shadow.
+   The screen scrolls; the frame is fixed-shape. Calm, not gaudy.
+   --------------------------------------------------------------------------- */
+.phone-frame {
+  position: relative;
+  width: var(--frame-width);
+  max-width: 100%;
+  height: var(--frame-height);
+  max-height: calc(100vh - var(--space-8) * 2);
+  background: var(--color-bg-primary);
+  border-radius: 44px;
+  box-shadow: var(--shadow-frame);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Status-bar / notch nod — purely cosmetic for the demo. */
+.phone-frame__statusbar {
+  flex: 0 0 auto;
+  height: var(--space-7);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: var(--space-5);
+  padding-block-start: var(--space-2);
+  font-size: var(--type-caption);
+  font-weight: var(--type-weight-medium);
+  color: var(--color-text-secondary);
+  background: var(--color-bg-primary);
+}
+
+/* Scrolling content region of the screen (sits between header and tab bar). */
+.phone-frame__screen {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  background: var(--color-bg-primary);
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ---------------------------------------------------------------------------
+   HEADER — screen / app bar. Title leading (start), rare action trailing (end).
+   --------------------------------------------------------------------------- */
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-4) var(--space-3);
+  background: var(--color-bg-primary);
+}
+
+.header__titles {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.header__overline {
+  font-size: var(--type-caption);
+  color: var(--color-text-tertiary);
+  margin-block-end: var(--space-1);
+}
+
+.header__title {
+  font-size: var(--type-title);
+  font-weight: var(--type-weight-medium);
+  color: var(--color-text-primary);
+}
+
+/* Once-per-screen hero day-header (Today). */
+.header__display {
+  font-size: var(--type-display);
+  font-weight: var(--type-weight-semibold);
+  color: var(--color-text-primary);
+  line-height: var(--type-line-height-tight);
+}
+
+/* Action sits at the logical end (left in RTL); rare/destructive lives here. */
+.header__action {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--touch-min);
+  min-height: var(--touch-min);
+  border-radius: var(--radius-pill);
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: var(--type-body);
+}
+.header__action:hover { background: var(--color-surface-container); }
+
+/* ---------------------------------------------------------------------------
+   PAGE PADDING — standard content gutter (compact edge margin = space.4).
+   --------------------------------------------------------------------------- */
+.page {
+  padding: var(--space-2) var(--space-4) var(--space-7);
+}
+
+.section + .section { margin-block-start: var(--space-6); }
+
+.section__title {
+  font-size: var(--type-label);
+  font-weight: var(--type-weight-semibold);
+  color: var(--color-text-secondary);
+  margin-block-end: var(--space-3);
+  /* leading start; RTL-correct via logical padding */
+  padding-inline-start: var(--space-1);
+}
+
+/* ---------------------------------------------------------------------------
+   CARD — calm surface, soft radius, subtle (not gaudy) shadow.
+   --------------------------------------------------------------------------- */
+.card {
+  background: var(--color-surface-container);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-card);
+}
+.card + .card { margin-block-start: var(--space-3); }
+
+.card--flat { box-shadow: none; }
+
+.card--raised {
+  background: var(--color-surface-container-high);
+  box-shadow: var(--shadow-raised);
+}
+
+.card__title {
+  font-size: var(--type-title);
+  font-weight: var(--type-weight-medium);
+  color: var(--color-text-primary);
+  margin-block-end: var(--space-2);
+}
+
+.card__meta {
+  font-size: var(--type-caption);
+  color: var(--color-text-tertiary);
+}
+
+/* The page-card: a muṣḥaf-page surface (demo uses Amiri Quran, NOT the real
+   immutable QPC pipeline). Generous, reverent, paper-like. */
+.page-card {
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6) var(--space-5);
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+
+.page-card__ayah {
+  font-family: var(--type-family-quran);
+  font-size: 1.875rem; /* demo display size for the sacred face */
+  line-height: 2;       /* generous leading for stacked marks */
+  color: var(--color-text-primary);
+  margin-block: var(--space-4);
+}
+
+.page-card__caption {
+  font-size: var(--type-caption);
+  color: var(--color-text-tertiary);
+}
+
+/* ---------------------------------------------------------------------------
+   LIST ROWS — leading icon at start, chevron/affordance at end (mirrors in RTL).
+   --------------------------------------------------------------------------- */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--touch-min);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface-container);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: background var(--motion-duration-short) var(--motion-curve-standard);
+}
+.list-row:hover { background: var(--color-surface-container-high); }
+
+/* Leading affordance/icon — sits at logical start. */
+.list-row__lead {
+  flex: 0 0 auto;
+  width: var(--space-7);
+  height: var(--space-7);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent-green-soft);
+  color: var(--color-accent-green);
+  font-size: var(--type-label);
+}
+
+.list-row__body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.list-row__title {
+  font-size: var(--type-body);
+  color: var(--color-text-primary);
+}
+
+.list-row__sub {
+  font-size: var(--type-caption);
+  color: var(--color-text-tertiary);
+  margin-block-start: var(--space-1);
+}
+
+/* Trailing chevron — points to the logical end; flips with RTL automatically. */
+.list-row__chevron {
+  flex: 0 0 auto;
+  color: var(--color-text-tertiary);
+  font-size: var(--type-body);
+  transform: scaleX(1); /* glyph chosen so it already faces logical-end */
+}
+
+/* ---------------------------------------------------------------------------
+   CHIPS — track chips (named cycles). Calm, pill, selectable.
+   --------------------------------------------------------------------------- */
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;            /* reflow, never truncate (type §7) */
+  gap: var(--space-2);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: var(--touch-min);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-primary);
+  color: var(--color-text-secondary);
+  font-size: var(--type-label);
+  font-weight: var(--type-weight-medium);
+  cursor: pointer;
+  transition:
+    background var(--motion-duration-short) var(--motion-curve-standard),
+    border-color var(--motion-duration-short) var(--motion-curve-standard);
+}
+.chip:hover { background: var(--color-surface-container); }
+
+.chip--selected {
+  background: var(--color-accent-green-soft);
+  border-color: var(--color-accent-green);
+  color: var(--color-accent-green);
+}
+
+/* small leading dot inside a chip */
+.chip__dot {
+  width: var(--space-2);
+  height: var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--color-accent-green);
+}
+
+/* ---------------------------------------------------------------------------
+   BUTTONS — calm. primary (filled green) / secondary (tonal) / text.
+   Hit target ≥ 48dp; grade band can be made taller via --grade.
+   --------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--touch-min);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  font-family: var(--type-family-ui);
+  font-size: var(--type-label);
+  font-weight: var(--type-weight-medium);
+  letter-spacing: var(--type-letter-spacing-arabic);
+  cursor: pointer;
+  transition:
+    background var(--motion-duration-short) var(--motion-curve-standard),
+    box-shadow var(--motion-duration-short) var(--motion-curve-standard);
+}
+
+.btn--primary {
+  background: var(--color-accent-green-fill);
+  color: var(--color-text-on-accent);
+}
+.btn--primary:hover { box-shadow: var(--shadow-raised); }
+
+.btn--secondary {
+  background: var(--color-surface-container);
+  color: var(--color-accent-green);
+  border-color: var(--color-border);
+}
+.btn--secondary:hover { background: var(--color-surface-container-high); }
+
+.btn--text {
+  background: transparent;
+  color: var(--color-accent-green);
+  padding-inline: var(--space-3);
+}
+.btn--text:hover { background: var(--color-accent-green-soft); }
+
+.btn--block { width: 100%; }
+
+/* Bottom action band — primary action lives in the thumb zone (layout §5). */
+.action-band {
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  background: var(--color-bg-primary);
+  border-top: 1px solid var(--color-border);
+}
+
+/* Grade band — four large, equal buttons, ≥56dp tall, space.2 apart. */
+.grade-band {
+  display: flex;
+  gap: var(--space-2);
+}
+.grade-band .btn {
+  flex: 1 1 0;
+  min-height: 56px;
+  padding-inline: var(--space-2);
+}
+
+/* ---------------------------------------------------------------------------
+   BADGES & CERTAINTY LABELS — small, calm, redundant with text (never color-only).
+   --------------------------------------------------------------------------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-pill);
+  font-size: var(--type-caption);
+  font-weight: var(--type-weight-medium);
+  background: var(--color-surface-container);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+}
+
+.badge--accent {
+  background: var(--color-accent-green-soft);
+  color: var(--color-accent-green);
+  border-color: transparent;
+}
+
+/* Warning badge — the ONLY red-adjacent token; always icon + text (§6). */
+.badge--warning {
+  background: var(--color-semantic-warning-bg);
+  color: var(--color-semantic-warning);
+  border-color: transparent;
+}
+
+/* Certainty label — uncertainty stated in words, never color alone (data-viz). */
+.certainty {
+  font-size: var(--type-caption);
+  color: var(--color-text-tertiary);
+}
+.certainty strong {
+  font-weight: var(--type-weight-medium);
+  color: var(--color-text-secondary);
+}
+
+/* ---------------------------------------------------------------------------
+   HEAT-MAP GRID — sequential single-hue ramp; each cell redundantly labelled.
+   space.1 gutter between cells (layout §2). Never a scoreboard, never red.
+   --------------------------------------------------------------------------- */
+.heatmap {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--space-1);
+}
+
+.heat-cell {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border-radius: var(--radius-sm);
+  font-size: var(--type-caption);
+  font-weight: var(--type-weight-medium);
+  cursor: pointer;
+  /* number/label carry the value; color is reinforcement (§5, SC 1.4.1). */
+}
+
+.heat-cell__num   { font-size: var(--type-label); line-height: 1; }
+.heat-cell__label { font-size: 0.6875rem; opacity: 0.85; line-height: 1; }
+
+/* Ramp steps — strong (calm green) → faded (muted neutral). */
+.heat-cell--strong { background: var(--color-heatmap-strong); color: var(--color-heatmap-on-strong); }
+.heat-cell--good   { background: var(--color-heatmap-good);   color: var(--color-heatmap-on-strong); }
+.heat-cell--fair   { background: var(--color-heatmap-fair);   color: var(--color-heatmap-on-faded); }
+.heat-cell--weak   { background: var(--color-heatmap-weak);   color: var(--color-heatmap-on-faded); }
+.heat-cell--faded  { background: var(--color-heatmap-faded);  color: var(--color-heatmap-on-faded); }
+
+/* Heat-map legend row. */
+.heat-legend {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin-block-start: var(--space-3);
+  font-size: var(--type-caption);
+  color: var(--color-text-tertiary);
+}
+.heat-legend__swatch {
+  width: var(--space-3);
+  height: var(--space-3);
+  border-radius: 3px;
+}
+
+/* ---------------------------------------------------------------------------
+   BOTTOM TAB BAR — Today · Muṣḥaf · Mutashābihāt · Progress · Settings.
+   In RTL, "Today" (home) sits at the trailing/rightmost edge (layout §3).
+   Use plain DOM order (Today first); RTL places it at the right automatically.
+   --------------------------------------------------------------------------- */
+.tab-bar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: stretch;
+  background: var(--color-surface-container);
+  border-top: 1px solid var(--color-border);
+  padding-block: var(--space-1);
+  padding-inline: var(--space-1);
+}
+
+.tab {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: var(--touch-min);
+  padding: var(--space-1);
+  background: transparent;
+  border: none;
+  color: var(--color-text-tertiary);
+  font-family: var(--type-family-ui);
+  font-size: 0.6875rem;
+  cursor: pointer;
+}
+
+.tab__icon { font-size: var(--type-title); line-height: 1; }
+
+.tab--active { color: var(--color-accent-green); }
+.tab--active .tab__icon { color: var(--color-accent-green); }
+
+/* ---------------------------------------------------------------------------
+   LANGUAGE PILL — fa / ckb / ar switch. RTL-correct, calm pill segments.
+   --------------------------------------------------------------------------- */
+.lang-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1);
+  gap: var(--space-1);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-container);
+  border: 1px solid var(--color-border);
+}
+
+.lang-pill__seg {
+  min-height: 36px;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  border: none;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-family: var(--type-family-ui);
+  font-size: var(--type-label);
+  font-weight: var(--type-weight-medium);
+  cursor: pointer;
+}
+.lang-pill__seg--active {
+  background: var(--color-bg-primary);
+  color: var(--color-accent-green);
+  box-shadow: var(--shadow-card);
+}
+
+/* ---------------------------------------------------------------------------
+   RTL-CORRECT UTILITIES — logical margins/padding, flex direction, alignment.
+   Use these instead of physical left/right (layout §3).
+   --------------------------------------------------------------------------- */
+.u-row     { display: flex; flex-direction: row; align-items: center; }
+.u-col     { display: flex; flex-direction: column; }
+.u-between { display: flex; align-items: center; justify-content: space-between; }
+.u-gap-1   { gap: var(--space-1); }
+.u-gap-2   { gap: var(--space-2); }
+.u-gap-3   { gap: var(--space-3); }
+.u-gap-4   { gap: var(--space-4); }
+.u-grow    { flex: 1 1 auto; min-width: 0; }
+
+/* Logical spacing helpers (auto-flip in RTL). */
+.u-mt-2 { margin-block-start: var(--space-2); }
+.u-mt-3 { margin-block-start: var(--space-3); }
+.u-mt-4 { margin-block-start: var(--space-4); }
+.u-mt-6 { margin-block-start: var(--space-6); }
+.u-ms-2 { margin-inline-start: var(--space-2); }
+.u-ms-3 { margin-inline-start: var(--space-3); }
+.u-me-2 { margin-inline-end: var(--space-2); }
+.u-me-3 { margin-inline-end: var(--space-3); }
+
+.u-text-start  { text-align: start; }
+.u-text-end    { text-align: end; }
+.u-text-center { text-align: center; }
+
+/* Text-role helpers mapped to the type ramp. */
+.u-display   { font-size: var(--type-display); font-weight: var(--type-weight-semibold); line-height: var(--type-line-height-tight); }
+.u-title     { font-size: var(--type-title);   font-weight: var(--type-weight-medium); line-height: var(--type-line-height-tight); }
+.u-body      { font-size: var(--type-body);     font-weight: var(--type-weight-regular); }
+.u-label     { font-size: var(--type-label);    font-weight: var(--type-weight-medium); }
+.u-caption   { font-size: var(--type-caption);  color: var(--color-text-tertiary); }
+
+.u-secondary { color: var(--color-text-secondary); }
+.u-tertiary  { color: var(--color-text-tertiary); }
+.u-accent    { color: var(--color-accent-green); }
+
+/* Numerals: let the locale digits render naturally; never tighten Arabic runs. */
+.u-numeral { letter-spacing: var(--type-letter-spacing-arabic); }
+
+/* Reduce-motion: the OS flag always wins (motion §5). Demo honours it too. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

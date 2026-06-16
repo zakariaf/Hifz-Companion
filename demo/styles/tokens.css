@@ -1,0 +1,213 @@
+/* =============================================================================
+   Mihrab — Design Tokens (demo)
+   The Hifz Companion design system, distilled for a static HTML demo.
+
+   Source of truth: /docs/design-system/
+     - color  : 03-color-and-themes.md   (owns all color.*)
+     - type   : 04-typography.md          (owns all type.*)
+     - space  : 05-layout-spacing-touch.md(owns all space.*, touch.min)
+     - motion : 06-motion-and-haptics.md  (owns all motion.*)
+
+   Token discipline: app.css references var(--…) ONLY — never raw values.
+   Where a doc names a token but gives no hex, a tasteful low-arousal value
+   is chosen consistent with the stated palette and flagged "/* chosen */".
+
+   Fonts (bundled in the real Flutter app; CDN here is demo-only):
+     - UI            : Vazirmatn  (Perso-Arabic sans, OFL 1.1) — type.family.ui
+     - Sacred (demo) : Amiri Quran (Arabic Quran demo face)
+   The @import below fetches them from Google Fonts for the demo.
+   If you prefer <link>, drop the @import and add to each HTML <head>:
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600&family=Amiri+Quran&display=swap" rel="stylesheet">
+   NOTE: the real app NEVER renders the muṣḥaf with a UI/OS-shaped font and
+   never fetches fonts at runtime (Pillar 1; PRD R1). Amiri Quran is a DEMO
+   stand-in for the immutable per-page KFGQPC/QPC glyph fonts.
+============================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600&family=Amiri+Quran&display=swap');
+
+:root {
+  /* ===========================================================================
+     COLOR — Light appearance (daytime default, positive polarity)
+     Audited anchors from 03-color-and-themes.md §7.
+     =========================================================================== */
+
+  /* Surfaces & backgrounds */
+  --color-bg-primary:          #F3F6F1; /* Light bg.primary (§7) */
+  --color-surface-container:   #E7ECE4; /* Light surface.container (§7) */
+  --color-surface-container-high: #DCE3D9; /* chosen: one tone darker than container, for raised cards */
+  --color-border:              #D4DCCF; /* chosen: hairline divider, low-chroma green-grey */
+  --color-scrim:               rgba(26, 33, 30, 0.32); /* chosen: text.primary @ low alpha for sheets */
+
+  /* Text */
+  --color-text-primary:        #1A211E; /* Light text.primary (§7) — 15.05:1 on bg */
+  --color-text-secondary:      #46514B; /* Light text.secondary (§7) — 7.59:1 */
+  --color-text-tertiary:       #5C665F; /* Light text.tertiary (§7) — 5.47:1 */
+  --color-text-on-accent:      #FFFFFF; /* Light on-accent (§7) */
+
+  /* Accent — the single interactive green (links, primary action, selected) */
+  --color-accent-green:        #1F6E5A; /* Light accent.green (§7) — 5.61:1 as text */
+  --color-accent-green-fill:   #1F6E5A; /* same hue; used as filled-button ground */
+  --color-accent-green-soft:   #E2EFE9; /* chosen: low-chroma green wash for selected chip / tint surface */
+
+  /* Semantic — tiny set; warning is the ONLY red-adjacent token (asset integrity) */
+  --color-semantic-warning:    #8A5A00; /* Light semantic.warning (§6) — 5.44:1 as text */
+  --color-semantic-warning-bg: #F4ECD9; /* chosen: warm low-chroma wash behind a warning row */
+
+  /* ---------------------------------------------------------------------------
+     Retention heat-map ramp — single-hue lightness ramp, green → muted neutral.
+     NEVER red, NEVER a traffic-light. Strong = calm green; faded = neutral grey.
+     Light values from 03-color-and-themes.md §5.
+     --------------------------------------------------------------------------- */
+  --color-heatmap-strong:      #2E7D5B; /* high retention (calm green) */
+  --color-heatmap-good:        #5FA382; /* solid */
+  --color-heatmap-fair:        #93BFA6; /* softening */
+  --color-heatmap-weak:        #B9C3BC; /* decaying (muted neutral) */
+  --color-heatmap-faded:       #D2D8D2; /* most-decayed / un-reviewed */
+  /* On-heat text: dark for the light/neutral steps, light for the strong step */
+  --color-heatmap-on-strong:   #FFFFFF; /* chosen: legible numeral on the strong green */
+  --color-heatmap-on-faded:    #46514B; /* chosen: text.secondary on the pale steps */
+
+  /* ===========================================================================
+     TYPE — 04-typography.md §4 ramp (sp ≈ rem here). UI font + sacred demo font.
+     =========================================================================== */
+  --type-family-ui:    'Vazirmatn', 'Estedad', system-ui, 'Segoe UI', Tahoma, sans-serif;
+  --type-family-quran: 'Amiri Quran', 'Vazirmatn', serif; /* DEMO ONLY — not the muṣḥaf pipeline */
+
+  /* Sizes (rem; 1rem = 16px). type.body is the 16sp workhorse. */
+  --type-display:   1.75rem;  /* 28sp — one per screen: Today day-header */
+  --type-title:     1.375rem; /* 22sp — screen/card/sheet titles */
+  --type-body:      1rem;     /* 16sp — default for everything */
+  --type-label:     0.875rem; /* 14sp — chips, buttons, tab labels, legend */
+  --type-caption:   0.8125rem;/* 13sp — timestamps, "last reviewed" (never load-bearing) */
+
+  /* Weights — restrained: Regular / Medium / Semibold. No Thin/Light, no italics. */
+  --type-weight-regular:  400;
+  --type-weight-medium:   500;
+  --type-weight-semibold: 600;
+
+  /* Line-height — inverted from Latin habits; Arabic needs generous leading (§6). */
+  --type-line-height-arabic: 1.55;  /* 1.5–1.6 band; 1.55 for general UI */
+  --type-line-height-tight:  1.4;   /* chosen: titles/display where marks still clear */
+
+  /* Letter-spacing — ZERO on all Arabic-script runs (§6). */
+  --type-letter-spacing-arabic: 0;
+
+  /* ===========================================================================
+     SPACE — 05-layout-spacing-touch.md §1. 4dp step on an 8dp grid.
+     =========================================================================== */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;  /* default card/sheet padding; compact edge margin */
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 48px;
+
+  --touch-min: 48px; /* touch.min — minimum hit target */
+
+  /* ===========================================================================
+     RADII — not owned by a doc; chosen calm/soft values, consistent with M3.
+     =========================================================================== */
+  --radius-sm:   8px;   /* chosen: chips, small controls */
+  --radius-md:   12px;  /* chosen: cards, list rows */
+  --radius-lg:   20px;  /* chosen: sheets, page-card */
+  --radius-pill: 999px; /* chosen: track chips, language pill, badges */
+
+  /* ===========================================================================
+     ELEVATION — calm, no gaudy shadows. Soft, low-spread, green-tinted dark.
+     Chosen; the docs call only for "subtle" depth (calm, not cute).
+     =========================================================================== */
+  --shadow-card:  0 1px 2px rgba(26, 33, 30, 0.05), 0 2px 8px rgba(26, 33, 30, 0.04);
+  --shadow-frame: 0 8px 40px rgba(26, 33, 30, 0.12); /* phone-frame mockup only */
+  --shadow-raised:0 2px 6px rgba(26, 33, 30, 0.07);
+
+  /* ===========================================================================
+     MOTION — 06-motion-and-haptics.md §1. Short/medium only; standard easing.
+     =========================================================================== */
+  --motion-duration-short:  150ms; /* Durations.short3 */
+  --motion-duration-medium: 250ms; /* Durations.medium1 */
+  --motion-curve-standard:   cubic-bezier(0.4, 0.0, 0.2, 1);   /* fastOutSlowIn */
+  --motion-curve-emphasized: cubic-bezier(0.05, 0.7, 0.1, 1.0);/* easeInOutCubicEmphasized (1 hero only) */
+
+  /* Phone-frame geometry — demo device mockup (~390px). */
+  --frame-width:  390px;
+  --frame-height: 844px;
+}
+
+/* =============================================================================
+   SEPIA — long murājaʿa in a dim room; positive polarity on warm paper (§3, §7).
+   bg.primary #F3EAD8; text.primary #2B2620; accent.green #1C6450.
+============================================================================= */
+[data-theme="sepia"] {
+  --color-bg-primary:          #F3EAD8; /* Sepia bg.primary (§7) */
+  --color-surface-container:   #EBE0C9; /* chosen: one warm tone above paper */
+  --color-surface-container-high: #E3D6BB; /* chosen */
+  --color-border:              #DACBAB; /* chosen: warm hairline */
+  --color-scrim:               rgba(43, 38, 32, 0.30); /* chosen */
+
+  --color-text-primary:        #2B2620; /* Sepia text.primary (§7) — 12.54:1 */
+  --color-text-secondary:      #5A5042; /* Sepia text.secondary (§7) — 6.60:1 */
+  --color-text-tertiary:       #6E624F; /* chosen: between secondary and paper, ≥4.5:1 */
+  --color-text-on-accent:      #FFFFFF;
+
+  --color-accent-green:        #1C6450; /* Sepia accent.green (§7) — 5.88:1 */
+  --color-accent-green-fill:   #1C6450;
+  --color-accent-green-soft:   #DDE7DB; /* chosen: cool-green wash kept low on warm paper */
+
+  --color-semantic-warning:    #8A5A00; /* reuse Light warm warning; reads on warm paper */
+  --color-semantic-warning-bg: #EFE0C2; /* chosen */
+
+  /* Heat-map on sepia: nudge the neutral steps warm so they sit on paper. */
+  --color-heatmap-strong:      #2E7D5B; /* chosen: keep the calm green anchor */
+  --color-heatmap-good:        #5FA382; /* chosen */
+  --color-heatmap-fair:        #9BBFA4; /* chosen: faintly warmer neutral-green */
+  --color-heatmap-weak:        #C2C1AE; /* chosen: muted warm neutral */
+  --color-heatmap-faded:       #DAD3BE; /* chosen: pale warm neutral (un-reviewed) */
+  --color-heatmap-on-strong:   #FFFFFF;
+  --color-heatmap-on-faded:    #5A5042;
+
+  --shadow-card:  0 1px 2px rgba(43, 38, 32, 0.05), 0 2px 8px rgba(43, 38, 32, 0.04);
+  --shadow-frame: 0 8px 40px rgba(43, 38, 32, 0.12);
+  --shadow-raised:0 2px 6px rgba(43, 38, 32, 0.07);
+}
+
+/* =============================================================================
+   DARK — low-light / OS dark. Off-black #121413, NEVER pure black. Desaturated,
+   lighter accents so nothing vibrates against the dark (§4, §7).
+============================================================================= */
+[data-theme="dark"] {
+  --color-bg-primary:          #121413; /* Dark bg.primary (§4, §7) */
+  --color-surface-container:   #1E211F; /* Dark surface.container (§7) — tone, not overlay */
+  --color-surface-container-high: #272B29; /* chosen: next tone up */
+  --color-border:              #313633; /* chosen: low-chroma dark hairline */
+  --color-scrim:               rgba(0, 0, 0, 0.50); /* chosen */
+
+  --color-text-primary:        #E6EAE3; /* Dark text.primary (§7) — 15.19:1 */
+  --color-text-secondary:      #A7B0A8; /* Dark text.secondary (§7) — 8.30:1 */
+  --color-text-tertiary:       #828B83; /* Dark text.tertiary (§7) — 5.26:1 */
+  --color-text-on-accent:      #0C140F; /* Dark on-accent (§7) */
+
+  --color-accent-green:        #6FC2A8; /* Dark accent.green (§4, §7) — 8.77:1; lighter/lower-chroma */
+  --color-accent-green-fill:   #6FC2A8;
+  --color-accent-green-soft:   #1C2A24; /* chosen: deep green-tinted surface for selected chip */
+
+  --color-semantic-warning:    #E8B23C; /* Dark semantic.warning (§6) — 9.57:1 */
+  --color-semantic-warning-bg: #2A2417; /* chosen: warm-dark wash */
+
+  /* Heat-map (Dark) — values from §5; direction flips: lighter = stronger. */
+  --color-heatmap-strong:      #4FB386; /* high retention */
+  --color-heatmap-good:        #3C7E61; /* solid */
+  --color-heatmap-fair:        #356B55; /* softening */
+  --color-heatmap-weak:        #38453E; /* decaying (muted neutral) */
+  --color-heatmap-faded:       #262B27; /* most-decayed / un-reviewed */
+  --color-heatmap-on-strong:   #0C140F; /* chosen: dark numeral on light-green strong step */
+  --color-heatmap-on-faded:    #A7B0A8; /* chosen: secondary text on dark steps */
+
+  /* Dark surfaces use tone, not shadow; keep shadows minimal/near-absent. */
+  --shadow-card:  0 1px 2px rgba(0, 0, 0, 0.30);
+  --shadow-frame: 0 8px 40px rgba(0, 0, 0, 0.55);
+  --shadow-raised:0 2px 6px rgba(0, 0, 0, 0.30);
+}

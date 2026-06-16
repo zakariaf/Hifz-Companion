@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مِحراب — نمونهٔ نمایشی · Hifz Companion</title>
+
+  <!-- Shared design-system stylesheets (tokens first, then components). -->
+<style>
+    /* -----------------------------------------------------------------------
+       INDEX-LOCAL helpers — this landing hub is NOT inside a phone frame.
+       Everything below ONLY composes existing tokens; no new raw values.
+       ----------------------------------------------------------------------- */
+
+    /* Override the body's centered single-column flow for a wide landing page. */
+    body.landing {
+      align-items: stretch;
+      padding: 32px 16px 48px;
+    }
+
+    .hub {
+      width: 100%;
+      max-width: 1080px;
+      margin-inline: auto;
+    }
+
+    /* ---- Masthead ---- */
+    .hub-head {
+      text-align: center;
+      margin-block-end: 32px;
+    }
+    .hub-head__overline {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #1F6E5A;
+      letter-spacing: 0;
+      margin-block-end: 8px;
+    }
+    .hub-head__title {
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: #1A211E;
+      line-height: 1.4;
+    }
+    .hub-head__sub {
+      font-size: 1rem;
+      color: #46514B;
+      max-width: 46rem;
+      margin: 12px auto 0;
+      line-height: 1.55;
+    }
+
+    /* Floating language pill, top-start corner (visual only). */
+    .lang-pill--float {
+      position: fixed;
+      inset-block-start: 16px;
+      inset-inline-start: 16px;
+      z-index: 10;
+    }
+
+    /* ---- Concept card (the retention engine, in one breath) ---- */
+    .concept {
+      max-width: 46rem;
+      margin: 0 auto 24px;
+    }
+    .concept .card__title {
+      font-size: 1.375rem;
+      margin-block-end: 12px;
+    }
+    .concept p {
+      color: #46514B;
+      line-height: 1.55;
+    }
+    .concept p:last-child { margin-block-end: 0; }
+    .concept strong {
+      font-weight: 500;
+      color: #1A211E;
+    }
+    .concept__terms {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-block-start: 16px;
+    }
+
+    /* ---- Demo disclaimer note ---- */
+    .disclaimer {
+      max-width: 46rem;
+      margin: 0 auto 32px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px;
+      border-radius: 12px;
+      background: #F4ECD9;
+      border: 1px solid transparent;
+    }
+    .disclaimer__icon {
+      flex: 0 0 auto;
+      font-size: 1.375rem;
+      line-height: 1;
+      color: #8A5A00;
+    }
+    .disclaimer__body { flex: 1 1 auto; min-width: 0; }
+    .disclaimer__title {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #8A5A00;
+    }
+    .disclaimer__text {
+      font-size: 0.8125rem;
+      color: #46514B;
+      margin-block-start: 4px;
+      line-height: 1.55;
+    }
+
+    /* ---- Section label for the gallery ---- */
+    .hub-section__title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #46514B;
+      text-align: center;
+      margin-block-end: 20px;
+    }
+
+    /* ---- Responsive gallery ---- */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 20px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    /* Each screen = a calm card wrapping a framed thumbnail. */
+    .screen-card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: #E7ECE4;
+      border: 1px solid #D4DCCF;
+      border-radius: 20px;
+      padding: 16px;
+      box-shadow: 0 1px 2px rgba(26, 33, 30, 0.05), 0 2px 8px rgba(26, 33, 30, 0.04);
+      color: inherit;
+      transition:
+        box-shadow 250ms cubic-bezier(0.4, 0.0, 0.2, 1),
+        transform 250ms cubic-bezier(0.4, 0.0, 0.2, 1),
+        border-color 150ms cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+    .screen-card:hover,
+    .screen-card:focus-visible {
+      box-shadow: 0 2px 6px rgba(26, 33, 30, 0.07);
+      border-color: #1F6E5A;
+      transform: translateY(-2px);
+      text-decoration: none;
+    }
+    .screen-card:focus-visible {
+      outline: 2px solid #1F6E5A;
+      outline-offset: 2px;
+    }
+
+    /* The framed thumbnail — a miniature device window with a faux header,
+       a body sketch unique per screen, and a faux tab bar. */
+    .thumb {
+      position: relative;
+      aspect-ratio: 4 / 5;
+      border-radius: 12px;
+      border: 1px solid #D4DCCF;
+      background: #F3F6F1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .thumb__header {
+      flex: 0 0 auto;
+      padding: 12px 12px 8px;
+      border-bottom: 1px solid #D4DCCF;
+    }
+    .thumb__overline {
+      display: block;
+      width: 40%;
+      height: 6px;
+      border-radius: 999px;
+      background: #D4DCCF;
+    }
+    .thumb__title {
+      display: block;
+      width: 68%;
+      height: 11px;
+      margin-block-start: 8px;
+      border-radius: 999px;
+      background: #5C665F;
+      opacity: 0.45;
+    }
+    .thumb__body {
+      flex: 1 1 auto;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow: hidden;
+    }
+    /* Faux tab bar at the foot of the thumbnail. */
+    .thumb__tabs {
+      flex: 0 0 auto;
+      display: flex;
+      gap: 8px;
+      padding: 8px 12px;
+      border-top: 1px solid #D4DCCF;
+      background: #E7ECE4;
+    }
+    .thumb__tab {
+      flex: 1 1 0;
+      height: 6px;
+      border-radius: 999px;
+      background: #D4DCCF;
+    }
+    .thumb__tab--active { background: #1F6E5A; }
+
+    /* Generic sketch primitives reused across screens. */
+    .sk-line {
+      height: 8px;
+      border-radius: 999px;
+      background: #DCE3D9;
+    }
+    .sk-line--80 { width: 80%; }
+    .sk-line--60 { width: 60%; }
+    .sk-line--45 { width: 45%; }
+    .sk-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px;
+      border-radius: 8px;
+      background: #E7ECE4;
+      border: 1px solid #D4DCCF;
+    }
+    .sk-dot {
+      flex: 0 0 auto;
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      background: #E2EFE9;
+    }
+    .sk-stack {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    /* A glyph nod for muṣḥaf / recite / onboarding thumbs (demo placeholder). */
+    .sk-glyph {
+      font-family: 'Amiri Quran', 'Vazirmatn', serif;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #46514B;
+      text-align: center;
+    }
+    .sk-glyph--blur {
+      filter: blur(3px);
+      opacity: 0.7;
+    }
+
+    /* Mini heat-map for the progress thumb. */
+    .sk-heat {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 3px;
+    }
+    .sk-heat span {
+      aspect-ratio: 1 / 1;
+      border-radius: 3px;
+    }
+    .sk-h-strong { background: #2E7D5B; }
+    .sk-h-good   { background: #5FA382; }
+    .sk-h-fair   { background: #93BFA6; }
+    .sk-h-weak   { background: #B9C3BC; }
+    .sk-h-faded  { background: #D2D8D2; }
+
+    /* Mini grade band for the recite thumb. */
+    .sk-grade { display: flex; gap: 4px; }
+    .sk-grade span {
+      flex: 1 1 0;
+      height: 20px;
+      border-radius: 8px;
+      border: 1px solid #D4DCCF;
+      background: #E7ECE4;
+    }
+    .sk-grade span:last-child {
+      background: #1F6E5A;
+      border-color: transparent;
+    }
+
+    /* Card caption + meta below the thumbnail. */
+    .screen-card__cap {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+    .screen-card__num {
+      font-size: 0.8125rem;
+      color: #5C665F;
+    }
+    .screen-card__name {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #1A211E;
+    }
+    .screen-card__desc {
+      font-size: 0.8125rem;
+      color: #46514B;
+      line-height: 1.55;
+    }
+    .screen-card__file {
+      font-size: 0.8125rem;
+      color: #5C665F;
+      direction: ltr;
+      text-align: end;
+      font-family: 'Vazirmatn', 'Estedad', system-ui, 'Segoe UI', Tahoma, sans-serif;
+    }
+
+    /* ---- Footer ---- */
+    .hub-foot {
+      max-width: 46rem;
+      margin: 48px auto 0;
+      text-align: center;
+      font-size: 0.8125rem;
+      color: #5C665F;
+      line-height: 1.55;
+    }
+  </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600&family=Amiri+Quran&display=swap" rel="stylesheet">
+  <style>
+/* ==== inlined tokens.css ==== */
+/* =============================================================================
+   Mihrab — Design Tokens (demo)
+   The Hifz Companion design system, distilled for a static HTML demo.
+
+   Source of truth: /docs/design-system/
+     - color  : 03-color-and-themes.md   (owns all color.*)
+     - type   : 04-typography.md          (owns all type.*)
+     - space  : 05-layout-spacing-touch.md(owns all space.*, touch.min)
+     - motion : 06-motion-and-haptics.md  (owns all motion.*)
+
+   Token discipline: app.css references var(--…) ONLY — never raw values.
+   Where a doc names a token but gives no hex, a tasteful low-arousal value
+   is chosen consistent with the stated palette and flagged "/* chosen */".
+
+   Fonts (bundled in the real Flutter app; CDN here is demo-only):
+     - UI            : Vazirmatn  (Perso-Arabic sans, OFL 1.1) — type.family.ui
+     - Sacred (demo) : Amiri Quran (Arabic Quran demo face)
+   The @import below fetches them from Google Fonts for the demo.
+   If you prefer <link>, drop the @import and add to each HTML <head>:
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600&family=Amiri+Quran&display=swap" rel="stylesheet">
+   NOTE: the real app NEVER renders the muṣḥaf with a UI/OS-shaped font and
+   never fetches fonts at runtime (Pillar 1; PRD R1). Amiri Quran is a DEMO
+   stand-in for the immutable per-page KFGQPC/QPC glyph fonts.
+============================================================================= */
+
+/* @import hoisted to <link> in <head> */
+
+:root {
+  /* ===========================================================================
+     COLOR — Light appearance (daytime default, positive polarity)
+     Audited anchors from 03-color-and-themes.md §7.
+     =========================================================================== */
+
+  /* Surfaces & backgrounds */
+  --color-bg-primary:          #F3F6F1; /* Light bg.primary (§7) */
+  --color-surface-container:   #E7ECE4; /* Light surface.container (§7) */
+  --color-surface-container-high: #DCE3D9; /* chosen: one tone darker than container, for raised cards */
+  --color-border:              #D4DCCF; /* chosen: hairline divider, low-chroma green-grey */
+  --color-scrim:               rgba(26, 33, 30, 0.32); /* chosen: text.primary @ low alpha for sheets */
+
+  /* Text */
+  --color-text-primary:        #1A211E; /* Light text.primary (§7) — 15.05:1 on bg */
+  --color-text-secondary:      #46514B; /* Light text.secondary (§7) — 7.59:1 */
+  --color-text-tertiary:       #5C665F; /* Light text.tertiary (§7) — 5.47:1 */
+  --color-text-on-accent:      #FFFFFF; /* Light on-accent (§7) */
+
+  /* Accent — the single interactive green (links, primary action, selected) */
+  --color-accent-green:        #1F6E5A; /* Light accent.green (§7) — 5.61:1 as text */
+  --color-accent-green-fill:   #1F6E5A; /* same hue; used as filled-button ground */
+  --color-accent-green-soft:   #E2EFE9; /* chosen: low-chroma green wash for selected chip / tint surface */
+
+  /* Semantic — tiny set; warning is the ONLY red-adjacent token (asset integrity) */
+  --color-semantic-warning:    #8A5A00; /* Light semantic.warning (§6) — 5.44:1 as text */
+  --color-semantic-warning-bg: #F4ECD9; /* chosen: warm low-chroma wash behind a warning row */
+
+  /* ---------------------------------------------------------------------------
+     Retention heat-map ramp — single-hue lightness ramp, green → muted neutral.
+     NEVER red, NEVER a traffic-light. Strong = calm green; faded = neutral grey.
+     Light values from 03-color-and-themes.md §5.
+     --------------------------------------------------------------------------- */
+  --color-heatmap-strong:      #2E7D5B; /* high retention (calm green) */
+  --color-heatmap-good:        #5FA382; /* solid */
+  --color-heatmap-fair:        #93BFA6; /* softening */
+  --color-heatmap-weak:        #B9C3BC; /* decaying (muted neutral) */
+  --color-heatmap-faded:       #D2D8D2; /* most-decayed / un-reviewed */
+  /* On-heat text: dark for the light/neutral steps, light for the strong step */
+  --color-heatmap-on-strong:   #FFFFFF; /* chosen: legible numeral on the strong green */
+  --color-heatmap-on-faded:    #46514B; /* chosen: text.secondary on the pale steps */
+
+  /* ===========================================================================
+     TYPE — 04-typography.md §4 ramp (sp ≈ rem here). UI font + sacred demo font.
+     =========================================================================== */
+  --type-family-ui:    'Vazirmatn', 'Estedad', system-ui, 'Segoe UI', Tahoma, sans-serif;
+  --type-family-quran: 'Amiri Quran', 'Vazirmatn', serif; /* DEMO ONLY — not the muṣḥaf pipeline */
+
+  /* Sizes (rem; 1rem = 16px). type.body is the 16sp workhorse. */
+  --type-display:   1.75rem;  /* 28sp — one per screen: Today day-header */
+  --type-title:     1.375rem; /* 22sp — screen/card/sheet titles */
+  --type-body:      1rem;     /* 16sp — default for everything */
+  --type-label:     0.875rem; /* 14sp — chips, buttons, tab labels, legend */
+  --type-caption:   0.8125rem;/* 13sp — timestamps, "last reviewed" (never load-bearing) */
+
+  /* Weights — restrained: Regular / Medium / Semibold. No Thin/Light, no italics. */
+  --type-weight-regular:  400;
+  --type-weight-medium:   500;
+  --type-weight-semibold: 600;
+
+  /* Line-height — inverted from Latin habits; Arabic needs generous leading (§6). */
+  --type-line-height-arabic: 1.55;  /* 1.5–1.6 band; 1.55 for general UI */
+  --type-line-height-tight:  1.4;   /* chosen: titles/display where marks still clear */
+
+  /* Letter-spacing — ZERO on all Arabic-script runs (§6). */
+  --type-letter-spacing-arabic: 0;
+
+  /* ===========================================================================
+     SPACE — 05-layout-spacing-touch.md §1. 4dp step on an 8dp grid.
+     =========================================================================== */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;  /* default card/sheet padding; compact edge margin */
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 48px;
+
+  --touch-min: 48px; /* touch.min — minimum hit target */
+
+  /* ===========================================================================
+     RADII — not owned by a doc; chosen calm/soft values, consistent with M3.
+     =========================================================================== */
+  --radius-sm:   8px;   /* chosen: chips, small controls */
+  --radius-md:   12px;  /* chosen: cards, list rows */
+  --radius-lg:   20px;  /* chosen: sheets, page-card */
+  --radius-pill: 999px; /* chosen: track chips, language pill, badges */
+
+  /* ===========================================================================
+     ELEVATION — calm, no gaudy shadows. Soft, low-spread, green-tinted dark.
+     Chosen; the docs call only for "subtle" depth (calm, not cute).
+     =========================================================================== */
+  --shadow-card:  0 1px 2px rgba(26, 33, 30, 0.05), 0 2px 8px rgba(26, 33, 30, 0.04);
+  --shadow-frame: 0 8px 40px rgba(26, 33, 30, 0.12); /* phone-frame mockup only */
+  --shadow-raised:0 2px 6px rgba(26, 33, 30, 0.07);
+
+  /* ===========================================================================
+     MOTION — 06-motion-and-haptics.md §1. Short/medium only; standard easing.
+     =========================================================================== */
+  --motion-duration-short:  150ms; /* Durations.short3 */
+  --motion-duration-medium: 250ms; /* Durations.medium1 */
+  --motion-curve-standard:   cubic-bezier(0.4, 0.0, 0.2, 1);   /* fastOutSlowIn */
+  --motion-curve-emphasized: cubic-bezier(0.05, 0.7, 0.1, 1.0);/* easeInOutCubicEmphasized (1 hero only) */
+
+  /* Phone-frame geometry — demo device mockup (~390px). */
+  --frame-width:  390px;
+  --frame-height: 844px;
+}
+
+/* =============================================================================
+   SEPIA — long murājaʿa in a dim room; positive polarity on warm paper (§3, §7).
+   bg.primary #F3EAD8; text.primary #2B2620; accent.green #1C6450.
+============================================================================= */
+[data-theme="sepia"] {
+  --color-bg-primary:          #F3EAD8; /* Sepia bg.primary (§7) */
+  --color-surface-container:   #EBE0C9; /* chosen: one warm tone above paper */
+  --color-surface-container-high: #E3D6BB; /* chosen */
+  --color-border:              #DACBAB; /* chosen: warm hairline */
+  --color-scrim:               rgba(43, 38, 32, 0.30); /* chosen */
+
+  --color-text-primary:        #2B2620; /* Sepia text.primary (§7) — 12.54:1 */
+  --color-text-secondary:      #5A5042; /* Sepia text.secondary (§7) — 6.60:1 */
+  --color-text-tertiary:       #6E624F; /* chosen: between secondary and paper, ≥4.5:1 */
+  --color-text-on-accent:      #FFFFFF;
+
+  --color-accent-green:        #1C6450; /* Sepia accent.green (§7) — 5.88:1 */
+  --color-accent-green-fill:   #1C6450;
+  --color-accent-green-soft:   #DDE7DB; /* chosen: cool-green wash kept low on warm paper */
+
+  --color-semantic-warning:    #8A5A00; /* reuse Light warm warning; reads on warm paper */
+  --color-semantic-warning-bg: #EFE0C2; /* chosen */
+
+  /* Heat-map on sepia: nudge the neutral steps warm so they sit on paper. */
+  --color-heatmap-strong:      #2E7D5B; /* chosen: keep the calm green anchor */
+  --color-heatmap-good:        #5FA382; /* chosen */
+  --color-heatmap-fair:        #9BBFA4; /* chosen: faintly warmer neutral-green */
+  --color-heatmap-weak:        #C2C1AE; /* chosen: muted warm neutral */
+  --color-heatmap-faded:       #DAD3BE; /* chosen: pale warm neutral (un-reviewed) */
+  --color-heatmap-on-strong:   #FFFFFF;
+  --color-heatmap-on-faded:    #5A5042;
+
+  --shadow-card:  0 1px 2px rgba(43, 38, 32, 0.05), 0 2px 8px rgba(43, 38, 32, 0.04);
+  --shadow-frame: 0 8px 40px rgba(43, 38, 32, 0.12);
+  --shadow-raised:0 2px 6px rgba(43, 38, 32, 0.07);
+}
+
+/* =============================================================================
+   DARK — low-light / OS dark. Off-black #121413, NEVER pure black. Desaturated,
+   lighter accents so nothing vibrates against the dark (§4, §7).
+============================================================================= */
+[data-theme="dark"] {
+  --color-bg-primary:          #121413; /* Dark bg.primary (§4, §7) */
+  --color-surface-container:   #1E211F; /* Dark surface.container (§7) — tone, not overlay */
+  --color-surface-container-high: #272B29; /* chosen: next tone up */
+  --color-border:              #313633; /* chosen: low-chroma dark hairline */
+  --color-scrim:               rgba(0, 0, 0, 0.50); /* chosen */
+
+  --color-text-primary:        #E6EAE3; /* Dark text.primary (§7) — 15.19:1 */
+  --color-text-secondary:      #A7B0A8; /* Dark text.secondary (§7) — 8.30:1 */
+  --color-text-tertiary:       #828B83; /* Dark text.tertiary (§7) — 5.26:1 */
+  --color-text-on-accent:      #0C140F; /* Dark on-accent (§7) */
+
+  --color-accent-green:        #6FC2A8; /* Dark accent.green (§4, §7) — 8.77:1; lighter/lower-chroma */
+  --color-accent-green-fill:   #6FC2A8;
+  --color-accent-green-soft:   #1C2A24; /* chosen: deep green-tinted surface for selected chip */
+
+  --color-semantic-warning:    #E8B23C; /* Dark semantic.warning (§6) — 9.57:1 */
+  --color-semantic-warning-bg: #2A2417; /* chosen: warm-dark wash */
+
+  /* Heat-map (Dark) — values from §5; direction flips: lighter = stronger. */
+  --color-heatmap-strong:      #4FB386; /* high retention */
+  --color-heatmap-good:        #3C7E61; /* solid */
+  --color-heatmap-fair:        #356B55; /* softening */
+  --color-heatmap-weak:        #38453E; /* decaying (muted neutral) */
+  --color-heatmap-faded:       #262B27; /* most-decayed / un-reviewed */
+  --color-heatmap-on-strong:   #0C140F; /* chosen: dark numeral on light-green strong step */
+  --color-heatmap-on-faded:    #A7B0A8; /* chosen: secondary text on dark steps */
+
+  /* Dark surfaces use tone, not shadow; keep shadows minimal/near-absent. */
+  --shadow-card:  0 1px 2px rgba(0, 0, 0, 0.30);
+  --shadow-frame: 0 8px 40px rgba(0, 0, 0, 0.55);
+  --shadow-raised:0 2px 6px rgba(0, 0, 0, 0.30);
+}
+
+/* ==== inlined app.css ==== */
+/* =============================================================================
+   Mihrab — Shared component styles (demo)
+   Built ON tokens.css. References var(--…) ONLY — never raw values.
+
+   Intent (from the design system): calm, reverent, generous spacing,
+   no gaudy shadows, RTL-native (logical insets / flex direction), and
+   consistent across every per-screen HTML page.
+
+   Load order in each HTML page:
+     <link rel="stylesheet" href="./styles/tokens.css">
+     <link rel="stylesheet" href="./styles/app.css">
+   And set the document up RTL, Persian-primary:
+     <html lang="fa" dir="rtl" data-theme="light">  (omit/keep light by default)
+============================================================================= */
+
+/* ---------------------------------------------------------------------------
+   Reset / base
+   --------------------------------------------------------------------------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+html[dir="rtl"] { direction: rtl; }
+
+body {
+  margin: 0;
+  font-family: 'Vazirmatn', 'Estedad', system-ui, 'Segoe UI', Tahoma, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+  color: #1A211E;
+  /* Page chrome around the device mockup — neutral, calm. */
+  background:
+    radial-gradient(120% 80% at 50% 0%, #E7ECE4 0%, #F3F6F1 60%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 16px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+p { margin: 0 0 12px; }
+
+a {
+  color: #1F6E5A;
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+/* Headings inherit the calm UI face; sizes come from the type ramp. */
+h1, h2, h3, h4 {
+  margin: 0;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* ---------------------------------------------------------------------------
+   PHONE FRAME — device mockup (~390px), centered, subtle shadow.
+   The screen scrolls; the frame is fixed-shape. Calm, not gaudy.
+   --------------------------------------------------------------------------- */
+.phone-frame {
+  position: relative;
+  width: 390px;
+  max-width: 100%;
+  height: 844px;
+  max-height: calc(100vh - 48px * 2);
+  background: #F3F6F1;
+  border-radius: 44px;
+  box-shadow: 0 8px 40px rgba(26, 33, 30, 0.12);
+  border: 1px solid #D4DCCF;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Status-bar / notch nod — purely cosmetic for the demo. */
+.phone-frame__statusbar {
+  flex: 0 0 auto;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: 20px;
+  padding-block-start: 8px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #46514B;
+  background: #F3F6F1;
+}
+
+/* Scrolling content region of the screen (sits between header and tab bar). */
+.phone-frame__screen {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  background: #F3F6F1;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ---------------------------------------------------------------------------
+   HEADER — screen / app bar. Title leading (start), rare action trailing (end).
+   --------------------------------------------------------------------------- */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 16px 12px;
+  background: #F3F6F1;
+}
+
+.header__titles {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.header__overline {
+  font-size: 0.8125rem;
+  color: #5C665F;
+  margin-block-end: 4px;
+}
+
+.header__title {
+  font-size: 1.375rem;
+  font-weight: 500;
+  color: #1A211E;
+}
+
+/* Once-per-screen hero day-header (Today). */
+.header__display {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #1A211E;
+  line-height: 1.4;
+}
+
+/* Action sits at the logical end (left in RTL); rare/destructive lives here. */
+.header__action {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  min-height: 48px;
+  border-radius: 999px;
+  color: #46514B;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.header__action:hover { background: #E7ECE4; }
+
+/* ---------------------------------------------------------------------------
+   PAGE PADDING — standard content gutter (compact edge margin = space.4).
+   --------------------------------------------------------------------------- */
+.page {
+  padding: 8px 16px 32px;
+}
+
+.section + .section { margin-block-start: 24px; }
+
+.section__title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #46514B;
+  margin-block-end: 12px;
+  /* leading start; RTL-correct via logical padding */
+  padding-inline-start: 4px;
+}
+
+/* ---------------------------------------------------------------------------
+   CARD — calm surface, soft radius, subtle (not gaudy) shadow.
+   --------------------------------------------------------------------------- */
+.card {
+  background: #E7ECE4;
+  border: 1px solid #D4DCCF;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 1px 2px rgba(26, 33, 30, 0.05), 0 2px 8px rgba(26, 33, 30, 0.04);
+}
+.card + .card { margin-block-start: 12px; }
+
+.card--flat { box-shadow: none; }
+
+.card--raised {
+  background: #DCE3D9;
+  box-shadow: 0 2px 6px rgba(26, 33, 30, 0.07);
+}
+
+.card__title {
+  font-size: 1.375rem;
+  font-weight: 500;
+  color: #1A211E;
+  margin-block-end: 8px;
+}
+
+.card__meta {
+  font-size: 0.8125rem;
+  color: #5C665F;
+}
+
+/* The page-card: a muṣḥaf-page surface (demo uses Amiri Quran, NOT the real
+   immutable QPC pipeline). Generous, reverent, paper-like. */
+.page-card {
+  background: #F3F6F1;
+  border: 1px solid #D4DCCF;
+  border-radius: 20px;
+  padding: 24px 20px;
+  box-shadow: 0 1px 2px rgba(26, 33, 30, 0.05), 0 2px 8px rgba(26, 33, 30, 0.04);
+  text-align: center;
+}
+
+.page-card__ayah {
+  font-family: 'Amiri Quran', 'Vazirmatn', serif;
+  font-size: 1.875rem; /* demo display size for the sacred face */
+  line-height: 2;       /* generous leading for stacked marks */
+  color: #1A211E;
+  margin-block: 16px;
+}
+
+.page-card__caption {
+  font-size: 0.8125rem;
+  color: #5C665F;
+}
+
+/* ---------------------------------------------------------------------------
+   LIST ROWS — leading icon at start, chevron/affordance at end (mirrors in RTL).
+   --------------------------------------------------------------------------- */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 12px 16px;
+  background: #E7ECE4;
+  border: 1px solid #D4DCCF;
+  border-radius: 12px;
+  color: #1A211E;
+  cursor: pointer;
+  transition: background 150ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+.list-row:hover { background: #DCE3D9; }
+
+/* Leading affordance/icon — sits at logical start. */
+.list-row__lead {
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #E2EFE9;
+  color: #1F6E5A;
+  font-size: 0.875rem;
+}
+
+.list-row__body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.list-row__title {
+  font-size: 1rem;
+  color: #1A211E;
+}
+
+.list-row__sub {
+  font-size: 0.8125rem;
+  color: #5C665F;
+  margin-block-start: 4px;
+}
+
+/* Trailing chevron — points to the logical end; flips with RTL automatically. */
+.list-row__chevron {
+  flex: 0 0 auto;
+  color: #5C665F;
+  font-size: 1rem;
+  transform: scaleX(1); /* glyph chosen so it already faces logical-end */
+}
+
+/* ---------------------------------------------------------------------------
+   CHIPS — track chips (named cycles). Calm, pill, selectable.
+   --------------------------------------------------------------------------- */
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;            /* reflow, never truncate (type §7) */
+  gap: 8px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 48px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid #D4DCCF;
+  background: #F3F6F1;
+  color: #46514B;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background 150ms cubic-bezier(0.4, 0.0, 0.2, 1),
+    border-color 150ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+.chip:hover { background: #E7ECE4; }
+
+.chip--selected {
+  background: #E2EFE9;
+  border-color: #1F6E5A;
+  color: #1F6E5A;
+}
+
+/* small leading dot inside a chip */
+.chip__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #1F6E5A;
+}
+
+/* ---------------------------------------------------------------------------
+   BUTTONS — calm. primary (filled green) / secondary (tonal) / text.
+   Hit target ≥ 48dp; grade band can be made taller via --grade.
+   --------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-family: 'Vazirmatn', 'Estedad', system-ui, 'Segoe UI', Tahoma, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  cursor: pointer;
+  transition:
+    background 150ms cubic-bezier(0.4, 0.0, 0.2, 1),
+    box-shadow 150ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.btn--primary {
+  background: #1F6E5A;
+  color: #FFFFFF;
+}
+.btn--primary:hover { box-shadow: 0 2px 6px rgba(26, 33, 30, 0.07); }
+
+.btn--secondary {
+  background: #E7ECE4;
+  color: #1F6E5A;
+  border-color: #D4DCCF;
+}
+.btn--secondary:hover { background: #DCE3D9; }
+
+.btn--text {
+  background: transparent;
+  color: #1F6E5A;
+  padding-inline: 12px;
+}
+.btn--text:hover { background: #E2EFE9; }
+
+.btn--block { width: 100%; }
+
+/* Bottom action band — primary action lives in the thumb zone (layout §5). */
+.action-band {
+  padding: 12px 16px 16px;
+  background: #F3F6F1;
+  border-top: 1px solid #D4DCCF;
+}
+
+/* Grade band — four large, equal buttons, ≥56dp tall, space.2 apart. */
+.grade-band {
+  display: flex;
+  gap: 8px;
+}
+.grade-band .btn {
+  flex: 1 1 0;
+  min-height: 56px;
+  padding-inline: 8px;
+}
+
+/* ---------------------------------------------------------------------------
+   BADGES & CERTAINTY LABELS — small, calm, redundant with text (never color-only).
+   --------------------------------------------------------------------------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  background: #E7ECE4;
+  color: #46514B;
+  border: 1px solid #D4DCCF;
+}
+
+.badge--accent {
+  background: #E2EFE9;
+  color: #1F6E5A;
+  border-color: transparent;
+}
+
+/* Warning badge — the ONLY red-adjacent token; always icon + text (§6). */
+.badge--warning {
+  background: #F4ECD9;
+  color: #8A5A00;
+  border-color: transparent;
+}
+
+/* Certainty label — uncertainty stated in words, never color alone (data-viz). */
+.certainty {
+  font-size: 0.8125rem;
+  color: #5C665F;
+}
+.certainty strong {
+  font-weight: 500;
+  color: #46514B;
+}
+
+/* ---------------------------------------------------------------------------
+   HEAT-MAP GRID — sequential single-hue ramp; each cell redundantly labelled.
+   space.1 gutter between cells (layout §2). Never a scoreboard, never red.
+   --------------------------------------------------------------------------- */
+.heatmap {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 4px;
+}
+
+.heat-cell {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  /* number/label carry the value; color is reinforcement (§5, SC 1.4.1). */
+}
+
+.heat-cell__num   { font-size: 0.875rem; line-height: 1; }
+.heat-cell__label { font-size: 0.6875rem; opacity: 0.85; line-height: 1; }
+
+/* Ramp steps — strong (calm green) → faded (muted neutral). */
+.heat-cell--strong { background: #2E7D5B; color: #FFFFFF; }
+.heat-cell--good   { background: #5FA382;   color: #FFFFFF; }
+.heat-cell--fair   { background: #93BFA6;   color: #46514B; }
+.heat-cell--weak   { background: #B9C3BC;   color: #46514B; }
+.heat-cell--faded  { background: #D2D8D2;  color: #46514B; }
+
+/* Heat-map legend row. */
+.heat-legend {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-block-start: 12px;
+  font-size: 0.8125rem;
+  color: #5C665F;
+}
+.heat-legend__swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+/* ---------------------------------------------------------------------------
+   BOTTOM TAB BAR — Today · Muṣḥaf · Mutashābihāt · Progress · Settings.
+   In RTL, "Today" (home) sits at the trailing/rightmost edge (layout §3).
+   Use plain DOM order (Today first); RTL places it at the right automatically.
+   --------------------------------------------------------------------------- */
+.tab-bar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: stretch;
+  background: #E7ECE4;
+  border-top: 1px solid #D4DCCF;
+  padding-block: 4px;
+  padding-inline: 4px;
+}
+
+.tab {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 48px;
+  padding: 4px;
+  background: transparent;
+  border: none;
+  color: #5C665F;
+  font-family: 'Vazirmatn', 'Estedad', system-ui, 'Segoe UI', Tahoma, sans-serif;
+  font-size: 0.6875rem;
+  cursor: pointer;
+}
+
+.tab__icon { font-size: 1.375rem; line-height: 1; }
+
+.tab--active { color: #1F6E5A; }
+.tab--active .tab__icon { color: #1F6E5A; }
+
+/* ---------------------------------------------------------------------------
+   LANGUAGE PILL — fa / ckb / ar switch. RTL-correct, calm pill segments.
+   --------------------------------------------------------------------------- */
+.lang-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px;
+  gap: 4px;
+  border-radius: 999px;
+  background: #E7ECE4;
+  border: 1px solid #D4DCCF;
+}
+
+.lang-pill__seg {
+  min-height: 36px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: #46514B;
+  font-family: 'Vazirmatn', 'Estedad', system-ui, 'Segoe UI', Tahoma, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+.lang-pill__seg--active {
+  background: #F3F6F1;
+  color: #1F6E5A;
+  box-shadow: 0 1px 2px rgba(26, 33, 30, 0.05), 0 2px 8px rgba(26, 33, 30, 0.04);
+}
+
+/* ---------------------------------------------------------------------------
+   RTL-CORRECT UTILITIES — logical margins/padding, flex direction, alignment.
+   Use these instead of physical left/right (layout §3).
+   --------------------------------------------------------------------------- */
+.u-row     { display: flex; flex-direction: row; align-items: center; }
+.u-col     { display: flex; flex-direction: column; }
+.u-between { display: flex; align-items: center; justify-content: space-between; }
+.u-gap-1   { gap: 4px; }
+.u-gap-2   { gap: 8px; }
+.u-gap-3   { gap: 12px; }
+.u-gap-4   { gap: 16px; }
+.u-grow    { flex: 1 1 auto; min-width: 0; }
+
+/* Logical spacing helpers (auto-flip in RTL). */
+.u-mt-2 { margin-block-start: 8px; }
+.u-mt-3 { margin-block-start: 12px; }
+.u-mt-4 { margin-block-start: 16px; }
+.u-mt-6 { margin-block-start: 24px; }
+.u-ms-2 { margin-inline-start: 8px; }
+.u-ms-3 { margin-inline-start: 12px; }
+.u-me-2 { margin-inline-end: 8px; }
+.u-me-3 { margin-inline-end: 12px; }
+
+.u-text-start  { text-align: start; }
+.u-text-end    { text-align: end; }
+.u-text-center { text-align: center; }
+
+/* Text-role helpers mapped to the type ramp. */
+.u-display   { font-size: 1.75rem; font-weight: 600; line-height: 1.4; }
+.u-title     { font-size: 1.375rem;   font-weight: 500; line-height: 1.4; }
+.u-body      { font-size: 1rem;     font-weight: 400; }
+.u-label     { font-size: 0.875rem;    font-weight: 500; }
+.u-caption   { font-size: 0.8125rem;  color: #5C665F; }
+
+.u-secondary { color: #46514B; }
+.u-tertiary  { color: #5C665F; }
+.u-accent    { color: #1F6E5A; }
+
+/* Numerals: let the locale digits render naturally; never tighten Arabic runs. */
+.u-numeral { letter-spacing: 0; }
+
+/* Reduce-motion: the OS flag always wins (motion §5). Demo honours it too. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+</style>
+</head>
+
+<body class="landing">
+
+  <!-- Visual-only language switch, top-start corner -->
+  <div class="lang-pill lang-pill--float" role="group" aria-label="زبان">
+    <button class="lang-pill__seg lang-pill__seg--active" type="button" aria-pressed="true">fa</button>
+    <button class="lang-pill__seg" type="button" aria-pressed="false">ckب</button>
+    <button class="lang-pill__seg" type="button" aria-pressed="false">ar</button>
+  </div>
+
+  <main class="hub">
+
+    <!-- =========================== MASTHEAD =========================== -->
+    <header class="hub-head">
+      <p class="hub-head__overline">مِحراب · Hifz Companion</p>
+      <h1 class="hub-head__title">نمونهٔ نمایشی</h1>
+      <p class="hub-head__sub">
+        یک نمونهٔ بصری ساکن (static) از اپلیکیشنِ نگه‌داریِ حفظِ قرآن — رایگان، آفلاین،
+        بدون هوشِ مصنوعی. این صفحه‌ها فقط برای دیدنِ ظاهرِ اپ پیش از ساختِ نهایی با
+        Flutter آماده شده‌اند.
+      </p>
+    </header>
+
+    <!-- =========================== CONCEPT =========================== -->
+    <section class="card concept" aria-labelledby="concept-title">
+      <h2 class="card__title" id="concept-title">ایده در یک نفس</h2>
+      <p>
+        یک موتورِ نگه‌داریِ حفظ که در پوششِ سنتیِ
+        <strong>سبق</strong> (تازه) · <strong>سبقی</strong> (نزدیک) ·
+        <strong>منزل</strong> (دور) پیچیده شده است. زمان‌بندیِ مرور به‌آرامی و در پس‌زمینه
+        انجام می‌شود؛ هیچ صفحه‌ای <strong>بی‌صدا فراموش نمی‌شود</strong> و موتور هرگز نمی‌گوید
+        صفحه‌ای «تمام» شده است.
+      </p>
+      <p>
+        بدون نشان، بدون زنجیره، بدون جشن — آرام و باوقار. کارِ روزانه محدود و متناهی است:
+        وقتی همه را خواندید، روزتان کامل می‌شود.
+      </p>
+      <div class="concept__terms" aria-hidden="true">
+        <span class="chip"><span class="chip__dot"></span>سبق</span>
+        <span class="chip"><span class="chip__dot"></span>سبقی</span>
+        <span class="chip"><span class="chip__dot"></span>منزل</span>
+        <span class="chip">جزء · ختم</span>
+      </div>
+    </section>
+
+    <!-- ========================= DISCLAIMER ========================== -->
+    <aside class="disclaimer" role="note" aria-label="یادداشتِ نمونه">
+      <span class="disclaimer__icon" aria-hidden="true">ⓘ</span>
+      <div class="disclaimer__body">
+        <p class="disclaimer__title">این یک نمونهٔ نمایشی است</p>
+        <p class="disclaimer__text">
+          رندرِ متنِ قرآن در این نمونه جای‌گزین است (فونتِ Amiri Quran از CDN)؛ اپِ نهایی
+          متنِ مصحف را با فونت‌های گلیفِ KFGQPC رندر می‌کند. چیدمان راست‌به‌چپ و
+          فارسی‌محور است.
+        </p>
+      </div>
+    </aside>
+
+    <!-- =========================== GALLERY =========================== -->
+    <h2 class="hub-section__title">صفحه‌ها</h2>
+
+    <ul class="gallery">
+
+      <!-- 1 · ONBOARDING -->
+      <li>
+        <a class="screen-card" href="onboarding.html" aria-label="صفحهٔ شروع و آشناسازی — onboarding">
+          <div class="thumb" aria-hidden="true">
+            <div class="thumb__header">
+              <span class="thumb__overline"></span>
+              <span class="thumb__title"></span>
+            </div>
+            <div class="thumb__body">
+              <p class="sk-glyph">بِسْمِ ٱللَّهِ</p>
+              <div class="sk-line sk-line--80"></div>
+              <div class="sk-line sk-line--60"></div>
+              <div class="sk-line sk-line--45"></div>
+              <div class="sk-row"><span class="sk-dot"></span><span class="sk-stack"><span class="sk-line sk-line--60"></span></span></div>
+            </div>
+            <div class="thumb__tabs">
+              <span class="thumb__tab thumb__tab--active"></span>
+              <span class="thumb__tab"></span><span class="thumb__tab"></span>
+              <span class="thumb__tab"></span><span class="thumb__tab"></span>
+            </div>
+          </div>
+          <div class="screen-card__cap">
+            <span class="screen-card__num">۰۱</span>
+            <span class="screen-card__name">شروع و آشناسازی</span>
+          </div>
+          <p class="screen-card__desc">پذیرشِ سرد: نیّت و حریمِ خصوصی — ما هرگز صدای شما را ضبط نمی‌کنیم.</p>
+          <p class="screen-card__file">onboarding.html</p>
+        </a>
+      </li>
+
+      <!-- 2 · TODAY -->
+      <li>
+        <a class="screen-card" href="today.html" aria-label="صفحهٔ امروز — جلسهٔ روزانه">
+          <div class="thumb" aria-hidden="true">
+            <div class="thumb__header">
+              <span class="thumb__overline"></span>
+              <span class="thumb__title"></span>
+            </div>
+            <div class="thumb__body">
+              <div class="sk-row"><span class="sk-dot"></span><span class="sk-stack"><span class="sk-line sk-line--80"></span><span class="sk-line sk-line--45"></span></span></div>
+              <div class="sk-row"><span class="sk-dot"></span><span class="sk-stack"><span class="sk-line sk-line--80"></span><span class="sk-line sk-line--60"></span></span></div>
+              <div class="sk-row"><span class="sk-dot"></span><span class="sk-stack"><span class="sk-line sk-line--60"></span></span></div>
+            </div>
+            <div class="thumb__tabs">
+              <span class="thumb__tab thumb__tab--active"></span>
+              <span class="thumb__tab"></span><span class="thumb__tab"></span>
+              <span class="thumb__tab"></span><span class="thumb__tab"></span>
+            </div>
+          </div>
+          <div class="screen-card__cap">
+            <span class="screen-card__num">۰۲</span>
+            <span class="screen-card__name">امروز</span>
+          </div>
+          <p class="screen-card__desc">جلسهٔ روزانه: بودجهٔ امروز و فهرستِ متناهیِ مرور — دور/منزل، نزدیک/سبقی، سبق.</p>
+          <p class="screen-card__file">today.html</p>
+        </a>
+      </li>
+
+      <!-- 3 · RECITE -->
+      <li>
+        <a class="screen-card" href="recite.html" aria-label="صفحهٔ قرائت و ارزیابی">
+          <div class="thumb" aria-hidden="true">
+            <div class="thumb__header">
+              <span class="thumb__overline"></span>
+              <span class="thumb__title"></span>
+            </div>
+            <div class="thumb__body">
+              <p class="sk-glyph sk-glyph--blur">ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ</p>
+              <div class="sk-line sk-line--60" style="align-self:center"></div>
+              <div style="flex:1 1 auto"></div>
+              <div class="sk-grade"><span></span><span></span><span></span><span></span></div>
+            </div>
+            <div class="thumb__tabs">
+              <span class="thumb__tab thumb__tab--active"></span>
+              <span class="thumb__tab"></span><span class="thumb__tab"></span>
+              <span class="thumb__tab"></span><span class="thumb__tab"></span>
+            </div>
+          </div>
+          <div class="screen-card__cap">
+            <span class="screen-card__num">۰۳</span>
+            <span class="screen-card__name">قرائت و ارزیابی</span>
+          </div>
+          <p class="screen-card__desc">از حفظ بخوانید: صفحه پنهان است، آشکار کنید، سپس با چهار دکمهٔ آرام ارزیابی کنید.</p>
+          <p class="screen-card__file">recite.html</p>
+        </a>
+      </li>
+
+      <!-- 4 · MUSHAF -->
+      <li>
+        <a class="screen-card" href="mushaf.html" aria-label="صفحهٔ مصحف‌خوان">
+          <div class="thumb" aria-hidden="true">
+            <div class="thumb__header">
+              <span class="thumb__overline"></span>
+              <span class="thumb__title"></span>
+            </div>
+            <div class="thumb__body">
+              <p class="sk-glyph">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+              <p class="sk-glyph">ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ</p>
+              <p class="sk-glyph">ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+            </div>
+            <div class="thumb__tabs">
+              <span class="thumb__tab"></span>
+              <span class="thumb__tab thumb__tab--active"></span>
+              <span class="thumb__tab"></span><span class="thumb__tab"></span><span class="thumb__tab"></span>
+            </div>
+          </div>
+          <div class="screen-card__cap">
+            <span class="screen-card__num">۰۴</span>
+            <span class="screen-card__name">مصحف</span>
+          </div>
+          <p class="screen-card__desc">مصحف‌خوان: یک صفحهٔ کتاب‌مانند با سطرِ روایت و نشانگرِ صفحه/جزء/حزب.</p>
+          <p class="screen-card__file">mushaf.html</p>
+        </a>
+      </li>
+
+      <!-- 5 · MUTASHABIHAT -->
+      <li>
+        <a class="screen-card" href="mutashabihat.html" aria-label="صفحهٔ تمرینِ متشابهات">
+          <div class="thumb" aria-hidden="true">
+            <div class="thumb__header">
+              <span class="thumb__overline"></span>
+              <span class="thumb__title"></span>
+            </div>
+            <div class="thumb__body">
+              <div class="sk-row"><span class="sk-stack"><span class="sk-glyph" style="text-align:start">…وَأَقِيمُوا الصَّلَاةَ</span></span></div>
+              <div class="sk-row"><span class="sk-stack"><span class="sk-glyph" style="text-align:start">…وَأَقِيمُوا الصَّلَاةَ وَآتُوا</span></span></div>
+              <div class="sk-line sk-line--45" style="align-self:center"></div>
+            </div>
+            <div class="thumb__tabs">
+              <span class="thumb__tab"></span><span class="thumb__tab"></span>
+              <span class="thumb__tab thumb__tab--active"></span>
+              <span class="thumb__tab"></span><span class="thumb__tab"></span>
+            </div>
+          </div>
+          <div class="screen-card__cap">
+            <span class="screen-card__num">۰۵</span>
+            <span class="screen-card__name">متشابهات</span>
+          </div>
+          <p class="screen-card__desc">تمرینِ آیاتِ مشابه: گروه‌های اشتباه‌انگیز و تمرینِ تمایزِ دو قطعهٔ نزدیک به هم.</p>
+          <p class="screen-card__file">mutashabihat.html</p>
+        </a>
+      </li>
+
+      <!-- 6 · PROGRESS -->
+      <li>
+        <a class="screen-card" href="progress.html" aria-label="صفحهٔ پیشرفت و نقشهٔ گرمایی نگه‌داری">
+          <div class="thumb" aria-hidden="true">
+            <div class="thumb__header">
+              <span class="thumb__overline"></span>
+              <span class="thumb__title"></span>
+            </div>
+            <div class="thumb__body">
+              <div class="sk-heat">
+                <span class="sk-h-strong"></span><span class="sk-h-strong"></span><span class="sk-h-good"></span>
+                <span class="sk-h-good"></span><span class="sk-h-fair"></span><span class="sk-h-weak"></span>
+                <span class="sk-h-good"></span><span class="sk-h-fair"></span><span class="sk-h-fair"></span>
+                <span class="sk-h-weak"></span><span class="sk-h-faded"></span><span class="sk-h-faded"></span>
+                <span class="sk-h-fair"></span><span class="sk-h-weak"></span><span class="sk-h-weak"></span>
+                <span class="sk-h-faded"></span><span class="sk-h-faded"></span><span class="sk-h-strong"></span>
+              </div>
+            </div>
+            <div class="thumb__tabs">
+              <span class="thumb__tab"></span><span class="thumb__tab"></span><span class="thumb__tab"></span>
+              <span class="thumb__tab thumb__tab--active"></span>
+              <span class="thumb__tab"></span>
+            </div>
+          </div>
+          <div class="screen-card__cap">
+            <span class="screen-card__num">۰۶</span>
+            <span class="screen-card__name">پیشرفت</span>
+          </div>
+          <p class="screen-card__desc">نقشهٔ گرماییِ نگه‌داریِ کلِ قرآن: سبزِ آرام با افول به خاکستریِ ملایم — هرگز قرمز.</p>
+          <p class="screen-card__file">progress.html</p>
+        </a>
+      </li>
+
+      <!-- 7 · SETTINGS -->
+      <li>
+        <a class="screen-card" href="settings.html" aria-label="صفحهٔ تنظیمات">
+          <div class="thumb" aria-hidden="true">
+            <div class="thumb__header">
+              <span class="thumb__overline"></span>
+              <span class="thumb__title"></span>
+            </div>
+            <div class="thumb__body">
+              <div class="sk-row"><span class="sk-dot"></span><span class="sk-stack"><span class="sk-line sk-line--80"></span></span></div>
+              <div class="sk-row"><span class="sk-dot"></span><span class="sk-stack"><span class="sk-line sk-line--60"></span></span></div>
+              <div class="sk-row"><span class="sk-dot"></span><span class="sk-stack"><span class="sk-line sk-line--80"></span></span></div>
+              <div class="sk-row"><span class="sk-dot"></span><span class="sk-stack"><span class="sk-line sk-line--45"></span></span></div>
+            </div>
+            <div class="thumb__tabs">
+              <span class="thumb__tab"></span><span class="thumb__tab"></span>
+              <span class="thumb__tab"></span><span class="thumb__tab"></span>
+              <span class="thumb__tab thumb__tab--active"></span>
+            </div>
+          </div>
+          <div class="screen-card__cap">
+            <span class="screen-card__num">۰۷</span>
+            <span class="screen-card__name">تنظیمات</span>
+          </div>
+          <p class="screen-card__desc">زبان، تقویم، سیستمِ اعداد، مجموعهٔ اصطلاحات، پوسته، مصحف/روایت و چرخهٔ مرور.</p>
+          <p class="screen-card__file">settings.html</p>
+        </a>
+      </li>
+
+      <!-- 8 · SCIENCE -->
+      <li>
+        <a class="screen-card" href="science.html" aria-label="صفحهٔ علمی که دنبال می‌کنیم">
+          <div class="thumb" aria-hidden="true">
+            <div class="thumb__header">
+              <span class="thumb__overline"></span>
+              <span class="thumb__title"></span>
+            </div>
+            <div class="thumb__body">
+              <div class="sk-line sk-line--80"></div>
+              <div class="sk-line sk-line--60"></div>
+              <div class="sk-row"><span class="sk-dot"></span><span class="sk-stack"><span class="sk-line sk-line--80"></span><span class="sk-line sk-line--45"></span></span></div>
+              <div class="sk-line sk-line--60"></div>
+            </div>
+            <div class="thumb__tabs">
+              <span class="thumb__tab"></span><span class="thumb__tab"></span>
+              <span class="thumb__tab"></span><span class="thumb__tab"></span><span class="thumb__tab"></span>
+            </div>
+          </div>
+          <div class="screen-card__cap">
+            <span class="screen-card__num">۰۸</span>
+            <span class="screen-card__name">علمی که دنبال می‌کنیم</span>
+          </div>
+          <p class="screen-card__desc">ادعاهای ساده‌زبان: چرا مرور فاصله‌دار است، چرا یادآوریِ کلِ صفحه، چرا بدون زنجیره.</p>
+          <p class="screen-card__file">science.html</p>
+        </a>
+      </li>
+
+    </ul>
+
+    <!-- ============================ FOOTER ============================ -->
+    <footer class="hub-foot">
+      <p>
+        مِحراب — همراهِ حفظ. ساخته‌شده به‌عنوان صدقهٔ جاریه؛ رایگان، آفلاین، بدونِ هوشِ
+        مصنوعی. این یک نمونهٔ نمایشیِ ساکن است و هنوز اپِ واقعی نیست.
+      </p>
+    </footer>
+
+  </main>
+</body>
+</html>
