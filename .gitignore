@@ -4,6 +4,9 @@
 # Logs / scratch
 *.log
 
+# Auto-saved workflow scripts (Workflow tool)
+**/.claude/workflows/
+
 # Flutter / Dart (when the app is scaffolded)
 .dart_tool/
 .packages
