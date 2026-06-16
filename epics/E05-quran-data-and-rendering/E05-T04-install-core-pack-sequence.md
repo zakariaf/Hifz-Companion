@@ -1,0 +1,80 @@
+# E05-T04 — Sequenced installCorePack (download → verify → promote → build reference DB → stamp) with calm RTL onboarding states
+
+| | |
+|---|---|
+| **Epic** | [E05 — Quran Data & Immutable Rendering](EPIC.md) |
+| **Size** | M (≈1-2 days) |
+| **Depends on** | E05-T02, E05-T03, E03 |
+| **Skills** | domain-asset-pack-integrity, eng-create-riverpod-store, eng-add-localized-string |
+
+## Goal
+
+`installCorePack` exists in `/assets` as one strictly-ordered sequence — download → verify (E05-T03) → promote every verified file into `getApplicationDocumentsDirectory()` → build the reference DB (hand-off to E05-T05/E03's single write path) → stamp `text_checksum_verified_at` — so that no partially-trusted state is ever observable: nothing renders Quran until the *entire* pack is verified and promoted, and the stamp is written last, inside the same path. A Riverpod download controller (`Notifier`/`AsyncNotifier`, never legacy) exposes one immutable state with the calm, non-blaming enum `awaitingFirstDownload` (one-time download needed + Retry) · `downloadInterrupted` (the `.part` discarded) · `ready`, plus `downloading`/`integrityFailure`, every label `gen_l10n`-localized for fa/ckb/ar, RTL-correct, `type.body` / `color.text.secondary`, no exclamation marks, no scolding. The downloader and verifier are *injected* (E05-T02/T03 boundaries); this task owns only the sequencing, the controller, and the strings.
+
+## Context & references
+
+| Reference | What to take from it |
+|---|---|
+| `docs/engineering/09-asset-packs-and-offline-integrity.md` §2 (The one-time download) | The verbatim `installCorePack` sequence and the rule that download → verify → build-DB is ordered so **no partially-trusted state is ever observable**; promote only a fully-verified pack into app-documents, then build the DB, then `_appMeta.set('text_checksum_verified_at', …)` LAST; the three-row state table (`awaitingFirstDownload` / `downloadInterrupted` / `ready`) and "offline at first run is not a failure to scold" |
+| `docs/engineering/09-asset-packs-and-offline-integrity.md` §3 (fail-closed) | The total state machine this sequence calls into (match → promote; mismatch → re-fetch once; still mismatch → `integrityFailure`; missing/truncated → mismatch) — owned by E05-T03; this task consumes its result, never re-implements it |
+| `docs/PRD.md` §11.1.1, §12.1, R3 | Download is part of onboarding; the request carries only the public asset URL; refuse unverified assets; the calm/non-blaming tone obligation (R3 — no gamification/guilt) on every state string |
+| `docs/engineering/04-flutter-and-state-patterns.md` §1.1–§1.3, §4 | `Notifier`/`AsyncNotifier` only (no legacy `StateNotifierProvider`); immutable state via `copyWith`; the single write path (persist-before-republish) the DB-build/stamp hand-off must respect; the `error:` → calm `RetryView` branch; no `DateTime.now()` in shell logic |
+| Skill `domain-asset-pack-integrity` (+ `template.dart`) | The canonical pattern steps 5 (promote-then-build, "verified bytes in documents," clean hand-off) and 6 (the calm RTL onboarding states, copy posture, airplane-mode proof). **Note:** the template's `StateNotifier` controller is illustrative only — implement the controller as a Riverpod 3.x `AsyncNotifier` per `eng-create-riverpod-store` |
+| Skill `eng-create-riverpod-store` (+ `template.dart`) | The controller shape: modern `Notifier`/`AsyncNotifier` (legacy banned), immutable UI state, injected collaborators via `Provider` wired once in the composition root, propagate-don't-swallow errors surfaced as a calm retry state, the store never navigates (the `go_router` readiness guard decides the screen after `ready`) |
+| Skill `eng-add-localized-string` (+ `template.md`) | Every state string is an ARB key authored in `app_ar.arb` (the `ar` template/base) and transcreated for `fa`/`ckb`; `Semantics` labels on the Retry control; `numberFormatFor(locale)` for the progress percentage (Extended Arabic-Indic for fa/ckb, Arabic-Indic for ar); FSI/PDI isolation for any interpolated count; the four-attribute voice (no exclamation marks, no guilt/loss, no "you must") |
+| `docs/science/CLAIMS.md` C-048 | The one user-facing claim behind this surface — "works fully offline … only network use is a one-time, checksum-verified public asset download, then airplane-mode forever"; the `ready` / privacy copy must trace here and assert nothing beyond it |
+| Siblings: E05-T02, E05-T03, E05-T05, E03 | T02 supplies the injected quarantined `PackDownloader` (with its deterministic fake); T03 supplies the chunked verifier + fail-closed `verifyOnce`/state machine this sequence calls per file; T05 owns loading verified bytes into E03's read-only Drift reference tables — this task hands verified files to T05's `buildReferenceDb` and does NOT author DDL/migrations; E03 owns the `app_meta` row + the single write path the stamp uses |
+
+## Implementation notes
+
+TEST-FIRST for the correctness-critical ordering: write the sequencing tests below (no-partial-trust ordering, stamp-is-last, fail-closed short-circuit) over the deterministic `PackDownloader`/verifier fakes **before** the `installCorePack` body, so the "stamp must not appear before every file is promoted" invariant exists and fails first.
+
+1. **File**: the sequence lives in `/assets` (e.g. `packages/assets/lib/src/core_pack_installer.dart`), the only package permitted a networking import — but this task adds **no** new networking call: it composes the injected `PackDownloader` (E05-T02) and the verifier (E05-T03). `CorePackInstaller(this._downloader, this._verifier, this._referenceDbBuilder, this._appMeta)` — all collaborators injected, none constructed here.
+2. **The sequence is total and ordered** per 09 §2: iterate `EmbeddedManifest.core` (text, QUL layout, mutashābihāt, all 604 QPC fonts); for each, call the verifier's per-file `verifyOnce` (E05-T03) which returns the verified temp `File` or `null`. On the first `null`, return `CorePackResult.integrityFailure(entry.name)` immediately — **short-circuit**, promote nothing. Only after *every* file verifies: `await _promoteToDocuments(verified)` (move temp `.part`→app-documents canonical copy), then `await _referenceDbBuilder.build(verified)` (E05-T05 / E03 single write path), then **last** `await _appMeta.setVerifiedAt(...)`. The stamp is the final durable signal that the pack is whole.
+3. **Promote = atomic-as-possible move into `getApplicationDocumentsDirectory()`**: rename verified temp files into a documents subdir; if a move fails mid-batch, the stamp is never written, so the next launch sees an un-stamped (un-ready) install and re-runs the sequence — never a half-promoted "trusted" state.
+4. **No partially-trusted state is observable**: the readiness gate keys off `text_checksum_verified_at` being present (read by the `go_router` redirect guard / readiness provider). Until the stamp exists, the muṣḥaf is unreachable. Do not expose any intermediate "some files ready" signal.
+5. **The clock for the stamp is injected**, not `DateTime.now()` in shell logic: the stamp's "when" comes through E03's `app_meta` write path / the injected clock per `eng-create-riverpod-store` §8 — keep `DateTime.now()` out of `/assets` sequencing; if the `app_meta` row stores a UTC instant, it is written by E03's repository, not minted here.
+6. **Controller**: `CorePackDownloadController extends AsyncNotifier<DownloadState>` (or a `Notifier<DownloadState>` over an explicit phase) in the onboarding feature's providers — **not** `StateNotifier` (legacy, CI-grep-failing). Immutable `DownloadState { phase, received, total, failedFile }` with `copyWith`. `start()`/`retry()` run `installCorePack`; map results: `_Ready` → `ready`; `_IntegrityFailure(file)` → `integrityFailure`; a `DioException` connectionError at first run → `awaitingFirstDownload`; an interrupted transfer → `downloadInterrupted`. Errors propagate to a calm state, never `try?`-swallowed; Retry is always offered (never a dead end). The controller publishes state only — it never navigates (the readiness guard advances onboarding once `ready`).
+7. **DI**: providers (`downloaderProvider`, `verifierProvider`, `referenceDbBuilderProvider`, `corePackDownloadProvider`) are declared here but the live `PackDownloader`/DB are wired once in `main`'s `ProviderScope` overrides; tests override with the E05-T02 fake and E05-T03 verifier doubles. Un-overridden placeholders throw loudly.
+8. **Strings**: author every state label + the Retry `Semantics` label as ARB keys in `lib/l10n/app_ar.arb` first, transcreate `fa`/`ckb`. Copy posture (09 §2 / R3 / voice charter): `awaitingFirstDownload` = "a one-time download to set up your muṣḥaf … on any connection, once." (calm, no blame); `downloadInterrupted` = neutral resume/retry; `ready`/privacy line traces to **C-048**; `integrityFailure` = a calm honest message + Retry that NEVER offers a degraded render. `type.body` / `color.text.secondary`, no exclamation marks, no "you must". The progress percentage goes through `numberFormatFor(locale)` and is FSI/PDI-isolated.
+9. **Pitfalls to avoid**: writing `text_checksum_verified_at` before every file is promoted (the exact inversion the ordering test must catch); promoting a `.part` or reading a temp file as Quran; using `StateNotifier`/`legacy.dart`; calling `DateTime.now()` in `/assets`; swallowing the integrity failure into a "retry silently" loop (it is a calm honest *state*, surfaced to the user); navigating from inside the controller; re-implementing the fail-closed machine here (it is E05-T03); duplicating E03's DDL/migration in the build hand-off (T05/E03 own it); adding a second `dio`/`http` call.
+
+## Acceptance criteria
+
+- [ ] `CorePackInstaller.installCorePack({required CancelToken cancel})` lives in `/assets`, composes the **injected** E05-T02 downloader and E05-T03 verifier, and adds no new networking import (verifiable by grep — `/assets` is the only networking module and no second client appears).
+- [ ] The sequence is strictly ordered: every manifest file is verified, then *all* promoted to `getApplicationDocumentsDirectory()`, then the reference DB built, then `text_checksum_verified_at` stamped **last** — proven by an ordering test.
+- [ ] A single file's fail-closed `null` short-circuits to `CorePackResult.integrityFailure(name)`; nothing is promoted, no DB built, no stamp written.
+- [ ] No partially-trusted state is observable: readiness is gated solely on the stamp's presence; until it exists the muṣḥaf is unreachable; a mid-promote failure leaves an un-stamped install that re-runs cleanly on next launch.
+- [ ] The controller is a Riverpod 3.x `AsyncNotifier`/`Notifier` (no `StateNotifier`, no `flutter_riverpod/legacy.dart` import), exposes one immutable `DownloadState` with `copyWith`, maps results to `awaitingFirstDownload` / `downloadInterrupted` / `downloading` / `ready` / `integrityFailure`, propagates errors to a calm retry state (no `try?`-swallow), and never navigates.
+- [ ] Collaborators are injected via `Provider`s overridden once in the composition root; tests override them with the E05-T02 fake + E05-T03 doubles; un-overridden placeholders throw loudly.
+- [ ] Every state string + the Retry `Semantics` label is an ARB key in `app_ar.arb` with transcreated `fa`/`ckb` values; no hard-coded literal in the feature; the progress percentage uses `numberFormatFor(locale)` (Extended Arabic-Indic fa/ckb, Arabic-Indic ar) and is FSI/PDI-isolated.
+- [ ] All copy is RTL-correct, `type.body` / `color.text.secondary`, contains no exclamation mark and no guilt/blame/"you must" phrasing; the `ready`/privacy line traces to CLAIMS C-048; `integrityFailure` offers Retry and never a degraded render.
+- [ ] No `DateTime.now()` / `Calendar.current` in `/assets` sequencing; the stamp's instant is written through E03's `app_meta` write path.
+
+## Tests
+
+- **`packages/assets/test/core_pack_installer_test.dart`** (unit, written FIRST, runs offline under an `HttpOverrides` that throws — no real socket):
+  - *Stamp-is-last ordering*: a recording downloader/verifier/DB-builder/app-meta set of fakes asserts, at the moment `setVerifiedAt` is called, that **every** manifest file is already promoted and the DB build already returned — proving the stamp is strictly last.
+  - *No-partial-trust*: with one file's verifier returning `null`, assert `integrityFailure(name)` is returned, `_promoteToDocuments` was never called, no DB built, and `text_checksum_verified_at` is unset.
+  - *Mid-promote failure*: a promote that throws on file *k* leaves the stamp unset; a re-run from a clean state reaches `ready` — no half-promoted "trusted" residue.
+  - *Happy path*: all files verify → all promoted → DB built once → stamp written → `CorePackResult.ready()`.
+  - *Cancellation*: a cancelled `CancelToken` aborts without promoting or stamping.
+- **`features/onboarding/test/core_pack_download_controller_test.dart`** (provider/unit, fakes overridden in a `ProviderContainer`):
+  - result→state mapping for `_Ready`→`ready`, `_IntegrityFailure`→`integrityFailure(failedFile)`, `DioException` connectionError→`awaitingFirstDownload`, interrupted→`downloadInterrupted`;
+  - `retry()` re-runs the pipeline and can reach `ready` after a transient failure;
+  - error never `try?`-swallowed; controller performs no navigation.
+- **`features/onboarding/test/core_pack_download_view_golden_test.dart`** (widget/golden, real bundled UI fonts — never Ahem, under RTL `Directionality`): the `awaitingFirstDownload`, `downloadInterrupted`, `ready`, and `integrityFailure` states render calmly for fa/ckb/ar with locale numerals on the progress percentage, no exclamation marks, `Semantics` label present on Retry.
+- **Offline guard**: the installer and controller suites install an `HttpOverrides` that throws, asserting the deterministic fakes carry the whole flow with the radio off.
+
+## Definition of Done
+
+- [ ] All acceptance criteria met; the installer + controller + golden suites green locally and in CI on every PR.
+- [ ] **Offline / no-network:** this task adds no networking call; the only networking import remains `/assets`'s E05-T02 downloader; the banned-import + dependency-allow-list gates stay green; tests run under an `HttpOverrides` that throws.
+- [ ] **No AI / no microphone:** nothing in the sequence or controller uses AI, ASR, or audio; the path moves and verifies inert bytes only.
+- [ ] **Text fidelity (existential):** no Quran byte is promoted or read as muṣḥaf before the full pack verifies; a partial/failed pack yields `integrityFailure` and zero promotion; the stamp — the readiness signal — is written only after every file is verified and promoted.
+- [ ] **Fail-closed honored, not re-implemented:** the sequence consumes E05-T03's total state machine and short-circuits to a calm `integrityFailure` + Retry; there is no soft path and no degraded render.
+- [ ] **RTL + fa/ckb/ar localization:** every state string + the Retry `Semantics` label ships via `gen_l10n` for fa/ckb/ar (ARB key authored in `app_ar.arb`, transcreated), `type.*` tokens, locale numerals via `numberFormatFor(locale)`, FSI/PDI isolation; all states render under RTL `Directionality`.
+- [ ] **Accessibility:** the Retry control and progress carry `Semantics` labels and meet thumb-zone/contrast norms; the download view golden runs under an RTL `Directionality`.
+- [ ] **Sect-neutral adab / calm copy:** no state blames the user for being offline; no exclamation marks, no guilt/fear/loss, no "you must/should"; the `ready`/privacy line traces to CLAIMS C-048 and asserts nothing beyond it; no badge/streak/celebration on completion.
+- [ ] **Nothing safe to drop:** the sequence and controller are correctness-critical and never degrade; readiness is all-or-nothing on the stamp.
+- [ ] **Deterministic tests:** the ordering, no-partial-trust, mapping, and golden suites are deterministic over injected fakes with no hidden clock and no live socket; the stamp's instant enters through E03's injected write path.
