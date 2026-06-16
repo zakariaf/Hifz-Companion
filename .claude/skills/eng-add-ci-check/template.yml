@@ -1,0 +1,200 @@
+# SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# .github/workflows/ci.yml — Hifz Companion CI gates.
+# Each job makes one or more PRD §20 release-blocking gates a check a build
+# either passes or fails. A red gate blocks the release, full stop — never add
+# `continue-on-error: true` to a gate. See docs/engineering/11-testing-strategy.md
+# §8 (job shape + gate→job table) and docs/engineering/13-oss-repo-and-release.md §4.
+#
+# TOOLCHAIN IS PINNED EVERYWHERE: a floating Flutter version silently re-renders
+# muṣḥaf goldens and breaks the reproducible-build claim. (11 §8, 13 §4)
+
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# TODO: keep this in ONE place and reference it from every job's flutter-action.
+env:
+  FLUTTER_VERSION: '3.38.0' # TODO: match the README baseline exactly. (11 §8, 13 §4)
+
+# PRD §20 gate → job mapping (keep in sync with 11 §8 table):
+#   1 text & asset integrity ......... restraint (+ runtime verifier, see domain-asset-pack-integrity)
+#   2 visual-diff / 604 pages ........ golden (+ on-device journeys)
+#   3 engine golden vectors .......... fast (dart test engine/)
+#   4 invariant property tests ....... fast (glados INV-1…INV-6)
+#   5 localization & RTL ............. golden (RTL goldens) + fast (ARB key check)
+#   6 network restraint .............. restraint (allow-list) + fast (banned-import analyze)
+#   7 mutashābihāt dataset ........... restraint (hash) + recorded scholar sign-off (human)
+#   8 manual muṣḥaf review ........... human, on real devices (not automatable)
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # FAST — analyze (incl. banned-import lint) + engine vectors/invariants +
+  # widget tests + coverage. Runs on every push. (Gates 3, 4; part of 5, 6)
+  # ---------------------------------------------------------------------------
+  fast:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - run: flutter pub get
+
+      # Gate 6 (layer c) + engine-purity boundary: the banned-import lint runs
+      # as part of analyze; networking is allowed ONLY in assets/. (11 §7, 01 §6)
+      - name: Analyze (includes banned-import / engine-purity lints)
+        run: flutter analyze --fatal-infos
+
+      # TODO: ARB-key check for gate 5 (every key present in ar template + fa + ckb).
+      # - run: dart run tool/check_arb_keys.dart
+
+      # Gates 3 + 4: frozen FSRS vectors + glados INV-1…INV-6, pure dart test.
+      # CI only VERIFIES — never `--update-vectors` here. Fuzzing stays OFF. (11 §3, §4)
+      - name: Engine golden vectors + invariant properties
+        run: dart test engine/
+
+      # Coverage: PUBLISHED, never gated. Strip generated files. No % threshold. (11 §10)
+      - name: Widget/unit tests with coverage (goldens excluded)
+        run: flutter test --coverage --exclude-tags golden
+      - name: Strip generated code from coverage
+        run: |
+          lcov -r coverage/lcov.info \
+            '*.g.dart' '*.drift.dart' '*.freezed.dart' '*/generated/*' \
+            -o coverage/lcov.info
+      # TODO: publish coverage for OSS auditability (do NOT add a min-coverage gate).
+      # - uses: <your-oss-coverage-uploader>  # transparency only
+
+  # ---------------------------------------------------------------------------
+  # GOLDEN — pinned, Linux-only. Real-font muṣḥaf fidelity + RTL layout goldens.
+  # NEVER run on macOS/Windows; NEVER `--update-goldens` in CI. (Gates 2, 5)
+  # ---------------------------------------------------------------------------
+  golden:
+    runs-on: ubuntu-latest # PINNED OS — cross-OS golden drift is documented (11 §5, §8)
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      # @Tags(['golden']) isolates real-font muṣḥaf goldens (FontLoader, never Ahem)
+      # and RTL ar/fa/ckb layout goldens into this controlled job. (11 §5, §6)
+      - name: Muṣḥaf-fidelity + RTL goldens (pinned runner)
+        run: flutter test --tags golden
+
+  # ---------------------------------------------------------------------------
+  # RESTRAINT — the no-network gate + the text/asset-integrity gate.
+  # (Gates 1, 6, and the hash half of 7)
+  # ---------------------------------------------------------------------------
+  restraint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+      - run: flutter pub get
+
+      # Gate 6 (layer b): dependency allow-list — fail on ANY analytics/ads/backend/
+      # crash SDK in the resolved graph. F-Droid entry ticket. (11 §7, 13 §5)
+      - name: Ban analytics/ads/backend SDKs
+        run: |
+          # TODO: extend the banned list as new telemetry SDKs appear.
+          BANNED='firebase_|google_analytics|sentry|crashlytics|facebook_|appsflyer|amplitude|mixpanel'
+          if flutter pub deps --style=compact | grep -Eiq "$BANNED"; then
+            echo "::error::Banned networking/telemetry SDK in dependency graph (PRD §20 gate 6)"
+            exit 1
+          fi
+
+      # Gate 1: re-hash EVERY asset-pack file (text + 604 KFGQPC fonts + layout +
+      # mutashābihāt) with SHA-256 vs the binary-baked manifest AND the authoritative
+      # Tanzil hash. Sidecar checksums are NOT trusted; SHA-256 only. (11 §9)
+      - name: Text & asset integrity (SHA-256 vs pinned manifest + Tanzil hash)
+        run: dart run tool/verify_asset_hashes.dart
+
+      # License clarity: reuse lint — a missing/malformed per-file SPDX header
+      # (GPL-3.0-or-later) fails the build. (13 §2)
+      - name: REUSE compliance
+        uses: fsfe/reuse-action@v6
+
+  # ---------------------------------------------------------------------------
+  # JOURNEYS — the four make-or-break integration_test flows on an emulator,
+  # incl. the airplane-mode acceptance run (throwing HttpOverrides). (Gates 2, 6)
+  # Do NOT grow past the four PRD flows without a decision-log amendment. (11 §6)
+  # ---------------------------------------------------------------------------
+  journeys:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+      - run: flutter pub get
+      - name: Integration journeys (cold-start → first day → review → catch-up)
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 24 # TODO: min-Android baseline; airplane-mode run lives here
+          script: flutter test integration_test/
+---
+# SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# .github/workflows/release.yml — tag → gated, signed, provenance-attested build.
+# Re-runs the FULL gate suite and REFUSES to publish if any gate fails. (13 §4)
+# The signing key lives only in encrypted secrets. The binary ships LEAN —
+# only the pinned asset tag + manifest hashes, NEVER the muṣḥaf bytes. (13 §4)
+
+name: release
+
+on:
+  push:
+    tags: ['v*.*.*'] # an exact, immutable version tag — never a moving ref
+
+permissions:
+  contents: write # create the GitHub Release
+  id-token: write # Sigstore signing for SLSA provenance
+  attestations: write # upload the provenance attestation
+
+jobs:
+  release:
+    runs-on: ubuntu-latest # pinned Linux runner for golden + build stability
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.38.0' # TODO: keep == FLUTTER_VERSION in ci.yml
+          channel: stable
+      - run: flutter pub get
+
+      # All PRD §20 gates run here too — a red gate stops the release. (13 §4)
+      - name: Release gates (all must pass)
+        run: |
+          flutter analyze --fatal-infos           # banned-import / network-restraint (gate 6)
+          dart test engine/                        # engine vectors + glados invariants (gates 3, 4)
+          flutter test --tags golden               # pinned-OS real-font goldens (gates 2, 5)
+          dart run tool/verify_asset_hashes.dart   # SHA-256 asset integrity (gate 1)
+      - name: REUSE compliance
+        uses: fsfe/reuse-action@v6
+
+      # TODO: signed via android/key.properties from secrets — key is NEVER in the repo.
+      - name: Build signed Android release
+        run: flutter build appbundle --release
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+      - name: Attest build provenance (SLSA)
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: build/app/outputs/bundle/release/app-release.aab
