@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+
+# Logs / scratch
+*.log
+
+# Flutter / Dart (when the app is scaffolded)
+.dart_tool/
+.packages
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+pubspec.lock
+.idea/
+*.iml
