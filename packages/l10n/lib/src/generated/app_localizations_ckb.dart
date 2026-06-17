@@ -13,4 +13,11 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get appTitle => 'Hifz Companion';
+
+  @override
+  String get hijriUmmAlQuraQualifier => '(Umm al-Qurā)';
+
+  @override
+  String get hijriCivilApproximationCaveat =>
+      'ڕێکەوتی کۆچیی مانگی ساڵنامەیەکی مەدەنیی نزیکەییە (ئوم القورا)؛ لەوانەیە دەستپێکی هەندێک بۆنە بەپێی بینینی مانگ بە ڕۆژێک جیاواز بێت.';
 }

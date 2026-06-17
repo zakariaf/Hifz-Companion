@@ -7,6 +7,8 @@ import 'package:hijri/hijri_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
+import '../generated/app_localizations.dart';
+
 /// The user's chosen calendar — an **explicit** Settings value (07 §4).
 ///
 /// Never inferred from `Locale.current`: a Persian speaker may want Hijri, an
@@ -73,17 +75,31 @@ class CalendarPresenter {
   }
 
   /// Day · Umm al-Qurā month name · year, labelled Umm al-Qurā (07 §6).
+  ///
+  /// Range-guarded: the `hijri` Umm al-Qurā table is bounded, so a date outside
+  /// it (or any library failure) falls back to the Gregorian label rather than
+  /// throwing — a date label never crashes a screen (07 §6). The civil-
+  /// approximation caveat that accompanies a Hijri surface is the
+  /// `hijriCivilApproximationCaveat` ARB string, rendered by the calendar
+  /// surface (E16/E19), not concatenated here.
   String _hijriLabel(DateTime g) {
+    if (g.isBefore(_hijriMinSupported) || g.isAfter(_hijriMaxSupported)) {
+      return _gregorianLabel(g);
+    }
     // Arabic-script Umm al-Qurā month names from `hijri`'s tables; correct for
     // every Arabic-script locale we ship (ar/fa/ckb). The month name comes from
     // the calendar package, never `intl`'s Gregorian `DateFormat` (07 §4).
     HijriCalendar.language = 'ar';
-    // TODO(E02-T07): range-guard the conversion and fall back to a Gregorian
-    // label out of the supported AH range (never throw); replace the Latin
-    // "(Umm al-Qurā)" tag with the localized qualifier + the standing
-    // civil-approximation caveat, registered as a graded claim.
-    final h = HijriCalendar.fromDate(g);
-    return '${h.hDay} ${h.longMonthName} ${h.hYear} $_ummAlQuraTag';
+    HijriCalendar h;
+    try {
+      h = HijriCalendar.fromDate(g);
+    } on ArgumentError {
+      return _gregorianLabel(g); // defensive: never propagate a library failure
+    }
+    // The localized "(Umm al-Qurā)" qualifier, so a Hijri date is never shown as
+    // "the Hijri date" in the absolute (07 §6).
+    final qualifier = lookupAppLocalizations(locale).hijriUmmAlQuraQualifier;
+    return '${h.hDay} ${h.longMonthName} ${h.hYear} $qualifier';
   }
 
   /// The one path that uses `intl`'s `DateFormat` directly (Gregorian only).
@@ -98,7 +114,12 @@ class CalendarPresenter {
     return DateFormat.yMMMMd(code).format(g);
   }
 
-  static const String _ummAlQuraTag = '(Umm al-Qurā)';
+  // The `hijri` Umm al-Qurā table spans 1356 AH (14 Mar 1937 CE) to 1500 AH
+  // (16 Nov 2077 CE) — the package's own documented bounds (07 §6). Every real
+  // due date is comfortably inside; the guard covers backup and cold-start
+  // "when memorized" dates and keeps `format` total.
+  static final DateTime _hijriMinSupported = DateTime.utc(1937, 3, 14);
+  static final DateTime _hijriMaxSupported = DateTime.utc(2077, 11, 16);
 }
 
 /// Remaps the ASCII digits in an already-converted date label to the active

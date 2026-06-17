@@ -108,6 +108,18 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'Hifz Companion'**
   String get appTitle;
+
+  /// Short qualifier appended to a Hijri date, naming the variant as the Umm al-Qurā civil calendar so a Hijri date is never shown as 'the Hijri date' in the absolute. Kept as the romanized proper noun across locales pending E09/E19 review of whether to localize the script. needs-scholarly-review (E19); register as a CLAIMS row — no id, grade, or citation here.
+  ///
+  /// In ar, this message translates to:
+  /// **'(Umm al-Qurā)'**
+  String get hijriUmmAlQuraQualifier;
+
+  /// Standing one-line honesty note rendered near a Hijri date or the calendar picker: the Hijri date is a civil (Umm al-Qurā) approximation and an observance's start may differ by a day by moon sighting. Sect/madhhab-neutral; issues no fiqh or sighting ruling and bakes in no regional offset. needs-scholarly-review (E19); hand to domain-claims-register-and-science-screen to register and grade as a [TRAD]/text CLAIMS row — no id, grade, or citation invented here. Transcreations (fa/ckb) are best-effort pending native-speaker + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'التاريخ الهجري تقويم مدني تقريبي (أم القرى)؛ وقد يختلف بدء بعض المناسبات يوماً واحداً بحسب رؤية الهلال.'**
+  String get hijriCivilApproximationCaveat;
 }
 
 class _AppLocalizationsDelegate
