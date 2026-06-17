@@ -7,6 +7,7 @@ import 'package:models/models.dart';
 
 import 'constants.dart';
 import 'curve.dart';
+import 'phases.dart';
 import 'review_input.dart';
 import 'scheduling_engine.dart';
 
@@ -84,11 +85,18 @@ extension ReviewUpdate on SchedulingEngine {
   /// weak-line `(11−D)` channel → graduation → trust clamp. [weakLineCount] is
   /// the page's chronically-weak-line tally, **injected** by the caller (E12
   /// from `data`): the pure engine never reads `line_block` rows itself.
+  ///
+  /// [recentWindow] reports whether a card is in the recent-juz window (the
+  /// Near → Far graduation gate); it is injected because the pure engine owns no
+  /// juz map. It defaults to "in window" for every card — the conservative
+  /// choice that holds a page in the more-frequent Near track until the feature
+  /// layer (E11/E14) supplies the real most-recent-juz predicate.
   Card onReview(
     Card card,
     ReviewInput review,
     CalendarDate today, {
     required int weakLineCount,
+    bool Function(Card card)? recentWindow,
   }) {
     assert(weakLineCount >= 0, 'weakLineCount is a count, never negative');
     final w = config.weights;
@@ -151,8 +159,13 @@ extension ReviewUpdate on SchedulingEngine {
       lapses: lapses,
       isWeak: weak,
     );
-    // STUB until E04-T05: real sign-off-gated, predictable graduation.
-    final graduated = _graduationStub(reviewed, grade, review.source);
+    // Predictable, sign-off-gated graduation (E04-T05), on the post-update card.
+    final graduated = updateGraduation(
+      reviewed,
+      grade,
+      review.source,
+      inRecentWindow: recentWindow?.call(reviewed) ?? true,
+    );
     // STUB until E04-T07: real trustClamp = min(ideal_due, ceiling_due) — the
     // EARLIER date, never lengthened to infinity. The stub returns a finite,
     // non-null dueAt so no memorized card escapes with a null ceiling; the
@@ -160,10 +173,6 @@ extension ReviewUpdate on SchedulingEngine {
     return graduated.copyWith(dueAt: _trustClampStub(graduated, today));
   }
 }
-
-/// No-op graduation placeholder. Replaced by the predictable, sign-off-gated
-/// `updateGraduation` in E04-T05.
-Card _graduationStub(Card card, ReviewGrade grade, GradeSource source) => card;
 
 /// Interim due-date placeholder: the SR-ideal at the New baseline target, with
 /// NO cycle ceiling yet. Replaced by the real `min(ideal, ceiling)` trust clamp
