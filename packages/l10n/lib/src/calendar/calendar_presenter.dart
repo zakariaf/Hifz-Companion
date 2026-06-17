@@ -83,7 +83,7 @@ class CalendarPresenter {
   /// `hijriCivilApproximationCaveat` ARB string, rendered by the calendar
   /// surface (E16/E19), not concatenated here.
   String _hijriLabel(DateTime g) {
-    if (g.isBefore(_hijriMinSupported) || g.isAfter(_hijriMaxSupported)) {
+    if (g.isBefore(hijriMinSupported) || g.isAfter(hijriMaxSupported)) {
       return _gregorianLabel(g);
     }
     // Arabic-script Umm al-Qurā month names from `hijri`'s tables; correct for
@@ -114,12 +114,16 @@ class CalendarPresenter {
     return DateFormat.yMMMMd(code).format(g);
   }
 
-  // The `hijri` Umm al-Qurā table spans 1356 AH (14 Mar 1937 CE) to 1500 AH
-  // (16 Nov 2077 CE) — the package's own documented bounds (07 §6). Every real
-  // due date is comfortably inside; the guard covers backup and cold-start
-  // "when memorized" dates and keeps `format` total.
-  static final DateTime _hijriMinSupported = DateTime.utc(1937, 3, 14);
-  static final DateTime _hijriMaxSupported = DateTime.utc(2077, 11, 16);
+  /// The lowest Gregorian date the Umm al-Qurā table supports — 1356 AH
+  /// (14 Mar 1937 CE), the `hijri` package's own documented bound (07 §6).
+  /// Below it the Hijri path falls back to a Gregorian label, never throwing.
+  /// Public so the round-trip sweep (E02-T09) consumes it as the single source
+  /// of truth rather than re-declaring a drifting copy.
+  static final DateTime hijriMinSupported = DateTime.utc(1937, 3, 14);
+
+  /// The highest Gregorian date the Umm al-Qurā table supports — 1500 AH
+  /// (16 Nov 2077 CE), the `hijri` package's own documented bound (07 §6).
+  static final DateTime hijriMaxSupported = DateTime.utc(2077, 11, 16);
 }
 
 /// Remaps the ASCII digits in an already-converted date label to the active
