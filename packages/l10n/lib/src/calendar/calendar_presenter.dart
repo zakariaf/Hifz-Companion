@@ -93,8 +93,11 @@ class CalendarPresenter {
     HijriCalendar h;
     try {
       h = HijriCalendar.fromDate(g);
-    } on ArgumentError {
-      return _gregorianLabel(g); // defensive: never propagate a library failure
+    } on Object {
+      // Never propagate a third-party failure to the screen (07 §6): any
+      // error/exception from the hijri conversion falls back to a Gregorian
+      // label, not just the documented out-of-range ArgumentError.
+      return _gregorianLabel(g);
     }
     // The localized "(Umm al-Qurā)" qualifier, so a Hijri date is never shown as
     // "the Hijri date" in the absolute (07 §6).
