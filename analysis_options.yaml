@@ -27,6 +27,10 @@ analyzer:
     - "**/*.g.dart"            # generated (drift, json) — not hand-written
     - "**/*.freezed.dart"
     - "**/*.drift.dart"
+    # drift_dev-generated migration schema fixtures (schema dump → generate):
+    # DO-NOT-MODIFY snapshots of past versions, used only by the migration
+    # fixture test. Generated raw types are not our hand-written code.
+    - "**/test/migration/schema/**"
     # Deliberate negative fixtures referencing forbidden/not-yet-built APIs on
     # purpose (e.g. the pipeline-wall violation, E06-T05) — never ship; the grep
     # gates assert them, not the analyzer.

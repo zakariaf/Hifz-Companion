@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import 'calendar_date.dart';
+import 'package:models/models.dart';
 
 /// Turns a real event **instant** into the civil [CalendarDate] the engine
 /// measures from (07 §3).

@@ -14,8 +14,14 @@ set -euo pipefail
 # Sanctioned external + SDK dependencies and the local workspace packages.
 allowed=(
   # external runtime + tooling
-  meta drift sqlite3 path http crypto intl flutter_riverpod go_router
-  test glados flutter_lints
+  meta drift sqlite3 path path_provider http crypto intl flutter_riverpod
+  go_router test glados flutter_lints
+  # opt-in at-rest encryption key store (Decision log #3) — Keychain/KeyStore,
+  # local only, off by default.
+  flutter_secure_storage
+  # drift code generation (Decision log #3: Drift over SQLite) — build-time only,
+  # never shipped in the binary; generates database.g.dart + migration steps.
+  drift_dev build_runner
   # display-only calendar conversion (E02 §4): pure-Dart, offline, BSD-licensed.
   # Banned in engine/ by the banned-import gate; calendars are a display concern.
   shamsi_date hijri

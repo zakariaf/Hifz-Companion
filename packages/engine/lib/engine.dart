@@ -11,7 +11,7 @@
 /// authored in E04. This barrel currently exports only a compile-proving stub.
 library;
 
-export 'src/dates/calendar_date.dart' show CalendarDate;
+export 'package:models/models.dart' show CalendarDate;
 export 'src/dates/civil_day_of.dart' show civilDayOf;
 export 'src/day_math.dart'
     show catchUpWindow, dueWithCeiling, elapsedDays, nextDue;

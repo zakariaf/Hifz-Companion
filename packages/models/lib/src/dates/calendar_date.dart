@@ -11,6 +11,11 @@ import 'package:meta/meta.dart';
 /// type the pure scheduling engine reasons in (07 §1). A `DateTime` never
 /// enters the engine, and a [CalendarDate] is never silently widened into an
 /// instant inside scheduling code.
+///
+/// It lives in `models` (Layer 0) because every persisted record's
+/// scheduling-day field (`Card.dueAt`, `Card.lastReviewedDay`) is typed as
+/// one (01 §2, §3.1). The `engine` package re-exports it so scheduling code
+/// keeps importing it by its single canonical name.
 @immutable
 class CalendarDate implements Comparable<CalendarDate> {
   /// Days since `1970-01-01` (the Unix-epoch date). Negative for earlier days.
@@ -33,6 +38,14 @@ class CalendarDate implements Comparable<CalendarDate> {
     final utcMidnight = DateTime.utc(year, month, day);
     return CalendarDate._(utcMidnight.millisecondsSinceEpoch ~/ _msPerDay);
   }
+
+  /// Reconstructs a day directly from its stored serial-day [epochDay] integer.
+  ///
+  /// This is the inverse of reading [epochDay]: the DAO uses it to map a SQLite
+  /// `INTEGER` `due_at`/`last_review_at` column back to a [CalendarDate] with no
+  /// parsing and no zone (07 §1; E03-T06). It involves no clock and no
+  /// `DateTime`.
+  const CalendarDate.fromEpochDay(int epochDay) : this._(epochDay);
 
   static const int _msPerDay = 86400000; // 24 * 60 * 60 * 1000
 
