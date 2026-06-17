@@ -31,14 +31,16 @@ void main() {
 
   group('per-system label shape — month name + era from the right package', () {
     test('Jalālī renders shamsi_date day · month-name · year', () {
+      // Digits are remapped to the locale block downstream (E02-T06): fa uses
+      // Extended Arabic-Indic, so day ۲۶ / year ۱۴۰۵.
       const presenter = CalendarPresenter(CalendarSystem.jalali, fa);
-      expect(presenter.format(june16), '26 خرداد 1405');
+      expect(presenter.format(june16), '۲۶ خرداد ۱۴۰۵');
     });
 
     test('Umm al-Qurā renders hijri month-name, labelled Umm al-Qurā', () {
       const presenter = CalendarPresenter(CalendarSystem.hijriUmmAlQura, ar);
       final label = presenter.format(june16);
-      expect(label, '1 محرم 1448 (Umm al-Qurā)');
+      expect(label, '١ محرم ١٤٤٨ (Umm al-Qurā)'); // ar -> Arabic-Indic digits
       // labelled Umm al-Qurā, never "the Hijri date" in the absolute.
       expect(label, contains('Umm al-Qurā'));
     });
@@ -46,7 +48,7 @@ void main() {
     test('Gregorian renders intl DateFormat per locale', () {
       expect(
         const CalendarPresenter(CalendarSystem.gregorian, ar).format(june16),
-        '16 يونيو 2026',
+        '١٦ يونيو ٢٠٢٦',
       );
       expect(
         const CalendarPresenter(CalendarSystem.gregorian, fa).format(june16),
@@ -118,7 +120,7 @@ void main() {
       const presenter = CalendarPresenter(CalendarSystem.hijriUmmAlQura, ar);
       expect(
         presenter.format(CalendarDate.ymd(2024, 7, 7)),
-        '1 محرم 1446 (Umm al-Qurā)',
+        '١ محرم ١٤٤٦ (Umm al-Qurā)', // ar -> Arabic-Indic digits
       );
     });
   });

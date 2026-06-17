@@ -60,10 +60,10 @@ class CalendarPresenter {
       CalendarSystem.jalali => _jalaliLabel(g),
       CalendarSystem.hijriUmmAlQura => _hijriLabel(g),
     };
-    // TODO(E02-T06): remap digits to the locale numeral set DOWNSTREAM of the
-    // conversion here — Extended Arabic-Indic for fa/ckb, Arabic-Indic for ar —
-    // so no ASCII digit reaches the UI (07 §4; PRD §13.3).
-    return label;
+    // Remap the converted label's digits to the locale block DOWNSTREAM of the
+    // calendar conversion — the unconditional last step for every system, so no
+    // CalendarSystem path can emit a Latin-digit date (07 §4; PRD §13.3).
+    return toLocaleNumerals(label, locale);
   }
 
   /// Day · Jalālī month name · year, the month name from `shamsi_date`'s tables.
@@ -99,4 +99,40 @@ class CalendarPresenter {
   }
 
   static const String _ummAlQuraTag = '(Umm al-Qurā)';
+}
+
+/// Remaps the ASCII digits in an already-converted date label to the active
+/// locale's numeral block — the downstream numeral pass (07 §4; PRD §13.3).
+///
+/// `fa`/`ckb` → Extended Arabic-Indic (`۰۱۲۳۴۵۶۷۸۹`, U+06F0–U+06F9); `ar` →
+/// Arabic-Indic (`٠١٢٣٤٥٦٧٨٩`, U+0660–U+0669); other locales pass through. The
+/// two blocks are distinct and never cross: `ar` never shows `۴`, `fa`/`ckb`
+/// never show `٤`.
+///
+/// It substitutes **only** the ASCII digit code points (`0x30`–`0x39`), so a
+/// month name or the "(Umm al-Qurā)" tag — which carry no ASCII digit — pass
+/// through verbatim, and there is no grouping separator or sign to desync.
+/// It is idempotent: a string already in a locale block has no ASCII to remap.
+///
+/// This deliberately does **not** route date numerals through `intl`'s
+/// `NumberFormat`: in the pinned `intl` (0.20.x) the `-u-nu-arab` Unicode
+/// numbering-system extension is ignored — `ar` still renders Latin digits —
+/// and `decimalPattern` injects a thousands separator that is wrong for a year
+/// field. A field-safe digit-block substitution is the locale-faithful
+/// mechanism for dates (no grouping, no sign), which is what this matches.
+String toLocaleNumerals(String latin, Locale locale) {
+  final blockStart = switch (locale.languageCode) {
+    'fa' || 'ckb' => 0x06F0, // Extended Arabic-Indic
+    'ar' => 0x0660, // Arabic-Indic
+    _ => null,
+  };
+  if (blockStart == null) return latin;
+  const asciiZero = 0x30, asciiNine = 0x39;
+  return String.fromCharCodes([
+    for (final code in latin.codeUnits)
+      if (code >= asciiZero && code <= asciiNine)
+        blockStart + (code - asciiZero)
+      else
+        code,
+  ]);
 }
