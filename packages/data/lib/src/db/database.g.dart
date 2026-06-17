@@ -5904,6 +5904,17 @@ abstract class _$HifzDatabase extends GeneratedDatabase {
       'line_by_page', 'CREATE INDEX line_by_page ON line (page_id, line_no)');
   late final Index ayahByPage =
       Index('ayah_by_page', 'CREATE INDEX ayah_by_page ON ayah (page_id)');
+  late final ProfileDao profileDao = ProfileDao(this as HifzDatabase);
+  late final CardDao cardDao = CardDao(this as HifzDatabase);
+  late final LineBlockDao lineBlockDao = LineBlockDao(this as HifzDatabase);
+  late final ReviewLogDao reviewLogDao = ReviewLogDao(this as HifzDatabase);
+  late final ConfusionEdgeDao confusionEdgeDao =
+      ConfusionEdgeDao(this as HifzDatabase);
+  late final CycleConfigDao cycleConfigDao =
+      CycleConfigDao(this as HifzDatabase);
+  late final AppMetaDao appMetaDao = AppMetaDao(this as HifzDatabase);
+  late final ReferenceReadDao referenceReadDao =
+      ReferenceReadDao(this as HifzDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();

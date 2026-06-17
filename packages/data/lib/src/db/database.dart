@@ -17,6 +17,14 @@ import 'tables/user/cycle_configs.dart';
 import 'tables/user/line_blocks.dart';
 import 'tables/user/profiles.dart';
 import 'tables/user/review_log.dart';
+import 'daos/app_meta_dao.dart';
+import 'daos/card_dao.dart';
+import 'daos/confusion_edge_dao.dart';
+import 'daos/cycle_config_dao.dart';
+import 'daos/line_block_dao.dart';
+import 'daos/profile_dao.dart';
+import 'daos/reference_read_dao.dart';
+import 'daos/review_log_dao.dart';
 
 part 'database.g.dart';
 
@@ -50,6 +58,16 @@ part 'database.g.dart';
     Ayat,
     MutashabihGroups,
     MutashabihMembers,
+  ],
+  daos: [
+    ProfileDao,
+    CardDao,
+    LineBlockDao,
+    ReviewLogDao,
+    ConfusionEdgeDao,
+    CycleConfigDao,
+    AppMetaDao,
+    ReferenceReadDao,
   ],
 )
 class HifzDatabase extends _$HifzDatabase {
