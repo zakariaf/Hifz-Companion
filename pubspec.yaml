@@ -23,11 +23,14 @@ workspace:
   - packages/features
   - packages/assets
 
-# Tooling-only: the lint ruleset that the shared root analysis_options.yaml
-# `include`s, so the single analysis context resolves it for every member. Not
-# an application/runtime dependency — the root still ships no code.
+# Tooling-only dev dependencies for the repo-level analysis context and gate
+# tools — not application/runtime deps; the root still ships no code:
+#   flutter_lints — the lint ruleset the shared analysis_options.yaml includes;
+#   crypto        — SHA-256 for tool/verify_asset_hashes.dart (offline hashing;
+#                   the network risk, package:http, stays confined to assets).
 dev_dependencies:
   flutter_lints: ^6.0.0
+  crypto: ^3.0.0
 
 # Enables `flutter gen-l10n` to (re)generate the committed AppLocalizations into
 # packages/l10n/lib/src/generated from the root l10n.yaml. Generation only; the
