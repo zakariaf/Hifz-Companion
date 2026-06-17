@@ -11,4 +11,5 @@
 /// authored in E04. This barrel currently exports only a compile-proving stub.
 library;
 
+export 'src/dates/calendar_date.dart' show CalendarDate;
 export 'src/engine_stub.dart';
