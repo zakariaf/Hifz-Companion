@@ -1,3 +1,4 @@
+<!-- REUSE-IgnoreStart (planning doc quotes SPDX tags as examples; suppress in-file tag parsing — actual coverage is in .reuse/dep5) -->
 # E07-T02 — DI Provider set + ProviderScope composition root with throwing placeholders (engine, repository, clock, active-profile gate)
 
 | | |
