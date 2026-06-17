@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import 'dates/calendar_date.dart';
+import 'package:models/models.dart';
 
 /// The four time-dimensioned scheduling primitives every later engine quantity
 /// is built from (07 §2). Each is pure integer day arithmetic over
