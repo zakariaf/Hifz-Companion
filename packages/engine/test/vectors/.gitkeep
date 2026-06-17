@@ -1,0 +1,3 @@
+# Frozen golden-vector tables for the scheduling engine live here (06 §8).
+# Populated by E04-T03 (curve), E04-T04 (review update), E04-T06 (cold start),
+# and E04-T10 (weights). Kept tracked so the directory exists from T01 on.
