@@ -1,13 +1,22 @@
 # SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# Resolution stub — the pure-Dart scheduling engine (no Flutter, no dart:io, no
-# wall clock). Its full manifest (meta + models only), barrel, and golden-vector
-# test scaffolding are authored in E01-T03 / E04.
 name: engine
-description: Pure-Dart Hifz scheduling engine (stub).
+description: Pure-Dart Hifz scheduling engine — no Flutter, no I/O, "today" injected.
 publish_to: none
 resolution: workspace
 
 environment:
   sdk: ^3.6.0
+
+dependencies:
+  meta: ^1.15.0
+  models:
+    path: ../models
+
+dev_dependencies:
+  test: ^1.25.0
+  glados: ^1.1.0
+# Deliberately absent: flutter, dart:io, any clock, any package that
+# transitively pulls them. tool/check_engine_purity.sh greps this tree for
+# package:flutter, dart:io, and DateTime.now().
