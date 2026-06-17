@@ -38,13 +38,15 @@ export 'src/constants.dart'
         kNewTargetR,
         kSelfConfidence,
         kWeakLineFactor;
+export 'src/cold_start.dart' show ColdStart;
 export 'src/curve.dart' show interval, kDecay, kFactor, retrievability;
 export 'src/dates/civil_day_of.dart' show civilDayOf;
 export 'src/day_math.dart'
     show catchUpWindow, dueWithCeiling, elapsedDays, nextDue;
 export 'src/engine_config.dart' show EngineConfig;
 export 'src/juz_confidence.dart' show JuzConfidence;
-export 'src/phases.dart' show phaseOf, targetR, trackStrength, updateGraduation;
+export 'src/phases.dart'
+    show bandForStability, phaseOf, targetR, trackStrength, updateGraduation;
 export 'src/review_input.dart' show ReviewInput;
 export 'src/review_update.dart'
     show

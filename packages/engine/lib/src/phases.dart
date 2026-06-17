@@ -9,8 +9,14 @@ import 'constants.dart';
 /// from stability — never three algorithms (06 §5; PRD §7.4). `phaseOf` is the
 /// read model; `updateGraduation` is the predictable, sign-off-gated write gate.
 
-/// The stability band a memorized page falls in, by the §5 thresholds.
-ReviewTrack _bandForStability(double s) {
+/// The stability band a memorized page falls in, by the §5 thresholds
+/// (`< kNearMinS` → New, `< kFarMinS` → Near, else Far).
+///
+/// The single source of the band logic: `phaseOf` and `updateGraduation` derive
+/// the phase of a live card from it, and `coldStartCard` (E04-T06) derives a
+/// fresh seed's entry track from it — so the seed table and the phase thresholds
+/// can never drift apart.
+ReviewTrack bandForStability(double s) {
   if (s < kNearMinS) return ReviewTrack.newPage;
   if (s < kFarMinS) return ReviewTrack.near;
   return ReviewTrack.far;
@@ -40,7 +46,7 @@ int trackStrength(ReviewTrack track) => switch (track) {
 ReviewTrack phaseOf(Card c) {
   if (c.track == ReviewTrack.unmemorized) return ReviewTrack.unmemorized;
   if (c.hasManualLock) return c.track; // teacher pin wins over the math
-  return _bandForStability(c.stabilityDays);
+  return bandForStability(c.stabilityDays);
 }
 
 /// The stakes-tiered retention target for a card (06 §5; PRD §7.5).
@@ -93,7 +99,7 @@ Card updateGraduation(
     return c.copyWith(signoffs: newSignoffs);
   }
 
-  final sBand = _bandForStability(c.stabilityDays);
+  final sBand = bandForStability(c.stabilityDays);
   final fluent = grade == ReviewGrade.easy;
   var track = c.track;
 
