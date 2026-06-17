@@ -10,6 +10,7 @@ import 'curve.dart';
 import 'phases.dart';
 import 'review_input.dart';
 import 'scheduling_engine.dart';
+import 'trust_clamp.dart';
 
 /// The one deterministic review-update path (06 §4; PRD §7.7) and the vendored
 /// FSRS-4.5 difficulty/stability branches it runs.
@@ -166,16 +167,10 @@ extension ReviewUpdate on SchedulingEngine {
       review.source,
       inRecentWindow: recentWindow?.call(reviewed) ?? true,
     );
-    // STUB until E04-T07: real trustClamp = min(ideal_due, ceiling_due) — the
-    // EARLIER date, never lengthened to infinity. The stub returns a finite,
-    // non-null dueAt so no memorized card escapes with a null ceiling; the
-    // clamp DIRECTION (min, never max) and the ceiling guarantee are T07's.
-    return graduated.copyWith(dueAt: _trustClampStub(graduated, today));
+    // The trust clamp (E04-T07): due_at = min(ideal_due, ceiling_due), the
+    // EARLIER date — SR may only make a page MORE frequent, never push it past
+    // the cycle (PRD §7.6). Runs on the already-graduated card so the ceiling
+    // reflects the post-review phaseOf.
+    return graduated.copyWith(dueAt: trustClamp(graduated, today));
   }
 }
-
-/// Interim due-date placeholder: the SR-ideal at the New baseline target, with
-/// NO cycle ceiling yet. Replaced by the real `min(ideal, ceiling)` trust clamp
-/// in E04-T07; kept finite and non-null so the dueAt invariant holds meanwhile.
-CalendarDate _trustClampStub(Card next, CalendarDate today) =>
-    today.addDays(interval(next.stabilityDays, kNewTargetR));

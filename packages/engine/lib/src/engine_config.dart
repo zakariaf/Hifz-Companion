@@ -27,9 +27,36 @@ class EngineConfig {
   /// mismatch must fail loudly, never silently mis-schedule (06 §8).
   final List<double> weights;
 
+  /// The far/manzil cycle ceiling in **days** — the longest interval the trust
+  /// clamp allows for a Far page (e.g. 7 for a weekly khatm, 30 for one juz a
+  /// day). The hard floor of the "nothing decays silently" covenant (06 §6;
+  /// PRD §7.6). A day-count, never a retention %. The feature layer (E16) maps
+  /// the persisted `CycleConfig.cycleCeilingDays` onto this.
+  final int farCycleDays;
+
+  /// The Near recent-juz window ceiling in **days** — never looser than
+  /// [farCycleDays] (asserted at construction), so Near is always revised at
+  /// least as often as Far (06 §6).
+  final int nearCeilingDays;
+
+  /// Whether pure-cycle mode is on: a fixed rotation only, SR ordering and
+  /// pull-forward off, so the ceiling is [farCycleDays] for every phase — the
+  /// faithful-traditional-tracker mode for ulama who distrust reordering
+  /// (06 §6; PRD §7.11). Default off.
+  final bool pureCycleMode;
+
   /// Creates an engine configuration. [weights] defaults to the published
-  /// flashcard-average prior [kDefaultWeights45].
-  const EngineConfig({this.weights = kDefaultWeights45});
+  /// flashcard-average prior [kDefaultWeights45]; the cycle defaults are a
+  /// one-juz-a-day shape the feature layer overrides per profile.
+  const EngineConfig({
+    this.weights = kDefaultWeights45,
+    this.farCycleDays = 30,
+    this.nearCeilingDays = 7,
+    this.pureCycleMode = false,
+  }) : assert(
+          nearCeilingDays <= farCycleDays,
+          'nearCeilingDays must never be looser than farCycleDays (06 §6).',
+        );
 
   /// The engine's default configuration — the published weight prior and the
   /// shipped cycle defaults. Used wherever the engine is constructed without a

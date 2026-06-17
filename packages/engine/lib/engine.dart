@@ -56,3 +56,4 @@ export 'src/review_update.dart'
         postLapseStability,
         stabilityOnSuccess;
 export 'src/scheduling_engine.dart' show SchedulingEngine;
+export 'src/trust_clamp.dart' show TrustClamp, cycleCeilingDays;
