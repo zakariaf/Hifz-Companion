@@ -56,8 +56,16 @@ final class FlutterSecureKeyStore implements SecretKeyStore {
 
   final FlutterSecureStorage _storage;
 
+  // The in-flight read-or-create is cached so concurrent first-launch calls
+  // share one Future: without this, two callers could each see `null`, generate
+  // two keys, and the DB could be opened with one while the store persists the
+  // other — permanently locking the user out.
+  Future<String>? _keyFuture;
+
   @override
-  Future<String> readOrCreateDbKeyHex() async {
+  Future<String> readOrCreateDbKeyHex() => _keyFuture ??= _readOrCreate();
+
+  Future<String> _readOrCreate() async {
     final existing = await _storage.read(key: dbKeyName);
     if (existing != null) return existing;
     final created = generateDbKeyHex(Random.secure());
@@ -66,5 +74,8 @@ final class FlutterSecureKeyStore implements SecretKeyStore {
   }
 
   @override
-  Future<void> deleteDbKey() => _storage.delete(key: dbKeyName);
+  Future<void> deleteDbKey() async {
+    _keyFuture = null;
+    await _storage.delete(key: dbKeyName);
+  }
 }

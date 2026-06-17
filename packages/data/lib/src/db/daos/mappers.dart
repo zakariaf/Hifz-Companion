@@ -49,14 +49,21 @@ String? lineIndicesToJson(List<int>? indices) =>
 
 /// Decodes the `error_lines_json` payload to a list of line indices, or null.
 ///
-/// Throws [MappingException] on malformed JSON. Holds line indices only — never
-/// Quran text (R1).
+/// Maps any malformed payload to [MappingException] — eagerly: a non-array
+/// shape or a non-int element is materialised inside the `try` (never a lazy
+/// `cast` whose `TypeError` would leak past the boundary to the caller). Holds
+/// line indices only — never Quran text (R1). The message names the column, not
+/// the payload bytes (§17).
 List<int>? lineIndicesFromJson(String? json) {
   if (json == null) return null;
   try {
-    return (jsonDecode(json) as List).cast<int>();
-  } on FormatException catch (e) {
-    throw MappingException('malformed error_lines_json: ${e.message}');
+    final decoded = jsonDecode(json);
+    if (decoded is! List) {
+      throw const FormatException('expected a JSON array');
+    }
+    return List<int>.from(decoded); // eager — throws here on a bad element
+  } on Object {
+    throw const MappingException('malformed error_lines_json');
   }
 }
 
@@ -66,13 +73,19 @@ String? settingsToJson(Map<String, Object?>? settings) =>
 
 /// Decodes the `settings_json` payload to a schema-shaped map, or null.
 ///
-/// Throws [MappingException] on malformed JSON. Never health roll-ups or Quran
-/// facts (05 §2).
+/// Maps any malformed payload to [MappingException] — eagerly: a non-object
+/// shape is rejected inside the `try` (never a lazy `cast`/`as` whose
+/// `TypeError` would leak past the boundary). Never health roll-ups or Quran
+/// facts (05 §2). The message names the column, not the payload bytes (§17).
 Map<String, Object?>? settingsFromJson(String? json) {
   if (json == null) return null;
   try {
-    return (jsonDecode(json) as Map).cast<String, Object?>();
-  } on FormatException catch (e) {
-    throw MappingException('malformed settings_json: ${e.message}');
+    final decoded = jsonDecode(json);
+    if (decoded is! Map) {
+      throw const FormatException('expected a JSON object');
+    }
+    return Map<String, Object?>.from(decoded);
+  } on Object {
+    throw const MappingException('malformed settings_json');
   }
 }

@@ -53,5 +53,16 @@ void main() {
       expect(raw.select('PRAGMA foreign_keys;').first.values.first, 1);
       expect(raw.select('PRAGMA synchronous;').first.values.first, 2);
     });
+
+    test('a non-hex key is rejected before it reaches PRAGMA key', () {
+      final raw = sqlite3.openInMemory();
+      addTearDown(raw.dispose);
+      // Defence-in-depth: a malformed/injection-y key never reaches the SQL.
+      expect(
+        () =>
+            applyConnectionSetup(raw, encryptionKeyHex: "x'; DROP TABLE card"),
+        throwsA(isA<FormatException>()),
+      );
+    });
   });
 }

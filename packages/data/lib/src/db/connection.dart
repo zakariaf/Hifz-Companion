@@ -15,6 +15,11 @@ import '../persistence_exception.dart';
 /// is not a database": a wrong/missing key, never corruption (05 §5).
 const int _sqliteNotADb = 26;
 
+/// A raw-key must be pure hex before it is interpolated into a `PRAGMA key`
+/// BLOB literal — defence-in-depth against a malformed/tampered key store
+/// breaking the statement (the key is always valid hex from `generateDbKeyHex`).
+final RegExp _hexKeyPattern = RegExp(r'^[0-9a-fA-F]+$');
+
 /// Applies the fixed crash-safe connection pragmas on the raw `sqlite3` handle,
 /// in order, **before** drift touches the database (05 §1, §3).
 ///
@@ -33,6 +38,12 @@ const int _sqliteNotADb = 26;
 void applyConnectionSetup(CommonDatabase database, {String? encryptionKeyHex}) {
   final keyHex = encryptionKeyHex;
   if (keyHex != null) {
+    // Validate the key is pure hex BEFORE interpolating it (no SQL injection
+    // even if the key store is ever compromised). The message never includes
+    // the key (§17).
+    if (!_hexKeyPattern.hasMatch(keyHex)) {
+      throw const FormatException('encryption key is not a valid hex string');
+    }
     // Raw-key BLOB literal — full-entropy keystore material, skips PBKDF2.
     database.execute('PRAGMA key = "x\'$keyHex\'";');
     // HARD GUARD: a plaintext store that only LOOKS encrypted must never open.
