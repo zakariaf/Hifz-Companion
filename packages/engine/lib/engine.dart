@@ -53,6 +53,7 @@ export 'src/day_math.dart'
 export 'src/day_plan.dart' show DayPlan;
 export 'src/engine_config.dart' show EngineConfig;
 export 'src/juz_confidence.dart' show JuzConfidence;
+export 'src/load_balance.dart' show LoadBalance, estMinutes;
 export 'src/phases.dart'
     show bandForStability, phaseOf, targetR, trackStrength, updateGraduation;
 export 'src/review_input.dart' show ReviewInput;

@@ -45,6 +45,11 @@ class EngineConfig {
   /// (06 §6; PRD §7.11). Default off.
   final bool pureCycleMode;
 
+  /// The user's daily revision time budget in **minutes** (PRD §7.9). The load
+  /// balancer (E04-T09) fits the day into it — deferring above-floor Near pages,
+  /// never dropping manzil. A plain minute count, not a retention dial.
+  final int dailyBudgetMinutes;
+
   /// Creates an engine configuration. [weights] defaults to the published
   /// flashcard-average prior [kDefaultWeights45]; the cycle defaults are a
   /// one-juz-a-day shape the feature layer overrides per profile.
@@ -53,6 +58,7 @@ class EngineConfig {
     this.farCycleDays = 30,
     this.nearCeilingDays = 7,
     this.pureCycleMode = false,
+    this.dailyBudgetMinutes = 30,
   }) : assert(
           nearCeilingDays <= farCycleDays,
           'nearCeilingDays must never be looser than farCycleDays (06 §6).',

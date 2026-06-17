@@ -56,6 +56,11 @@ const double kWeakLineFactor = 0.15;
 /// Manzil/FAR is never deferred (PRD §7.9; 06 §7).
 const double kHardFloorR = 0.85;
 
+/// Estimated minutes to revise one muṣḥaf page — the load balancer's budget
+/// unit (PRD §7.9). A flat per-page estimate for E04; a richer per-difficulty /
+/// per-line model is a future refinement.
+const int kEstMinutesPerPage = 2;
+
 /// Phase threshold (days): below this stability a memorized page is still
 /// solidifying — the New phase (06 §5; PRD §7.4).
 const double kNearMinS = 9.0;

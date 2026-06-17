@@ -5,6 +5,7 @@ import 'package:models/models.dart';
 
 import 'curve.dart';
 import 'day_plan.dart';
+import 'load_balance.dart';
 import 'phases.dart';
 import 'scheduling_engine.dart';
 
@@ -155,6 +156,8 @@ extension BuildDay on SchedulingEngine {
 
     // Recited OLD before NEW: manzil → near → new (structural, never sorted).
     final day = [...farToday, ...nearToday, ...newToday];
-    return DayPlan(items: day); // load-balancing is E04-T09
+    // Fit the day into the time budget: manzil mandatory, Near above the floor,
+    // New on spare budget (E04-T09).
+    return loadBalance(day, config.dailyBudgetMinutes, today, rOf);
   }
 }
