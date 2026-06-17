@@ -45,4 +45,11 @@ export 'src/day_math.dart'
 export 'src/engine_config.dart' show EngineConfig;
 export 'src/juz_confidence.dart' show JuzConfidence;
 export 'src/review_input.dart' show ReviewInput;
+export 'src/review_update.dart'
+    show
+        ReviewUpdate,
+        initialDifficulty,
+        nextDifficulty,
+        postLapseStability,
+        stabilityOnSuccess;
 export 'src/scheduling_engine.dart' show SchedulingEngine;
