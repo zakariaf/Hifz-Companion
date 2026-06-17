@@ -10,6 +10,13 @@ import 'tables/reference/mutashabih_groups.dart';
 import 'tables/reference/mutashabih_members.dart';
 import 'tables/reference/pages.dart';
 import 'tables/reference/surahs.dart';
+import 'tables/user/app_meta.dart';
+import 'tables/user/cards.dart';
+import 'tables/user/confusion_edges.dart';
+import 'tables/user/cycle_configs.dart';
+import 'tables/user/line_blocks.dart';
+import 'tables/user/profiles.dart';
+import 'tables/user/review_log.dart';
 
 part 'database.g.dart';
 
@@ -27,6 +34,14 @@ part 'database.g.dart';
 /// DAO exposes a write to any reference table — read-only by construction (R1).
 @DriftDatabase(
   tables: [
+    // user (read-write — per profile)
+    Profiles,
+    Cards,
+    LineBlocks,
+    ReviewLog,
+    ConfusionEdges,
+    CycleConfigs,
+    AppMeta,
     // reference (read-only — never written at runtime, 05 §2; R1)
     Mushafs,
     Surahs,
