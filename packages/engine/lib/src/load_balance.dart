@@ -105,6 +105,10 @@ extension LoadBalance on SchedulingEngine {
   ) {
     assert(spreadDays > 0, 'spreadDays must be positive');
     if (backlog.isEmpty) return const [];
+    // Total + release-safe: a non-positive spreadDays (a caller bug the assert
+    // catches in debug) degrades to a single day rather than dividing by zero or
+    // looping — the backlog is never silently dropped (never "safe to drop").
+    final days = spreadDays < 1 ? 1 : spreadDays;
     final sorted = [...backlog]..sort((a, b) {
         final byR = rOf(a).compareTo(rOf(b)); // lowest R first
         if (byR != 0) return byR;
@@ -115,7 +119,7 @@ extension LoadBalance on SchedulingEngine {
         }
         return a.pageId.compareTo(b.pageId); // deterministic tiebreak
       });
-    final perDay = (sorted.length / spreadDays).ceil();
+    final perDay = (sorted.length / days).ceil();
     return [
       for (var i = 0; i < sorted.length; i += perDay)
         DayPlan(

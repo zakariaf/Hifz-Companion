@@ -110,6 +110,21 @@ void main() {
       expect(good, ReviewTrack.newPage);
       expect(hard, ReviewTrack.newPage);
     });
+
+    test('a New page reaching far-band S graduates only ONE level (to Near)',
+        () {
+      // Even with far-band S and an Easy sign-off, a New page may not skip the
+      // Near/sabqi consolidation phase straight to Far in a single review.
+      final newAtFarS =
+          testCard(track: ReviewTrack.newPage, stabilityDays: 100);
+      final after = updateGraduation(
+        newAtFarS,
+        ReviewGrade.easy,
+        GradeSource.teacher,
+        inRecentWindow: false,
+      );
+      expect(after.track, ReviewTrack.near);
+    });
   });
 
   group('graduation Near → Far — S ≥ kFarMinS AND outside window AND fluency',

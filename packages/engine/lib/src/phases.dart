@@ -107,14 +107,15 @@ Card updateGraduation(
     // Demotion: a lapse shrank S; the stored track follows S down — no gate.
     track = sBand;
   } else if (trackStrength(sBand) > trackStrength(track)) {
-    // Promotion is gated, predictable, and fluency-driven — never a hidden jump.
+    // Promotion is gated, predictable, and fluency-driven — never a hidden jump,
+    // and at most ONE band per review (the `else if` keeps a page from skipping
+    // the Near/sabqi consolidation phase straight to Far in a single review).
     if (track == ReviewTrack.newPage &&
         trackStrength(sBand) >= trackStrength(ReviewTrack.near) &&
         fluent &&
         newSignoffs >= kGraduationSignoffs) {
       track = ReviewTrack.near;
-    }
-    if (track == ReviewTrack.near &&
+    } else if (track == ReviewTrack.near &&
         trackStrength(sBand) >= trackStrength(ReviewTrack.far) &&
         fluent &&
         !inRecentWindow) {

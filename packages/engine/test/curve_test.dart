@@ -88,4 +88,21 @@ void main() {
       expect(interval(37.5, 0.94), interval(37.5, 0.94));
     });
   });
+
+  group('defensive totality — never NaN, never divide by zero', () {
+    test('retrievability with s ≤ 0 is finite (floored at kMinStability)', () {
+      expect(retrievability(10, 0).isFinite, isTrue);
+      expect(retrievability(10, -5).isFinite, isTrue);
+    });
+
+    test('retrievability with negative elapsed clamps to R = 1 (≤ 100%)', () {
+      expect(retrievability(-30, 50), closeTo(1.0, 1e-12));
+      expect(retrievability(0, 50), closeTo(1.0, 1e-12));
+    });
+
+    test('interval with s ≤ 0 still returns ≥ 1 day (never 0/negative)', () {
+      expect(interval(0, 0.9), greaterThanOrEqualTo(1));
+      expect(interval(-10, 0.9), greaterThanOrEqualTo(1));
+    });
+  });
 }

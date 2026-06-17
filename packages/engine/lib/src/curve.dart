@@ -32,8 +32,14 @@ final double kFactor = pow(0.9, 1 / kDecay).toDouble() - 1;
 /// [kFactor]. Takes a pre-computed integer elapsed-days — the caller forms it
 /// by `today.epochDay − card.lastReviewedDay.epochDay` (plain integer
 /// subtraction, DST-immune) — and reads no clock (06 §3).
+///
+/// Defensive and total: a negative elapsed (a review *before* the last review,
+/// e.g. a backward clock change) is clamped to `0` (recall can't exceed 100%),
+/// and `s` is floored at [kMinStability] so a `0`/negative stability can never
+/// divide by zero or return `NaN`. For valid inputs these clamps are no-ops.
 double retrievability(int elapsedDays, double s) =>
-    pow(1 + kFactor * elapsedDays / s, kDecay).toDouble();
+    pow(1 + kFactor * max(0, elapsedDays) / max(kMinStability, s), kDecay)
+        .toDouble();
 
 /// Days until recall probability falls to [targetR], given stability [s].
 ///
@@ -43,8 +49,9 @@ double retrievability(int elapsedDays, double s) =>
 /// "no page is ever safe to drop" arithmetic; the ceiling matches the
 /// reference clamps. There is no jitter or `Random` here — any declumping is
 /// the bounded `loadBalance` peak-smoothing (E04-T09), never hidden RNG
-/// (06 §3, §7).
+/// (06 §3, §7). `s` is floored at [kMinStability] so a `0`/negative stability
+/// cannot produce an invalid interval (the output clamp would catch it anyway).
 int interval(double s, double targetR) =>
-    ((s / kFactor) * (pow(targetR, 1 / kDecay) - 1))
+    ((max(kMinStability, s) / kFactor) * (pow(targetR, 1 / kDecay) - 1))
         .round()
         .clamp(1, kMaxInterval);

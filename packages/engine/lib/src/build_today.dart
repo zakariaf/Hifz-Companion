@@ -66,7 +66,10 @@ List<Card> _farCycleSliceForToday(
   CalendarDate today,
   int farCycleDays,
 ) {
-  if (far.isEmpty) return const [];
+  // Release-safe: a non-positive farCycleDays (an EngineConfig assert catches it
+  // in debug) yields no slice rather than a modulo-by-zero — due Far pages are
+  // still scheduled via the explicit dueFar union, so nothing is dropped.
+  if (far.isEmpty || farCycleDays <= 0) return const [];
   final bucket = today.epochDay % farCycleDays;
   final sorted = [...far]..sort((a, b) => a.pageId.compareTo(b.pageId));
   return [

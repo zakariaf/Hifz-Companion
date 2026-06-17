@@ -146,5 +146,16 @@ void main() {
     test('an empty backlog yields no plans', () {
       expect(engine.catchUp(const [], 3, today, rOf), isEmpty);
     });
+
+    test('a non-positive spreadDays trips the debug assert', () {
+      // A caller bug: the assert catches it loudly in debug. In release (asserts
+      // off) the in-body clamp degrades it to a single day rather than dividing
+      // by zero or dropping the backlog — not unit-testable here since `dart
+      // test` runs with assertions enabled.
+      expect(
+        () => engine.catchUp([far(1)], 0, today, rOf),
+        throwsA(isA<AssertionError>()),
+      );
+    });
   });
 }

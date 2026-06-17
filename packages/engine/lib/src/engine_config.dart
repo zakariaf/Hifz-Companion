@@ -59,7 +59,10 @@ class EngineConfig {
     this.nearCeilingDays = 7,
     this.pureCycleMode = false,
     this.dailyBudgetMinutes = 30,
-  }) : assert(
+  })  : assert(farCycleDays > 0, 'farCycleDays must be positive'),
+        assert(nearCeilingDays > 0, 'nearCeilingDays must be positive'),
+        assert(dailyBudgetMinutes >= 0, 'dailyBudgetMinutes must be ≥ 0'),
+        assert(
           nearCeilingDays <= farCycleDays,
           'nearCeilingDays must never be looser than farCycleDays (06 §6).',
         );

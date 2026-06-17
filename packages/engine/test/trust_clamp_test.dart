@@ -104,6 +104,14 @@ void main() {
         throwsA(isA<AssertionError>()),
       );
     });
+
+    test('a non-positive farCycleDays trips the assert (no modulo-by-zero)',
+        () {
+      expect(
+        () => EngineConfig(farCycleDays: 0),
+        throwsA(isA<AssertionError>()),
+      );
+    });
   });
 
   // INV-1 — THE TRUST CLAMP. PRD §7.6: SR may only make a page MORE frequent,
