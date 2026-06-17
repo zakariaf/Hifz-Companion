@@ -13,4 +13,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get appTitle => 'Hifz Companion';
+
+  @override
+  String get hijriUmmAlQuraQualifier => '(Umm al-Qurā)';
+
+  @override
+  String get hijriCivilApproximationCaveat =>
+      'التاريخ الهجري تقويم مدني تقريبي (أم القرى)؛ وقد يختلف بدء بعض المناسبات يوماً واحداً بحسب رؤية الهلال.';
 }

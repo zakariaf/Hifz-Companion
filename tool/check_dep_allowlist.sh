@@ -16,6 +16,9 @@ allowed=(
   # external runtime + tooling
   meta drift sqlite3 path http crypto intl flutter_riverpod go_router
   test glados flutter_lints
+  # display-only calendar conversion (E02 §4): pure-Dart, offline, BSD-licensed.
+  # Banned in engine/ by the banned-import gate; calendars are a display concern.
+  shamsi_date hijri
   # flutter SDK dependencies
   flutter flutter_localizations flutter_test integration_test
   # local workspace packages (path deps)

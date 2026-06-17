@@ -1,4 +1,6 @@
 {
   "@@locale": "ckb",
-  "appTitle": "Hifz Companion"
+  "appTitle": "Hifz Companion",
+  "hijriUmmAlQuraQualifier": "(Umm al-Qurā)",
+  "hijriCivilApproximationCaveat": "ڕێکەوتی کۆچیی مانگی ساڵنامەیەکی مەدەنیی نزیکەییە (ئوم القورا)؛ لەوانەیە دەستپێکی هەندێک بۆنە بەپێی بینینی مانگ بە ڕۆژێک جیاواز بێت."
 }

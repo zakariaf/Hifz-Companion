@@ -10,4 +10,5 @@
 /// authored in E03; it currently exports one compile-proving placeholder.
 library;
 
+export 'src/dates/today_for.dart' show todayFor;
 export 'src/repositories/placeholder_repository.dart';

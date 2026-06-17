@@ -1,4 +1,6 @@
 {
   "@@locale": "fa",
-  "appTitle": "Hifz Companion"
+  "appTitle": "Hifz Companion",
+  "hijriUmmAlQuraQualifier": "(Umm al-Qurā)",
+  "hijriCivilApproximationCaveat": "تاریخ هجریِ قمری یک تقویم مدنیِ تقریبی (اُمّ‌القُرا) است؛ آغاز برخی مناسبت‌ها ممکن است بر پایهٔ رؤیت هلال یک روز متفاوت باشد."
 }

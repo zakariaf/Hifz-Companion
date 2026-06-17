@@ -13,4 +13,11 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get appTitle => 'Hifz Companion';
+
+  @override
+  String get hijriUmmAlQuraQualifier => '(Umm al-Qurā)';
+
+  @override
+  String get hijriCivilApproximationCaveat =>
+      'تاریخ هجریِ قمری یک تقویم مدنیِ تقریبی (اُمّ‌القُرا) است؛ آغاز برخی مناسبت‌ها ممکن است بر پایهٔ رؤیت هلال یک روز متفاوت باشد.';
 }
