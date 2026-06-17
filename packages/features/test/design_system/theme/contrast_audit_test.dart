@@ -167,9 +167,9 @@ void main() {
       const dark = MihrabAppearance.dark;
       final cells = <(MihrabAppearance, _Resolve, _Resolve, double)>[
         (light, _onSurface, _surface, 15.05),
-        (light, _primary, _surface, 5.61),
+        (light, _primary, _surface, 5.23),
         (dark, _primary, _surface, 8.77),
-        (light, _strong, _surface, 4.59),
+        (light, _strong, _surface, 3.99),
       ];
       for (final cell in cells) {
         expect(ratioOf(cell.$1, cell.$2, cell.$3), closeTo(cell.$4, 0.1));

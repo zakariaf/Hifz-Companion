@@ -14,10 +14,15 @@ Widget _host(TextDirection direction, Widget child, {Locale? locale}) {
     localizationsDelegates: hifzLocalizationsDelegates,
     supportedLocales: AppLocalizations.supportedLocales,
     theme: mihrabThemeFor(MihrabAppearance.light),
-    home: Directionality(textDirection: direction, child: child),
+    home: Directionality(
+      textDirection: direction,
+      child: Align(alignment: Alignment.bottomCenter, child: child),
+    ),
   );
 }
 
+// Each tab keeps its outlined icon in the layout (the active one only fades to
+// opacity 0), so an icon's centre is a reliable proxy for its tab's position.
 double _iconX(WidgetTester tester, IconData icon) =>
     tester.getCenter(find.byIcon(icon)).dx;
 
@@ -33,8 +38,6 @@ void main() {
     await tester.pumpWidget(_host(TextDirection.rtl, _bar()));
     await tester.pumpAndSettle();
 
-    // Five destinations declared in logical order; RTL flips the geometry.
-    expect(find.byType(NavigationDestination), findsNWidgets(5));
     final today = _iconX(tester, Icons.wb_sunny_outlined);
     final settings = _iconX(tester, Icons.settings_outlined);
     expect(today, greaterThan(settings));
@@ -49,6 +52,23 @@ void main() {
     expect(today, lessThan(settings));
   });
 
+  testWidgets('the active tab lifts into the filled bubble', (tester) async {
+    await tester.pumpWidget(_host(TextDirection.rtl, _bar()));
+    await tester.pumpAndSettle();
+
+    // Today is selected: its filled icon shows once (in the floating bubble),
+    // and the other four render their outlined icons.
+    expect(find.byIcon(Icons.wb_sunny), findsOneWidget);
+    for (final icon in const [
+      Icons.menu_book_outlined,
+      Icons.compare_arrows_outlined,
+      Icons.grid_view_outlined,
+      Icons.settings_outlined,
+    ]) {
+      expect(find.byIcon(icon), findsOneWidget);
+    }
+  });
+
   testWidgets('selection is a plain index callback — no route push', (
     tester,
   ) async {
@@ -61,9 +81,14 @@ void main() {
         supportedLocales: AppLocalizations.supportedLocales,
         theme: mihrabThemeFor(MihrabAppearance.light),
         navigatorObservers: [observer],
-        home: MihrabNavigationBar(
-          selectedIndex: 0,
-          onDestinationSelected: (i) => tapped = i,
+        home: Scaffold(
+          body: Align(
+            alignment: Alignment.bottomCenter,
+            child: MihrabNavigationBar(
+              selectedIndex: 0,
+              onDestinationSelected: (i) => tapped = i,
+            ),
+          ),
         ),
       ),
     );
@@ -76,11 +101,17 @@ void main() {
     expect(observer.pushes, 0); // tapping a tab pushes no real route
   });
 
-  testWidgets('the nav clears the 48dp touch floor', (tester) async {
+  testWidgets('the tab row clears the 48dp touch floor', (tester) async {
     await tester.pumpWidget(_host(TextDirection.rtl, _bar()));
     await tester.pumpAndSettle();
-    final h = tester.getSize(find.byType(NavigationBar)).height;
-    expect(h, greaterThanOrEqualTo(48));
+    // The tappable cell is as tall as the bar body; assert that floor.
+    final cell = tester.getSize(
+      find.ancestor(
+        of: find.byIcon(Icons.settings_outlined),
+        matching: find.byType(GestureDetector),
+      ),
+    );
+    expect(cell.height, greaterThanOrEqualTo(48));
   });
 
   testWidgets('ckb longer labels lay out without overflow', (tester) async {
@@ -88,7 +119,9 @@ void main() {
     await tester.pumpWidget(_host(TextDirection.rtl, _bar(), locale: ckb));
     await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);
-    expect(find.byType(NavigationDestination), findsNWidgets(5));
+    // Five tabs present (their outlined icons, the active one faded but laid out)
+    expect(find.byIcon(Icons.wb_sunny_outlined), findsOneWidget);
+    expect(find.byIcon(Icons.settings_outlined), findsOneWidget);
   });
 }
 

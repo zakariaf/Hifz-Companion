@@ -16,7 +16,7 @@ void main() {
       expect(s.brightness, Brightness.light);
       expect(s.surface, const Color(0xFFF3F6F1));
       expect(s.onSurface, const Color(0xFF1A211E));
-      expect(s.primary, const Color(0xFF1F6E5A));
+      expect(s.primary, const Color(0xFF18745A));
     });
 
     test('Dark uses off-black surface and the re-toned accent', () {

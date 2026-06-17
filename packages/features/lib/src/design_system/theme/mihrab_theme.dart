@@ -16,12 +16,13 @@ import 'spacing_tokens.dart';
 /// the platform UI font so the appearance/layout can be reviewed first.)
 ThemeData mihrabThemeFor(MihrabAppearance appearance) {
   final scheme = colorSchemeFor(appearance);
+  final text = _mihrabTextTheme(scheme);
   return ThemeData(
     useMaterial3: true,
     colorScheme: scheme,
     fontFamily: 'Vazirmatn',
     scaffoldBackgroundColor: scheme.surface,
-    textTheme: _mihrabTextTheme(scheme),
+    textTheme: text,
     extensions: <ThemeExtension<dynamic>>[
       const SpacingTokens.standard(),
       const MotionTokens.standard(),
@@ -37,11 +38,6 @@ ThemeData mihrabThemeFor(MihrabAppearance appearance) {
           color: scheme.outlineVariant.withValues(alpha: 0.5),
         ),
       ),
-    ),
-    navigationBarTheme: NavigationBarThemeData(
-      backgroundColor: scheme.surfaceContainer,
-      indicatorColor: scheme.primary.withValues(alpha: 0.18),
-      elevation: 0,
     ),
     appBarTheme: AppBarTheme(
       backgroundColor: scheme.surface,
@@ -59,17 +55,33 @@ ThemeData mihrabThemeFor(MihrabAppearance appearance) {
 TextTheme _mihrabTextTheme(ColorScheme scheme) {
   const height = 1.5;
   const base = TextTheme(
-    displaySmall: TextStyle(fontSize: 28, height: height, letterSpacing: 0),
+    displaySmall: TextStyle(
+      fontSize: 30,
+      height: 1.25,
+      letterSpacing: 0,
+      fontWeight: FontWeight.w700,
+    ),
     titleLarge: TextStyle(
       fontSize: 22,
       height: height,
       letterSpacing: 0,
       fontWeight: FontWeight.w600,
     ),
-    titleMedium: TextStyle(fontSize: 18, height: height, letterSpacing: 0),
+    titleMedium: TextStyle(
+      fontSize: 18,
+      height: height,
+      letterSpacing: 0,
+      fontWeight: FontWeight.w600,
+    ),
     bodyLarge: TextStyle(fontSize: 16, height: height, letterSpacing: 0),
     bodyMedium: TextStyle(fontSize: 15, height: height, letterSpacing: 0),
-    labelLarge: TextStyle(fontSize: 14, height: height, letterSpacing: 0),
+    labelLarge: TextStyle(
+      fontSize: 14,
+      height: height,
+      letterSpacing: 0,
+      fontWeight: FontWeight.w600,
+    ),
+    labelMedium: TextStyle(fontSize: 12.5, height: height, letterSpacing: 0),
     bodySmall: TextStyle(fontSize: 12.5, height: height, letterSpacing: 0),
   );
   return base.apply(
@@ -88,8 +100,8 @@ MihrabColors mihrabColorsFor(MihrabAppearance appearance) =>
 
 // Heat-map ramp + bespoke tints per 03 §5/§6. (T02/T03/T10 finalise + audit.)
 const _lightColors = MihrabColors(
-  heatmapStrong: Color(0xFF2E7D5B),
-  heatmapGood: Color(0xFF5FA382),
+  heatmapStrong: Color(0xFF1B8A5A),
+  heatmapGood: Color(0xFF49A074),
   heatmapFair: Color(0xFF93BFA6),
   heatmapWeak: Color(0xFFB9C3BC),
   heatmapFaded: Color(0xFFD2D8D2),
@@ -104,8 +116,8 @@ const _lightColors = MihrabColors(
 );
 
 const _sepiaColors = MihrabColors(
-  heatmapStrong: Color(0xFF2E7D5B),
-  heatmapGood: Color(0xFF5FA382),
+  heatmapStrong: Color(0xFF1B8A5A),
+  heatmapGood: Color(0xFF49A074),
   heatmapFair: Color(0xFF93BFA6),
   heatmapWeak: Color(0xFFC4BBA6),
   heatmapFaded: Color(0xFFE0D6BF),
@@ -120,8 +132,8 @@ const _sepiaColors = MihrabColors(
 );
 
 const _darkColors = MihrabColors(
-  heatmapStrong: Color(0xFF4FB386),
-  heatmapGood: Color(0xFF3C7E61),
+  heatmapStrong: Color(0xFF58C495),
+  heatmapGood: Color(0xFF418C6A),
   heatmapFair: Color(0xFF356B55),
   heatmapWeak: Color(0xFF38453E),
   heatmapFaded: Color(0xFF262B27),
@@ -136,8 +148,8 @@ const _darkColors = MihrabColors(
 );
 
 const _nightColors = MihrabColors(
-  heatmapStrong: Color(0xFF7FB48C),
-  heatmapGood: Color(0xFF5C8E6A),
+  heatmapStrong: Color(0xFF85C398),
+  heatmapGood: Color(0xFF619A72),
   heatmapFair: Color(0xFF466B52),
   heatmapWeak: Color(0xFF3A352A),
   heatmapFaded: Color(0xFF241F16),

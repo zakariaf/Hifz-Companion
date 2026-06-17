@@ -98,7 +98,7 @@ This file is the single source of truth for every `color.*` token in Mihrab: the
 
 **In practice.**
 - `color.bg.primary` (Dark) = `#121413`; surface containers step up in *tone*, not via overlay opacity, so RTL surfaces stack predictably regardless of mirroring — we prefer Material 3 tone-based surface roles over translucent elevation ([Material 3: Tone-based surfaces](https://m3.material.io/blog/tone-based-surface-color-m3)).
-- Dark `color.accent.green` is *lighter and lower-chroma* than its Light counterpart (`#6FC2A8` vs `#1F6E5A`) so it reads as text/link on the dark surface without vibration; the audit (§7) confirms 8.77:1.
+- Dark `color.accent.green` is *lighter and lower-chroma* than its Light counterpart (`#6FC2A8` vs `#18745A`) so it reads as text/link on the dark surface without vibration; the audit (§7) confirms 8.77:1.
 - Material 3 exposes user-selectable contrast via `contrastLevel` on `ColorScheme.fromSeed` (−1.0 … 1.0); low-vision users can push past our floor without a bespoke theme ([Flutter: ColorScheme.fromSeed](https://api.flutter.dev/flutter/material/ColorScheme/ColorScheme.fromSeed.html)). See [09-accessibility-and-inclusivity.md](09-accessibility-and-inclusivity.md).
 
 **Anti-patterns — we will never:**
@@ -121,8 +121,8 @@ This file is the single source of truth for every `color.*` token in Mihrab: the
 
 | Token | Light | Dark | Meaning |
 |---|---|---|---|
-| `color.heatmap.strong` | `#2E7D5B` | `#4FB386` | high retention (calm green) |
-| `color.heatmap.good` | `#5FA382` | `#3C7E61` | solid |
+| `color.heatmap.strong` | `#1B8A5A` | `#58C495` | high retention (calm green) |
+| `color.heatmap.good` | `#49A074` | `#418C6A` | solid |
 | `color.heatmap.fair` | `#93BFA6` | `#356B55` | softening |
 | `color.heatmap.weak` | `#B9C3BC` | `#38453E` | decaying (muted neutral) |
 | `color.heatmap.faded` | `#D2D8D2` | `#262B27` | most-decayed / un-reviewed |
@@ -152,7 +152,7 @@ This file is the single source of truth for every `color.*` token in Mihrab: the
 | Token | Light | Dark | Paired icon | Use |
 |---|---|---|---|---|
 | `color.semantic.warning` | `#8A5A00` | `#E8B23C` | `warning` | Asset-integrity / checksum notice, "core pack not verified" (PRD §11.1.1) |
-| `color.accent.green` | `#1F6E5A` | `#6FC2A8` | contextual | the one interactive tint; "verified / done" reads via icon + text, not a separate success-green |
+| `color.accent.green` | `#18745A` | `#6FC2A8` | contextual | the one interactive tint; "verified / done" reads via icon + text, not a separate success-green |
 
 - Deliberate restraint: a **missed-day catch-up** banner is framed as help, not failure — it uses calm neutral surface + `color.accent.green` accent and supportive copy ("You missed 3 days — here is a 5-day catch-up plan"), never a red overdue pile (PRD §7.9, §12.2; [11-voice-and-tone.md](11-voice-and-tone.md)).
 - There is intentionally **no `color.semantic.success`** and **no `color.semantic.danger`** for routine hifz states: "saved" and "verified" are communicated by an icon + text in `color.accent.green`; the only red-adjacent token is the asset-integrity warning, which is a genuine, rare, technical failure (a corrupted Quran asset must be refused — PRD R1), not a comment on the user's revision.
@@ -170,6 +170,18 @@ This file is the single source of truth for every `color.*` token in Mihrab: the
 This does **not** loosen §2: `color.accent.green` remains the *single interactive tint* (links, the primary action, selected states) and the heat-map "strong" anchor. Gold never marks an action, a success, a reward, a streak, or an alert, and it is never laid over the muṣḥaf glyphs. It is decorative ground, like the green — one more quiet act of adab, not a second call-to-action.
 
 Owned in Dart by `MihrabColors.accentGold` (E06-T02); its text/graphical pairings are re-run through the §7 WCAG audit per appearance in E06-T10 before lock.
+
+---
+
+### Amendment (E06 design pass, 2026-06-17): richer green + heat anchor
+
+**Statement.** After an on-device review (huffaz-facing iḥsān bar), three §1-conformant adjustments were locked, each re-audited (§7) and within the AA floor:
+
+- **Daytime `accent.green` deepened a touch** — Light `#1F6E5A → #18745A`, Sepia `#1C6450 → #166650` (a hair more saturated; the Dark/Night greens are unchanged). The pinned hexes and §7 ratios above are updated (Light text-on-bg `5.61 → 5.23`, on-accent `6.11 → 5.70`; both still Pass). The seed `#1F6E5A` is unchanged — only the explicit `primary` pin moved.
+- **Heat anchor made more alive** — `heatmap.strong`/`good` saturated at the strong end (Light strong `#2E7D5B → #1B8A5A`, good `#5FA382 → #49A074`; Dark strong `#4FB386 → #58C495`, good `#3C7E61 → #418C6A`; Sepia follows Light, Night its own re-tone). The §5/§7 ramp tables are updated; `heatmap.strong` still clears the 3:1 graphical-object floor in both appearances (Light `4.59 → 3.99`, Dark `7.16 → 8.58`). This is the **one sanctioned vivid surface** (the retention heat-map), never sacred content.
+- **Gold given a confident, still-ornamental role** — the curved bottom-nav (see [02-material-and-platform-foundations.md](02-material-and-platform-foundations.md) amendment) draws its notch top-edge in `accent.gold`; the active tab's lift circle uses `accent.green` (the interactive tint), keeping §2's green-acts / gold-adorns split intact.
+
+The type-ramp refinements are recorded in [04-typography.md](04-typography.md).
 
 ---
 
@@ -192,18 +204,18 @@ Owned in Dart by `MihrabColors.accentGold` (E06-T02); its text/graphical pairing
 | `text.primary` on `surface.container` | 4.5 | 13.68 | — | 13.34 | — | Pass (AAA) |
 | `text.secondary` on `bg.primary` | 4.5 | 7.59 | 6.60 | 8.30 | 6.81 | Pass (AAA) |
 | `text.tertiary` on `bg.primary` | 4.5 | 5.47 | — | 5.26 | — | Pass (AA) |
-| `accent.green` as text/link on `bg.primary` | 4.5 | 5.61 | 5.88 | 8.77 | 7.90 | Pass |
-| `text.on-accent` on `accent.green` fill | 4.5 | 6.11 | — | 8.87 | — | Pass |
+| `accent.green` as text/link on `bg.primary` | 4.5 | 5.23 | 5.76 | 8.77 | 7.90 | Pass |
+| `text.on-accent` on `accent.green` fill | 4.5 | 5.70 | — | 8.87 | — | Pass |
 | `semantic.warning` text on `bg.primary` | 4.5 | 5.44 | — | 9.57 | — | Pass |
 
-Appearance background anchors used above: Light `bg.primary` `#F3F6F1` / `surface.container` `#E7ECE4`; Sepia `bg.primary` `#F3EAD8`; Dark `bg.primary` `#121413` / `surface.container` `#1E211F`; Night `bg.primary` `#14110C`. Text/accent values per appearance: Light `text.primary` `#1A211E`, `text.secondary` `#46514B`, `text.tertiary` `#5C665F`, `accent.green` `#1F6E5A`, `on-accent` `#FFFFFF`; Sepia `text.primary` `#2B2620`, `text.secondary` `#5A5042`, `accent.green` `#1C6450`; Dark `text.primary` `#E6EAE3`, `text.secondary` `#A7B0A8`, `text.tertiary` `#828B83`, `accent.green` `#6FC2A8`, `on-accent` `#0C140F`; Night `text.primary` `#D8CBB2`, `text.secondary` `#A89A80`, `accent.green` `#7FB48C`.
+Appearance background anchors used above: Light `bg.primary` `#F3F6F1` / `surface.container` `#E7ECE4`; Sepia `bg.primary` `#F3EAD8`; Dark `bg.primary` `#121413` / `surface.container` `#1E211F`; Night `bg.primary` `#14110C`. Text/accent values per appearance: Light `text.primary` `#1A211E`, `text.secondary` `#46514B`, `text.tertiary` `#5C665F`, `accent.green` `#18745A`, `on-accent` `#FFFFFF`; Sepia `text.primary` `#2B2620`, `text.secondary` `#5A5042`, `accent.green` `#166650`; Dark `text.primary` `#E6EAE3`, `text.secondary` `#A7B0A8`, `text.tertiary` `#828B83`, `accent.green` `#6FC2A8`, `on-accent` `#0C140F`; Night `text.primary` `#D8CBB2`, `text.secondary` `#A89A80`, `accent.green` `#7FB48C`.
 
 ### Heat-map ramp — graphical objects (SC 1.4.11, mark vs theme `bg.primary`)
 
 | Token | Need | Light | Dark | Result |
 |---|---|---|---|---|
-| `heatmap.strong` | 3 | 4.59 | 7.16 | Pass (the anchor clears 3:1) |
-| `heatmap.good` | 3 | 2.73 | 3.83 | By design < 3:1 in Light* |
+| `heatmap.strong` | 3 | 3.99 | 8.58 | Pass (the anchor clears 3:1) |
+| `heatmap.good` | 3 | 2.93 | 4.57 | By design < 3:1 in Light* |
 | `heatmap.fair` | 3 | 1.88 | 2.98 | By design < 3:1* |
 | `heatmap.weak` | 3 | 1.66 | 1.84 | By design < 3:1* |
 | `heatmap.faded` | 3 | 1.33 | 1.28 | By design < 3:1* |

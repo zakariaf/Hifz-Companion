@@ -75,6 +75,7 @@ class _Home extends StatelessWidget {
     final space = Theme.of(context).extension<SpacingTokens>()!;
     return Scaffold(
       appBar: AppBar(title: const Text('Mihrab gallery')),
+      bottomNavigationBar: const _PinnedNav(),
       body: ListView(
         padding: EdgeInsets.all(space.space4),
         children: [
@@ -344,8 +345,6 @@ class _Components extends StatelessWidget {
           selected: AppearanceSetting.followSystem,
           onChanged: (_) {},
         ),
-        SizedBox(height: space.space4),
-        MihrabNavigationBar(selectedIndex: 0, onDestinationSelected: (_) {}),
       ],
     );
   }
@@ -357,6 +356,27 @@ class _MotionDemo extends StatefulWidget {
 
   @override
   State<_MotionDemo> createState() => _MotionDemoState();
+}
+
+/// The nav pinned at the bottom of the gallery, with live tab selection so the
+/// notch glides when you tap a tab.
+class _PinnedNav extends StatefulWidget {
+  const _PinnedNav();
+
+  @override
+  State<_PinnedNav> createState() => _PinnedNavState();
+}
+
+class _PinnedNavState extends State<_PinnedNav> {
+  int _index = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return MihrabNavigationBar(
+      selectedIndex: _index,
+      onDestinationSelected: (i) => setState(() => _index = i),
+    );
+  }
 }
 
 class _MotionDemoState extends State<_MotionDemo> {

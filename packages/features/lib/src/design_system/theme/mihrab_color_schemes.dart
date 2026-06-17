@@ -101,7 +101,7 @@ final ColorScheme _lightScheme = _seeded(Brightness.light).copyWith(
   surfaceContainer: const Color(0xFFE7ECE4),
   onSurface: const Color(0xFF1A211E),
   onSurfaceVariant: const Color(0xFF46514B),
-  primary: const Color(0xFF1F6E5A),
+  primary: const Color(0xFF18745A),
   onPrimary: const Color(0xFFFFFFFF),
 );
 
@@ -110,7 +110,7 @@ final ColorScheme _sepiaScheme = _seeded(Brightness.light).copyWith(
   surfaceContainer: const Color(0xFFE9DEC6),
   onSurface: const Color(0xFF2B2620),
   onSurfaceVariant: const Color(0xFF5A5042),
-  primary: const Color(0xFF1C6450),
+  primary: const Color(0xFF166650),
   onPrimary: const Color(0xFFFFFFFF),
 );
 

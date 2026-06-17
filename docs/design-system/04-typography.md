@@ -197,6 +197,18 @@ This file defines Mihrab's type system for the app *chrome* — the localized in
 
 ---
 
+### Amendment (E06, 2026-06-17): hierarchy refinements
+
+**Statement.** After the on-device review the UI ramp (`_mihrabTextTheme`) gained a little more hierarchy, all keeping the zero letter-spacing rule (Arabic joins) and the ~1.5 body line-height:
+
+- The hero `displaySmall` is more expressive — `28 → 30` at weight `w700`, with a tighter heading line-height (`1.25`) so titles read as headings, not body.
+- `titleMedium` (card titles) and `labelLarge` (buttons) move to `w600` for clearer weight contrast against body text.
+- `labelMedium` (`12.5`) is added for the bottom-nav tab labels and chips — a role the prior ramp omitted.
+
+Body sizes, the line-height floor, and `letterSpacing: 0` are unchanged. Owned in Dart by `_mihrabTextTheme` (E06).
+
+---
+
 ## References
 
 - Code Guru. *Fonts and Readability: Best Arabic Script for the Web* (16 px body floor; ~20% faster ≥16 pt; Naskh/sans for screen). https://codeguru.ae/blog/fonts-and-readability-best-arabic-script-for-the-web/
