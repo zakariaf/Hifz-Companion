@@ -9,4 +9,5 @@
 /// epics; this barrel currently exports one compile-proving placeholder feature.
 library;
 
+export 'src/design_system/design_system.dart';
 export 'src/placeholder/placeholder_screen.dart';

@@ -20,9 +20,13 @@ on:
 #                                                flutter test) + date-matrix (T1–T5/T10
 #                                                re-run under each TZ leg)
 #  gate 6  network restraint                   → restraint (dep allow-list) + fast (analyze)
+#  gate 6  pipeline wall (UI type ⊥ muṣḥaf)     → restraint (check_pipeline_wall + meta-test)
+#  (internal) design-system token discipline   → restraint (check_token_discipline + meta-test)
 #  gate 7  mutashābihāt dataset hash + sign-off → restraint + human
 #  gate 8  manual muṣḥaf review                → human (not automatable)
 # A check with no gate row, or a gate row with no job, is a bug. Keep in sync.
+#  (internal) design-system WCAG contrast audit → fast (flutter test features);
+#            re-derives 03 §7 ratios per appearance — the seed of the E08 a11y program.
 
 env:
   # Pinned — must match the README baseline. A floating SDK re-renders goldens
@@ -114,6 +118,10 @@ jobs:
           bash tool/check_no_network.sh
           bash tool/check_engine_purity.sh
           bash tool/check_quran_isolation.sh
+          bash tool/check_pipeline_wall.sh
+          bash tool/test/check_pipeline_wall_test.sh
+          dart run tool/check_token_discipline.dart
+          bash tool/test/check_token_discipline_test.sh
           bash tool/check_dep_allowlist.sh
           bash tool/check_l10n_complete.sh
       - name: Asset SHA-256 integrity (dormant/fail-closed on the empty manifest)

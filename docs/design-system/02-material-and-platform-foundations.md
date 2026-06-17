@@ -221,6 +221,14 @@ This file fixes the substrate every other Mihrab file builds on: **how Material 
 
 ---
 
+### Amendment (E06, 2026-06-17): the bottom nav is a custom curved bar
+
+**Decision.** The five-tab bottom navigation is implemented as a **custom-painted curved bar** (`MihrabNavigationBar`) rather than M3 `NavigationBar` — a deliberate, scoped exception to §5's "restrained M3 vocabulary" rule and to the "don't custom-paint where an M3 component does the job" guard above. Rationale: after an on-device review the stock `NavigationBar` read as too plain for the product's identity surface; the curved bar (an animated notch whose top edge is stroked in `accent.gold`, the active tab lifting into an `accent.green` circle that glides between tabs) gives a distinctive, reverent home without breaking any non-negotiable.
+
+It stays inside every binding rule: **calm** (one gentle `motion.durationMedium` glide, no bounce/celebration, no gamification — it is wayfinding, never a reward); **labelled** (every tab keeps its `l10n` text, and the active state is marked by the lift + filled icon + green tint + heavier label, never colour alone — SC 1.4.1); **RTL by construction** (a logical-order `Row`, so Today lands at the trailing edge for fa/ckb/ar, with the notch placed from the *visual* slot); **token-pure** (colours from `ColorScheme`/`MihrabColors`, motion from `MotionTokens`; only intrinsic component geometry is local); and **≥48dp** touch rows. The grade/recite actions, dialogs, and lists remain restrained M3 per §5. Owned in Dart by `MihrabNavigationBar` (E06); anatomy mirrored in [07-components.md](07-components.md).
+
+---
+
 ## References
 
 - Borland, D., & Taylor, R. M., II. (2007). Rainbow Color Map (Still) Considered Harmful. *IEEE Computer Graphics and Applications*, 27(2), 14–17. https://doi.org/10.1109/MCG.2007.323435

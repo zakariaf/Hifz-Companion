@@ -20,4 +20,34 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get hijriCivilApproximationCaveat =>
       'التاريخ الهجري تقويم مدني تقريبي (أم القرى)؛ وقد يختلف بدء بعض المناسبات يوماً واحداً بحسب رؤية الهلال.';
+
+  @override
+  String get navToday => 'اليوم';
+
+  @override
+  String get navMushaf => 'المصحف';
+
+  @override
+  String get navMutashabihat => 'المتشابهات';
+
+  @override
+  String get navProgress => 'التقدّم';
+
+  @override
+  String get navSettings => 'الإعدادات';
+
+  @override
+  String get appearanceFollowSystem => 'تلقائي';
+
+  @override
+  String get appearanceLight => 'فاتح';
+
+  @override
+  String get appearanceSepia => 'سيبيا';
+
+  @override
+  String get appearanceDark => 'داكن';
+
+  @override
+  String get appearanceNight => 'ليلي';
 }

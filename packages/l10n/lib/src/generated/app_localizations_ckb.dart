@@ -20,4 +20,34 @@ class AppLocalizationsCkb extends AppLocalizations {
   @override
   String get hijriCivilApproximationCaveat =>
       'ڕێکەوتی کۆچیی مانگی ساڵنامەیەکی مەدەنیی نزیکەییە (ئوم القورا)؛ لەوانەیە دەستپێکی هەندێک بۆنە بەپێی بینینی مانگ بە ڕۆژێک جیاواز بێت.';
+
+  @override
+  String get navToday => 'ئەمڕۆ';
+
+  @override
+  String get navMushaf => 'موسحەف';
+
+  @override
+  String get navMutashabihat => 'هاوشێوەکان';
+
+  @override
+  String get navProgress => 'پێشکەوتن';
+
+  @override
+  String get navSettings => 'ڕێکخستنەکان';
+
+  @override
+  String get appearanceFollowSystem => 'سیستەم';
+
+  @override
+  String get appearanceLight => 'ڕووناک';
+
+  @override
+  String get appearanceSepia => 'سیپیا';
+
+  @override
+  String get appearanceDark => 'تاریک';
+
+  @override
+  String get appearanceNight => 'شەو';
 }

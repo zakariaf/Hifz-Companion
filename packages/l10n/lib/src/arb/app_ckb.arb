@@ -2,5 +2,15 @@
   "@@locale": "ckb",
   "appTitle": "Hifz Companion",
   "hijriUmmAlQuraQualifier": "(Umm al-Qurā)",
-  "hijriCivilApproximationCaveat": "ڕێکەوتی کۆچیی مانگی ساڵنامەیەکی مەدەنیی نزیکەییە (ئوم القورا)؛ لەوانەیە دەستپێکی هەندێک بۆنە بەپێی بینینی مانگ بە ڕۆژێک جیاواز بێت."
+  "hijriCivilApproximationCaveat": "ڕێکەوتی کۆچیی مانگی ساڵنامەیەکی مەدەنیی نزیکەییە (ئوم القورا)؛ لەوانەیە دەستپێکی هەندێک بۆنە بەپێی بینینی مانگ بە ڕۆژێک جیاواز بێت.",
+  "navToday": "ئەمڕۆ",
+  "navMushaf": "موسحەف",
+  "navMutashabihat": "هاوشێوەکان",
+  "navProgress": "پێشکەوتن",
+  "navSettings": "ڕێکخستنەکان",
+  "appearanceFollowSystem": "سیستەم",
+  "appearanceLight": "ڕووناک",
+  "appearanceSepia": "سیپیا",
+  "appearanceDark": "تاریک",
+  "appearanceNight": "شەو"
 }
