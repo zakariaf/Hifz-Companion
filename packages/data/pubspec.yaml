@@ -16,6 +16,8 @@ dependencies:
   drift: ^2.0.0
   sqlite3: ^2.0.0
   path: ^1.9.0
+  models:
+    path: ../models
   engine:
     path: ../engine
   profiles:
@@ -24,6 +26,12 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  # Drift code generation (Decision log #3: Drift over SQLite). drift_dev +
+  # build_runner generate database.g.dart from the table classes and the
+  # committed drift_schemas/ snapshots; they are build-time tooling for the
+  # already-sanctioned drift runtime dependency, never shipped in the binary.
+  drift_dev: ^2.0.0
+  build_runner: ^2.4.0
 # Deliberately NO http (no user-data repository reaches the network — PRD C1),
 # NO features (downward-only). Repositories/DTOs are the public surface; the raw
 # DAOs stay private to the package.
