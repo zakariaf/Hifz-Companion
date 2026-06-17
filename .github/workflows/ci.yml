@@ -1,0 +1,113 @@
+# SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# ── PRD §20 release-blocking gates → CI job mapping (engineering 11 §8) ──
+#  gate 1  text & asset SHA-256 integrity      → restraint (verify_asset_hashes) + runtime
+#  gate 2  visual-diff (604 muṣḥaf pages)      → golden + journeys
+#  gate 3  engine golden vectors               → fast (dart test engine/)
+#  gate 4  invariant property tests            → fast (dart test engine/, glados)
+#  gate 5  localization & RTL                  → golden + fast (check_l10n_complete)
+#  gate 6  network restraint                   → restraint (dep allow-list) + fast (analyze)
+#  gate 7  mutashābihāt dataset hash + sign-off → restraint + human
+#  gate 8  manual muṣḥaf review                → human (not automatable)
+# A check with no gate row, or a gate row with no job, is a bug. Keep in sync.
+
+env:
+  # Pinned — must match the README baseline. A floating SDK re-renders goldens
+  # and breaks reproducibility (11 §8; 13 §4).
+  FLUTTER_VERSION: '3.41.2'
+
+jobs:
+  fast:
+    # gates 3, 4 (engine vectors + invariants); 5 (l10n half); 6 (analyze/banned-import half)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+      - run: flutter pub get
+      - name: Analyze (includes banned-import + engine-purity lints)
+        run: flutter analyze --fatal-infos
+      - name: Engine vectors + glados invariants (verify only — never --update-vectors)
+        run: |
+          for p in engine models profiles; do (cd "packages/$p" && dart test); done
+      - name: Unit + widget tests (offline guard installed; golden excluded)
+        run: |
+          for p in data quran l10n features assets; do
+            flutter test "packages/$p" --exclude-tags golden --coverage
+          done
+          flutter test app --exclude-tags golden --coverage
+      - name: Strip generated files from coverage (published, never gated)
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq lcov
+          for f in packages/*/coverage/lcov.info app/coverage/lcov.info; do
+            [ -f "$f" ] || continue
+            lcov -r "$f" '*.g.dart' '*.drift.dart' '*.freezed.dart' '*/generated/*' -o "$f"
+          done
+          # TODO: merge the per-package lcov.info and publish to an OSS coverage
+          # uploader for auditability. NO min-coverage gate — a covered-but-
+          # unasserted line is worthless; the engine invariants are the bar (11 §10).
+
+  golden:
+    # gates 2, 5 — pinned Linux is load-bearing (cross-OS golden drift). Dormant
+    # in E01 (no masters); E05 supplies the 604 reference page images.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+      - run: flutter pub get
+      - name: Muṣḥaf-fidelity + RTL goldens (never --update-goldens)
+        run: |
+          flutter test packages/quran --tags golden
+          flutter test packages/features --tags golden
+
+  restraint:
+    # gate 1 (asset integrity); gate 6 (dep allow-list layer-b); license clarity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+      - run: flutter pub get
+      - name: No-network / dep allow-list / l10n completeness (tool/ scripts — one source of truth)
+        run: |
+          bash tool/check_no_network.sh
+          bash tool/check_engine_purity.sh
+          bash tool/check_quran_isolation.sh
+          bash tool/check_dep_allowlist.sh
+          bash tool/check_l10n_complete.sh
+      - name: Asset SHA-256 integrity (dormant/fail-closed on the empty manifest)
+        run: dart run tool/verify_asset_hashes.dart
+      - name: REUSE license clarity (per-file SPDX GPL-3.0-or-later)
+        uses: fsfe/reuse-action@v6
+
+  journeys:
+    # gate 2 (journeys) + the airplane-mode acceptance run (throwing HttpOverrides)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+      - run: flutter pub get
+      - name: Integration journeys on the min-Android emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 24
+          arch: x86_64
+          script: flutter test app/integration_test
