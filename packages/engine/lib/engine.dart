@@ -12,4 +12,6 @@
 library;
 
 export 'src/dates/calendar_date.dart' show CalendarDate;
+export 'src/day_math.dart'
+    show catchUpWindow, dueWithCeiling, elapsedDays, nextDue;
 export 'src/engine_stub.dart';
