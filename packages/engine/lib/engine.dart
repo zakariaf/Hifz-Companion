@@ -8,11 +8,22 @@
 /// The real FSRS-style D/S/R math — retrievability, interval, the review
 /// update, the sabaq/sabqi/manzil tracks, cold start, the load balancer, and
 /// the TRUST CLAMP — plus its frozen golden vectors and `glados` invariants are
-/// authored in E04. This barrel currently exports only a compile-proving stub.
+/// authored across E04.
+///
+/// The engine's persisted I/O value types live in `models` and are re-exported
+/// here so scheduling code imports them by their single canonical name: the
+/// injected-`today` [CalendarDate] (the spec's `SerialDay`), the [Card] the
+/// engine reads and returns, the [CardSeed] cold start produces, and the
+/// [ReviewTrack]/[ReviewGrade]/[GradeSource] closed-set enums. The engine-only
+/// *input* types it consumes but never persists — [ReviewInput] and
+/// [JuzConfidence] — are defined in this package.
 library;
 
-export 'package:models/models.dart' show CalendarDate;
+export 'package:models/models.dart'
+    show CalendarDate, Card, CardSeed, GradeSource, ReviewGrade, ReviewTrack;
 export 'src/dates/civil_day_of.dart' show civilDayOf;
 export 'src/day_math.dart'
     show catchUpWindow, dueWithCeiling, elapsedDays, nextDue;
 export 'src/engine_stub.dart';
+export 'src/juz_confidence.dart' show JuzConfidence;
+export 'src/review_input.dart' show ReviewInput;
