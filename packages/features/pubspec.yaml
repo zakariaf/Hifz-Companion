@@ -1,0 +1,34 @@
+# SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: features
+description: Hifz Companion feature screens umbrella — one library per screen.
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.6.0
+  flutter: ">=3.38.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_riverpod: ^3.0.0
+  go_router: ^16.0.0
+  engine:
+    path: ../engine
+  data:
+    path: ../data
+  quran:
+    path: ../quran
+  l10n:
+    path: ../l10n
+  profiles:
+    path: ../profiles
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+# Deliberately NO http/dio (no feature fetches anything), NO drift (features
+# touch the DB only through data's repositories). flutter_riverpod only — no
+# provider/get_it/Bloc.

@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: profiles
+description: Local multi-profile model for Hifz Companion — pure Dart, meta only.
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.6.0
+
+dependencies:
+  meta: ^1.15.0
+
+dev_dependencies:
+  test: ^1.25.0
+# Deliberately absent: flutter, dart:io, any clock. Device-local, no cloud.

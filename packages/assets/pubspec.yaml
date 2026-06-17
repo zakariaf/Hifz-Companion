@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: assets
+description: The one network module — offline asset-pack downloader + SHA-256 verifier.
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.6.0
+  flutter: ">=3.38.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.0.0
+  crypto: ^3.0.0
+  path: ^1.9.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+# The ONLY http/crypto in the entire repo — the single network socket. The
+# downloader does one HTTPS GET to a pinned GitHub Release tag (no auth, no
+# cookies, no identifiers) and the verifier is fail-closed (mismatch ⇒ reject,
+# re-fetch once, then refuse). Bodies authored in E05.

@@ -1,3 +1,4 @@
+<!-- REUSE-IgnoreStart (planning doc quotes SPDX tags as examples; suppress in-file tag parsing — actual coverage is in .reuse/dep5) -->
 # E08-T01 — WCAG 2.2 AA conformance claim + the two by-construction criteria recorded in the README
 
 | | |

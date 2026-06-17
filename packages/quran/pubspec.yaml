@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: quran
+description: Immutable muṣḥaf rendering for Hifz Companion — KFGQPC per-page glyphs.
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.6.0
+  flutter: ">=3.38.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+# Deliberately NO local package dependency: quran receives page geometry as
+# plain value types, so it golden-tests in isolation against reference muṣḥaf
+# images. NO http/crypto. QPC-glyph handling lives ONLY here.

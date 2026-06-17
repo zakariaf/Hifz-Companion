@@ -1,3 +1,4 @@
+<!-- REUSE-IgnoreStart (planning doc quotes SPDX tags as examples; suppress in-file tag parsing — actual coverage is in .reuse/dep5) -->
 # E01-T01 — Repo bootstrap: GPL-3.0 + §7 App Store exception, DCO, REUSE trust-pack subset, PR template
 
 | | |

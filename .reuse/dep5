@@ -1,0 +1,54 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: Hifz Companion
+Source: https://github.com/hifz-companion/app
+
+# The repository's documentation, planning, design-system, research, skills,
+# clickable demo, and developer tooling scripts. These are project content
+# authored by the copyright holder and are GPL-3.0-or-later, the same license as
+# the app code. Future package source (packages/, app/) carries its own per-file
+# SPDX header instead — it is deliberately NOT bulk-covered here, so the
+# per-file licensing discipline the REUSE gate enforces stays in force.
+Files:
+ .gitignore
+ CLAUDE.md
+ LICENSE
+ *.js
+ .claude/*
+ docs/*
+ epics/*
+ research/*
+ demo/*
+Copyright: 2026 Zakaria Fatahi and Hifz Companion contributors
+License: GPL-3.0-or-later
+
+# Binary and font assets that cannot carry an inline SPDX header. UI assets in
+# THIS repo (app icons, UI fonts) are GPL-3.0-or-later. The muṣḥaf glyph fonts
+# and the Quran text are NOT in this repo — they live in the Quran-data repo
+# under their own terms (KFGQPC font terms; Tanzil text verbatim) and are never
+# relicensed here. See LICENSING.md.
+Files: *.png *.ico *.jpg *.jpeg *.webp *.gif *.svg *.ttf *.otf *.woff *.woff2
+Copyright: 2026 Zakaria Fatahi and Hifz Companion contributors
+License: GPL-3.0-or-later
+
+# The app shell's generated platform glue (Android/iOS) and Flutter metadata —
+# boilerplate (gradle, xml, plist, swift, kotlin, xcconfig, asset catalogs) that
+# cannot carry an inline SPDX header cleanly. GPL-3.0-or-later, the same as the
+# app code. The Gradle wrapper (gradlew, gradlew.bat, gradle-wrapper.jar) is
+# gitignored by Flutter's template and is not committed, so no third-party
+# Apache-2.0 attribution is needed here.
+Files:
+ app/.gitignore
+ app/.metadata
+ app/android/*
+ app/ios/*
+Copyright: 2026 Zakaria Fatahi and Hifz Companion contributors
+License: GPL-3.0-or-later
+
+# Generated/structured files that cannot carry an inline SPDX comment: the ARB
+# translation sources (JSON, no comment syntax) and the single committed
+# workspace pubspec.lock (the audit map). GPL-3.0-or-later, the same as the code.
+Files:
+ packages/l10n/lib/src/arb/*.arb
+ pubspec.lock
+Copyright: 2026 Zakaria Fatahi and Hifz Companion contributors
+License: GPL-3.0-or-later

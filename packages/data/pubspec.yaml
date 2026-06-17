@@ -1,0 +1,29 @@
+# SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: data
+description: Local Drift/SQLite single source of truth for Hifz Companion.
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.6.0
+  flutter: ">=3.38.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  drift: ^2.0.0
+  sqlite3: ^2.0.0
+  path: ^1.9.0
+  engine:
+    path: ../engine
+  profiles:
+    path: ../profiles
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+# Deliberately NO http (no user-data repository reaches the network — PRD C1),
+# NO features (downward-only). Repositories/DTOs are the public surface; the raw
+# DAOs stay private to the package.

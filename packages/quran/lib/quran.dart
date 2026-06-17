@@ -1,0 +1,14 @@
+// SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+/// Immutable muṣḥaf rendering for Hifz Companion: the per-page KFGQPC glyph
+/// renderer and the coordinate-overlay painter.
+///
+/// Glyph-font selection and glyph-code drawing (never the OS shaper, never
+/// parsing the glyph string as Arabic text) and the overlay painter are authored
+/// in E05. Geometry arrives as plain value types, so this package has no local
+/// dependency and golden-tests in isolation.
+library;
+
+export 'src/page_geometry.dart';
+export 'src/quran_page_placeholder.dart';

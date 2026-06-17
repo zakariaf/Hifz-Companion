@@ -1,0 +1,57 @@
+# SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: Release
+
+on:
+  push:
+    tags: ['v*.*.*'] # an exact, immutable version tag — never a moving ref
+
+permissions:
+  contents: write # create the GitHub Release
+  id-token: write # Sigstore signing for SLSA provenance (exercised in E20)
+  attestations: write # upload the SLSA attestation (E20)
+
+jobs:
+  release:
+    runs-on: ubuntu-latest # pinned Linux for golden + build stability
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.41.2' # MUST equal ci.yml's FLUTTER_VERSION (reproducibility)
+          channel: stable
+      - run: flutter pub get
+
+      # Re-run the full PRD §20 gate suite — refuse to publish on any red gate.
+      - name: Analyze (gate 6)
+        run: flutter analyze --fatal-infos
+      - name: Engine vectors + invariants (gates 3, 4)
+        run: |
+          for p in engine models profiles; do (cd "packages/$p" && dart test); done
+      - name: Muṣḥaf-fidelity + RTL goldens (gates 2, 5)
+        run: |
+          flutter test packages/quran --tags golden
+          flutter test packages/features --tags golden
+      - name: No-network / dep allow-list / l10n (gate 6, gate 5)
+        run: |
+          bash tool/check_no_network.sh
+          bash tool/check_dep_allowlist.sh
+          bash tool/check_l10n_complete.sh
+      - name: Asset SHA-256 integrity (gate 1)
+        run: dart run tool/verify_asset_hashes.dart
+      - name: REUSE license clarity
+        uses: fsfe/reuse-action@v6
+
+      # ── Build / sign / attest — TODO (E20). NO key value lives in this repo;
+      # the signing key lives ONLY in encrypted CI secrets and an offline backup.
+      # - name: Build signed Android release (E20)
+      #   run: flutter build appbundle --release
+      #   env:
+      #     KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+      #     KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+      #     KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+      # - name: Attest build provenance (E20)
+      #   uses: actions/attest-build-provenance@v1
+      #   with:
+      #     subject-path: build/app/outputs/bundle/release/app-release.aab
