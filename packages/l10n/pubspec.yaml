@@ -17,9 +17,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_localizations:
+  flutter_localizations: # required by the generated AppLocalizations + the ckb delegate
     sdk: flutter
-  intl: any
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_test:

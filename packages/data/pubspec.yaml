@@ -1,13 +1,29 @@
 # SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# Resolution stub — the Drift/SQLite persistence package (the local single source
-# of truth). Its full manifest (drift, sqlite3, path, engine, profiles), barrel,
-# and tests are authored in E01-T04 / E03.
 name: data
-description: Drift/SQLite persistence for Hifz Companion (stub).
+description: Local Drift/SQLite single source of truth for Hifz Companion.
 publish_to: none
 resolution: workspace
 
 environment:
   sdk: ^3.6.0
+  flutter: ">=3.38.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  drift: ^2.0.0
+  sqlite3: ^2.0.0
+  path: ^1.9.0
+  engine:
+    path: ../engine
+  profiles:
+    path: ../profiles
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+# Deliberately NO http (no user-data repository reaches the network — PRD C1),
+# NO features (downward-only). Repositories/DTOs are the public surface; the raw
+# DAOs stay private to the package.
