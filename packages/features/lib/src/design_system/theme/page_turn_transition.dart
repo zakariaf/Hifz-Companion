@@ -27,6 +27,7 @@ class PageTurnTransition extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    assert(child.key != null, 'page needs a Key to animate');
     final motion = Theme.of(context).extension<MotionTokens>()!;
     final reduced = motionReduced(context);
     // The start edge in screen-space: +1 (right) in RTL, -1 (left) in LTR.

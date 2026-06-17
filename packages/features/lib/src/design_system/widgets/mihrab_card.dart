@@ -82,6 +82,8 @@ class MihrabCard extends StatelessWidget {
       elevation: 0,
       color: scheme.surfaceContainerLow,
       surfaceTintColor: Colors.transparent, // no tint veil (02 §3)
+      clipBehavior:
+          Clip.antiAlias, // keep the InkWell splash inside the corners
       child: onTap == null
           ? row
           : InkWell(
