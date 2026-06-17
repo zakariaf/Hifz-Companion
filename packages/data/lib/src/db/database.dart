@@ -63,5 +63,23 @@ class HifzDatabase extends _$HifzDatabase {
   @override
   MigrationStrategy get migration => MigrationStrategy(
         onCreate: (m) async => m.createAll(),
+        // Pragmas are per-connection and NOT persisted in the file, so the FK
+        // pragma is re-issued on every open (05 §1). `setup` (connection.dart)
+        // sets it on the raw handle; this covers drift's own re-open. The
+        // assert is debug-fail-fast: if a refactor ever drops the FK pragma,
+        // debug/test builds trip here rather than silently allowing orphan rows
+        // across the whole user-table graph (card/review_log/line_block/
+        // confusion_edge/cycle_config all REFERENCES profile ON DELETE CASCADE).
+        beforeOpen: (details) async {
+          await customStatement('PRAGMA foreign_keys = ON;');
+          assert(await _foreignKeysAreOn());
+        },
       );
+
+  /// Whether `PRAGMA foreign_keys` is live on this connection (backs the
+  /// `beforeOpen` startup assertion).
+  Future<bool> _foreignKeysAreOn() async {
+    final row = await customSelect('PRAGMA foreign_keys;').getSingle();
+    return row.read<int>('foreign_keys') == 1;
+  }
 }

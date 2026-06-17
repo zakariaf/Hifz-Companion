@@ -16,6 +16,7 @@ dependencies:
   drift: ^2.0.0
   sqlite3: ^2.0.0
   path: ^1.9.0
+  path_provider: ^2.1.0 # locates the on-device hifz.sqlite (local IO, no socket)
   models:
     path: ../models
   engine:

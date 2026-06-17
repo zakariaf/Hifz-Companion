@@ -14,8 +14,8 @@ set -euo pipefail
 # Sanctioned external + SDK dependencies and the local workspace packages.
 allowed=(
   # external runtime + tooling
-  meta drift sqlite3 path http crypto intl flutter_riverpod go_router
-  test glados flutter_lints
+  meta drift sqlite3 path path_provider http crypto intl flutter_riverpod
+  go_router test glados flutter_lints
   # drift code generation (Decision log #3: Drift over SQLite) — build-time only,
   # never shipped in the binary; generates database.g.dart + migration steps.
   drift_dev build_runner
