@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import 'repositories/cold_start_repository.dart';
 import 'repositories/repositories.dart';
 import 'repositories/review_repository.dart';
 
@@ -26,6 +27,10 @@ abstract interface class PersistenceHandle {
   /// The single write path for one review (one transaction, persist before
   /// republish).
   ReviewRepository get reviews;
+
+  /// The cold-start provisioning write path (one all-or-nothing outer
+  /// transaction).
+  ColdStartRepository get coldStart;
 
   /// Closes the underlying store; resolves once it is durably released.
   Future<void> close();

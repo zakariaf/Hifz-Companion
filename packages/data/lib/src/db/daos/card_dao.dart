@@ -21,6 +21,14 @@ class CardDao extends DatabaseAccessor<HifzDatabase> with _$CardDaoMixin {
   Future<void> upsert(Card card) =>
       into(cards).insertOnConflictUpdate(_toCompanion(card));
 
+  /// Batch-inserts many cards in one statement (cold-start seeding, E03-T08).
+  ///
+  /// Plain `INSERT` (not upsert): a duplicate `(profileId, pageId)` or a `CHECK`
+  /// violation fails the batch, which inside the seed transaction rolls the
+  /// whole provisioning back to zero rows.
+  Future<void> insertAll(List<Card> values) =>
+      batch((b) => b.insertAll(cards, values.map(_toCompanion).toList()));
+
   /// The card for `(profileId, pageId)`, or null if none.
   Future<Card?> byId(ProfileId profileId, int pageId) async {
     final query = select(cards)

@@ -10,6 +10,7 @@ library;
 
 export 'src/dates/calendar_date.dart' show CalendarDate;
 export 'src/records/card.dart' show Card;
+export 'src/records/card_seed.dart' show CardSeed;
 export 'src/records/confusion_edge.dart' show ConfusionEdge;
 export 'src/records/cycle_config.dart' show CycleConfig;
 export 'src/records/enums.dart'

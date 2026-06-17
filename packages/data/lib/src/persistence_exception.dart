@@ -61,3 +61,35 @@ final class ReviewConstraintViolated extends ReviewWriteException {
   const ReviewConstraintViolated()
       : super('the review violated a storage constraint and was rejected');
 }
+
+/// The cold-start seed (`seedColdStart`, E03-T08) could not durably provision a
+/// profile — all-or-nothing, so on failure the store holds zero rows and no
+/// partially-provisioned profile. A subtree of the one sealed
+/// [PersistenceException], surfaced to onboarding (a calm retry, never a guilt
+/// message).
+sealed class ColdStartWriteException extends PersistenceException {
+  /// Creates a cold-start write exception with a developer-facing [message].
+  const ColdStartWriteException(super.message);
+}
+
+/// The seed transaction failed and was rolled back to zero rows.
+final class ColdStartSeedFailed extends ColdStartWriteException {
+  /// Creates the seed-failed exception.
+  const ColdStartSeedFailed()
+      : super('the cold-start seed failed and was rolled back to zero rows');
+}
+
+/// Even the rollback failed — the store is left needing recovery.
+final class ColdStartRollbackFailed extends ColdStartWriteException {
+  /// Creates the rollback-failed exception.
+  const ColdStartRollbackFailed()
+      : super('the cold-start seed rollback failed; the store needs recovery');
+}
+
+/// A seed row violated a storage `CHECK`/constraint (e.g. a held card with a
+/// null due day); the whole seed rolled back to zero rows.
+final class ColdStartConstraintViolated extends ColdStartWriteException {
+  /// Creates the constraint-violated exception.
+  const ColdStartConstraintViolated()
+      : super('a cold-start seed row violated a storage constraint');
+}
