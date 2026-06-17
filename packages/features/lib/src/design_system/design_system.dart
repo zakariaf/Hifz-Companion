@@ -11,4 +11,6 @@ export 'theme/mihrab_color_schemes.dart';
 export 'theme/mihrab_colors.dart';
 export 'theme/mihrab_theme.dart';
 export 'theme/motion_tokens.dart';
+export 'theme/page_turn_transition.dart';
+export 'theme/reduced_motion.dart';
 export 'theme/spacing_tokens.dart';
