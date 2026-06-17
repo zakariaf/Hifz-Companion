@@ -163,6 +163,14 @@ This file is the single source of truth for every `color.*` token in Mihrab: the
 - Add a "success green" that flashes on completing a session or juz (that is gamification of worship).
 - Use a semantic colour as the only signal of an integrity warning — it is always icon + text + colour, and the app refuses the unverified asset regardless of colour.
 
+### Amendment (E06, 2026-06-17): a muted gold *ornament* accent
+
+**Statement.** A second accent — `color.accent.gold`, a muted, low-chroma brass/old-gold (Light `#A57F33`, Sepia `#9A742B`, Dark/Night `#D8BC7E`) — is added for **quiet ornament only**: the Today hero frame and dome mark, and the small marker beside a section header. It is reverent (gold is a historically Islamic, manuscript-illumination colour), low-arousal by the §1 saturation rule, and explicitly **not** interactive and **not** semantic.
+
+This does **not** loosen §2: `color.accent.green` remains the *single interactive tint* (links, the primary action, selected states) and the heat-map "strong" anchor. Gold never marks an action, a success, a reward, a streak, or an alert, and it is never laid over the muṣḥaf glyphs. It is decorative ground, like the green — one more quiet act of adab, not a second call-to-action.
+
+Owned in Dart by `MihrabColors.accentGold` (E06-T02); its text/graphical pairings are re-run through the §7 WCAG audit per appearance in E06-T10 before lock.
+
 ---
 
 ## 7. WCAG 2.2 AA is a hard floor, re-audited in every appearance
