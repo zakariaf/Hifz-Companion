@@ -20,6 +20,13 @@ dependencies:
   flutter_localizations: # required by the generated AppLocalizations + the ckb delegate
     sdk: flutter
   intl: ^0.20.2
+  # Display-only calendar conversion (07 §4). Pure-Dart, offline, permissive:
+  # shamsi_date (BSD-3) for Jalālī, hijri (BSD-2) for Umm al-Qurā. Both are
+  # BANNED in engine/ by the banned-import gate — calendars are a display concern.
+  shamsi_date: ^1.0.0
+  hijri: ^3.0.0
+  engine: # for the pure CalendarDate the presenter converts (downward dep only)
+    path: ../engine
 
 dev_dependencies:
   flutter_test:
