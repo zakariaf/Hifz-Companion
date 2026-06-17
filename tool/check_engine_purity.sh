@@ -12,7 +12,11 @@ set -euo pipefail
 
 banned='package:flutter|dart:io|dart:ui|DateTime\.now\(|DateTime\.timestamp\('
 
-hits="$(grep -rnE "$banned" packages/engine/lib packages/engine/test 2>/dev/null || true)"
+# Filter out full-line comments (// /// /* *) so a doc comment that *names* a
+# banned symbol ("today is injected, never DateTime.now()") is not a false hit.
+# A real use is never a comment, so this cannot hide a violation.
+hits="$(grep -rnE "$banned" packages/engine/lib packages/engine/test 2>/dev/null \
+  | grep -vE '^[^:]+:[0-9]+:[[:space:]]*(//|/\*|\*)' || true)"
 if [ -n "$hits" ]; then
   echo "check_engine_purity: the engine must stay pure — no Flutter/dart:io/dart:ui/wall clock (PRD §19.1):" >&2
   echo "$hits" >&2

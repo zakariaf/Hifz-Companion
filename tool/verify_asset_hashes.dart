@@ -85,14 +85,16 @@ Future<void> main() async {
 
   for (final entry in pinnedManifest.files) {
     final file = File(entry.path);
-    final List<int> bytes;
+    final String actualSha256;
     try {
-      bytes = await file.readAsBytes();
+      // Stream the file through the digest rather than loading it whole — the
+      // muṣḥaf assets E05 pins include large glyph fonts.
+      final digest = await sha256.bind(file.openRead()).first;
+      actualSha256 = digest.toString();
     } on FileSystemException {
       failures.add(ManifestUnreadable(path: entry.path));
       continue;
     }
-    final actualSha256 = sha256.convert(bytes).toString();
     if (actualSha256 != entry.expectedSha256) {
       failures.add(
         ChecksumMismatch(
