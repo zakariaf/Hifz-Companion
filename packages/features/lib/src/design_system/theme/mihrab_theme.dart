@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 
+import '../widgets/mihrab_buttons.dart';
 import 'haptic_tokens.dart';
 import 'mihrab_color_schemes.dart';
 import 'mihrab_colors.dart';
@@ -48,6 +49,8 @@ ThemeData mihrabThemeFor(MihrabAppearance appearance) {
       elevation: 0,
       centerTitle: true,
     ),
+    filledButtonTheme: mihrabFilledButtonTheme(),
+    segmentedButtonTheme: mihrabSegmentedButtonTheme(),
   );
 }
 
