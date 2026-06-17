@@ -14,6 +14,7 @@ on:
 #  gate 3  engine golden vectors               → fast (dart test engine/)
 #  gate 4  invariant property tests            → fast (dart test engine/, glados)
 #  gate 5  localization & RTL                  → golden + fast (check_l10n_complete)
+#  gate 5  date correctness (DST/timezone)     → date-matrix (engine suite × TZ legs)
 #  gate 6  network restraint                   → restraint (dep allow-list) + fast (analyze)
 #  gate 7  mutashābihāt dataset hash + sign-off → restraint + human
 #  gate 8  manual muṣḥaf review                → human (not automatable)
@@ -56,6 +57,27 @@ jobs:
           # TODO: merge the per-package lcov.info and publish to an OSS coverage
           # uploader for auditability. NO min-coverage gate — a covered-but-
           # unasserted line is worthless; the engine invariants are the bar (11 §10).
+
+  date-matrix:
+    # gate 5 (date correctness) — the DST/timezone suite (E02-T08) MUST run under
+    # each zone; a TZ=UTC-only pass is never accepted (07 §7). The engine reads no
+    # clock, so a regression that reintroduces a zone shows as one leg diverging
+    # from the committed golden. E02-T10 folds the rest of T1–T10 in here.
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        tz: [Asia/Tehran, Pacific/Kiritimati, UTC]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+      - run: flutter pub get
+      - name: Engine date-correctness suite under TZ=${{ matrix.tz }}
+        env:
+          TZ: ${{ matrix.tz }}
+        run: cd packages/engine && dart test
 
   golden:
     # gates 2, 5 — pinned Linux is load-bearing (cross-OS golden drift). Dormant
