@@ -24,6 +24,7 @@ const _sentinel = MihrabColors(
   readerSurfaceNight: Color(0xFF0A0A0A),
   semanticWarning: Color(0xFF0B0B0B),
   accentGold: Color(0xFF0C0C0C),
+  textTertiary: Color(0xFF0D0D0D),
 );
 
 void main() {

@@ -25,7 +25,7 @@ ThemeData mihrabThemeFor(MihrabAppearance appearance) {
       const SpacingTokens.standard(),
       const MotionTokens.standard(),
       const HapticTokens.standard(),
-      _mihrabColorsFor(appearance),
+      mihrabColorsFor(appearance),
     ],
     cardTheme: CardThemeData(
       elevation: 0,
@@ -75,7 +75,7 @@ TextTheme _mihrabTextTheme(ColorScheme scheme) {
   );
 }
 
-MihrabColors _mihrabColorsFor(MihrabAppearance appearance) =>
+MihrabColors mihrabColorsFor(MihrabAppearance appearance) =>
     switch (appearance) {
       MihrabAppearance.light => _lightColors,
       MihrabAppearance.sepia => _sepiaColors,
@@ -97,6 +97,7 @@ const _lightColors = MihrabColors(
   readerSurfaceNight: Color(0xFF14110C),
   semanticWarning: Color(0xFF8A5A00),
   accentGold: Color(0xFFA57F33),
+  textTertiary: Color(0xFF5C665F),
 );
 
 const _sepiaColors = MihrabColors(
@@ -112,6 +113,7 @@ const _sepiaColors = MihrabColors(
   readerSurfaceNight: Color(0xFF14110C),
   semanticWarning: Color(0xFF8A5A00),
   accentGold: Color(0xFF9A742B),
+  textTertiary: Color(0xFF6E6353),
 );
 
 const _darkColors = MihrabColors(
@@ -127,6 +129,7 @@ const _darkColors = MihrabColors(
   readerSurfaceNight: Color(0xFF14110C),
   semanticWarning: Color(0xFFE8B23C),
   accentGold: Color(0xFFD8BC7E),
+  textTertiary: Color(0xFF828B83),
 );
 
 const _nightColors = MihrabColors(
@@ -142,4 +145,5 @@ const _nightColors = MihrabColors(
   readerSurfaceNight: Color(0xFF14110C),
   semanticWarning: Color(0xFFE8B23C),
   accentGold: Color(0xFFD8BC7E),
+  textTertiary: Color(0xFF8A7C62),
 );

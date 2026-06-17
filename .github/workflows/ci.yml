@@ -24,6 +24,8 @@ on:
 #  gate 7  mutashābihāt dataset hash + sign-off → restraint + human
 #  gate 8  manual muṣḥaf review                → human (not automatable)
 # A check with no gate row, or a gate row with no job, is a bug. Keep in sync.
+#  (internal) design-system WCAG contrast audit → fast (flutter test features);
+#            re-derives 03 §7 ratios per appearance — the seed of the E08 a11y program.
 
 env:
   # Pinned — must match the README baseline. A floating SDK re-renders goldens
