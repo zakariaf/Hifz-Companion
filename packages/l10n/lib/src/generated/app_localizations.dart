@@ -120,6 +120,66 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'التاريخ الهجري تقويم مدني تقريبي (أم القرى)؛ وقد يختلف بدء بعض المناسبات يوماً واحداً بحسب رؤية الهلال.'**
   String get hijriCivilApproximationCaveat;
+
+  /// Bottom-nav label for the Today tab (IA, PRD §12). Navigation copy; transcreations fa/ckb are best-effort pending E09 review.
+  ///
+  /// In ar, this message translates to:
+  /// **'اليوم'**
+  String get navToday;
+
+  /// Bottom-nav label for the Muṣḥaf (reader) tab. Best-effort fa/ckb pending E09.
+  ///
+  /// In ar, this message translates to:
+  /// **'المصحف'**
+  String get navMushaf;
+
+  /// Bottom-nav label for the Mutashābihāt (similar-verses) tab. Best-effort fa/ckb pending E09.
+  ///
+  /// In ar, this message translates to:
+  /// **'المتشابهات'**
+  String get navMutashabihat;
+
+  /// Bottom-nav label for the Progress tab. Best-effort fa/ckb pending E09.
+  ///
+  /// In ar, this message translates to:
+  /// **'التقدّم'**
+  String get navProgress;
+
+  /// Bottom-nav label for the Settings tab. Best-effort fa/ckb pending E09.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإعدادات'**
+  String get navSettings;
+
+  /// Appearance switcher: follow the OS light/dark setting. Best-effort fa/ckb pending E09.
+  ///
+  /// In ar, this message translates to:
+  /// **'تلقائي'**
+  String get appearanceFollowSystem;
+
+  /// Appearance switcher: the Light appearance. Best-effort fa/ckb pending E09.
+  ///
+  /// In ar, this message translates to:
+  /// **'فاتح'**
+  String get appearanceLight;
+
+  /// Appearance switcher: the Sepia (warm paper) appearance. Best-effort fa/ckb pending E09.
+  ///
+  /// In ar, this message translates to:
+  /// **'سيبيا'**
+  String get appearanceSepia;
+
+  /// Appearance switcher: the Dark appearance. Best-effort fa/ckb pending E09.
+  ///
+  /// In ar, this message translates to:
+  /// **'داكن'**
+  String get appearanceDark;
+
+  /// Appearance switcher: the Night (warm-dim) appearance — no sleep claim. Best-effort fa/ckb pending E09.
+  ///
+  /// In ar, this message translates to:
+  /// **'ليلي'**
+  String get appearanceNight;
 }
 
 class _AppLocalizationsDelegate

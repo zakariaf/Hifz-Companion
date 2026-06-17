@@ -11,5 +11,45 @@
   "hijriCivilApproximationCaveat": "التاريخ الهجري تقويم مدني تقريبي (أم القرى)؛ وقد يختلف بدء بعض المناسبات يوماً واحداً بحسب رؤية الهلال.",
   "@hijriCivilApproximationCaveat": {
     "description": "Standing one-line honesty note rendered near a Hijri date or the calendar picker: the Hijri date is a civil (Umm al-Qurā) approximation and an observance's start may differ by a day by moon sighting. Sect/madhhab-neutral; issues no fiqh or sighting ruling and bakes in no regional offset. needs-scholarly-review (E19); hand to domain-claims-register-and-science-screen to register and grade as a [TRAD]/text CLAIMS row — no id, grade, or citation invented here. Transcreations (fa/ckb) are best-effort pending native-speaker + scholarly review."
+  },
+  "navToday": "اليوم",
+  "@navToday": {
+    "description": "Bottom-nav label for the Today tab (IA, PRD §12). Navigation copy; transcreations fa/ckb are best-effort pending E09 review."
+  },
+  "navMushaf": "المصحف",
+  "@navMushaf": {
+    "description": "Bottom-nav label for the Muṣḥaf (reader) tab. Best-effort fa/ckb pending E09."
+  },
+  "navMutashabihat": "المتشابهات",
+  "@navMutashabihat": {
+    "description": "Bottom-nav label for the Mutashābihāt (similar-verses) tab. Best-effort fa/ckb pending E09."
+  },
+  "navProgress": "التقدّم",
+  "@navProgress": {
+    "description": "Bottom-nav label for the Progress tab. Best-effort fa/ckb pending E09."
+  },
+  "navSettings": "الإعدادات",
+  "@navSettings": {
+    "description": "Bottom-nav label for the Settings tab. Best-effort fa/ckb pending E09."
+  },
+  "appearanceFollowSystem": "تلقائي",
+  "@appearanceFollowSystem": {
+    "description": "Appearance switcher: follow the OS light/dark setting. Best-effort fa/ckb pending E09."
+  },
+  "appearanceLight": "فاتح",
+  "@appearanceLight": {
+    "description": "Appearance switcher: the Light appearance. Best-effort fa/ckb pending E09."
+  },
+  "appearanceSepia": "سيبيا",
+  "@appearanceSepia": {
+    "description": "Appearance switcher: the Sepia (warm paper) appearance. Best-effort fa/ckb pending E09."
+  },
+  "appearanceDark": "داكن",
+  "@appearanceDark": {
+    "description": "Appearance switcher: the Dark appearance. Best-effort fa/ckb pending E09."
+  },
+  "appearanceNight": "ليلي",
+  "@appearanceNight": {
+    "description": "Appearance switcher: the Night (warm-dim) appearance — no sleep claim. Best-effort fa/ckb pending E09."
   }
 }

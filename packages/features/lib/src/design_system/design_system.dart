@@ -15,3 +15,5 @@ export 'theme/page_turn_transition.dart';
 export 'theme/reduced_motion.dart';
 export 'theme/spacing_tokens.dart';
 export 'theme/wcag_contrast.dart';
+export 'widgets/mihrab_navigation_bar.dart';
+export 'widgets/mihrab_scaffold.dart';
