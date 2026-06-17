@@ -17,6 +17,9 @@ dependencies:
   sqlite3: ^2.0.0
   path: ^1.9.0
   path_provider: ^2.1.0 # locates the on-device hifz.sqlite (local IO, no socket)
+  # Opt-in at-rest encryption key store (Decision log #3) — Keychain/KeyStore,
+  # local only, no socket; off by default with zero cost when off.
+  flutter_secure_storage: ^10.0.0
   models:
     path: ../models
   engine:

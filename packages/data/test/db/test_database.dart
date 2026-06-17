@@ -15,7 +15,7 @@ bool _sqlite3Configured = false;
 /// (matching `package:sqlite3`'s default), then fall back to the versioned one,
 /// so the `data` suite runs without `sqlite3_flutter_libs` (off the allow-list)
 /// and without a CI apt step. macOS/Windows use the package default. Test-only.
-void _configureSqlite3() {
+void ensureTestSqlite3Loaded() {
   if (_sqlite3Configured) return;
   _sqlite3Configured = true;
   if (!Platform.isLinux) return;
@@ -36,6 +36,6 @@ void _configureSqlite3() {
 /// connection, a test that exercises foreign keys turns them on itself with
 /// `PRAGMA foreign_keys = ON;`.
 HifzDatabase openTestDatabase() {
-  _configureSqlite3();
+  ensureTestSqlite3Loaded();
   return HifzDatabase(NativeDatabase.memory());
 }

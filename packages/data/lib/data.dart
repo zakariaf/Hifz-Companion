@@ -15,18 +15,22 @@ library;
 
 export 'src/dates/today_for.dart' show todayFor;
 export 'src/live_persistence_handle.dart' show openLivePersistence;
+export 'src/encryption/secret_key_store.dart'
+    show FlutterSecureKeyStore, SecretKeyStore;
 export 'src/persistence_exception.dart'
     show
         ColdStartConstraintViolated,
         ColdStartRollbackFailed,
         ColdStartSeedFailed,
         ColdStartWriteException,
+        EncryptionNotLiveException,
         MappingException,
         PersistenceException,
         ReviewConstraintViolated,
         ReviewRollbackFailed,
         ReviewTransactionFailed,
-        ReviewWriteException;
+        ReviewWriteException,
+        WrongDatabaseKeyException;
 export 'src/persistence_handle.dart' show PersistenceHandle;
 export 'src/repositories/cold_start_repository.dart' show ColdStartRepository;
 export 'src/repositories/repositories.dart'

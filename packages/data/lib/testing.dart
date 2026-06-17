@@ -13,3 +13,5 @@ library;
 
 export 'src/testing/in_memory_persistence_handle.dart'
     show inMemoryPersistenceHandle;
+export 'src/testing/in_memory_secret_key_store.dart'
+    show InMemorySecretKeyStore;

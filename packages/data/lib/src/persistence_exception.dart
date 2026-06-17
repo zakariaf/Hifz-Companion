@@ -93,3 +93,25 @@ final class ColdStartConstraintViolated extends ColdStartWriteException {
   const ColdStartConstraintViolated()
       : super('a cold-start seed row violated a storage constraint');
 }
+
+/// The encryption flavor is active but the cipher is **not live** — `PRAGMA
+/// cipher;` returned no rows, so `sqlite3mc` fell back to stock SQLite and
+/// `PRAGMA key` was a no-op (a build defect). The store is refused at open so a
+/// plaintext database that only *looks* encrypted can never ship (05 §5).
+final class EncryptionNotLiveException extends PersistenceException {
+  /// Creates the cipher-not-live exception.
+  const EncryptionNotLiveException()
+      : super('encryption build active but the cipher is not live; refusing to '
+            'open a plaintext store');
+}
+
+/// The database could not be opened with the supplied key — a `SQLITE_NOTADB`
+/// ("file is encrypted or is not a database") means a **wrong or missing key**,
+/// **not** corruption. The feature layer surfaces a calm key-recovery flow,
+/// never a "your data is corrupted" message (05 §5).
+final class WrongDatabaseKeyException extends PersistenceException {
+  /// Creates the wrong-key exception.
+  const WrongDatabaseKeyException()
+      : super('the database key is wrong or missing (SQLITE_NOTADB) — a '
+            'key-recovery situation, not corruption');
+}
