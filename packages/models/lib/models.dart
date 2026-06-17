@@ -18,6 +18,7 @@ export 'src/records/ids.dart' show BlockId, LogId, ProfileId;
 export 'src/records/line_block.dart' show LineBlock;
 export 'src/records/profile.dart' show Profile;
 export 'src/records/review_log.dart' show ReviewLog;
+export 'src/records/review_outcome.dart' show ReviewOutcome;
 export 'src/reference/ayah.dart' show Ayah;
 export 'src/reference/line.dart' show Line;
 export 'src/reference/mushaf.dart' show Mushaf;

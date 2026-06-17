@@ -27,3 +27,37 @@ final class MappingException extends PersistenceException {
   /// Creates a mapping exception describing the offending column/value.
   const MappingException(super.message);
 }
+
+/// The single write path (`commitReview`, E03-T07) could not durably commit a
+/// review transaction — a *sanad* act is never acknowledged before its commit,
+/// so this surfaces to the feature layer to handle exhaustively (a calm retry,
+/// localized in `l10n`, never a guilt message). A subtree of the one sealed
+/// [PersistenceException], not a parallel error type.
+sealed class ReviewWriteException extends PersistenceException {
+  /// Creates a write exception with a developer-facing [message].
+  const ReviewWriteException(super.message);
+}
+
+/// The review transaction failed and was rolled back; nothing was committed.
+final class ReviewTransactionFailed extends ReviewWriteException {
+  /// Creates the transaction-failed write exception.
+  const ReviewTransactionFailed()
+      : super('the review transaction failed and was rolled back');
+}
+
+/// Even the rollback failed — the store is left needing recovery (logged
+/// locally only, never transmitted).
+final class ReviewRollbackFailed extends ReviewWriteException {
+  /// Creates the rollback-failed write exception.
+  const ReviewRollbackFailed()
+      : super('the review transaction rollback failed; the store needs '
+            'recovery');
+}
+
+/// The review violated a storage `CHECK`/constraint and was rejected whole — a
+/// malformed `ReviewOutcome` is refused, never partially stored.
+final class ReviewConstraintViolated extends ReviewWriteException {
+  /// Creates the constraint-violated write exception.
+  const ReviewConstraintViolated()
+      : super('the review violated a storage constraint and was rejected');
+}

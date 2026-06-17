@@ -15,6 +15,15 @@ library;
 
 export 'src/dates/today_for.dart' show todayFor;
 export 'src/live_persistence_handle.dart' show openLivePersistence;
+export 'src/persistence_exception.dart'
+    show
+        MappingException,
+        PersistenceException,
+        ReviewConstraintViolated,
+        ReviewRollbackFailed,
+        ReviewTransactionFailed,
+        ReviewWriteException;
 export 'src/persistence_handle.dart' show PersistenceHandle;
 export 'src/repositories/repositories.dart'
     show CardRepository, ProfileRepository, ReviewLogRepository;
+export 'src/repositories/review_repository.dart' show ReviewRepository;

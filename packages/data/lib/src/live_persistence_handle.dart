@@ -5,6 +5,7 @@ import 'db/connection.dart';
 import 'db/database.dart';
 import 'persistence_handle.dart';
 import 'repositories/repositories.dart';
+import 'repositories/review_repository.dart';
 
 /// The live [PersistenceHandle] over the Drift [HifzDatabase] — the one place a
 /// Drift handle lives behind the interface (05 §1).
@@ -23,9 +24,14 @@ final class LivePersistenceHandle
         ProfileRepository {
   /// Wraps the given Drift [database] (a file-backed connection in the app, an
   /// in-memory store in tests).
-  LivePersistenceHandle(this._database);
+  LivePersistenceHandle(HifzDatabase database)
+      : _database = database,
+        reviews = LiveReviewRepository(database);
 
   final HifzDatabase _database;
+
+  @override
+  final ReviewRepository reviews;
 
   /// The underlying Drift database — data-internal only (never on the
   /// interface). The single write path (E03-T07) runs `database.transaction`.

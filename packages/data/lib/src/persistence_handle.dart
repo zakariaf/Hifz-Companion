@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import 'repositories/repositories.dart';
+import 'repositories/review_repository.dart';
 
 /// The single injectable seam to the local store — the framework-free interface
 /// the rest of the app reaches persistence through (01 §2, §4; 05 §1).
@@ -21,6 +22,10 @@ abstract interface class PersistenceHandle {
 
   /// The `profile` repository.
   ProfileRepository get profiles;
+
+  /// The single write path for one review (one transaction, persist before
+  /// republish).
+  ReviewRepository get reviews;
 
   /// Closes the underlying store; resolves once it is durably released.
   Future<void> close();
