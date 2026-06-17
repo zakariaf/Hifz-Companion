@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# ARB strings + the generated AppLocalizations for Hifz Companion. E01-T02 lands
+# the package with one inert placeholder key in all three locales; the custom ckb
+# Material delegate, per-locale numerals, and bidi helpers are authored in
+# E01-T04 / E09.
+name: l10n
+description: ARB strings and generated AppLocalizations for Hifz Companion.
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.6.0
+  flutter: ">=3.38.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

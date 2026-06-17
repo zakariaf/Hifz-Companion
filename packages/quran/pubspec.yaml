@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# Resolution stub — the immutable muṣḥaf-rendering package (the only package that
+# touches KFGQPC glyph fonts). Its full manifest (flutter), barrel, and real-font
+# golden tests are authored in E01-T04 / E05.
+name: quran
+description: Immutable muṣḥaf rendering for Hifz Companion (stub).
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.6.0

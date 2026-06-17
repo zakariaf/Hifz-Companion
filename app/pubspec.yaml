@@ -1,0 +1,55 @@
+# SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# The app shell: the composition root, router, and locale/RTL wiring. It wires,
+# gates, and declares — it computes nothing. This is the ONE manifest allowed to
+# depend on every package (the full downward fan-in), precisely because it holds
+# no logic.
+name: app
+description: Hifz Companion app shell — composition root, router, locale/RTL wiring.
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.6.0
+  flutter: ">=3.38.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  flutter_riverpod: ^3.0.0
+  go_router: ^16.0.0
+  # Full downward fan-in — expected here and only here.
+  models:
+    path: ../packages/models
+  engine:
+    path: ../packages/engine
+  profiles:
+    path: ../packages/profiles
+  data:
+    path: ../packages/data
+  quran:
+    path: ../packages/quran
+  l10n:
+    path: ../packages/l10n
+  features:
+    path: ../packages/features
+  assets:
+    path: ../packages/assets
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  # Bundled UI fonts (Vazirmatn/Estedad for fa·ar; a Sorani-covering face for
+  # ckb — PRD §13.5) land with the design system (E06/E09) under SIL OFL,
+  # registered in LICENSES/ + .reuse/dep5. NO google_fonts: fonts are bundled,
+  # never fetched at runtime.
+  # fonts:
+  #   - family: Vazirmatn
+  #     fonts:
+  #       - asset: assets/fonts/Vazirmatn-Regular.ttf

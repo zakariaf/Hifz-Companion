@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# Resolution stub — the Drift/SQLite persistence package (the local single source
+# of truth). Its full manifest (drift, sqlite3, path, engine, profiles), barrel,
+# and tests are authored in E01-T04 / E03.
+name: data
+description: Drift/SQLite persistence for Hifz Companion (stub).
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.6.0

@@ -1,0 +1,7 @@
+{
+  "@@locale": "ar",
+  "appTitle": "Hifz Companion",
+  "@appTitle": {
+    "description": "The application name, shown on the placeholder launch screen. Inert placeholder copy with no factual claim; full transcreation for ar/fa/ckb lands in E09."
+  }
+}

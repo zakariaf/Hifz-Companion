@@ -29,3 +29,26 @@ License: GPL-3.0-or-later
 Files: *.png *.ico *.jpg *.jpeg *.webp *.gif *.svg *.ttf *.otf *.woff *.woff2
 Copyright: 2026 Zakaria Fatahi and Hifz Companion contributors
 License: GPL-3.0-or-later
+
+# The app shell's generated platform glue (Android/iOS) and Flutter metadata —
+# boilerplate (gradle, xml, plist, swift, kotlin, xcconfig, asset catalogs) that
+# cannot carry an inline SPDX header cleanly. GPL-3.0-or-later, the same as the
+# app code. The Gradle wrapper (gradlew, gradlew.bat, gradle-wrapper.jar) is
+# gitignored by Flutter's template and is not committed, so no third-party
+# Apache-2.0 attribution is needed here.
+Files:
+ app/.gitignore
+ app/.metadata
+ app/android/*
+ app/ios/*
+Copyright: 2026 Zakaria Fatahi and Hifz Companion contributors
+License: GPL-3.0-or-later
+
+# Generated/structured files that cannot carry an inline SPDX comment: the ARB
+# translation sources (JSON, no comment syntax) and the single committed
+# workspace pubspec.lock (the audit map). GPL-3.0-or-later, the same as the code.
+Files:
+ packages/l10n/lib/src/arb/*.arb
+ pubspec.lock
+Copyright: 2026 Zakaria Fatahi and Hifz Companion contributors
+License: GPL-3.0-or-later

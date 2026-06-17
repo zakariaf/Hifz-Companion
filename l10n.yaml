@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# gen_l10n configuration. Arabic (ar) is the template/base content language. The
+# generated AppLocalizations is emitted into source (output-dir) and committed,
+# so the localization API is auditable and the build depends on no hidden
+# synthetic package. (Flutter 3.41 removed synthetic packages outright, so the
+# former `synthetic-package: false` is a no-op and is omitted; `output-dir`
+# alone now guarantees committed-into-source generation — the original intent.)
+arb-dir: packages/l10n/lib/src/arb
+template-arb-file: app_ar.arb
+output-dir: packages/l10n/lib/src/generated
+output-localization-file: app_localizations.dart
+output-class: AppLocalizations
+# Prepend the REUSE SPDX header to every generated file so regeneration keeps
+# them covered (rather than relying on a .reuse/dep5 stanza for generated code).
+header: |
+  // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
+  // SPDX-License-Identifier: GPL-3.0-or-later

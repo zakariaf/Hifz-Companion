@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# Resolution stub — the features umbrella (one library per screen). Its full
+# manifest (flutter, flutter_riverpod, go_router + the leaf packages), barrels,
+# and widget/golden tests are authored in E01-T04 / the feature epics.
+name: features
+description: Hifz Companion feature screens umbrella (stub).
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.6.0

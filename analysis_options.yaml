@@ -1,0 +1,84 @@
+# SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+include: package:flutter_lints/flutter.yaml
+
+formatter:
+  page_width: 80
+
+analyzer:
+  language:
+    strict-casts: true          # no implicit dynamic→T casts
+    strict-raw-types: true      # no bare generic types (List instead of List<T>)
+  errors:
+    # Safety/correctness lints promoted to build-failing errors.
+    avoid_print: error
+    avoid_dynamic_calls: error
+    avoid_catches_without_on_clauses: error
+    cancel_subscriptions: error
+    close_sinks: error
+    cast_nullable_to_non_nullable: error
+    # Docs are a contract on the audited packages.
+    public_member_api_docs: error
+    dangling_library_doc_comments: error
+    # "info"-level noise we will not silence — surfaced, not muted.
+    todo: ignore               # TODOs are tracked in issues, not the analyzer
+  exclude:
+    - "**/*.g.dart"            # generated (drift, json) — not hand-written
+    - "**/*.freezed.dart"
+    - "**/*.drift.dart"
+
+linter:
+  rules:
+    # Beyond flutter_lints: const-correctness (Impeller/rebuild cost) and clarity.
+    prefer_const_constructors: true
+    prefer_const_constructors_in_immutables: true
+    prefer_const_declarations: true
+    prefer_final_locals: true
+    prefer_final_in_for_each: true
+    avoid_redundant_argument_values: true
+    require_trailing_commas: true        # formatter expands lists vertically → clean diffs
+    unnecessary_lambdas: true
+    use_super_parameters: true
+    # Effective Dart: faster, more readable emptiness checks
+    prefer_is_empty: true                # DON'T use .length to test emptiness
+    prefer_is_not_empty: true
+    # Boolean and naming hygiene
+    avoid_positional_boolean_parameters: true
+    # Nullability discipline (§5)
+    unnecessary_null_checks: true
+    null_check_on_nullable_type_parameter: true
+
+# Path-scoped import bans — the architecture gates (03 §7.2). These are
+# correctness gates, not style: severity: error and never `// ignore:`-able.
+# Consumed by the DCM CLI in the CI lint job only (never as a build plugin);
+# their grep twins in tool/ (E01-T05) are the primary, DCM-free enforcement.
+dcm:
+  rules:
+    - avoid-banned-imports:
+        entries:
+          # (1) The pure engine touches no framework, no I/O, no UI.
+          - paths: ['packages/engine/.*\.dart']
+            deny: ['package:flutter/.*', 'dart:io', 'dart:ui']
+            message: 'engine/ is pure Dart: no Flutter, dart:io, or dart:ui (PRD §7.12).'
+            severity: error
+          # (2) Networking lives in exactly one package.
+          - paths: ['(?!packages/assets/).*\.dart']
+            deny: ['package:http/.*', 'package:dio/.*']
+            message: 'Networking is allowed only in packages/assets (PRD C1, §19.3).'
+            severity: error
+          # (3) The QPC glyph internals are private to the quran package.
+          - paths: ['(?!packages/quran/).*\.dart']
+            deny: ['package:quran/src/.*']
+            message: 'Quran glyph internals are private to packages/quran (PRD R1).'
+            severity: error
+          # (4) Lower layers never import the features umbrella (downward-only).
+          - paths: ['packages/(models|engine|profiles|data|quran|l10n|assets)/.*\.dart']
+            deny: ['package:features/.*']
+            message: 'Lower layers never import packages/features (downward-only deps).'
+            severity: error
+          # Legacy Riverpod providers are banned project-wide.
+          - paths: ['.*\.dart']
+            deny: ['package:flutter_riverpod/legacy.dart', 'package:riverpod/legacy.dart']
+            message: 'Use Notifier/AsyncNotifier; legacy providers are banned (Riverpod 3.0).'
+            severity: error

@@ -1,0 +1,36 @@
+# SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# The pub-workspace root. It declares the member graph and resolves it as one
+# unit with a single committed pubspec.lock; it carries no application code and
+# no dependencies beyond the SDK constraint — it resolves, it does not implement.
+name: hifz_companion_workspace
+publish_to: none
+
+environment:
+  sdk: ^3.6.0
+
+# All nine members in layer order (app + eight packages). models is the
+# bottom-of-graph value-type member below engine.
+workspace:
+  - app
+  - packages/models
+  - packages/engine
+  - packages/profiles
+  - packages/data
+  - packages/quran
+  - packages/l10n
+  - packages/features
+  - packages/assets
+
+# Tooling-only: the lint ruleset that the shared root analysis_options.yaml
+# `include`s, so the single analysis context resolves it for every member. Not
+# an application/runtime dependency — the root still ships no code.
+dev_dependencies:
+  flutter_lints: ^6.0.0
+
+# Enables `flutter gen-l10n` to (re)generate the committed AppLocalizations into
+# packages/l10n/lib/src/generated from the root l10n.yaml. Generation only; the
+# root holds no application code and bundles no assets.
+flutter:
+  generate: true

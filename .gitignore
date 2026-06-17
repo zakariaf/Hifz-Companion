@@ -13,6 +13,8 @@
 build/
 .flutter-plugins
 .flutter-plugins-dependencies
-pubspec.lock
 .idea/
 *.iml
+
+# The single root pubspec.lock IS committed (the §20 audit map) — never ignore
+# it; the generated localization source is committed too. Do not add them here.
