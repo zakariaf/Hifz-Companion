@@ -7,7 +7,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:l10n/l10n.dart';
 
+import 'test_setup.dart';
+
 void main() {
+  useOfflineTestPolicy();
+
   testWidgets('launches to the placeholder screen', (tester) async {
     await tester.pumpWidget(const ProviderScope(child: HifzApp()));
     await tester.pumpAndSettle();

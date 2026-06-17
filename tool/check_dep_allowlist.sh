@@ -17,7 +17,7 @@ allowed=(
   meta drift sqlite3 path http crypto intl flutter_riverpod go_router
   test glados flutter_lints
   # flutter SDK dependencies
-  flutter flutter_localizations flutter_test
+  flutter flutter_localizations flutter_test integration_test
   # local workspace packages (path deps)
   models engine profiles data quran l10n features assets
 )

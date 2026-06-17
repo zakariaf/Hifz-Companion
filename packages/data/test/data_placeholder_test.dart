@@ -4,7 +4,11 @@
 import 'package:data/data.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'test_setup.dart';
+
 void main() {
+  useOfflineTestPolicy();
+
   group('data package stub', () {
     test('placeholder DTO is const-constructible and equal by value', () {
       expect(const PlaceholderRecord(), const PlaceholderRecord());

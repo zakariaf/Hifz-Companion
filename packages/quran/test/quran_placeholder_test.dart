@@ -5,7 +5,11 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:quran/quran.dart';
 
+import 'test_setup.dart';
+
 void main() {
+  useOfflineTestPolicy();
+
   testWidgets('placeholder muṣḥaf page builds RTL from value-type geometry', (
     tester,
   ) async {

@@ -5,7 +5,11 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:l10n/l10n.dart';
 
+import 'test_setup.dart';
+
 void main() {
+  useOfflineTestPolicy();
+
   group('l10n package stub', () {
     testWidgets('AppLocalizations resolves the placeholder key for ar/fa/ckb', (
       tester,

@@ -20,7 +20,12 @@ for d in app/lib app/test packages/*/lib packages/*/test; do
   scan_dirs+=("$d")
 done
 
-hits="$(grep -rnE "$banned" "${scan_dirs[@]}" 2>/dev/null | grep -v 'WebSocket' || true)"
+# test_setup.dart is the sanctioned home of the throwing HttpOverrides offline
+# guard (the override class names HttpClient by necessity); it is excluded the
+# same way packages/assets/ is — it is the gate, not a violation of it.
+hits="$(grep -rnE "$banned" "${scan_dirs[@]}" 2>/dev/null \
+  | grep -v 'WebSocket' \
+  | grep -v '/test_setup\.dart:' || true)"
 if [ -n "$hits" ]; then
   echo "check_no_network: networking is allowed ONLY in packages/assets/ (PRD C1, §17):" >&2
   echo "$hits" >&2
