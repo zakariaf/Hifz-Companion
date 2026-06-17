@@ -21,10 +21,28 @@ library;
 
 export 'package:models/models.dart'
     show CalendarDate, Card, CardSeed, GradeSource, ReviewGrade, ReviewTrack;
-export 'src/constants.dart' show kFsrsWeightCount, kMaxInterval;
+export 'src/constants.dart'
+    show
+        kCriticalTargetR,
+        kDefaultWeights45,
+        kFarMinS,
+        kFarTargetR,
+        kFsrsWeightCount,
+        kGraduationSignoffs,
+        kHardFloorR,
+        kLapseDifficultyBump,
+        kMaxInterval,
+        kMinStability,
+        kNearMinS,
+        kNearTargetR,
+        kNewTargetR,
+        kSelfConfidence,
+        kWeakLineFactor;
 export 'src/curve.dart' show interval, kDecay, kFactor, retrievability;
 export 'src/dates/civil_day_of.dart' show civilDayOf;
 export 'src/day_math.dart'
     show catchUpWindow, dueWithCeiling, elapsedDays, nextDue;
+export 'src/engine_config.dart' show EngineConfig;
 export 'src/juz_confidence.dart' show JuzConfidence;
 export 'src/review_input.dart' show ReviewInput;
+export 'src/scheduling_engine.dart' show SchedulingEngine;
