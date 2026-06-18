@@ -14,10 +14,13 @@
 # Sources (verified reachable 2026-06-18):
 #   - Tanzil Uthmani text  — tanzil.net download API (CC BY 3.0, verbatim + attribution)
 #   - QPC V2 per-page fonts — QUL/Tarteel CDN, 604 unmodified TTFs (KFGQPC terms)
-#   - QUL page/line/word layout — STILL TO RESOLVE: qul.tarteel.ai is a JS SPA and
-#     does not expose the layout DB via a plain GET. Obtain it via QUL's resource
-#     export (browser/API) and drop it at "$DEST/layout-qul.json" (or .sqlite),
-#     then re-run. assemblePage/overlay geometry (E05-T05/T07/T08) depend on it.
+#   - QUL page/line/word layout — REQUIRES A QUL ACCOUNT. The fonts above are on
+#     the public CDN, but the mushaf-layout export is gated behind sign-in
+#     (the resource page's download action redirects to
+#     /users/sign_in?...user_return_to=/resources/mushaf-layout/19). Sign in at
+#     qul.tarteel.ai, download the QPC-V2 15-line layout export, and drop it at
+#     "$DEST/layout-qul.json" (or .sqlite), then re-run. assemblePage / overlay
+#     geometry (E05-T05/T07/T08) depend on it — it cannot be fetched anonymously.
 #
 # Usage:  bash tool/fetch_core_assets.sh
 set -euo pipefail
