@@ -14,12 +14,17 @@
 # Sources (verified reachable 2026-06-18):
 #   - Tanzil Uthmani text  — tanzil.net download API (CC BY 3.0, verbatim + attribution)
 #   - QPC V2 per-page fonts — QUL/Tarteel CDN, 604 unmodified TTFs (KFGQPC terms)
-#   - QPC V2 page/line/word layout — the PUBLIC quran.com API (api.quran.com),
-#     which renders the same QPC V2 set: per word, the code_v2 glyph code +
-#     line_number + position + page_number (+ text_uthmani / sajdah). No account
-#     needed (QUL's own export is sign-in gated; quran.com's API is the open,
-#     co-versioned equivalent). E05-T05 normalizes these into the bundled layout
-#     + reference tables (page/line/word + glyph codes).
+#   - QPC V2 layout — PARTIAL from the public quran.com API (api.quran.com): per
+#     word, the code_v2 glyph code + line_number + position + page_number (+
+#     text_uthmani / sajdah). VERIFIED LIMITATION (2026-06-18): this is the
+#     AYAH-WORD layer ONLY — it does NOT include the muṣḥaf's decorative
+#     sūra-header and standalone-basmala lines (e.g. page 1 ayah words start at
+#     line 2, page 2 at line 3; lines 1-2 are header/basmala and are absent).
+#     The `line` reference table needs those line types explicitly, so the
+#     COMPLETE layout requires QUL's sign-in-gated mushaf-layout export
+#     (qul.tarteel.ai/resources/mushaf-layout). Inferring decorative lines from
+#     gaps would be GUESSING the muṣḥaf structure (R1 forbids it) — use the QUL
+#     export. The public API still serves the ayah-word glyph layer + text.
 #
 # Usage:  bash tool/fetch_core_assets.sh
 set -euo pipefail
