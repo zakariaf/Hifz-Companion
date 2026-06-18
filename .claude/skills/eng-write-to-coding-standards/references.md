@@ -39,6 +39,6 @@ The exact governing doc sections for this skill. Only real sections are listed; 
 - **domain-grading-pipeline** — the review→engine→persist single write path; this skill enforces its immutability and error-handling shape, that one owns grade semantics and the sacred-text guard's meaning.
 - **domain-mushaf-text-integrity** — the immutable QPC glyph rendering inside `quran`; this skill `///`-documents and never alters that code.
 - **domain-calendars-and-hifzdate** — the `CalendarDate`/HifzDate value type and its calendar arithmetic; this skill insists you *use* and *name* it honestly below the boundary, that one owns the conversions.
-- **domain-asset-pack-integrity** — the one-time downloader, SHA-256 verifier, and pinned manifest; this skill defines the `sealed` I/O error shape, that one owns the fail-closed integrity policy.
+- **domain-asset-pack-integrity** — the bundled-core verifier, the optional-pack downloader, the SHA-256 verifier, and the pinned manifest; this skill defines the `sealed` I/O error shape, that one owns the fail-closed integrity policy.
 - **domain-adab-and-religious-integrity** — the adab, sect-neutrality, and no-gamification rules the user-facing strings this code references (in the ARB files) must honor.
 - **domain-claims-register-and-science-screen** — the cited-claim register; any factual number this code surfaces traces to a claim there, with its citation comment.

@@ -6,7 +6,7 @@ The exact governing doc sections for this skill. Only real sections are listed; 
 
 - `docs/PRD.md` §7.10 (Cold start — the make-or-break onboarding) — **The five-step contract this flow implements:** (1) coverage capture via fast juz-level taps, un-held stays `UNMEMORIZED`; (2) per-juz **Solid/Shaky/Rusty** → seeds initial `(D, S)`; (3) optional stale-time decay from a "when memorized" date; (4) **conservative bias** — priors *under*-estimate strength so the first recitation can only surprise upward; (5) **convergence** — real grades dominate within ~2–3 weeks, with a light calibration pass that reviews each held page once early. The one thing: this is a *seed-and-converge* flow, never a day-one grading marathon.
 
-- `docs/PRD.md` §12.1 (Onboarding / Cold-start) — **The screen sequence:** welcome + privacy ("we never record audio / never charge") → language + muṣḥaf/riwāyah confirmation → one-time core-pack download → **coverage capture** → **per-juz confidence + optional "when memorized"** → cycle preset + daily budget → **Done → first day generated**. The one thing: placement sits *after* the verified download and *ends* by triggering the first generated day through the store.
+- `docs/PRD.md` §12.1 (Onboarding / Cold-start) — **The screen sequence:** welcome + privacy ("we never record audio / never charge") → language + muṣḥaf/riwāyah confirmation → core muṣḥaf setup (the core is **bundled**, so this is a brief offline build-verify, not a download; amended 2026-06-18) → **coverage capture** → **per-juz confidence + optional "when memorized"** → cycle preset + daily budget → **Done → first day generated**. The one thing: placement sits *after* the verified core setup and *ends* by triggering the first generated day through the store.
 
 - `docs/design-system/07-components.md` §6 (Grade band & component states) — **The control vocabulary to reuse:** `SegmentedButton` is the M3 control for a single mutually-exclusive choice; large `FilledButton`s win when a mis-tap is costly; every interactive control declares explicit M3 **state layers** over a role color, a visible **focus ring** (`color.outline`, SC 2.4.7), and announces enabled/disabled/selected via `Semantics`. The one thing: build Solid/Shaky/Rusty as one single-selection, large, focus-visible, redundantly-encoded picker.
 
@@ -33,7 +33,7 @@ The exact governing doc sections for this skill. Only real sections are listed; 
 ## Sibling skills
 
 - **domain-scheduling-engine-rules** — owns `coldStartCard`, the `(D, S)` seed table, stale-time decay, the conservative-bias / calibration-pass / "never safe to drop" invariants; this flow *calls* the seeder and never re-derives the math.
-- **domain-asset-pack-integrity** — owns the one-time core-pack download (HTTPS-GET, SHA-256 verify, `awaitingFirstDownload`/`interrupted` states) that precedes coverage capture.
+- **domain-asset-pack-integrity** — owns the first-launch bundled-core setup (SHA-256 verify of the bundled core, `preparingMushaf`/`ready` states; amended 2026-06-18 — no download) that precedes coverage capture.
 - **eng-add-feature-module** — owns the `lib/src/onboarding/` scaffold, the `GoRoute`, and the dumb-View/ViewModel split this flow lives in.
 - **eng-create-riverpod-store** — owns the single write path that persists the seeded cards transactionally before republishing state and generating day one.
 - **eng-add-persisted-model** — owns the `Card` / coverage Drift rows the seeded cards land in.

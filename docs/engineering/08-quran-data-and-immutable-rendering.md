@@ -100,8 +100,8 @@ class GlyphLine {
 
 /// Resolve the page's dedicated font. Mirrors the qcf_quran precedent, which
 /// resolves fontFamily automatically from the page number and bundles 604 fonts
-/// fully offline (pub.dev/packages/qcf_quran). Our fonts arrive in the verified
-/// core pack (doc 09), not the binary, but the mechanic is identical.
+/// fully offline (pub.dev/packages/qcf_quran). Our fonts are bundled as assets in
+/// the app binary and re-verified at first load (doc 09); the mechanic is identical.
 String qpcFontFamily(int pageNumber) => 'QPC_P${pageNumber.toString().padLeft(3, '0')}';
 
 /// Drawing one line: the font selection IS the shaping. Flutter draws the
@@ -120,11 +120,11 @@ Widget buildGlyphLine(GlyphLine line) => Text(
     );
 ```
 
-The per-page fonts are registered for the `fontFamily` lookup. Because they arrive in the downloaded, checksum-verified core pack rather than the app bundle ([PRD §11.1.1](../PRD.md)), they are loaded at runtime with `FontLoader` (which builds a family from font bytes and registers it with the engine via `loadFontFromList`) rather than declared statically in `pubspec.yaml` ([Flutter API: FontLoader](https://api.flutter.dev/flutter/services/FontLoader-class.html)). Flutter "does not simulate" missing weights/styles, so each page is a real file and the family resolves to exactly one glyph table ([Flutter: Use a custom font](https://docs.flutter.dev/cookbook/design/fonts)).
+The per-page fonts are registered for the `fontFamily` lookup. They are **bundled in the app binary** (amended 2026-06-18, [PRD §11.1.1](../PRD.md)) — but bundled as **assets**, *not* declared under `flutter: fonts:`, so that each font's bytes can be **re-verified against its manifest SHA-256 before use**; they are then loaded at runtime with `FontLoader` (which builds a family from font bytes and registers it with the engine via `loadFontFromList`) ([Flutter API: FontLoader](https://api.flutter.dev/flutter/services/FontLoader-class.html)). Static `pubspec.yaml` font declaration would register the glyphs with the engine *unverified*, bypassing the fail-closed gate — so the `FontLoader`-from-verified-bytes path is kept even though the bytes now ship in the binary. Flutter "does not simulate" missing weights/styles, so each page is a real file and the family resolves to exactly one glyph table ([Flutter: Use a custom font](https://docs.flutter.dev/cookbook/design/fonts)).
 
 ```dart
-/// Register every verified per-page font with the engine after the core pack is
-/// downloaded and its hashes pass (doc 09). Refuses to register an unverified font.
+/// Register every verified per-page font with the engine after each bundled
+/// font's hash passes (doc 09). Refuses to register an unverified font.
 Future<void> registerVerifiedPageFonts(MushafEdition ed, AssetVault vault) async {
   for (var page = 1; page <= ed.pageCount; page++) {
     final bytes = await vault.readVerified(             // throws if hash != fontSha256[page]
@@ -298,7 +298,7 @@ Widget mushafPageView(int pageNumber, ReaderTheme theme, double zoom) {
 
 ### Decision
 
-Quran-asset integrity is enforced at **three points**, all fail-closed: (1) **CI** verifies the binary's pinned SHA-256 of the text and all 604 page fonts (plus layout) against the published release, and verifies the release text matches the authoritative Tanzil hash — mismatch fails the build; (2) **runtime** re-verifies every downloaded pack's SHA-256 before first use and refuses to render Quran text from any unverified asset; (3) a **visual-diff** renders all 604 pages on min-OS iOS/Android with the real fonts against reference muṣḥaf images within a tight pixel tolerance — diffs fail the build ([PRD §11.3, §20.1–20.2, R1](../PRD.md)). This is *Decision log: Immutable muṣḥaf rendering* meeting *Decision log: Quran asset distribution & offline integrity* ([09-asset-packs-and-offline-integrity.md](09-asset-packs-and-offline-integrity.md) owns the wire/runtime half).
+Quran-asset integrity is enforced at **three points**, all fail-closed: (1) **CI (build-time)** verifies the pinned SHA-256 of the **bundled** text and all 604 page fonts (plus layout) against the committed bundled assets, and verifies the bundled text matches the authoritative Tanzil hash — mismatch fails the build (amended 2026-06-18; any optional pack's pinned hash is checked against its published release); (2) **runtime** re-verifies the bundled bytes (and any downloaded optional pack) before first use and refuses to render Quran text from any unverified asset; (3) a **visual-diff** renders all 604 pages on min-OS iOS/Android with the real fonts against reference muṣḥaf images within a tight pixel tolerance — diffs fail the build ([PRD §11.3, §20.1–20.2, R1](../PRD.md)). This is *Decision log: Immutable muṣḥaf rendering* meeting *Decision log: Quran asset distribution & offline integrity* ([09-asset-packs-and-offline-integrity.md](09-asset-packs-and-offline-integrity.md) owns the wire/runtime half).
 
 ### Rationale
 
@@ -359,7 +359,7 @@ A **qualified ḥāfiẓ/scholar** also visually proofs a sample of pages, sajda
 
 ### Pitfalls / what we refuse
 
-- **We refuse to render unverified Quran assets.** If a downloaded pack's hash does not match, the app rejects it, re-fetches once, and then **refuses to render Quran text** rather than show an unverified muṣḥaf ([PRD §11.1.1, §19.3](../PRD.md); enforced in [09-asset-packs-and-offline-integrity.md](09-asset-packs-and-offline-integrity.md)).
+- **We refuse to render unverified Quran assets.** A bundled-core byte whose hash does not match means a corrupted install — the app **refuses to render Quran text** (a build-time failure prevents this shipping). For a downloaded optional pack, a mismatch rejects, re-fetches once, then **refuses to render** rather than show an unverified muṣḥaf ([PRD §11.1.1, §19.3](../PRD.md); enforced in [09-asset-packs-and-offline-integrity.md](09-asset-packs-and-offline-integrity.md)).
 - **We refuse goldens rendered with the Ahem font.** Muṣḥaf goldens load the real KFGQPC fonts; a golden of squares proves nothing about diacritic placement.
 - **We refuse a loose tolerance.** The pixel tolerance is tight because the failure mode (a shifted mark, a broken ligature) is small in pixels but catastrophic in meaning; "close enough" is not a standard the sacred text gets.
 - **We refuse to treat the automated gate as sufficient.** The scholar's on-device review ([PRD §20.8](../PRD.md)) remains a release-blocking gate; CI guards against *regression*, not against an originally-wrong reference.

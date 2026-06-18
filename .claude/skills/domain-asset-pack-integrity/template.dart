@@ -6,30 +6,42 @@
 //   docs/PRD.md §11.1 + §11.1.1, C1, R1, R2, R3
 //   docs/engineering/01-architecture-overview.md §§3.1, 6
 //
+// AMENDED 2026-06-18 (tech-decision-log #5/#8): the CORE muṣḥaf is BUNDLED in the
+// signed app binary (Tanzil text + unmodified KFGQPC QCF V2 fonts + QUL layout),
+// verified by a BUILD-TIME SHA-256 manifest — there is NO core download. The
+// `PackDownloader` below is for OPTIONAL packs only (reciter audio, alt-muṣḥaf).
+// The bundled core is loaded via the asset bundle and re-verified at first load
+// with the SAME SHA-256 primitive before the reference DB is built.
+//
 // THIS FILE LIVES ONLY IN /assets — the single module permitted to import a
 // networking package (CI-enforced banned-import lint). Do NOT import dio / http /
 // dart:io HttpClient anywhere else. The verified bytes that leave here belong to
 // eng-persistence-single-write-path (reference DB) and domain-immutable-quran-
-// rendering (glyph rendering); this scaffold stops at "verified bytes in documents."
+// rendering (glyph rendering); this scaffold stops at "verified bytes ready for
+// the reference DB."
 
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart'; // SHA-256 + startChunkedConversion
 import 'package:convert/convert.dart'; // AccumulatorSink<Digest>
 import 'package:dio/dio.dart'; // the ONLY networking import in the whole app
+import 'package:flutter/services.dart' show rootBundle; // bundled-core assets
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
-// ── 1. Pinned pack identity — compile-time constants, never a runtime lookup ──
-// §1: exact GitHub immutable-Release tag baked into the binary, NEVER `latest`.
+// ── 1. Pinned OPTIONAL-pack identity — compile-time constants, never a runtime
+// lookup. (The core is bundled, so these coordinates are for optional packs:
+// reciter audio, alt-muṣḥaf.) §1: exact GitHub immutable-Release tag baked into
+// the binary, NEVER `latest`.
 class PackCoordinates {
   // TODO: set to the public open-source data repo (itself a form of waqf).
   static const repo = 'hifz-companion/quran-assets';
 
-  // TODO: pin the EXACT release tag. The pinned tag and the pinned SHA-256
-  // manifest move together, atomically, only when the app binary updates.
-  static const pinnedTag = 'core-v1.0.0'; // EXACT — never 'latest'
+  // TODO: pin the EXACT release tag of the OPTIONAL pack. The pinned tag and the
+  // pinned SHA-256 manifest move together, atomically, only when the binary updates.
+  static const pinnedTag = 'reciter-husary-v1.0.0'; // EXACT — never 'latest'
 
   // GitHub immutable-release asset URL:
   //   github.com/<repo>/releases/download/<tag>/<file>
@@ -116,12 +128,26 @@ Future<String> sha256OfFile(File file) async {
   return output.events.single.toString(); // lowercase hex digest
 }
 
+/// Hash a BUNDLED asset (the core ships inside the binary). The core files are
+/// each small enough to load via the asset bundle; we still stream the bytes
+/// through the same chunked SHA-256 so the primitive is identical to the
+/// download path. NEVER used for a multi-hundred-MB optional pack.
+Future<String> sha256OfBundledAsset(String assetKey) async {
+  final ByteData data = await rootBundle.load(assetKey);
+  final output = AccumulatorSink<Digest>();
+  final input = sha256.startChunkedConversion(output);
+  input.add(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
+  input.close();
+  return output.events.single.toString(); // lowercase hex digest
+}
+
 /// Integrity, not a secret — exact string equality on the canonical hex form.
 bool digestMatches(String actual, String expected) => actual == expected;
 
-/// The TOTAL fail-closed state machine for one file:
+/// The TOTAL fail-closed state machine for one DOWNLOADED (optional-pack) file:
 ///   match → promote · mismatch → re-fetch ONCE · still mismatch → REFUSE.
 /// Returns the verified temp File, or null to fail-closed (refuse to render).
+/// (The bundled core cannot be re-fetched — see CoreReferenceInstaller below.)
 Future<File?> verifyOnce(
   PackDownloader downloader,
   ManifestEntry entry, {
@@ -140,146 +166,116 @@ Future<File?> verifyOnce(
   return null; // caller refuses to render Quran text
 }
 
-// ── 5. The sequenced install — download → verify → promote → build DB ─────────
-// §2: no partially-trusted state is ever observable. Only a fully-verified pack
-// is promoted into app-documents (the irreplaceable offline copy).
-sealed class CorePackResult {
-  const CorePackResult();
-  const factory CorePackResult.ready() = _Ready;
-  const factory CorePackResult.integrityFailure(String file) = _IntegrityFailure;
+// ── 5. First-launch core setup — load BUNDLED → verify → build DB (NO network) ─
+// AMENDED: the core is bundled, so there is no download/promote. Load each
+// bundled asset, re-verify it against the embedded build-time manifest, then
+// build the reference DB. A bundled byte cannot be re-fetched, so a mismatch
+// fails closed at once (the build-time gate makes such a mismatch a build
+// failure long before ship). No partially-trusted state is ever observable.
+sealed class CoreSetupResult {
+  const CoreSetupResult();
+  const factory CoreSetupResult.ready() = _Ready;
+  const factory CoreSetupResult.integrityFailure(String file) = _IntegrityFailure;
 }
 
-class _Ready extends CorePackResult {
+class _Ready extends CoreSetupResult {
   const _Ready();
 }
 
-class _IntegrityFailure extends CorePackResult {
+class _IntegrityFailure extends CoreSetupResult {
   const _IntegrityFailure(this.file);
   final String file;
 }
 
-class CorePackInstaller {
-  CorePackInstaller(this._downloader);
-  final PackDownloader _downloader;
+class CoreReferenceInstaller {
+  const CoreReferenceInstaller();
 
-  Future<CorePackResult> installCorePack({required CancelToken cancel}) async {
-    final verified = <String, File>{};
+  /// The bundled-asset key for one manifest entry, e.g. 'assets/quran/<name>'.
+  String _assetKey(ManifestEntry entry) => 'assets/quran/${entry.name}';
 
+  Future<CoreSetupResult> prepareCore() async {
     for (final entry in EmbeddedManifest.core) {
-      final ok = await verifyOnce(_downloader, entry, cancel: cancel);
-      if (ok == null) {
-        return CorePackResult.integrityFailure(entry.name); // FAIL-CLOSED
+      final actual = await sha256OfBundledAsset(_assetKey(entry));
+      if (!digestMatches(actual, entry.sha256)) {
+        // FAIL-CLOSED. Unfetchable bundled byte → corrupted install.
+        return CoreSetupResult.integrityFailure(entry.name);
       }
-      verified[entry.name] = ok;
     }
-
-    // Only now, with EVERY file verified, promote into app-documents.
-    final docs = await getApplicationDocumentsDirectory();
-    // TODO: move each verified temp file into `docs` as the canonical copy,
-    //       then hand off to eng-persistence-single-write-path to build the
-    //       Drift reference DB, then stamp text_checksum_verified_at.
-    //   await _promoteToDocuments(verified, docs);
-    //   await _buildReferenceDb(verified);
+    // Only now, with EVERY bundled file verified, build the reference DB.
+    // TODO: hand off to eng-persistence-single-write-path to build the Drift
+    //       reference DB from the bundled assets, then stamp the verified time.
+    //   await _buildReferenceDb(EmbeddedManifest.core);
     //   await _appMeta.set('text_checksum_verified_at', DateTime.now().toUtc());
-    return const CorePackResult.ready();
+    return const CoreSetupResult.ready();
   }
 }
 
-// ── 6. Onboarding download controller — calm, RTL, non-blaming states ─────────
-// §2 state table + PRD §12.1, R3: offline-at-first-run is explained once, never
-// scolded. Copy is gen_l10n-localized for fa/ckb/ar, type.body / color.text
-// .secondary, no exclamation marks; surface the airplane-mode proof here
-// (see ux-privacy-trust-surface).
-enum DownloadPhase {
+// Optional packs (reciter audio, alt-muṣḥaf) reuse the download path: for each
+// manifest entry call `verifyOnce(downloader, entry, cancel: cancel)`; a null
+// result means fail-closed (refuse). Promote verified temp files into
+// getApplicationDocumentsDirectory() before use.
+
+// ── 6. First-launch setup controller — calm, RTL, non-blaming states ──────────
+// AMENDED: the core needs NO network, so it has no awaitingDownload state — only
+// a brief preparing/ready/integrityFailure. (An OPTIONAL pack requested offline
+// uses awaitingDownload/downloadInterrupted — model that in the audio feature.)
+// PRD §12.1, R3: never scolded. Copy is gen_l10n-localized for fa/ckb/ar,
+// type.body / color.text.secondary, no exclamation marks; surface the
+// airplane-mode proof here (see ux-privacy-trust-surface).
+enum CoreSetupPhase {
   idle,
-  awaitingFirstDownload, // offline at first run — "one-time download needed" + Retry
-  downloading, // show progress; cancellable
-  downloadInterrupted, // resume/retry; the .part is discarded
-  verifying, // brief "re-checking" state on a first-attempt mismatch
-  ready, // the single network moment is over — offline forever
-  integrityFailure, // calm honest error + Retry — NEVER a degraded render
+  preparingMushaf, // brief, silent — bundled, no network
+  ready, // the muṣḥaf is available offline from first launch
+  coreIntegrityFailure, // calm honest error + reinstall — NEVER a degraded render
 }
 
-class DownloadState {
-  const DownloadState({
-    required this.phase,
-    this.received = 0,
-    this.total = 0,
-    this.failedFile,
-  });
-  final DownloadPhase phase;
-  final int received;
-  final int total;
+class CoreSetupState {
+  const CoreSetupState({required this.phase, this.failedFile});
+  final CoreSetupPhase phase;
   final String? failedFile;
 
-  DownloadState copyWith({
-    DownloadPhase? phase,
-    int? received,
-    int? total,
-    String? failedFile,
-  }) =>
-      DownloadState(
+  CoreSetupState copyWith({CoreSetupPhase? phase, String? failedFile}) =>
+      CoreSetupState(
         phase: phase ?? this.phase,
-        received: received ?? this.received,
-        total: total ?? this.total,
         failedFile: failedFile ?? this.failedFile,
       );
 }
 
-class CorePackDownloadController extends StateNotifier<DownloadState> {
-  CorePackDownloadController(this._installer)
-      : super(const DownloadState(phase: DownloadPhase.idle));
-
-  final CorePackInstaller _installer;
-  CancelToken _cancel = CancelToken();
+// Riverpod 3.x Notifier (NOT the banned StateNotifier — Decision log #2).
+class CoreSetupController extends Notifier<CoreSetupState> {
+  @override
+  CoreSetupState build() => const CoreSetupState(phase: CoreSetupPhase.idle);
 
   Future<void> start() async {
-    _cancel = CancelToken();
-    state = state.copyWith(phase: DownloadPhase.downloading);
-    try {
-      final result = await _installer.installCorePack(cancel: _cancel);
-      switch (result) {
-        case _Ready():
-          state = state.copyWith(phase: DownloadPhase.ready);
-        case _IntegrityFailure(:final file):
-          state = state.copyWith(
-            phase: DownloadPhase.integrityFailure,
-            failedFile: file,
-          );
-      }
-    } on DioException catch (e) {
-      // TODO: distinguish "no connectivity at first run" → awaitingFirstDownload
-      //       from an interrupted transfer → downloadInterrupted. Both are calm.
-      final offline = e.type == DioExceptionType.connectionError;
-      state = state.copyWith(
-        phase: offline
-            ? DownloadPhase.awaitingFirstDownload
-            : DownloadPhase.downloadInterrupted,
-      );
+    state = state.copyWith(phase: CoreSetupPhase.preparingMushaf);
+    final result = await const CoreReferenceInstaller().prepareCore();
+    switch (result) {
+      case _Ready():
+        state = state.copyWith(phase: CoreSetupPhase.ready);
+      case _IntegrityFailure(:final file):
+        state = state.copyWith(
+          phase: CoreSetupPhase.coreIntegrityFailure,
+          failedFile: file,
+        );
     }
   }
-
-  void cancel() => _cancel.cancel();
 
   /// Retry is always offered (never a dead end); re-runs the verified pipeline.
   Future<void> retry() => start();
 }
 
 // TODO: wire DI via Riverpod providers (app composition root). No global
-// singletons; the downloader/installer are injected, never reached globally.
-final _downloaderProvider = Provider((ref) => PackDownloader());
-final _installerProvider =
-    Provider((ref) => CorePackInstaller(ref.watch(_downloaderProvider)));
-final corePackDownloadProvider =
-    StateNotifierProvider<CorePackDownloadController, DownloadState>(
-  (ref) => CorePackDownloadController(ref.watch(_installerProvider)),
-);
+// singletons; the installer/downloader are injected, never reached globally.
+final coreSetupProvider =
+    NotifierProvider<CoreSetupController, CoreSetupState>(CoreSetupController.new);
+
+// Optional-pack downloader DI (used by the audio feature, not at first launch).
+final packDownloaderProvider = Provider((ref) => PackDownloader());
 
 // ── UI note (build the screen in the onboarding feature, not here) ────────────
-// Wrap the download screen in Directionality(textDirection: TextDirection.rtl)
-// for fa/ckb/ar; render all copy via AppLocalizations (gen_l10n), with
-// Material 3 calm styling (type.body / color.text.secondary), localized numerals
-// for the progress percentage, and no exclamation marks. The integrityFailure
-// state shows a calm honest message + Retry — it MUST NOT fall back to any
-// degraded render of Quran text. See ux-privacy-trust-surface for the exact copy
-// and the airplane-mode proof line.
+// Wrap the setup screen in Directionality(textDirection: TextDirection.rtl) for
+// fa/ckb/ar; render all copy via AppLocalizations (gen_l10n), with Material 3
+// calm styling (type.body / color.text.secondary) and no exclamation marks. The
+// coreIntegrityFailure state shows a calm honest message + reinstall guidance —
+// it MUST NOT fall back to any degraded render of Quran text. See
+// ux-privacy-trust-surface for the exact copy and the airplane-mode proof line.

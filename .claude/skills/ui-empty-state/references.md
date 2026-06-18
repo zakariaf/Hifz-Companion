@@ -36,7 +36,7 @@ The exact governing doc sections for this skill. Only real sections are listed; 
 
 - **ui-catch-up-banner** — the empathy→fact→plan→choice missed-day re-spread surface; the *other* return-after-gap face, used **only when there is a backlog to offer help with**. If there's a plan, it's a catch-up banner; if there's nothing to catch up, it's a silent resume (this skill).
 - **ui-daily-session-list** — the finite Far→Near→New Today list whose all-done / silent-resume states this skill frames; owns the loading/populated states and the honest budget-feedback line.
-- **ui-cold-start-placement** — the first-day onboarding (coverage capture, per-juz Solid/Shaky/Rusty, "when memorized", core-pack download) the first-run invitation leads into.
+- **ui-cold-start-placement** — the first-day onboarding (coverage capture, per-juz Solid/Shaky/Rusty, "when memorized", bundled-core setup) the first-run invitation leads into.
 - **ui-retention-heatmap** — the Progress surface and its own pre-data state, for the first-run face on Progress.
 - **eng-add-localized-string** — the transcreated ARB pipeline (fa/ckb/ar) for every empty-state string, plurals, and locale numerals.
 - **eng-create-riverpod-store** — the StreamProvider + single-write-path controller that produces the pre-built empty/all-done/resume read model this dumb View renders.

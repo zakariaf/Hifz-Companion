@@ -26,7 +26,7 @@ The exact governing doc sections for this skill. Only real sections are listed; 
 
 - `docs/design-system/04-typography.md` §5 (Numerals follow the resolved locale) — The riwāyah label, page numbers, and juz numbers in the reader chrome render their digits via `intl` `NumberFormat`/`DateFormat` per locale (Extended Arabic-Indic for fa/ckb, Arabic-Indic for ar) — never ASCII concatenation. This binds the chrome *around* the page, not the glyph layer.
 
-- `docs/PRD.md` §11.1.1 (Download integrity) — The app refuses to render Quran text from any unverified asset; the page view's "refuse to render" path defers to this runtime guard. The View never fetches at runtime — fonts/geometry come from the one-time verified core pack.
+- `docs/PRD.md` §11.1.1 (Integrity, amended 2026-06-18) — The app refuses to render Quran text from any unverified asset; the page view's "refuse to render" path defers to this runtime guard. The View never fetches at runtime — fonts/geometry come from the **bundled**, build-verified core (re-verified at first load).
 
 - `docs/PRD.md` §18 (Accessibility) / §12.3 (the reader) — Low-vision reciters get a larger muṣḥaf via uniform layer zoom that keeps every printed line break exactly as printed; the reader is its own screen with its own zoom and theme controls.
 
@@ -34,7 +34,7 @@ The exact governing doc sections for this skill. Only real sections are listed; 
 
 - **domain-mushaf-text-integrity** — owns the data, font registration (`FontLoader`), checksums, glyph-string ↔ font pairing, layout-from-data, and overlay-coordinate rules; this skill is the View that consumes them.
 - **domain-mutashabihat-system** — decides *which* words a mutashābihāt-anchor / confusion marker covers; this skill only paints the `OverlayMarker` it is handed.
-- **domain-asset-pack-integrity** — the one-time core-pack download and per-file SHA-256 verifier that delivers and verifies the per-page fonts and layout.
+- **domain-asset-pack-integrity** — the bundled core's build-time SHA-256 manifest + runtime re-verify (and the optional-pack download/verifier) that delivers and verifies the per-page fonts and layout.
 - **eng-add-feature-module** — scaffolds the muṣḥaf reader screen, its route, and its dumb-View/ViewModel split.
 - **eng-create-riverpod-store** — the provider/notifier holding reader state (current page, zoom, theme) the View reads.
 - **eng-rtl-and-bidi-layout** — RTL paging direction and the bidi-safe chrome (riwāyah label, page numbers) around the page.

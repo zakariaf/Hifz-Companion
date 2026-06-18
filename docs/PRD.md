@@ -43,7 +43,7 @@ These are absolute and shape every decision below.
 
 | # | Constraint | Implication |
 |---|---|---|
-| C1 | **Offline after setup. No backend we operate, no accounts, no live services, no per-user data ever leaves the device.** | Quran assets (text, fonts, page layout, mutashābihāt dataset, and optional recitation audio) live in a **public open-source GitHub repo** and are **downloaded once** — a required core pack at onboarding, optional audio packs on demand — then the app works **fully offline, forever** (airplane mode). The only network use is fetching **static, public, checksum-verified** open data; no cloud sync, no accounts, no telemetry, no remote config, no API we run. |
+| C1 | **Offline after setup. No backend we operate, no accounts, no live services, no per-user data ever leaves the device.** | The **core muṣḥaf** (Uthmani text, the KFGQPC per-page glyph fonts, page layout, and the mutashābihāt dataset) is **bundled in the app binary** and verified at build time, so the app is **fully usable offline from first launch** — no network event in its critical path. Only **optional** packs (recitation audio, future alt-muṣḥaf) are **downloaded on demand** from a **public open-source GitHub repo** (static, public, checksum-verified open data); after any such optional fetch the app works **fully offline, forever** (airplane mode). No cloud sync, no accounts, no telemetry, no remote config, no API we run. |
 | C2 | **No AI / no ML / no audio recognition.** | Grading is **self-rating** and **on-device teacher sign-off** only. No ASR, no "listen and detect mistakes," no on-device model. The mutashābihāt list is a curated static dataset; personalization comes only from the user's own logged confusion errors (plain bookkeeping, not ML). |
 | C3 | **One complete version.** | No "v1 / v2" gating in the product itself. Everything specced here ships as one coherent app. (Build *order* is an engineering concern, not a product-scope one.) |
 | C4 | **Languages: Persian (fa), Kurdish Sorani (ckb), Arabic (ar) — all RTL.** | Full localization of every string; RTL-first layout; locale-appropriate numerals and calendars; localizable religious terminology (the sabaq/sabqi/manzil terms differ by region). |
@@ -152,7 +152,7 @@ These outrank every feature. Any one, gotten wrong, ends the project. They are *
 
 ### Out of scope (explicitly excluded)
 - ❌ AI recitation verification / mistake detection / any audio recognition (C2).
-- ❌ Any backend, account, cloud sync, or live online service we operate (C1). *A one-time download of static public assets from a GitHub repo is not a service.*
+- ❌ Any backend, account, cloud sync, or live online service we operate (C1). *The core muṣḥaf is bundled in the binary; an on-demand download of static public optional packs from a GitHub repo is not a service.*
 - ❌ **Always-on streaming** audio. *Recitation audio is supported only as an **optional reciter pack downloaded once** (then played offline) — not required for the recite-from-memory maintenance flow. See [§11](#11-quran-data--immutable-rendering).*
 - ❌ Tafsīr / translation / commentary (R2).
 - ❌ Gamification, social feeds, leaderboards (R3/C6).
@@ -435,22 +435,22 @@ app_meta(key PK, value);   -- schema_version, text_checksum_verified_at, active_
 
 ## 11. Quran Data & Immutable Rendering
 
-### 11.1 Asset source: an open-source GitHub repo, downloaded once
-All Quran data lives in a **public, open-source GitHub repository** (itself a form of *waqf* — auditable, community-correctable open data), published as **versioned asset packs** (GitHub Releases). The app ships lean and **downloads** what it needs, then runs fully offline:
+### 11.1 Asset source: core bundled in the binary; optional packs from an open-source GitHub repo
+The **core muṣḥaf is bundled in the app binary** and verified at build time, so the app is fully usable offline from first launch (no core download). **Optional** packs live in a **public, open-source GitHub repository** (itself a form of *waqf* — auditable, community-correctable open data), published as **versioned asset packs** (GitHub immutable Releases) and downloaded only on demand:
 
-| Asset pack | Contents | Source / License | When downloaded |
+| Asset pack | Contents | Source / License | Delivery |
 |---|---|---|---|
-| **Core (required)** | Uthmani text (**Tanzil**, CC BY 3.0); page layout/segmentation (**QUL**); per-page **KFGQPC QPC** glyph fonts; **mutashābihāt** dataset | open / attributed (verify KFGQPC font terms) | Once, at onboarding (the one moment network is needed). |
-| **Reciter audio (optional)** | One reciter's ayah-level audio | open / attributed | On demand, per reciter; large; skippable. |
-| **Alt. muṣḥaf (optional, future)** | Other riwāyāt / layouts | open | On demand (R2 — swappable muṣḥaf). |
+| **Core (bundled)** | Uthmani text (**Tanzil**, CC BY 3.0); page layout/segmentation (**QUL**); per-page **KFGQPC QCF V2** glyph fonts; **mutashābihāt** dataset | open / attributed (verify KFGQPC font terms) | **Bundled in the app binary**, verified at build time — no download. |
+| **Reciter audio (optional)** | One reciter's ayah-level audio | open / attributed | Downloaded on demand, per reciter; large; skippable. |
+| **Alt. muṣḥaf (optional, future)** | Other riwāyāt / layouts | open | Downloaded on demand (R2 — swappable muṣḥaf). |
 
 The text is **never used for layout**; rendering is glyph-font only (§11.2).
 
-### 11.1.1 Download integrity (critical — guards R1)
-- The app binary ships with the **pinned SHA-256 checksums and pinned release version** of every asset pack. A downloaded pack is **rejected and re-fetched** unless its hash matches exactly; the app **refuses to render Quran text** from any unverified asset.
-- Downloads are **HTTPS GET from GitHub Releases / its CDN** — no API we run, no per-user data sent (the request carries only a public asset URL).
-- The core-pack download is part of onboarding; if the device is offline at first run, the app clearly explains it needs a **one-time** download and lets the user retry — after which it is permanently offline.
-- Packs are versioned; an app update may pin a newer, re-verified pack.
+### 11.1.1 Integrity (critical — guards R1)
+- The **core muṣḥaf is bundled in the signed app binary** and pinned by a **build-time SHA-256 manifest**: CI fails the build if any bundled text/layout/font byte changes (§11.3). Because the core ships inside the binary, it is present and verified the instant the app is installed — there is **no core download** and no offline-at-first-run failure mode for the muṣḥaf.
+- The app binary also ships the **pinned SHA-256 checksums and pinned release version** of every **optional** pack. A downloaded optional pack is **rejected and re-fetched** unless its hash matches exactly; the app **refuses to render Quran text** from any unverified asset.
+- Optional-pack downloads are **HTTPS GET from GitHub immutable Releases / its CDN** — no API we run, no per-user data sent (the request carries only a public asset URL); a 404 on a pinned asset means "keep the verified local copy," never "fetch something else."
+- The core and optional packs are versioned; an app update may bundle a newer, re-verified core or pin a newer, re-verified optional pack.
 
 ### 11.2 Rendering rules (enforce R1)
 - Each page renders by selecting that page's **dedicated glyph font** and drawing its glyph codepoints — the font *is* the typeset page. The OS shaper is never asked to lay out Quran text.
@@ -459,9 +459,9 @@ The text is **never used for layout**; rendering is glyph-font only (§11.2).
 - The reader supports zoom and night/sepia themes by transforming the rendered layer, not the text.
 
 ### 11.3 Integrity pipeline (CI + runtime)
-1. **CI** verifies the app's **pinned checksums match the published GitHub Release** packs, and that the release text matches the authoritative Tanzil hash → mismatch fails the build.
-2. **CI** verifies each of the 604 page fonts in the release is present and unmodified (hash manifest).
-3. **Runtime** re-verifies every downloaded pack's SHA-256 before first use (§11.1.1) and refuses unverified Quran assets.
+1. **CI (build-time)** verifies the **bundled core**'s text/layout/604-font SHA-256 manifest matches the committed bundled assets, and that the bundled text matches the authoritative Tanzil hash → mismatch fails the build. The same gate verifies any **optional** pack's pinned checksums match its published GitHub immutable Release.
+2. **CI** verifies each of the 604 **bundled** page fonts is present and unmodified (hash manifest).
+3. **Runtime** re-verifies every **downloaded optional** pack's SHA-256 before first use (§11.1.1) and refuses unverified Quran assets; the bundled core is already build-time-verified.
 4. **Visual-diff**: render every page on min-iOS and min-Android against reference muṣḥaf images within a tight pixel tolerance → diffs fail the build.
 5. Spot-check sajda marks, ayah numbering, and basmala presence per surah against the reference.
 
@@ -474,7 +474,7 @@ Bottom nav (RTL order — rightmost is "home"): **Today · Muṣḥaf · Mutash�
 ### 12.1 Onboarding / Cold-start (§7.10)
 - Welcome (intent + privacy + "we never record audio / never charge").
 - Language pick (fa/ckb/ar) and muṣḥaf confirmation (riwāyah stated — R2).
-- **One-time core-pack download** from the open-source repo, with progress and integrity check (§11.1.1).
+- **Core muṣḥaf setup** — the core is **bundled** in the binary, so this is a brief, offline build-verify step (no download), not a network gate (§11.1.1). (Optional reciter audio is downloaded later, on demand.)
 - **Coverage capture** (which juz held).
 - **Per-juz confidence** (Solid/Shaky/Rusty); optional "when memorized."
 - Cycle preset pick (named — §15) and daily time budget.
@@ -547,7 +547,7 @@ The sabaq/sabqi/manzil vocabulary is regional. Track labels, grade verbs, and cy
 - **Quran:** KFGQPC per-page QCF fonts (fixed; §11).
 - **UI (fa/ar):** a high-quality Perso-Arabic UI font (e.g. **Vazirmatn** / **Estedad** / **Noto Naskh Arabic**) — bundled in the app, no font-CDN fetch.
 - **UI (ckb, Sorani):** a font with **full Kurdish (Sorani) glyph coverage** (e.g. **Rabar**, **NRT**, **Speda**, or verified Vazirmatn coverage) — **verify all Sorani letters render** before locking.
-- **UI fonts are bundled in the app binary.** The Quran (QPC) glyph fonts arrive in the downloaded core pack (§11); no font is fetched from a font CDN at runtime.
+- **UI fonts are bundled in the app binary.** The Quran (QPC) glyph fonts are also **bundled** in the binary (as hash-verified assets, §11 — amended 2026-06-18); no font is fetched from a font CDN or downloaded at runtime.
 
 ### 13.6 String management
 - Flutter `gen_l10n` with ARB files per locale; 100% coverage gate in CI (no missing keys, no hardcoded user-facing strings).
@@ -669,15 +669,16 @@ Offered as named choices (not sliders). Defaults tuned for fa/ckb/ar regions; al
 
 ## 21. Open Decisions to Confirm
 
-**Decided this round:** Languages are **Persian (fa), Kurdish Sorani (ckb), Arabic (ar)** — **Kurmanji dropped.** Quran data ships via a **public open-source GitHub repo, downloaded once** (core pack at onboarding, optional reciter audio on demand), checksum-verified, then fully offline. Recitation **audio is supported** as an optional downloadable reciter pack.
+**Decided this round:** Languages are **Persian (fa), Kurdish Sorani (ckb), Arabic (ar)** — **Kurmanji dropped.** **(Amended 2026-06-18, owner decision — tech-decision-log #5/#8 amended:)** the **core muṣḥaf is bundled in the app binary** (byte-exact Tanzil Uthmani text + the unmodified KFGQPC QCF V2 per-page fonts + the QUL layout), verified by a **build-time** SHA-256 manifest, so the app is **fully usable offline from first launch**. Only **optional** packs (reciter audio, future alt-muṣḥaf) are **downloaded on demand** from the public open-source GitHub repo (exact-tag-pinned, runtime SHA-256 fail-closed), then fully offline. Recitation **audio is supported** as an optional downloadable reciter pack.
 
 **Remaining:**
 1. **Kurdish & Persian terminology.** The track/cycle term-sets need **native-speaker + scholarly review** before locking defaults (§13.4).
 2. **Muṣḥaf edition for Iran/Kurdistan.** Default is KFGQPC **Madani 15-line (Ḥafṣ)**. Confirm acceptable, or whether a locally-familiar Ḥafṣ edition is preferred (architecture already treats the muṣḥaf as swappable).
-3. **Mutashābihāt source dataset.** Which curated list to publish in the repo, and who provides the scholarly sign-off.
+3. **Mutashābihāt source dataset (scholarly review required — do not decide solo).** QUL's "Mutashabihat ul Quran" is a strong **candidate** dataset (E14), but QUL's "matching ayah and phrases" is likely **broader than R4**: it must be **scoped to objective, near-identical wording only** (R4) and **scholar-reviewed** before inclusion. Who provides the scholarly sign-off is open.
 4. **Reciter(s) for the optional audio pack.** Which qārī, and the audio source/license (e.g. an open ayah-level set).
 5. **Scholarly endorser(s).** Who attaches their name (R-series trust). Until then, copy stays "aid to revision, servant to the teacher."
 6. **Open-source license intent.** Recommended for a free *ṣadaqah* project: code under a permissive or AGPL license; the Quran-data repo's text/dataset under CC BY (respecting KFGQPC font terms).
+7. **Translations / tafsīr (out of scope unless explicitly approved).** Per R2 / non-negotiable #2 the app bundles **zero** tafsīr/translation. QUL *hosts* translations, but availability ≠ inclusion: they may be added only if a **named scholar approves** them as an **optional, off-by-default, clearly-labeled, license-cleared** pack — and only then via an **explicit tech-decision-log amendment**.
 
 ---
 

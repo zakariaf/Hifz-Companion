@@ -20,7 +20,7 @@ The exact governing doc sections for this skill. Only real sections are listed; 
 
 - `docs/PRD.md` R2 (state the riwāyah; stay neutral) — Show the muṣḥaf as "Ḥafṣ ʿan ʿĀṣim — Madani muṣḥaf," never "the Quran" absolutely; the scheduler is text-agnostic and the muṣḥaf is a **swappable asset** (data model supports alternative layouts/riwāyāt with no engine rewrite); zero bundled tafsīr/translation/commentary.
 
-- `docs/PRD.md` §11 (Quran Data & Immutable Rendering) — §11.1/§11.1.1: assets are a versioned core pack downloaded once from an open-source repo, pinned SHA-256 + release, rejected and re-fetched on mismatch, render refused if unverified. §11.2: dedicated glyph font per page, overlays as rectangles, breaks from layout data only, zoom/themes transform the rendered layer. §11.3: the CI + runtime integrity pipeline.
+- `docs/PRD.md` §11 (Quran Data & Immutable Rendering) — §11.1/§11.1.1 (amended 2026-06-18): the **core muṣḥaf is bundled in the app binary**, pinned by a build-time SHA-256 manifest (no download); only optional packs are downloaded from the open-source repo, pinned SHA-256 + release, rejected and re-fetched on mismatch, render refused if unverified. §11.2: dedicated glyph font per page, overlays as rectangles, breaks from layout data only, zoom/themes transform the rendered layer. §11.3: the CI + runtime integrity pipeline.
 
 - `docs/design-system/13-islamic-identity-and-adab.md` §1 (the muṣḥaf page is the unit of reverence) — Render page-faithful through per-page glyph fonts; the QPC fonts are **not design tokens** (referenced, never restyled/re-weighted/substituted); markers are coordinates over the immutable layer; page position is itself a retrieval cue, so reflow is forbidden as both adab and a retention failure.
 
@@ -40,7 +40,7 @@ The exact governing doc sections for this skill. Only real sections are listed; 
 
 ## Sibling skills
 
-- **domain-asset-pack-integrity** — owns the *wire half*: how the core pack is hosted on the open-source repo, downloaded once over HTTPS, and SHA-256-verified at runtime before this skill is allowed to render it. Shares the checksum manifest with this skill. (`docs/engineering/09-asset-packs-and-offline-integrity.md`; `docs/PRD.md` §11.1/§11.1.1.)
+- **domain-asset-pack-integrity** — owns the *integrity half*: the bundled core's build-time SHA-256 manifest and the runtime re-verify before this skill renders it, plus how optional packs are hosted and downloaded over HTTPS and SHA-256-verified. Shares the checksum manifest with this skill. (`docs/engineering/09-asset-packs-and-offline-integrity.md`; `docs/PRD.md` §11.1/§11.1.1.)
 - **eng-reference-data-persistence** — owns the read-only Drift/SQLite DDL for the `mushaf`/`page`/`line`/`ayah` reference tables that hold the layout/text/edition rows this skill reads. (`docs/engineering/05-persistence-and-encryption.md`; `docs/PRD.md` §10.1.)
 - **eng-scheduling-engine** — the pure-Dart, text-agnostic scheduler that decides which page is due; it never sees glyphs and is decoupled from the muṣḥaf by R2's swappability. (`docs/engineering/06-scheduling-engine.md`.)
 - **ui-retention-heatmap** — the calm "keep your Quran green" progress surface and the `color.semantic.*` tokens an overlay paints a weak line with. (`docs/design-system/08-data-visualization.md`.)

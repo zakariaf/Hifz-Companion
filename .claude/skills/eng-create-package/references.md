@@ -42,6 +42,6 @@ The exact governing doc sections for this skill. Only real sections are listed; 
 
 - **domain-scheduling-engine-rules** — the pure DSR logic (curve, trust clamp, tracks, golden vectors) that lives *inside* the `engine` package this skill scaffolds; go there for the math, here for the manifest/boundary.
 - **domain-mushaf-text-integrity** — the immutable QPC glyph-rendering rules inside the `quran` package; the manifest isolation this skill enforces is what keeps glyph handling there.
-- **domain-asset-pack-integrity** — the one-time downloader, SHA-256 verifier, and pinned manifest inside the `assets` package, the single permitted network module.
+- **domain-asset-pack-integrity** — the bundled-core verifier, the optional-pack downloader, the SHA-256 verifier, and the pinned manifest inside the `assets` package, the single permitted network module.
 - **domain-grading-pipeline** — the review→engine→persist single write path that crosses the `features`→`data`→`engine` packages this layout separates.
 - **domain-mutashabihat-system** — the discrimination-trainer feature and dataset hosted by this package layout.
