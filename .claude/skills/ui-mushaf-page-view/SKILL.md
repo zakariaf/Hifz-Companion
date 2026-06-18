@@ -21,7 +21,7 @@ Use when building or placing:
 Do NOT use this skill for:
 - the **data, font registration, checksums, glyph-string ↔ font pairing, layout-from-data** rules → use **domain-mushaf-text-integrity** (this skill *consumes* its `ImmutableGlyphPage` / `GlyphLine` / `OverlayMarker` types; it does not re-derive them)
 - the **confusables dataset, confusion log, discrimination drills, anchor-hint content** that *decide which* words to mark → use **domain-mutashabihat-system** (this skill only *paints* the marker it is handed)
-- the **one-time core-pack download / SHA-256 verifier** that delivers the fonts → use **domain-asset-pack-integrity**
+- the **bundled-core integrity manifest / SHA-256 verifier** (and optional-pack download) that delivers the fonts → use **domain-asset-pack-integrity**
 - the **bottom-nav tab, route, and ViewModel scaffold** the reader lives in → use **eng-add-feature-module**
 - the **Riverpod provider/notifier** holding reader state (current page, zoom, theme) → use **eng-create-riverpod-store**
 - the **UI chrome** type/numerals/bidi *around* the page (riwāyah label text, page-number formatting) → use **eng-rtl-and-bidi-layout** and the `type.*` tokens in `docs/design-system/04-typography.md`
@@ -74,7 +74,7 @@ Before this page view is done:
 - [ ] Page navigation rebuilds with a new `pageNumber`/geometry only, with RTL-correct paging direction (verify fa/ckb/ar advance right-to-left); glyph content is never mirrored or reordered.
 - [ ] The riwāyah/edition name is shown as shaped UI chrome (`type.*`, locale numerals via `intl`); the page is never called "the Quran" absolutely (sect-neutral, swappable muṣḥaf).
 - [ ] Missing glyphs surface as visible tofu; the View refuses to render any unverified Quran asset (defers to the integrity layer's verified types).
-- [ ] Fully offline: the page view fetches nothing at runtime; fonts/geometry arrive from the verified core pack only.
+- [ ] Fully offline: the page view fetches nothing at runtime; fonts/geometry arrive from the bundled, build-verified core only.
 - [ ] No AI, no microphone, no audio-recognition coupling in the reader; no streaks/badges/celebration drawn over the page (no gamification of the muṣḥaf).
 - [ ] Muṣḥaf golden test present: render the page with the **real KFGQPC fonts** (via `FontLoader`, never Ahem) under light + sepia + dark + a zoom step, in an RTL `Directionality`, against `matchesGoldenFile`.
 

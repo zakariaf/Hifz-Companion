@@ -99,8 +99,9 @@ Widget buildGlyphLine(GlyphLine line) => Text(
 
 // =============================================================================
 // 3. Register the 604 page fonts ONLY after each passes its hash.  (doc 08 §2; PRD §11.1.1)
-//    Fonts arrive in the downloaded, verified core pack — not the app bundle — so they
-//    load at runtime via FontLoader. Refuse to register an unverified font.
+//    AMENDED 2026-06-18: the fonts are BUNDLED in the app binary (build-time SHA-256
+//    verified). readVerified reads each font's BUNDLED bytes and re-checks its hash
+//    before FontLoader registers it. Refuse to register an unverified font.
 // =============================================================================
 
 /// TODO: AssetVault is owned by sibling domain-asset-pack-integrity. readVerified MUST throw
@@ -112,8 +113,8 @@ abstract class AssetVault {
   });
 }
 
-/// Register every verified per-page font with the engine after the core pack is downloaded
-/// and its hashes pass. Refuses any font whose hash does not match fontSha256[page].
+/// Register every verified per-page font with the engine after each bundled font's
+/// hash passes. Refuses any font whose hash does not match fontSha256[page].
 Future<void> registerVerifiedPageFonts(
     MushafEdition ed, AssetVault vault) async {
   for (var page = 1; page <= ed.pageCount; page++) {

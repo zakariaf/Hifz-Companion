@@ -299,7 +299,7 @@ Flutter is an explicitly trusted prebuilt-binary source in F-Droid's toolchain r
 
 - **We refuse any dependency that drags in Play Services, Firebase, or an ad/tracking SDK.** A single such transitive dependency would forfeit F-Droid eligibility and break [PRD §20.6](../PRD.md); the dep allow-list catches it at PR time.
 - **We refuse to ship a font or audio pack whose license forbids redistribution or derivatives.** That would earn a **NonFreeAssets** flag; font/audio terms are verified before a pack is published ([09](09-asset-packs-and-offline-integrity.md), [PRD §21.6](../PRD.md)).
-- **We refuse to let the one-time download be framed (or coded) as a runtime *dependency on a service*.** The app must work fully offline forever after the download, or it risks the **NonFreeNet** flag and contradicts C1.
+- **We refuse to let any optional-pack download be framed (or coded) as a runtime *dependency on a service*.** The app must work fully offline forever — the core muṣḥaf is bundled and needs no download at all (amended 2026-06-18) — or it risks the **NonFreeNet** flag and contradicts C1.
 
 ---
 
@@ -376,7 +376,7 @@ The app ships through **four channels**: **F-Droid** (primary, §5), **Google Pl
 
 - **A *ṣadaqah* app should maximize reach and resilience.** Signed GitHub Releases let Obtainium users "install … apps directly from their releases pages" and "receive notifications when new releases are made available," independent of any store's gatekeeping; Accrescent offers a hardened alternative store ([AlternativeTo: Accrescent / Obtainium](https://www.alternativeto.net/software/accrescent/)) (research note, Finding 12). Because the same reproducible build is signed with our key (§4), a GitHub-Releases install is as verifiable as the F-Droid one.
 - **The Android open-distribution landscape is under active threat.** F-Droid warns Google's August 2025 decree, "if it were to be put into effect … will end the F-Droid project and other free/open-source app distribution sources as we know them today," requiring central registration, fees, government-ID verification, and enumeration of "all the unique application identifiers" ([F-Droid: Registration decree](https://f-droid.org/en/2025/09/29/google-developer-registration-decree.html)). A free app whose natural home is sideloading and F-Droid must watch this and keep the signed-GitHub-Releases path alive as insurance (research note, Finding 12).
-- **The App Store accepts a free app cleanly.** Apple's guidelines do not require pricing; the only metadata duty is that "if your business model isn't obvious, make sure to explain in its metadata and App Review notes" ([Apple: App Review Guidelines](https://developer.apple.com/app-store/review/guidelines/)) — which we do (free, *ṣadaqah*, no IAP, no account). Guideline 2.5.2 (no downloaded/executed code) is satisfied because the one-time download is *static data*, not code, and the engine is plain compiled Dart arithmetic with no AI model ([PRD C2](../PRD.md)) (research note, Finding 8).
+- **The App Store accepts a free app cleanly.** Apple's guidelines do not require pricing; the only metadata duty is that "if your business model isn't obvious, make sure to explain in its metadata and App Review notes" ([Apple: App Review Guidelines](https://developer.apple.com/app-store/review/guidelines/)) — which we do (free, *ṣadaqah*, no IAP, no account). Guideline 2.5.2 (no downloaded/executed code) is satisfied because the core muṣḥaf is bundled and any optional-pack download is *static data*, not code, and the engine is plain compiled Dart arithmetic with no AI model ([PRD C2](../PRD.md)) (research note, Finding 8).
 
 ### Specification
 
@@ -387,7 +387,7 @@ The app ships through **four channels**: **F-Droid** (primary, §5), **Google Pl
 | **Apple App Store** | IPA | Apple signing | App Store; `PrivacyInfo.xcprivacy` + policy |
 | **GitHub Releases (Obtainium)** | reproducible APK + SLSA attestation | **our** key; `gh attestation verify` | Obtainium watches the releases page |
 
-The "business model" App Review note states plainly: *free, built as ongoing charity (ṣadaqah jāriyah); no in-app purchase, no subscription, no account, no ads, no data collection; one-time download of static public Quran assets, then fully offline.*
+The "business model" App Review note states plainly: *free, built as ongoing charity (ṣadaqah jāriyah); no in-app purchase, no subscription, no account, no ads, no data collection; the Quran is bundled in the app, with optional reciter audio as a one-time download of static public assets, then fully offline.*
 
 ### Pitfalls / what we refuse
 
@@ -426,8 +426,9 @@ The repository ships a **"Verify us yourself"** document (`docs/verify-yourself.
      Collected" declarations and PrivacyInfo.xcprivacy (§6).
 
 3. Verify "offline forever"
-   - Complete the one-time core-pack download, enable airplane mode, and use
-     the full app — Today, Muṣḥaf, Mutashābihāt, Progress — with no network.
+   - From first launch (the core muṣḥaf is bundled — no download), enable airplane
+     mode and use the full app — Today, Muṣḥaf, Mutashābihāt, Progress — with no
+     network; only optional reciter audio needs a one-time on-demand download.
 
 4. Verify the muṣḥaf bytes (data repo)
    - Re-derive each asset's SHA-256 and compare to the manifest baked into the

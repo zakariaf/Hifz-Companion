@@ -36,13 +36,13 @@ The exact governing doc sections for this skill. Only real sections are listed; 
 
 - `docs/engineering/02-project-structure.md` §6 (Localization, fonts, generated sources) — **Every UI string lives in the `l10n` package** (`ar` template, `fa`/`ckb`), generated with `synthetic-package: false` and committed; the completeness gate is "zero missing keys / no hardcoded UI strings". A feature never inlines a literal.
 
-- `docs/engineering/02-project-structure.md` §2 (The app shell) — **`app/` is the composition root — the one target that imports every package because it computes nothing.** Live db/asset/clock providers are wired in `composition/providers.dart`; the router table is `composition/router.dart`; `bootstrap/first_run.dart` does the one-time verified core-pack download. Any business logic in `app/lib/` is a review-blocking bug — keep it in the feature/ViewModel.
+- `docs/engineering/02-project-structure.md` §2 (The app shell) — **`app/` is the composition root — the one target that imports every package because it computes nothing.** Live db/asset/clock providers are wired in `composition/providers.dart`; the router table is `composition/router.dart`; `bootstrap/first_run.dart` does the first-launch core setup (the **bundled** core is build-verified and built into the reference DB — no download; amended 2026-06-18). Any business logic in `app/lib/` is a review-blocking bug — keep it in the feature/ViewModel.
 
 - `docs/engineering/01-architecture-overview.md` §2 (Layer model) — **Five layers; lower never imports upward. A feature is Layer 3 (UI), above data (2) and the engine (1).** The domain layer is "conditional" — the engine is the one citizen; everything else is flat feature folders. We refuse a use-case class per screen.
 
 - `docs/engineering/01-architecture-overview.md` §4 (Unidirectional data flow) — **State flows down, interactions flow up as commands; the lifecycle of one grade in six steps** (View → command → repository → pure engine with injected "today" → one WAL transaction → republish only after commit). We refuse a mutable `Card`, "republish then persist", and a second `due_at` computation anywhere — one sink, one truth.
 
-- `docs/engineering/01-architecture-overview.md` §6 (Offline guarantee) — **The feature is offline/no-AI by construction:** networking is quarantined to `assets/`; a banned-import lint + dependency allow-list fail the build on any networking/analytics/backend import in a feature. No microphone, no model, no push. The user verifies it themselves — airplane mode, permanently, after the one-time download.
+- `docs/engineering/01-architecture-overview.md` §6 (Offline guarantee) — **The feature is offline/no-AI by construction:** networking is quarantined to `assets/`; a banned-import lint + dependency allow-list fail the build on any networking/analytics/backend import in a feature. No microphone, no model, no push. The user verifies it themselves — airplane mode, permanently, from first launch (the core muṣḥaf is bundled; only optional reciter audio ever downloads).
 
 ## Sibling skills
 

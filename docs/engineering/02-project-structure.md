@@ -95,8 +95,8 @@ app/                                     # the Flutter application (the only tar
 │   │   │                                #   are bound (Decision log: state management)
 │   │   └── router.dart                  # GoRouter table; bottom-nav RTL order (PRD §12)
 │   └── bootstrap/
-│       └── first_run.dart               # triggers the one-time core-pack download via the assets package,
-│                                        #   verifies SHA-256, builds the local DB, THEN routes to onboarding
+│       └── first_run.dart               # verifies the BUNDLED core's SHA-256 (amended 2026-06-18 — no
+│                                        #   download), builds the local reference DB, THEN routes to onboarding
 ├── android/                             # Gradle, AndroidManifest (no INTERNET-dependent services beyond
 │                                        #   the asset fetch), signing config (Decision log: license)
 ├── ios/                                 # Info.plist, entitlements; NO microphone usage description — there is
@@ -104,8 +104,8 @@ app/                                     # the Flutter application (the only tar
 └── assets/                              # BUNDLED binary assets shipped IN the app (not the downloaded packs):
     ├── fonts/                           #   UI fonts only — Vazirmatn/Estedad (fa/ar), a Sorani-covering
     │                                    #   font for ckb; declared in pubspec `fonts:` (PRD §13.5)
-    └── .gitkeep                         #   Quran QPC fonts are NOT here — they arrive in the downloaded
-                                         #   core pack and live in app-support storage (PRD §11, 09)
+    └── .gitkeep                         #   Quran QPC fonts are NOT here — they are BUNDLED as hash-verified
+                                         #   assets in the asset-pack module (not under `fonts:`; PRD §11, 09)
 ```
 
 The shell is the single target that may import every package, because it is the composition root: `composition/providers.dart` is the only file that sees the Drift database, the asset loader, and the engine at once and binds the live implementations behind Riverpod providers (Flutter's "use dependency injection / no global singletons" rule, satisfied by Riverpod — [Flutter: Architecture recommendations](https://docs.flutter.dev/app-architecture/recommendations); Decision log: *state management*). Two platform facts shape this folder: UI fonts are bundled in the binary (declared in the app `pubspec.yaml` `fonts:` section per the [Flutter: Use a custom font cookbook](https://docs.flutter.dev/cookbook/design/fonts)), while the Quran QPC fonts are **not** bundled — they download once into app-support storage and are loaded at runtime via `FontLoader` ([Flutter API: FontLoader](https://api.flutter.dev/flutter/services/FontLoader-class.html)), so a font byte can never enter the binary unverified (PRD §11.1.1; specified in [09-asset-packs-and-offline-integrity.md](09-asset-packs-and-offline-integrity.md)). The iOS `Info.plist` carries **no** `NSMicrophoneUsageDescription` — its absence is a structural privacy guarantee (PRD R5), not an oversight.
@@ -349,7 +349,7 @@ set -euo pipefail
 
 ## 6. Localization, fonts, and generated sources
 
-**Decision.** ARB files and the generated `AppLocalizations` live in the `l10n` package; `gen_l10n` is configured with `synthetic-package: false` so the generated Dart is emitted into source and committed, with `ar` as the template/base locale and `fa`/`ckb` as translations (Decision log: *localization, RTL & accessibility impl*). UI fonts are bundled in the `app/` binary; Quran QPC fonts are not (they download in the core pack — §2).
+**Decision.** ARB files and the generated `AppLocalizations` live in the `l10n` package; `gen_l10n` is configured with `synthetic-package: false` so the generated Dart is emitted into source and committed, with `ar` as the template/base locale and `fa`/`ckb` as translations (Decision log: *localization, RTL & accessibility impl*). UI fonts are bundled in the `app/` binary and declared under `fonts:`; Quran QPC fonts are also **bundled** (amended 2026-06-18 — the core ships in the binary) but as **assets**, *not* under `fonts:`, so each is re-verified by SHA-256 before `FontLoader`-load (§2).
 
 **Rationale.** Flutter removed the synthetic `package:flutter_gen`: "the `flutter` tool will no longer generate a synthetic `package:flutter_gen`… Applications or tools that referenced `package:flutter_gen` should instead reference source files generated into the app's source directory directly," and `generate: true` is now required in `pubspec.yaml` ([Flutter: Generate localizations into source](https://docs.flutter.dev/release/breaking-changes/flutter-generate-i10n-source)). Generating into a real package directory (not `.dart_tool`) means the localizations are diffable in review, the `ckb` custom-locale delegate can sit beside them, and the l10n-completeness gate (PRD §20 gate 5) reads committed files. Placement and the per-locale numeral/bidi rules are detailed in [12-localization-rtl-accessibility-impl.md](12-localization-rtl-accessibility-impl.md).
 
@@ -373,7 +373,7 @@ Resource placement:
 | ARB strings | `packages/l10n/lib/src/arb/app_{ar,fa,ckb}.arb` | One file per locale; `ar` is the template |
 | Generated `AppLocalizations` | `packages/l10n/lib/src/generated/` | Committed; produced by `gen_l10n` |
 | `ckb` Material delegate | `packages/l10n/lib/src/ckb_material_localizations.dart` | Custom locale lacks first-party Material l10n (Decision log: l10n) |
-| Quran QPC glyph fonts | downloaded core pack → app-support storage | NOT bundled; verified then `FontLoader`-loaded ([09](09-asset-packs-and-offline-integrity.md)) |
+| Quran QPC glyph fonts | **bundled as assets** in the asset-pack module (declared under `assets:`, never `fonts:`) | Build-time SHA-256 verified; re-verified by hash at first load then `FontLoader`-loaded (amended 2026-06-18; [09](09-asset-packs-and-offline-integrity.md)) |
 
 **Pitfalls / what we refuse.** We refuse `synthetic-package: true` (or omitting `synthetic-package`, which is removed) — the generated code must be in-tree and committed so the completeness gate and review can see it. We refuse to scatter ARB files across feature folders — one `l10n` package owns every string, so the "zero missing keys / no hardcoded UI strings" gate is a single-directory check (PRD §20 gate 5). We refuse any `google_fonts` dependency entirely: a runtime font fetch is a network call (PRD C1) and would risk a wrong glyph (PRD R1); every UI font is bundled and every Quran font is verified by hash before load.
 

@@ -47,7 +47,7 @@ This file treats **trust as a design material**. Hifz Companion is structurally 
 - This is why the deliverable is **perceptibility**: a true claim the user cannot verify is psychologically weak, so the burden falls on the interface to make the fact felt (it works in airplane mode — try it) and checkable (the code is open, the asset URLs are public), the same logic by which surfacing privacy at the decision point changes behavior (§3; [Tsai et al., 2011](https://pubsonline.informs.org/doi/10.1287/isre.1090.0260)).
 
 **In practice.**
-- **The airplane-mode proof.** An onboarding line invites the user to enable airplane mode and watch the app keep working after the one-time download — turning an abstract claim into a felt demonstration. The line uses `type.body`, a calm `color.text.secondary`, and no exclamation mark (Pillar 2).
+- **The airplane-mode proof.** An onboarding line invites the user to enable airplane mode and watch the app keep working — from first launch, because the core muṣḥaf is bundled in the binary (amended 2026-06-18), with no download needed at all — turning an abstract claim into a felt demonstration. The line uses `type.body`, a calm `color.text.secondary`, and no exclamation mark (Pillar 2).
 - **A one-screen "what stays / what we send / what we can see" panel** in About/Privacy: *what stays here* (everything — your hifz record, on this phone), *what we send* (only a request for public Quran files; nothing about you), *what we can see* (nothing). Three short rows, each redundantly labeled with text + a non-color icon so meaning never depends on hue ([09-accessibility-and-inclusivity.md](09-accessibility-and-inclusivity.md); [WCAG 2.2 SC 1.4.1](https://www.w3.org/TR/WCAG22/)).
 - All three rows render identically across fa/ckb/ar via logical insets; numerals (if any) use the locale set — Extended Arabic-Indic for fa/ckb, Arabic-Indic for ar — through `intl` `NumberFormat`, never raw ASCII ([12-localization-and-rtl.md](12-localization-and-rtl.md)).
 
@@ -121,20 +121,20 @@ This file treats **trust as a design material**. Hifz Companion is structurally 
 
 ## 6. Frame the few network actions honestly and in context
 
-**Statement.** The app's only network use is the one-time core-pack download and optional reciter/muṣḥaf packs — each an HTTPS GET of a *public* asset URL carrying no per-user data. Every such action is explained in context, at the moment it happens, with a truthful one-line rationale.
+**Statement.** The core muṣḥaf is bundled in the binary (amended 2026-06-18 — no download), so the app's only network use is the **optional** reciter/muṣḥaf pack downloads — each an HTTPS GET of a *public* asset URL carrying no per-user data. Every such action is explained in context, at the moment it happens, with a truthful one-line rationale.
 
 **Evidence.**
 - Permissions and network actions are most trusted when requested **in context, at the moment the feature needs them, with a truthful rationale** — not up front in a batch ([Android Developers: *Request runtime permissions*](https://developer.android.com/training/permissions/requesting); the contextual-integrity field study [Wijesekera et al., 2015](https://people.eecs.berkeley.edu/~daw/papers/perms-sec15.pdf)).
 - A large audit found runtime-permission rationales are under-used (in under a quarter of apps) and frequently *wrong*, so the bar is low and an honest, accurate rationale is itself a differentiator ([Liu et al., 2018](https://ieeexplore.ieee.org/document/8506574/)).
 
 **In practice.**
-- The core-pack download screen states, in context: "Downloading the Quran files once from a public open-source repository. This sends nothing about you." — never a vague "connecting…". It shows real progress and the integrity check, then confirms the app is now permanently offline ([PRD §11.1.1, §12.1](../PRD.md)).
-- The optional reciter-audio screen carries the same honest line, plus the cost (size, skippable), so the user weighs an informed choice ([PRD §11.1](../PRD.md)).
-- If the device is offline at first run, the screen explains plainly that a *one-time* download is needed and offers retry — not an error wall — and after that the app never needs the network again. Copy and numerals follow the locale ([12-localization-and-rtl.md](12-localization-and-rtl.md)); the primary "Download" / "Retry" action sits in the bottom thumb band ([05-layout-spacing-touch.md](05-layout-spacing-touch.md)).
+- The core muṣḥaf needs no download: first launch shows a brief, calm "Preparing your muṣḥaf" while the **bundled** files are verified offline, then proceeds — never a "connecting…" or a network gate ([PRD §11.1.1, §12.1](../PRD.md)).
+- The optional reciter-audio screen states, in context: "Downloading this reciter once from a public open-source repository. This sends nothing about you." plus the cost (size, skippable), so the user weighs an informed choice; it shows real progress and the integrity check ([PRD §11.1](../PRD.md)).
+- If the device is offline when an optional pack is requested, the screen explains plainly that a *one-time* download is needed for that pack and offers retry — not an error wall — and the core muṣḥaf keeps working regardless. Copy and numerals follow the locale ([12-localization-and-rtl.md](12-localization-and-rtl.md)); the primary "Download" / "Retry" action sits in the bottom thumb band ([05-layout-spacing-touch.md](05-layout-spacing-touch.md)).
 
 **Anti-patterns — we will never:**
 - Make a network request without an in-context, plain-language explanation of what is fetched and that nothing about the user is sent.
-- Disguise the one-time download as an ongoing "sync," or imply the app keeps talking to a server after setup.
+- Disguise an optional-pack download as an ongoing "sync," or imply the app keeps talking to a server after setup.
 - Batch a scary permissions/network prompt up front, divorced from the feature that needs it.
 
 ---
