@@ -10,6 +10,10 @@
 /// dependency and golden-tests in isolation.
 library;
 
+export 'src/fonts/asset_vault.dart'
+    show AssetVault, FontLoaderRegistrar, PageFontRegistrar;
+export 'src/fonts/register_verified_page_fonts.dart'
+    show registerVerifiedPageFonts;
 export 'src/page_geometry.dart';
 export 'src/quran_page_placeholder.dart';
 export 'src/render/assemble_page.dart' show MushafLayout, assemblePage;
