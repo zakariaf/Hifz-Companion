@@ -126,6 +126,8 @@ jobs:
           bash tool/check_l10n_complete.sh
       - name: Asset SHA-256 integrity (dormant/fail-closed on the empty manifest)
         run: dart run tool/verify_asset_hashes.dart
+      - name: Asset-integrity verifier logic (E05-T10 pure gate — fake-driven)
+        run: dart run tool/verify_asset_integrity_selftest.dart
       - name: REUSE license clarity (per-file SPDX GPL-3.0-or-later)
         uses: fsfe/reuse-action@v6
 
