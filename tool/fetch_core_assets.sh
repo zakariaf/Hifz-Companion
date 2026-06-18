@@ -14,13 +14,12 @@
 # Sources (verified reachable 2026-06-18):
 #   - Tanzil Uthmani text  — tanzil.net download API (CC BY 3.0, verbatim + attribution)
 #   - QPC V2 per-page fonts — QUL/Tarteel CDN, 604 unmodified TTFs (KFGQPC terms)
-#   - QUL page/line/word layout — REQUIRES A QUL ACCOUNT. The fonts above are on
-#     the public CDN, but the mushaf-layout export is gated behind sign-in
-#     (the resource page's download action redirects to
-#     /users/sign_in?...user_return_to=/resources/mushaf-layout/19). Sign in at
-#     qul.tarteel.ai, download the QPC-V2 15-line layout export, and drop it at
-#     "$DEST/layout-qul.json" (or .sqlite), then re-run. assemblePage / overlay
-#     geometry (E05-T05/T07/T08) depend on it — it cannot be fetched anonymously.
+#   - QPC V2 page/line/word layout — the PUBLIC quran.com API (api.quran.com),
+#     which renders the same QPC V2 set: per word, the code_v2 glyph code +
+#     line_number + position + page_number (+ text_uthmani / sajdah). No account
+#     needed (QUL's own export is sign-in gated; quran.com's API is the open,
+#     co-versioned equivalent). E05-T05 normalizes these into the bundled layout
+#     + reference tables (page/line/word + glyph codes).
 #
 # Usage:  bash tool/fetch_core_assets.sh
 set -euo pipefail
@@ -47,11 +46,16 @@ for n in $(seq 1 "$PAGE_COUNT"); do
   curl -fsSL --max-time 60 "$FONT_BASE/p${n}.ttf?$FONT_VER" -o "$out"
 done
 
-echo "→ QUL layout dataset"
-if [ ! -f "$DEST/layout-qul.json" ] && [ ! -f "$DEST/layout-qul.sqlite" ]; then
-  echo "  ! MISSING: $DEST/layout-qul.{json,sqlite} — resolve via QUL export"
-  echo "    (qul.tarteel.ai/resources/mushaf-layout) and re-run. See header."
-fi
+echo "→ QPC V2 layout (glyph codes + line/position) from the public quran.com API"
+mkdir -p "$DEST/layout"
+API="https://api.quran.com/api/v4/verses/by_page"
+QUERY="words=true&word_fields=code_v2,line_number,position,page_number&fields=text_uthmani,sajdah_number&per_page=300"
+for n in $(seq 1 "$PAGE_COUNT"); do
+  out="$(printf '%s/layout/page-%03d.json' "$DEST" "$n")"
+  curl -fsSL --max-time 60 "$API/${n}?$QUERY" -o "$out"
+done
+# E05-T05 normalizes these per-page responses into the bundled layout-qul.* and
+# the reference tables (page/line/word + glyph codes), keyed by verse + position.
 
 echo "→ Pinning hashes into the binary-baked manifest"
 dart run tool/gen_core_manifest.dart --assets-dir "$DEST" --page-count "$PAGE_COUNT"
