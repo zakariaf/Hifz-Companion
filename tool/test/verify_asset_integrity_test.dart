@@ -18,6 +18,7 @@
 // is E05-T10's remaining half — blocked on the (licence-gated) real muṣḥaf
 // assets, alongside E05-T11's pixel visual-diff and the E20 scholar proof.
 
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
@@ -26,7 +27,9 @@ import 'package:test/test.dart';
 import '../src/verify_asset_integrity.dart';
 
 String _hex(Uint8List b) => sha256.convert(b).toString();
-Uint8List _bytes(String s) => Uint8List.fromList(s.codeUnits);
+// utf8.encode (not s.codeUnits): codeUnits would silently truncate any code
+// unit > 255 — never mangle bytes in a muṣḥaf-integrity tool, even in fixtures.
+Uint8List _bytes(String s) => Uint8List.fromList(utf8.encode(s));
 
 /// In-memory [ReleaseManifest] over synthetic byte blobs — no disk, no network.
 class _FakeRelease implements ReleaseManifest {
