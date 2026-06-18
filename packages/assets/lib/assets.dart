@@ -19,6 +19,15 @@ export 'src/asset_downloader.dart';
 export 'src/asset_integrity_error.dart';
 export 'src/asset_pack_service.dart';
 export 'src/cancel_token.dart' show CancelToken;
+export 'src/core_pack_installer.dart'
+    show
+        BundledAssetSource,
+        CoreIntegrityFailure,
+        CoreReady,
+        CoreReferenceInstaller,
+        CoreSetupResult,
+        CoreVerifiedStamp,
+        ReferenceDbBuilder;
 export 'src/integrity/sha256_of_file.dart'
     show digestMatches, sha256OfBytes, sha256OfFile;
 export 'src/integrity/verify_and_promote.dart'
