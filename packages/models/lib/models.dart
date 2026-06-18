@@ -9,6 +9,8 @@
 library;
 
 export 'src/dates/calendar_date.dart' show CalendarDate;
+export 'src/quran/mushaf_edition.dart'
+    show MushafEdition, kKfgqpcHafsMadaniV2Edition;
 export 'src/records/card.dart' show Card;
 export 'src/records/card_seed.dart' show CardSeed;
 export 'src/records/confusion_edge.dart' show ConfusionEdge;

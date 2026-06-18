@@ -13,3 +13,6 @@ library;
 
 export 'src/asset_integrity_error.dart';
 export 'src/asset_pack_service.dart';
+export 'src/pack_coordinates.dart' show PackCoordinates;
+export 'src/pinned_manifest.dart'
+    show CorePackManifest, EmbeddedManifest, ManifestEntry, buildCoreManifest;
