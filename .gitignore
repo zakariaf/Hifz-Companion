@@ -18,3 +18,8 @@ build/
 
 # The single root pubspec.lock IS committed (the §20 audit map) — never ignore
 # it; the generated localization source is committed too. Do not add them here.
+
+# Local Quran asset-sourcing working dir (tool/fetch_core_assets.sh downloads
+# the ~40-55 MB core set here for the build/integration step; never committed —
+# bundling vs build-time-fetch is an open decision, E05-T05/T10).
+assets-src/
