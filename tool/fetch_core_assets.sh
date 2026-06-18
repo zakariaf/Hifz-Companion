@@ -14,17 +14,25 @@
 # Sources (verified reachable 2026-06-18):
 #   - Tanzil Uthmani text  — tanzil.net download API (CC BY 3.0, verbatim + attribution)
 #   - QPC V2 per-page fonts — QUL/Tarteel CDN, 604 unmodified TTFs (KFGQPC terms)
-#   - QPC V2 layout — PARTIAL from the public quran.com API (api.quran.com): per
-#     word, the code_v2 glyph code + line_number + position + page_number (+
-#     text_uthmani / sajdah). VERIFIED LIMITATION (2026-06-18): this is the
-#     AYAH-WORD layer ONLY — it does NOT include the muṣḥaf's decorative
-#     sūra-header and standalone-basmala lines (e.g. page 1 ayah words start at
-#     line 2, page 2 at line 3; lines 1-2 are header/basmala and are absent).
-#     The `line` reference table needs those line types explicitly, so the
-#     COMPLETE layout requires QUL's sign-in-gated mushaf-layout export
-#     (qul.tarteel.ai/resources/mushaf-layout). Inferring decorative lines from
-#     gaps would be GUESSING the muṣḥaf structure (R1 forbids it) — use the QUL
-#     export. The public API still serves the ayah-word glyph layer + text.
+#   - QPC V2 LINE LAYOUT — QUL resource 10 "KFGQPC V2 layout (1421H print)",
+#     downloaded (sign-in) as qpc-v2-15-lines.db and placed in $DEST. SQLite:
+#       info(name, number_of_pages=604, lines_per_page=15, font_name='v2')
+#       pages(page_number, line_number, line_type, is_centered,
+#             first_word_id, last_word_id, surah_number)
+#     line_type ∈ {surah_name, ayah, basmallah} — the COMPLETE set incl. the
+#     decorative lines the public API lacks. (Resource 19 = V4, 12 = Indopak —
+#     do NOT use; resource 10 is the V2/Madani match for the v2 fonts above.)
+#   - GLYPH CODES per word — the public quran.com API (api.quran.com by_page):
+#     per word the code_v2 glyph + verse_key + position. VERIFIED ALIGNMENT
+#     (2026-06-18): QUL first_word_id/last_word_id are MUSHAF-SEQUENTIAL word
+#     indices (1:1 = words 1-5, 1:2 = 6-10). quran.com's raw word.id is a DB key
+#     (1:2 = 1130+) and must NOT be used directly; instead order quran.com's
+#     words in mushaf order (page → verse → position, end-markers included) and
+#     number them 1.. — that index equals QUL's word ids. Spot-checked on
+#     page 1 lines 2-3.
+#   - STILL TO PIN (E05-T05): the surah_name + basmallah lines carry no word
+#     range; their glyph sources (the QPC surah-name + basmala glyphs) must be
+#     identified before line.text_glyph_ref is correct for decorative lines.
 #
 # Usage:  bash tool/fetch_core_assets.sh
 set -euo pipefail
