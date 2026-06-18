@@ -128,17 +128,14 @@ Future<String> sha256OfFile(File file) async {
   return output.events.single.toString(); // lowercase hex digest
 }
 
-/// Hash a BUNDLED asset (the core ships inside the binary). The core files are
-/// each small enough to load via the asset bundle; we still stream the bytes
-/// through the same chunked SHA-256 so the primitive is identical to the
-/// download path. NEVER used for a multi-hundred-MB optional pack.
+/// Hash a BUNDLED asset (the core ships inside the binary). `rootBundle.load`
+/// returns the whole asset in memory, so a one-shot `sha256.convert` is correct
+/// and clearer than chunked conversion (chunking only earns its keep on a
+/// multi-hundred-MB *downloaded* pack — see sha256OfFile). NEVER used for one.
 Future<String> sha256OfBundledAsset(String assetKey) async {
   final ByteData data = await rootBundle.load(assetKey);
-  final output = AccumulatorSink<Digest>();
-  final input = sha256.startChunkedConversion(output);
-  input.add(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
-  input.close();
-  return output.events.single.toString(); // lowercase hex digest
+  final bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+  return sha256.convert(bytes).toString(); // lowercase hex digest
 }
 
 /// Integrity, not a secret — exact string equality on the canonical hex form.
@@ -195,7 +192,14 @@ class CoreReferenceInstaller {
 
   Future<CoreSetupResult> prepareCore() async {
     for (final entry in EmbeddedManifest.core) {
-      final actual = await sha256OfBundledAsset(_assetKey(entry));
+      final String actual;
+      try {
+        actual = await sha256OfBundledAsset(_assetKey(entry));
+      } catch (_) {
+        // A missing/unreadable bundled asset is itself an integrity failure —
+        // treat it as a mismatch (fail-closed), never an unhandled startup crash.
+        return CoreSetupResult.integrityFailure(entry.name);
+      }
       if (!digestMatches(actual, entry.sha256)) {
         // FAIL-CLOSED. Unfetchable bundled byte → corrupted install.
         return CoreSetupResult.integrityFailure(entry.name);
