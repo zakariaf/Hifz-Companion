@@ -101,6 +101,11 @@ class LiveAssetDownloader implements AssetDownloader {
     } on SocketException {
       await _cleanUp(sink, tmp);
       throw _transportFailure(received);
+    } catch (_) {
+      // Any unexpected throw (e.g. a platform-channel exception from
+      // getTemporaryDirectory) must still clean up the sink/.part — never leak.
+      await _cleanUp(sink, tmp);
+      rethrow;
     } finally {
       client.close();
     }

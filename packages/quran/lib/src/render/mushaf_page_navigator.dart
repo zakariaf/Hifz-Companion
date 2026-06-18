@@ -46,6 +46,19 @@ class _MushafPageNavigatorState extends State<MushafPageNavigator> {
       PageController(initialPage: widget.currentPage - 1);
 
   @override
+  void didUpdateWidget(MushafPageNavigator oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Follow an external page change (e.g. jump-to-juz) without fighting a
+    // user swipe: a swipe already moved the controller, so its rounded page
+    // equals the new target and no jump fires.
+    if (widget.currentPage != oldWidget.currentPage &&
+        _controller.hasClients &&
+        _controller.page?.round() != widget.currentPage - 1) {
+      _controller.jumpToPage(widget.currentPage - 1);
+    }
+  }
+
+  @override
   void dispose() {
     _controller.dispose();
     super.dispose();

@@ -51,6 +51,26 @@ void main() {
     expect(pageView.childrenDelegate.estimatedChildCount, 548);
   });
 
+  testWidgets('follows an external currentPage change (jump-to-page)',
+      (tester) async {
+    Widget build(int current) => Directionality(
+          textDirection: TextDirection.rtl,
+          child: MushafPageNavigator(
+            pageCount: 604,
+            currentPage: current,
+            onPageChanged: (_) {},
+            pageBuilder: (pageNumber) => Text('page-$pageNumber'),
+          ),
+        );
+    await tester.pumpWidget(build(1));
+    expect(find.text('page-1'), findsOneWidget);
+
+    await tester.pumpWidget(build(5)); // external jump (e.g. jump-to-juz)
+    await tester.pumpAndSettle();
+    expect(find.text('page-5'), findsOneWidget);
+    expect(find.text('page-1'), findsNothing);
+  });
+
   testWidgets('a page turn reports the new 1-based page number',
       (tester) async {
     var reported = 0;
