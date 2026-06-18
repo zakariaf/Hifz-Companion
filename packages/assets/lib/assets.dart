@@ -19,6 +19,10 @@ export 'src/asset_downloader.dart';
 export 'src/asset_integrity_error.dart';
 export 'src/asset_pack_service.dart';
 export 'src/cancel_token.dart' show CancelToken;
+export 'src/integrity/sha256_of_file.dart'
+    show digestMatches, sha256OfBytes, sha256OfFile;
+export 'src/integrity/verify_and_promote.dart'
+    show Promoted, Refused, VerifyOutcome, verifyAndPromote;
 export 'src/live_asset_downloader.dart' show LiveAssetDownloader;
 export 'src/pack_coordinates.dart' show PackCoordinates;
 export 'src/pinned_manifest.dart'
