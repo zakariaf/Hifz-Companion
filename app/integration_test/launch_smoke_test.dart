@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import 'package:app/app.dart';
-import 'package:app/placeholder/placeholder_screen.dart';
+import 'package:app/composition/persistence_provider.dart';
+import 'package:data/testing.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -16,12 +18,19 @@ void main() {
 
   // A launch-succeeds smoke test only. This is explicitly NOT one of the four
   // PRD journeys (J1 cold start / J2 review / J3 teacher sign-off / J4 catch-up)
-  // — those land with their feature epics; a fifth needs a decision-log
-  // amendment.
-  testWidgets('the app launches to the placeholder shell', (tester) async {
-    await tester.pumpWidget(const ProviderScope(child: HifzApp()));
+  // — the full seed → Today → grade spine journey lands in E07-T10.
+  testWidgets('the app launches to onboarding on a fresh device',
+      (tester) async {
+    final handle = inMemoryPersistenceHandle();
+    addTearDown(handle.close);
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [persistenceProvider.overrideWithValue(handle)],
+        child: const HifzApp(),
+      ),
+    );
     await tester.pumpAndSettle();
 
-    expect(find.byType(PlaceholderScreen), findsOneWidget);
+    expect(find.byKey(const ValueKey('onboarding-stub')), findsOneWidget);
   });
 }

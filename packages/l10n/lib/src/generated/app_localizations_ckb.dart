@@ -50,4 +50,7 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get appearanceNight => 'شەو';
+
+  @override
+  String get sectionInPreparation => 'ئەم بەشە لە ئامادەکردندایە.';
 }

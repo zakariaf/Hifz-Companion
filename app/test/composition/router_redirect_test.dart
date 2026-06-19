@@ -2,17 +2,20 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 // The redirect guard is R1 in code: a fresh device cannot reach the shell
-// (→ onboarding), and no Quran-rendering route resolves until the core pack is
-// verified AND a profile exists. The gate inputs are faked via overrideWith —
-// no live DB, no asset IO, no real screens. Run under the throwing HttpOverrides.
+// (→ onboarding), and the glyph-rendering reader route resolves only once the
+// core pack is verified AND a profile exists. The Muṣḥaf *tab* is an inert
+// placeholder, so it is reachable on a profile alone. The gate inputs are faked
+// via overrideWith — no live DB, no asset IO. Run under the throwing HttpOverrides.
 
 import 'package:app/composition/active_profile_provider.dart';
 import 'package:app/composition/app_ready_provider.dart';
 import 'package:app/composition/router.dart';
+import 'package:features/features.dart' show MihrabAppearance, mihrabThemeFor;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:l10n/l10n.dart';
 import 'package:models/models.dart' show ProfileId;
 
 import '../test_setup.dart';
@@ -20,8 +23,8 @@ import '../test_setup.dart';
 void main() {
   useOfflineTestPolicy();
 
-  // Pump HifzApp's router under a container with the given gate overrides, and
-  // return the container so a test can mutate the active profile mid-session.
+  // Pump the real router under a container with the given gate overrides; the
+  // app's locale delegates + theme are supplied so the real tab screens build.
   Future<(GoRouter, ProviderContainer)> pumpRouter(
     WidgetTester tester, {
     ProfileId? profile,
@@ -35,14 +38,18 @@ void main() {
       ],
     );
     addTearDown(container.dispose);
-    // Settle coreVerified so appReady reads its resolved value.
     await container.read(coreVerifiedProvider.future);
 
     final router = container.read(routerProvider);
     await tester.pumpWidget(
       UncontrolledProviderScope(
         container: container,
-        child: MaterialApp.router(routerConfig: router),
+        child: MaterialApp.router(
+          routerConfig: router,
+          localizationsDelegates: hifzLocalizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          theme: mihrabThemeFor(MihrabAppearance.light),
+        ),
       ),
     );
     await tester.pumpAndSettle();
@@ -59,7 +66,7 @@ void main() {
       expect(find.byKey(const ValueKey('onboarding-stub')), findsOneWidget);
     });
 
-    testWidgets('a fresh device cannot reach a Quran route (R1)', (t) async {
+    testWidgets('a fresh device cannot reach the Quran reader (R1)', (t) async {
       final (router, _) = await pumpRouter(t);
       router.go('/mushaf/page/5');
       await t.pumpAndSettle();
@@ -68,26 +75,34 @@ void main() {
     });
   });
 
-  group('a profiled device reaches the shell; Quran stays gated on verified',
-      () {
-    testWidgets('Today is reachable on profile alone (it renders no glyphs)',
-        (t) async {
+  group('a profiled device reaches the shell; the reader stays gated', () {
+    testWidgets('Today is reachable on a profile alone', (t) async {
       final (router, _) = await pumpRouter(t, profile: const ProfileId('p1'));
       expect(location(router), '/today');
-      expect(find.byKey(const ValueKey('today-stub')), findsOneWidget);
+      expect(find.byKey(const ValueKey('screen.today')), findsOneWidget);
     });
 
-    testWidgets('an unverified core keeps /mushaf out of reach (→ /today)',
+    testWidgets(
+        'the Muṣḥaf tab placeholder is reachable (it renders no glyphs)',
         (t) async {
       final (router, _) = await pumpRouter(t, profile: const ProfileId('p1'));
       router.go('/mushaf');
       await t.pumpAndSettle();
+      expect(location(router), '/mushaf');
+      expect(find.byKey(const ValueKey('screen.mushaf')), findsOneWidget);
+    });
+
+    testWidgets('an unverified core keeps the reader out of reach (→ /today)',
+        (t) async {
+      final (router, _) = await pumpRouter(t, profile: const ProfileId('p1'));
+      router.go('/mushaf/page/5');
+      await t.pumpAndSettle();
       expect(location(router), '/today');
-      expect(find.byKey(const ValueKey('mushaf-stub')), findsNothing);
+      expect(find.byKey(const ValueKey('mushaf-page-stub')), findsNothing);
     });
   });
 
-  group('a verified, profiled device (appReady) renders Quran routes', () {
+  group('a verified, profiled device (appReady) renders the reader route', () {
     testWidgets('a Quran deep link resolves only once appReady is true',
         (t) async {
       final (router, _) = await pumpRouter(

@@ -180,6 +180,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'ليلي'**
   String get appearanceNight;
+
+  /// Calm, inert body line shown under each not-yet-built section title in the E07 walking skeleton (Today/Muṣḥaf/Mutashābihāt/Progress/Settings placeholders). Reverent and plain: no claim, no number, no guilt/fear, no exclamation/emoji. Best-effort fa/ckb pending E09 native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا القسم قيد الإعداد.'**
+  String get sectionInPreparation;
 }
 
 class _AppLocalizationsDelegate

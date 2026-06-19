@@ -1,6 +1,13 @@
 // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import 'package:features/features.dart'
+    show
+        MushafScreen,
+        MutashabihatScreen,
+        ProgressScreen,
+        SettingsScreen,
+        TodayScreen;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -46,14 +53,17 @@ final routerProvider = Provider<GoRouter>((ref) {
       final appReady = ref.read(appReadyProvider); // profile AND core-verified
       final location = state.matchedLocation;
       final onOnboarding = location.startsWith('/onboarding');
-      final isQuranRoute = location.startsWith('/mushaf');
+      // The glyph-rendering route is the page reader; the Muṣḥaf *tab* is an
+      // inert placeholder in E07 (no glyphs), so only the reader is gated on the
+      // verified core. E13 tightens this when /mushaf itself renders text.
+      final isQuranReader = location.startsWith('/mushaf/page');
 
       // The shell needs a profile; a fresh device sets one up first (PRD R1).
       if (!hasProfile) return onOnboarding ? null : '/onboarding';
       // A set-up device must not sit on onboarding.
       if (onOnboarding) return '/today';
       // Quran text renders only after the core pack is verified (R1).
-      if (isQuranRoute && !appReady) return '/today';
+      if (isQuranReader && !appReady) return '/today';
       return null;
     },
     routes: <RouteBase>[
@@ -68,11 +78,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         routes: <RouteBase>[
           GoRoute(
             path: '/today',
-            builder: (context, state) => const _RouteStub('today-stub'),
+            builder: (context, state) => const TodayScreen(),
           ),
           GoRoute(
             path: '/mushaf',
-            builder: (context, state) => const _RouteStub('mushaf-stub'),
+            builder: (context, state) => const MushafScreen(),
             routes: <RouteBase>[
               GoRoute(
                 path: 'page/:pageId',
@@ -89,15 +99,15 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/mutashabihat',
-            builder: (context, state) => const _RouteStub('mutashabihat-stub'),
+            builder: (context, state) => const MutashabihatScreen(),
           ),
           GoRoute(
             path: '/progress',
-            builder: (context, state) => const _RouteStub('progress-stub'),
+            builder: (context, state) => const ProgressScreen(),
           ),
           GoRoute(
             path: '/settings',
-            builder: (context, state) => const _RouteStub('settings-stub'),
+            builder: (context, state) => const SettingsScreen(),
           ),
         ],
       ),

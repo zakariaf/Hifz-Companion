@@ -5,9 +5,16 @@
 /// Mutashābihāt, Progress, Onboarding, Settings.
 ///
 /// Each screen is a dumb View with a 1:1 ViewModel and feature-scoped Riverpod
-/// providers (never global). The real screens are authored in the feature
-/// epics; this barrel currently exports one compile-proving placeholder feature.
+/// providers (never global). The four non-Today tabs ship as inert calm
+/// placeholders in the E07 walking skeleton; the real screens are authored in
+/// the feature epics.
 library;
 
 export 'src/design_system/design_system.dart';
+export 'src/mushaf/mushaf_screen.dart';
+export 'src/mutashabihat/mutashabihat_screen.dart';
 export 'src/placeholder/placeholder_screen.dart';
+export 'src/progress/progress_screen.dart';
+export 'src/settings/settings_screen.dart';
+export 'src/shell/section_placeholder.dart';
+export 'src/today/today_screen.dart';

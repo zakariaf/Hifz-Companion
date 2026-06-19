@@ -51,5 +51,9 @@
   "appearanceNight": "ليلي",
   "@appearanceNight": {
     "description": "Appearance switcher: the Night (warm-dim) appearance — no sleep claim. Best-effort fa/ckb pending E09."
+  },
+  "sectionInPreparation": "هذا القسم قيد الإعداد.",
+  "@sectionInPreparation": {
+    "description": "Calm, inert body line shown under each not-yet-built section title in the E07 walking skeleton (Today/Muṣḥaf/Mutashābihāt/Progress/Settings placeholders). Reverent and plain: no claim, no number, no guilt/fear, no exclamation/emoji. Best-effort fa/ckb pending E09 native + scholarly review."
   }
 }

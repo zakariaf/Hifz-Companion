@@ -50,4 +50,7 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get appearanceNight => 'شب';
+
+  @override
+  String get sectionInPreparation => 'این بخش در حال آماده‌سازی است.';
 }

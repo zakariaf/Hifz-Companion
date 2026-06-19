@@ -50,4 +50,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get appearanceNight => 'ليلي';
+
+  @override
+  String get sectionInPreparation => 'هذا القسم قيد الإعداد.';
 }
