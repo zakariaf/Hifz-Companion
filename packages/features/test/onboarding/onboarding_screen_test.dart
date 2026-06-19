@@ -35,6 +35,10 @@ void main() {
     return AppLocalizations.delegate.load(const Locale('ar'));
   }
 
+  Finder firstJuzCell() => find
+      .descendant(of: find.byType(CoverageGrid), matching: find.byType(InkWell))
+      .first;
+
   bool isEnabled(WidgetTester tester, String label) =>
       tester
           .widget<FilledButton>(find.widgetWithText(FilledButton, label))
@@ -49,12 +53,7 @@ void main() {
     expect(isEnabled(t, l10n.onboardingContinue), isFalse);
 
     // Hold a juz → continue enables.
-    await t.tap(
-      find
-          .descendant(
-              of: find.byType(CoverageGrid), matching: find.byType(InkWell))
-          .first,
-    );
+    await t.tap(firstJuzCell());
     await t.pumpAndSettle();
     expect(isEnabled(t, l10n.onboardingContinue), isTrue);
   });
@@ -63,12 +62,7 @@ void main() {
       (t) async {
     final l10n = await pumpOnboarding(t);
 
-    await t.tap(
-      find
-          .descendant(
-              of: find.byType(CoverageGrid), matching: find.byType(InkWell))
-          .first,
-    );
+    await t.tap(firstJuzCell());
     await t.pumpAndSettle();
     await t.tap(find.widgetWithText(FilledButton, l10n.onboardingContinue));
     await t.pumpAndSettle();

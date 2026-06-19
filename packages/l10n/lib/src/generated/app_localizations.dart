@@ -252,6 +252,18 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'غير محفوظ'**
   String get onboardingNotHeld;
+
+  /// Calm Today empty state when no page is due right now — neutral, never 'done'/'safe to stop'/'all caught up' celebration (nothing is ever safe to drop). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا توجد صفحات مستحقة الآن.'**
+  String get todayEmpty;
+
+  /// Generic calm retry action for a failed local read (e.g. the Today queue) — never a guilt/error-shame message. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعادة المحاولة'**
+  String get commonRetry;
 }
 
 class _AppLocalizationsDelegate

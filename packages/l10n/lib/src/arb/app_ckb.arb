@@ -24,5 +24,7 @@
   "onboardingDone": "تەواو",
   "onboardingRetry": "هەوڵدانەوە",
   "onboardingHeld": "لەبەرکراو",
-  "onboardingNotHeld": "لەبەرنەکراو"
+  "onboardingNotHeld": "لەبەرنەکراو",
+  "todayEmpty": "لە ئێستادا هیچ پەڕەیەک نییە بۆ پێداچوونەوە.",
+  "commonRetry": "هەوڵدانەوە"
 }

@@ -46,8 +46,10 @@ class JuzConfidenceRater extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: space.space2,
           children: [
-            Text(numerals.format(juz),
-                style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              numerals.format(juz),
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             SegmentedButton<JuzConfidence>(
               emptySelectionAllowed: true,
               showSelectedIcon: false,

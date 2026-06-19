@@ -86,4 +86,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get onboardingNotHeld => 'غير محفوظ';
+
+  @override
+  String get todayEmpty => 'لا توجد صفحات مستحقة الآن.';
+
+  @override
+  String get commonRetry => 'إعادة المحاولة';
 }

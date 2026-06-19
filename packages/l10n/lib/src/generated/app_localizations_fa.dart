@@ -87,4 +87,10 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get onboardingNotHeld => 'حفظ‌نشده';
+
+  @override
+  String get todayEmpty => 'در حال حاضر صفحه‌ای برای مرور نیست.';
+
+  @override
+  String get commonRetry => 'تلاش دوباره';
 }

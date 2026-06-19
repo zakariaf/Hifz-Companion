@@ -7,6 +7,7 @@
 
 import 'package:app/composition/router.dart';
 import 'package:composition/composition.dart';
+import 'package:data/testing.dart';
 import 'package:features/features.dart'
     show MihrabAppearance, MihrabNavigationBar, mihrabThemeFor;
 import 'package:flutter/material.dart';
@@ -22,8 +23,11 @@ void main() {
   useOfflineTestPolicy();
 
   Future<GoRouter> pumpShell(WidgetTester tester, Locale locale) async {
+    final handle = inMemoryPersistenceHandle();
+    addTearDown(handle.close);
     final container = ProviderContainer(
       overrides: [
+        persistenceProvider.overrideWithValue(handle),
         coreVerifiedProvider.overrideWith((ref) async => true),
         initialActiveProfileProvider.overrideWithValue(const ProfileId('p1')),
       ],

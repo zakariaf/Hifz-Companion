@@ -86,4 +86,10 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get onboardingNotHeld => 'لەبەرنەکراو';
+
+  @override
+  String get todayEmpty => 'لە ئێستادا هیچ پەڕەیەک نییە بۆ پێداچوونەوە.';
+
+  @override
+  String get commonRetry => 'هەوڵدانەوە';
 }

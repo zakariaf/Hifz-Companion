@@ -132,7 +132,7 @@ void main() {
 
   test('un-holding a juz drops its confidence', () {
     final container = containerWith(_GatedColdStart());
-    final controller = container.read(onboardingControllerProvider.notifier)
+    container.read(onboardingControllerProvider.notifier)
       ..toggleJuz(5)
       ..setConfidence(5, JuzConfidence.shaky)
       ..toggleJuz(5);

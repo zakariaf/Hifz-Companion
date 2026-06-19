@@ -99,5 +99,13 @@
   "onboardingNotHeld": "غير محفوظ",
   "@onboardingNotHeld": {
     "description": "Accessibility/state word for an un-held juz cell — calm, never 'missing'/'0%'. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "todayEmpty": "لا توجد صفحات مستحقة الآن.",
+  "@todayEmpty": {
+    "description": "Calm Today empty state when no page is due right now — neutral, never 'done'/'safe to stop'/'all caught up' celebration (nothing is ever safe to drop). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "commonRetry": "إعادة المحاولة",
+  "@commonRetry": {
+    "description": "Generic calm retry action for a failed local read (e.g. the Today queue) — never a guilt/error-shame message. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
   }
 }

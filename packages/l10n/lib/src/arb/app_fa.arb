@@ -24,5 +24,7 @@
   "onboardingDone": "پایان",
   "onboardingRetry": "تلاش دوباره",
   "onboardingHeld": "حفظ‌شده",
-  "onboardingNotHeld": "حفظ‌نشده"
+  "onboardingNotHeld": "حفظ‌نشده",
+  "todayEmpty": "در حال حاضر صفحه‌ای برای مرور نیست.",
+  "commonRetry": "تلاش دوباره"
 }

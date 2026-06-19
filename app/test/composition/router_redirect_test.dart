@@ -9,8 +9,9 @@
 
 import 'package:app/composition/router.dart';
 import 'package:composition/composition.dart';
+import 'package:data/testing.dart';
 import 'package:features/features.dart'
-    show MihrabAppearance, OnboardingScreen, mihrabThemeFor;
+    show MihrabAppearance, OnboardingScreen, TodayScreen, mihrabThemeFor;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -30,8 +31,11 @@ void main() {
     ProfileId? profile,
     bool verified = false,
   }) async {
+    final handle = inMemoryPersistenceHandle();
+    addTearDown(handle.close);
     final container = ProviderContainer(
       overrides: [
+        persistenceProvider.overrideWithValue(handle),
         coreVerifiedProvider.overrideWith((ref) async => verified),
         if (profile != null)
           initialActiveProfileProvider.overrideWithValue(profile),
@@ -79,7 +83,7 @@ void main() {
     testWidgets('Today is reachable on a profile alone', (t) async {
       final (router, _) = await pumpRouter(t, profile: const ProfileId('p1'));
       expect(location(router), '/today');
-      expect(find.byKey(const ValueKey('screen.today')), findsOneWidget);
+      expect(find.byType(TodayScreen), findsOneWidget);
     });
 
     testWidgets(
