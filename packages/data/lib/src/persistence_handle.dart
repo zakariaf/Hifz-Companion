@@ -32,6 +32,10 @@ abstract interface class PersistenceHandle {
   /// transaction).
   ColdStartRepository get coldStart;
 
+  /// The read-only app-level `(key, value)` store (e.g. the verified-text
+  /// stamp the app-ready gate reads).
+  AppMetaRepository get meta;
+
   /// Closes the underlying store; resolves once it is durably released.
   Future<void> close();
 }

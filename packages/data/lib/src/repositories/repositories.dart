@@ -6,18 +6,49 @@
 ///
 /// They reference `models` value types only — no `package:drift`/`sqlite3`
 /// symbol appears here, so the boundary cannot leak a Drift type into the
-/// engine/features/quran layers. The read/append method signatures are added in
-/// E03-T06 (DAOs + mappers) and the single-write-path `commitReview` in E03-T07;
-/// this task ships the seam, not the implementation.
+/// engine/features/quran layers. The single-write-path `commitReview` lives on
+/// [ReviewRepository]; the read seams the shell consumes (the Today queue, the
+/// app-ready gate) are declared here.
 library;
 
-/// Reads and (through the single write path) writes `card` rows as `models`
-/// value types. Methods: E03-T06 / E03-T07.
-abstract interface class CardRepository {}
+import 'package:models/models.dart';
+
+/// Reads `card` rows as `models` value types; the only write path is the
+/// transactional [ReviewRepository] / [ColdStartRepository] (never a raw upsert
+/// from a widget).
+abstract interface class CardRepository {
+  /// Every card for [profileId] (one row per held/un-held muṣḥaf page), read
+  /// once. Used by the write path's read-modify-write and by callers that need
+  /// a snapshot rather than a stream.
+  Future<List<Card>> forProfile(ProfileId profileId);
+
+  /// A reactive stream of [profileId]'s cards: it emits the current set on
+  /// listen and re-emits after every committed write to the `card` table, so the
+  /// Today queue re-runs `buildToday` only after a review is durably on disk
+  /// (persist-before-republish; 04 §3).
+  Stream<List<Card>> watchForProfile(ProfileId profileId);
+}
 
 /// Reads and **appends** `review_log` rows — never updates or deletes one (the
-/// append-only *sanad* audit trail). Methods: E03-T06 / E03-T07.
+/// append-only *sanad* audit trail). The append is part of the single write
+/// path ([ReviewRepository.commitReview]); read methods land with their first
+/// consumer.
 abstract interface class ReviewLogRepository {}
 
-/// Reads and writes `profile` rows as `models` value types. Methods: E03-T06.
-abstract interface class ProfileRepository {}
+/// Reads and writes `profile` rows as `models` value types.
+abstract interface class ProfileRepository {
+  /// Every profile on this device (the local multi-profile set). Empty on a
+  /// fresh install — the app-ready gate reads this to decide whether onboarding
+  /// must run before any Quran screen (PRD R1).
+  Future<List<Profile>> all();
+}
+
+/// Reads the app-level `(key, value)` singleton store — a generic `String?`
+/// read over `app_meta`. It owns no domain semantics: a caller that knows a key
+/// (e.g. the app-ready gate reading the verified-text stamp) interprets the
+/// value. There is no public write here — `app_meta` is stamped only by the
+/// schema migration and the checksum-verified core installer.
+abstract interface class AppMetaRepository {
+  /// The value stored at [key], or `null` if the key is absent (never a throw).
+  Future<String?> read(String key);
+}

@@ -1,6 +1,8 @@
 // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import 'package:models/models.dart';
+
 import 'db/connection.dart';
 import 'db/database.dart';
 import 'persistence_handle.dart';
@@ -22,7 +24,8 @@ final class LivePersistenceHandle
         PersistenceHandle,
         CardRepository,
         ReviewLogRepository,
-        ProfileRepository {
+        ProfileRepository,
+        AppMetaRepository {
   /// Wraps the given Drift [database] (a file-backed connection in the app, an
   /// in-memory store in tests).
   LivePersistenceHandle(HifzDatabase database)
@@ -50,6 +53,29 @@ final class LivePersistenceHandle
 
   @override
   ProfileRepository get profiles => this;
+
+  @override
+  AppMetaRepository get meta => this;
+
+  // --- CardRepository reads (over the data-internal CardDao) ---
+
+  @override
+  Future<List<Card>> forProfile(ProfileId profileId) =>
+      _database.cardDao.forProfile(profileId);
+
+  @override
+  Stream<List<Card>> watchForProfile(ProfileId profileId) =>
+      _database.cardDao.watchForProfile(profileId);
+
+  // --- ProfileRepository reads ---
+
+  @override
+  Future<List<Profile>> all() => _database.profileDao.all();
+
+  // --- AppMetaRepository reads ---
+
+  @override
+  Future<String?> read(String key) => _database.appMetaDao.get(key);
 
   @override
   Future<void> close() => _database.close();
