@@ -50,4 +50,79 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get appearanceNight => 'شب';
+
+  @override
+  String get sectionInPreparation => 'این بخش در حال آماده‌سازی است.';
+
+  @override
+  String get onboardingCoverageTitle => 'اجزایی که حفظ دارید';
+
+  @override
+  String get onboardingCoverageInstruction =>
+      'اجزایی را که حفظ دارید انتخاب کنید.';
+
+  @override
+  String get onboardingConfidenceTitle => 'هر جزء چقدر استوار است؟';
+
+  @override
+  String get confidenceSolid => 'استوار';
+
+  @override
+  String get confidenceShaky => 'متزلزل';
+
+  @override
+  String get confidenceRusty => 'نیازمند مرور';
+
+  @override
+  String get onboardingContinue => 'ادامه';
+
+  @override
+  String get onboardingDone => 'پایان';
+
+  @override
+  String get onboardingRetry => 'تلاش دوباره';
+
+  @override
+  String get onboardingHeld => 'حفظ‌شده';
+
+  @override
+  String get onboardingNotHeld => 'حفظ‌نشده';
+
+  @override
+  String get todayEmpty => 'در حال حاضر صفحه‌ای برای مرور نیست.';
+
+  @override
+  String get commonRetry => 'تلاش دوباره';
+
+  @override
+  String pageNumber(String pageNumber) {
+    return 'صفحهٔ $pageNumber';
+  }
+
+  @override
+  String get trackNewLabel => 'سبق';
+
+  @override
+  String get trackNearLabel => 'سبقی';
+
+  @override
+  String get trackFarLabel => 'منزل';
+
+  @override
+  String get gradeAgain => 'دوباره';
+
+  @override
+  String get gradeHard => 'سخت';
+
+  @override
+  String get gradeGood => 'خوب';
+
+  @override
+  String get gradeEasy => 'آسان';
+
+  @override
+  String get decayNeedsRevision => 'نیازمند مرور';
+
+  @override
+  String get decaySteady => 'پایدار';
 }

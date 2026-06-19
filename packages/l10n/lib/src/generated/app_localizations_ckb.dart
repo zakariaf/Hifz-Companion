@@ -50,4 +50,78 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get appearanceNight => 'شەو';
+
+  @override
+  String get sectionInPreparation => 'ئەم بەشە لە ئامادەکردندایە.';
+
+  @override
+  String get onboardingCoverageTitle => 'ئەو جوزانەی لەبەرتە';
+
+  @override
+  String get onboardingCoverageInstruction => 'ئەو جوزانە هەڵبژێرە کە لەبەرتە.';
+
+  @override
+  String get onboardingConfidenceTitle => 'هەر جوزێک چەند جێگیرە؟';
+
+  @override
+  String get confidenceSolid => 'جێگیر';
+
+  @override
+  String get confidenceShaky => 'لەرزۆک';
+
+  @override
+  String get confidenceRusty => 'پێویستی بە پێداچوونەوەیە';
+
+  @override
+  String get onboardingContinue => 'بەردەوامبوون';
+
+  @override
+  String get onboardingDone => 'تەواو';
+
+  @override
+  String get onboardingRetry => 'هەوڵدانەوە';
+
+  @override
+  String get onboardingHeld => 'لەبەرکراو';
+
+  @override
+  String get onboardingNotHeld => 'لەبەرنەکراو';
+
+  @override
+  String get todayEmpty => 'لە ئێستادا هیچ پەڕەیەک نییە بۆ پێداچوونەوە.';
+
+  @override
+  String get commonRetry => 'هەوڵدانەوە';
+
+  @override
+  String pageNumber(String pageNumber) {
+    return 'پەڕەی $pageNumber';
+  }
+
+  @override
+  String get trackNewLabel => 'سەبەق';
+
+  @override
+  String get trackNearLabel => 'سەبقی';
+
+  @override
+  String get trackFarLabel => 'مەنزیل';
+
+  @override
+  String get gradeAgain => 'دووبارە';
+
+  @override
+  String get gradeHard => 'قورس';
+
+  @override
+  String get gradeGood => 'باش';
+
+  @override
+  String get gradeEasy => 'ئاسان';
+
+  @override
+  String get decayNeedsRevision => 'پێویستی بە پێداچوونەوەیە';
+
+  @override
+  String get decaySteady => 'جێگیر';
 }

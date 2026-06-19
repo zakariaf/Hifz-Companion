@@ -28,7 +28,7 @@ allowed=(
   # flutter SDK dependencies
   flutter flutter_localizations flutter_test integration_test
   # local workspace packages (path deps)
-  models engine profiles data quran l10n features assets
+  models engine profiles data quran l10n composition features assets
 )
 banned_regex='firebase_|crashlytics|sentry|google_analytics|facebook_|appsflyer|amplitude|mixpanel|google_fonts'
 

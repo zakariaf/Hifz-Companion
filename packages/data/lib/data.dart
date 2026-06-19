@@ -13,6 +13,7 @@
 /// synchronous=FULL) are authored across E03.
 library;
 
+export 'src/app_meta_keys.dart' show kAppMetaKeyTextChecksumVerifiedAt;
 export 'src/dates/today_for.dart' show todayFor;
 export 'src/live_persistence_handle.dart' show openLivePersistence;
 export 'src/encryption/secret_key_store.dart'
@@ -34,5 +35,10 @@ export 'src/persistence_exception.dart'
 export 'src/persistence_handle.dart' show PersistenceHandle;
 export 'src/repositories/cold_start_repository.dart' show ColdStartRepository;
 export 'src/repositories/repositories.dart'
-    show CardRepository, ProfileRepository, ReviewLogRepository;
+    show
+        AppMetaRepository,
+        CardRepository,
+        ProfileRepository,
+        ReferenceRepository,
+        ReviewLogRepository;
 export 'src/repositories/review_repository.dart' show ReviewRepository;

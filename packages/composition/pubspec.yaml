@@ -1,0 +1,34 @@
+# SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# The composition seams: the cross-layer Riverpod DI providers (persistence,
+# engine, injected "today", active profile, app-ready, asset downloader, key
+# store). It DECLARES the seams — each IO-opening one throws when read
+# un-overridden — so the feature ViewModels (which depend down on this) can read
+# them and the app composition root (main) overrides them with the live
+# implementations. It holds no screen and computes no schedule.
+name: composition
+description: Hifz Companion composition seams — cross-layer Riverpod DI providers.
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.6.0
+  flutter: ">=3.38.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_riverpod: ^3.0.0
+  models:
+    path: ../models
+  engine:
+    path: ../engine
+  data:
+    path: ../data
+  assets:
+    path: ../assets
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

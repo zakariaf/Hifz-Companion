@@ -47,6 +47,14 @@ class CardDao extends DatabaseAccessor<HifzDatabase> with _$CardDaoMixin {
     return rows.map(_toModel).toList();
   }
 
+  /// A reactive stream of a profile's cards: emits on listen and re-emits after
+  /// every committed `card` write on this connection (the Today queue's source).
+  Stream<List<Card>> watchForProfile(ProfileId profileId) {
+    final query = select(cards)
+      ..where((c) => c.profileId.equals(profileId.value));
+    return query.watch().map((rows) => rows.map(_toModel).toList());
+  }
+
   Card _toModel(CardRow row) {
     return Card(
       profileId: ProfileId(row.profileId),
