@@ -13,5 +13,16 @@
   "appearanceSepia": "سیپیا",
   "appearanceDark": "تاریک",
   "appearanceNight": "شەو",
-  "sectionInPreparation": "ئەم بەشە لە ئامادەکردندایە."
+  "sectionInPreparation": "ئەم بەشە لە ئامادەکردندایە.",
+  "onboardingCoverageTitle": "ئەو جوزانەی لەبەرتە",
+  "onboardingCoverageInstruction": "ئەو جوزانە هەڵبژێرە کە لەبەرتە.",
+  "onboardingConfidenceTitle": "هەر جوزێک چەند جێگیرە؟",
+  "confidenceSolid": "جێگیر",
+  "confidenceShaky": "لەرزۆک",
+  "confidenceRusty": "پێویستی بە پێداچوونەوەیە",
+  "onboardingContinue": "بەردەوامبوون",
+  "onboardingDone": "تەواو",
+  "onboardingRetry": "هەوڵدانەوە",
+  "onboardingHeld": "لەبەرکراو",
+  "onboardingNotHeld": "لەبەرنەکراو"
 }

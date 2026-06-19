@@ -25,6 +25,7 @@ final class LivePersistenceHandle
         CardRepository,
         ReviewLogRepository,
         ProfileRepository,
+        ReferenceRepository,
         AppMetaRepository {
   /// Wraps the given Drift [database] (a file-backed connection in the app, an
   /// in-memory store in tests).
@@ -55,6 +56,9 @@ final class LivePersistenceHandle
   ProfileRepository get profiles => this;
 
   @override
+  ReferenceRepository get reference => this;
+
+  @override
   AppMetaRepository get meta => this;
 
   // --- CardRepository reads (over the data-internal CardDao) ---
@@ -75,6 +79,12 @@ final class LivePersistenceHandle
 
   @override
   Future<List<Profile>> all() => _database.profileDao.all();
+
+  // --- ReferenceRepository reads ---
+
+  @override
+  Future<List<int>> pageIdsForJuz(int juz) =>
+      _database.referenceReadDao.pageIdsForJuz(juz);
 
   // --- AppMetaRepository reads ---
 

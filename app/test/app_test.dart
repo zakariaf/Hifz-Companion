@@ -4,6 +4,7 @@
 import 'package:app/app.dart';
 import 'package:composition/composition.dart';
 import 'package:data/testing.dart';
+import 'package:features/features.dart' show OnboardingScreen;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -31,7 +32,7 @@ void main() {
     await tester.pumpWidget(bootedApp());
     await tester.pumpAndSettle();
 
-    expect(find.byKey(const ValueKey('onboarding-stub')), findsOneWidget);
+    expect(find.byType(OnboardingScreen), findsOneWidget);
   });
 
   testWidgets('direction is RTL by construction for ar/fa/ckb', (tester) async {
@@ -55,10 +56,9 @@ void main() {
       await tester.pumpWidget(app);
       await tester.pumpAndSettle();
 
-      // Onboarding sits outside the ShellRoute (no Scaffold); read direction
-      // from the rendered stub, which is still under the app-wide Directionality.
-      final BuildContext context =
-          tester.element(find.byKey(const ValueKey('onboarding-stub')));
+      // Onboarding (outside the ShellRoute) renders under the app-wide
+      // Directionality; read direction from its Scaffold context.
+      final BuildContext context = tester.element(find.byType(Scaffold).first);
       expect(
         Directionality.of(context),
         TextDirection.rtl,

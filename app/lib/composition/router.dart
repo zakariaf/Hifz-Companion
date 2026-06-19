@@ -5,6 +5,7 @@ import 'package:features/features.dart'
     show
         MushafScreen,
         MutashabihatScreen,
+        OnboardingScreen,
         ProgressScreen,
         SettingsScreen,
         TodayScreen;
@@ -68,7 +69,7 @@ final routerProvider = Provider<GoRouter>((ref) {
     routes: <RouteBase>[
       GoRoute(
         path: '/onboarding',
-        builder: (context, state) => const _RouteStub('onboarding-stub'),
+        builder: (context, state) => const OnboardingScreen(),
       ),
       ShellRoute(
         builder: (context, state, child) => HomeShell(child: child),

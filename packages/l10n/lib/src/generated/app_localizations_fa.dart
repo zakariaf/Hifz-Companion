@@ -53,4 +53,38 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get sectionInPreparation => 'این بخش در حال آماده‌سازی است.';
+
+  @override
+  String get onboardingCoverageTitle => 'اجزایی که حفظ دارید';
+
+  @override
+  String get onboardingCoverageInstruction =>
+      'اجزایی را که حفظ دارید انتخاب کنید.';
+
+  @override
+  String get onboardingConfidenceTitle => 'هر جزء چقدر استوار است؟';
+
+  @override
+  String get confidenceSolid => 'استوار';
+
+  @override
+  String get confidenceShaky => 'متزلزل';
+
+  @override
+  String get confidenceRusty => 'نیازمند مرور';
+
+  @override
+  String get onboardingContinue => 'ادامه';
+
+  @override
+  String get onboardingDone => 'پایان';
+
+  @override
+  String get onboardingRetry => 'تلاش دوباره';
+
+  @override
+  String get onboardingHeld => 'حفظ‌شده';
+
+  @override
+  String get onboardingNotHeld => 'حفظ‌نشده';
 }

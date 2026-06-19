@@ -47,6 +47,14 @@ abstract interface class ProfileRepository {
   Future<List<Profile>> all();
 }
 
+/// Read-only access to the fixed Quran reference structure (the juz→page span).
+/// Never writes — the muṣḥaf is unwritable at runtime by construction (R1).
+abstract interface class ReferenceRepository {
+  /// The muṣḥaf page ids in [juz] (1–30), ascending. Empty until the core
+  /// reference pack is loaded (E11); a held juz expands to these page cards.
+  Future<List<int>> pageIdsForJuz(int juz);
+}
+
 /// Reads the app-level `(key, value)` singleton store — a generic `String?`
 /// read over `app_meta`. It owns no domain semantics: a caller that knows a key
 /// (e.g. the app-ready gate reading the verified-text stamp) interprets the

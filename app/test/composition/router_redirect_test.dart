@@ -9,7 +9,8 @@
 
 import 'package:app/composition/router.dart';
 import 'package:composition/composition.dart';
-import 'package:features/features.dart' show MihrabAppearance, mihrabThemeFor;
+import 'package:features/features.dart'
+    show MihrabAppearance, OnboardingScreen, mihrabThemeFor;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -62,7 +63,7 @@ void main() {
     testWidgets('a fresh device (no profile) lands on onboarding', (t) async {
       final (router, _) = await pumpRouter(t);
       expect(location(router), '/onboarding');
-      expect(find.byKey(const ValueKey('onboarding-stub')), findsOneWidget);
+      expect(find.byType(OnboardingScreen), findsOneWidget);
     });
 
     testWidgets('a fresh device cannot reach the Quran reader (R1)', (t) async {

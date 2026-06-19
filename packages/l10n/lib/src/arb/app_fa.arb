@@ -13,5 +13,16 @@
   "appearanceSepia": "سپیا",
   "appearanceDark": "تیره",
   "appearanceNight": "شب",
-  "sectionInPreparation": "این بخش در حال آماده‌سازی است."
+  "sectionInPreparation": "این بخش در حال آماده‌سازی است.",
+  "onboardingCoverageTitle": "اجزایی که حفظ دارید",
+  "onboardingCoverageInstruction": "اجزایی را که حفظ دارید انتخاب کنید.",
+  "onboardingConfidenceTitle": "هر جزء چقدر استوار است؟",
+  "confidenceSolid": "استوار",
+  "confidenceShaky": "متزلزل",
+  "confidenceRusty": "نیازمند مرور",
+  "onboardingContinue": "ادامه",
+  "onboardingDone": "پایان",
+  "onboardingRetry": "تلاش دوباره",
+  "onboardingHeld": "حفظ‌شده",
+  "onboardingNotHeld": "حفظ‌نشده"
 }

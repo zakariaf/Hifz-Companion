@@ -32,6 +32,10 @@ abstract interface class PersistenceHandle {
   /// transaction).
   ColdStartRepository get coldStart;
 
+  /// The read-only Quran reference structure (the juz→page span the cold-start
+  /// seeder expands).
+  ReferenceRepository get reference;
+
   /// The read-only app-level `(key, value)` store (e.g. the verified-text
   /// stamp the app-ready gate reads).
   AppMetaRepository get meta;

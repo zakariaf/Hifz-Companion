@@ -55,5 +55,49 @@
   "sectionInPreparation": "هذا القسم قيد الإعداد.",
   "@sectionInPreparation": {
     "description": "Calm, inert body line shown under each not-yet-built section title in the E07 walking skeleton (Today/Muṣḥaf/Mutashābihāt/Progress/Settings placeholders). Reverent and plain: no claim, no number, no guilt/fear, no exclamation/emoji. Best-effort fa/ckb pending E09 native + scholarly review."
+  },
+  "onboardingCoverageTitle": "الأجزاء التي تحفظها",
+  "@onboardingCoverageTitle": {
+    "description": "Title of the cold-start coverage step: the ḥāfiẓ marks which juz they hold. Calm, no guilt. PROVISIONAL — onboarding copy needs native + scholarly review (E11/E19); best-effort fa/ckb."
+  },
+  "onboardingCoverageInstruction": "اختر الأجزاء التي تحفظها.",
+  "@onboardingCoverageInstruction": {
+    "description": "Instruction under the coverage grid. Plain self-report; un-held juz are not failure. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingConfidenceTitle": "ما مدى رسوخ كل جزء؟",
+  "@onboardingConfidenceTitle": {
+    "description": "Title of the per-juz confidence step (Solid/Shaky/Rusty self-report). No score, no praise. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "confidenceSolid": "راسخ",
+  "@confidenceSolid": {
+    "description": "Self-report confidence: the juz is held firmly. Maps to JuzConfidence.solid. Register is honest self-report, never praise/score. PROVISIONAL — term-set-adjacent, needs native + scholarly review; best-effort fa/ckb."
+  },
+  "confidenceShaky": "متذبذب",
+  "@confidenceShaky": {
+    "description": "Self-report confidence: the juz wobbles, needs regular revision. Maps to JuzConfidence.shaky. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "confidenceRusty": "بحاجة للمراجعة",
+  "@confidenceRusty": {
+    "description": "Self-report confidence: the juz has gone rusty / needs reactivation. Maps to JuzConfidence.rusty. Calm, never 'lost'/'failed'. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingContinue": "متابعة",
+  "@onboardingContinue": {
+    "description": "Button advancing from coverage capture to the confidence step. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingDone": "تم",
+  "@onboardingDone": {
+    "description": "Button committing the cold-start seed (then the first day is generated). No celebration register. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingRetry": "إعادة المحاولة",
+  "@onboardingRetry": {
+    "description": "Calm retry shown if the seed write fails — never a guilt/error-shame message. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingHeld": "محفوظ",
+  "@onboardingHeld": {
+    "description": "Accessibility/state word for a held juz cell. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingNotHeld": "غير محفوظ",
+  "@onboardingNotHeld": {
+    "description": "Accessibility/state word for an un-held juz cell — calm, never 'missing'/'0%'. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
   }
 }

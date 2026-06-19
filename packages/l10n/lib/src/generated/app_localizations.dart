@@ -186,6 +186,72 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'هذا القسم قيد الإعداد.'**
   String get sectionInPreparation;
+
+  /// Title of the cold-start coverage step: the ḥāfiẓ marks which juz they hold. Calm, no guilt. PROVISIONAL — onboarding copy needs native + scholarly review (E11/E19); best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأجزاء التي تحفظها'**
+  String get onboardingCoverageTitle;
+
+  /// Instruction under the coverage grid. Plain self-report; un-held juz are not failure. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر الأجزاء التي تحفظها.'**
+  String get onboardingCoverageInstruction;
+
+  /// Title of the per-juz confidence step (Solid/Shaky/Rusty self-report). No score, no praise. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'ما مدى رسوخ كل جزء؟'**
+  String get onboardingConfidenceTitle;
+
+  /// Self-report confidence: the juz is held firmly. Maps to JuzConfidence.solid. Register is honest self-report, never praise/score. PROVISIONAL — term-set-adjacent, needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'راسخ'**
+  String get confidenceSolid;
+
+  /// Self-report confidence: the juz wobbles, needs regular revision. Maps to JuzConfidence.shaky. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'متذبذب'**
+  String get confidenceShaky;
+
+  /// Self-report confidence: the juz has gone rusty / needs reactivation. Maps to JuzConfidence.rusty. Calm, never 'lost'/'failed'. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'بحاجة للمراجعة'**
+  String get confidenceRusty;
+
+  /// Button advancing from coverage capture to the confidence step. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'متابعة'**
+  String get onboardingContinue;
+
+  /// Button committing the cold-start seed (then the first day is generated). No celebration register. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم'**
+  String get onboardingDone;
+
+  /// Calm retry shown if the seed write fails — never a guilt/error-shame message. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعادة المحاولة'**
+  String get onboardingRetry;
+
+  /// Accessibility/state word for a held juz cell. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'محفوظ'**
+  String get onboardingHeld;
+
+  /// Accessibility/state word for an un-held juz cell — calm, never 'missing'/'0%'. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'غير محفوظ'**
+  String get onboardingNotHeld;
 }
 
 class _AppLocalizationsDelegate

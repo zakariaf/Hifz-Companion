@@ -39,6 +39,17 @@ class ReferenceReadDao extends DatabaseAccessor<HifzDatabase>
   /// Creates the DAO over [db].
   ReferenceReadDao(super.db);
 
+  /// The muṣḥaf page ids in [juz] (1–30), ascending — the fixed juz→page span
+  /// the cold-start seeder expands a held juz into (C-031). Empty until the core
+  /// reference pack is loaded (E11).
+  Future<List<int>> pageIdsForJuz(int juz) async {
+    final query = select(pages)
+      ..where((p) => p.juz.equals(juz))
+      ..orderBy([(p) => OrderingTerm.asc(p.pageId)]);
+    final rows = await query.get();
+    return [for (final row in rows) row.pageId];
+  }
+
   /// The page descriptor for [pageNumber], or null.
   Future<Page?> pageByNumber(int pageNumber) async {
     final query = select(pages)..where((p) => p.pageId.equals(pageNumber));

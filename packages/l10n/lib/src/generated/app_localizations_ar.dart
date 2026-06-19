@@ -53,4 +53,37 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get sectionInPreparation => 'هذا القسم قيد الإعداد.';
+
+  @override
+  String get onboardingCoverageTitle => 'الأجزاء التي تحفظها';
+
+  @override
+  String get onboardingCoverageInstruction => 'اختر الأجزاء التي تحفظها.';
+
+  @override
+  String get onboardingConfidenceTitle => 'ما مدى رسوخ كل جزء؟';
+
+  @override
+  String get confidenceSolid => 'راسخ';
+
+  @override
+  String get confidenceShaky => 'متذبذب';
+
+  @override
+  String get confidenceRusty => 'بحاجة للمراجعة';
+
+  @override
+  String get onboardingContinue => 'متابعة';
+
+  @override
+  String get onboardingDone => 'تم';
+
+  @override
+  String get onboardingRetry => 'إعادة المحاولة';
+
+  @override
+  String get onboardingHeld => 'محفوظ';
+
+  @override
+  String get onboardingNotHeld => 'غير محفوظ';
 }
