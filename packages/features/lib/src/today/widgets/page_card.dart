@@ -114,11 +114,11 @@ class _DecayIndicator extends StatelessWidget {
     return Semantics(
       label: isWeak ? l10n.decayNeedsRevision : l10n.decaySteady,
       child: Icon(
-        // Glyph (not colour alone) carries the state.
+        // Glyph (not colour alone) carries the state; the weak tint is the
+        // calm decay token — never the semantic-warning alarm colour (03 §6;
+        // domain-adab: decay is calm loss-prevention, never alarm).
         isWeak ? Icons.trending_down : Icons.trending_flat,
-        color: isWeak
-            ? colors.semanticWarning
-            : theme.colorScheme.onSurfaceVariant,
+        color: isWeak ? colors.decayCalm : theme.colorScheme.onSurfaceVariant,
       ),
     );
   }

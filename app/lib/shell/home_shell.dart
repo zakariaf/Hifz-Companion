@@ -1,7 +1,8 @@
 // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import 'package:features/features.dart' show MihrabNavigationBar;
+import 'package:features/features.dart'
+    show MihrabNavigationBar, MihrabScaffold;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -32,14 +33,13 @@ class HomeShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final location = GoRouterState.of(context).uri.path;
-    return Scaffold(
+    // Reuse the design-system scaffold (calm body + a MihrabNavigationBar slot)
+    // rather than re-assembling Scaffold + nav here.
+    return MihrabScaffold(
       body: child,
-      bottomNavigationBar: SafeArea(
-        top: false,
-        child: MihrabNavigationBar(
-          selectedIndex: _selectedIndex(location),
-          onDestinationSelected: (index) => context.go(_tabPaths[index]),
-        ),
+      bottomNavigationBar: MihrabNavigationBar(
+        selectedIndex: _selectedIndex(location),
+        onDestinationSelected: (index) => context.go(_tabPaths[index]),
       ),
     );
   }
