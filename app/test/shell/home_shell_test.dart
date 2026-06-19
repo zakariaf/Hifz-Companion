@@ -5,9 +5,8 @@
 // go_router (typed navigation), updating the selected tab. Pumped over the real
 // routerProvider with a verified, profiled device so the shell is reached.
 
-import 'package:app/composition/active_profile_provider.dart';
-import 'package:app/composition/app_ready_provider.dart';
 import 'package:app/composition/router.dart';
+import 'package:composition/composition.dart';
 import 'package:features/features.dart'
     show MihrabAppearance, MihrabNavigationBar, mihrabThemeFor;
 import 'package:flutter/material.dart';

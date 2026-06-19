@@ -8,13 +8,12 @@ import 'package:features/features.dart'
         ProgressScreen,
         SettingsScreen,
         TodayScreen;
+import 'package:composition/composition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../shell/home_shell.dart';
-import 'active_profile_provider.dart';
-import 'app_ready_provider.dart';
 
 /// The app router as a DI `Provider<GoRouter>` (04 §6) — app-scope, never
 /// `autoDispose`d. It reads the readiness gates and enforces the redirect guard;

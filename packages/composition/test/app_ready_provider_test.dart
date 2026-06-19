@@ -6,15 +6,13 @@
 // core is verified (PRD R1). The composition is tested by faking its two inputs;
 // the stamp read itself is covered at the data layer.
 
-import 'package:app/composition/active_profile_provider.dart';
-import 'package:app/composition/app_ready_provider.dart';
-import 'package:app/composition/persistence_provider.dart';
+import 'package:composition/composition.dart';
 import 'package:data/testing.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:models/models.dart' show ProfileId;
 
-import '../test_setup.dart';
+import 'test_setup.dart';
 
 void main() {
   useOfflineTestPolicy();

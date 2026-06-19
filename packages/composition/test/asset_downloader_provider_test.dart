@@ -1,13 +1,13 @@
 // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import 'package:app/composition/asset_downloader_provider.dart';
 import 'package:assets/testing.dart';
+import 'package:composition/composition.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show ProviderException;
 import 'package:flutter_test/flutter_test.dart';
 
-import '../test_setup.dart';
+import 'test_setup.dart';
 
 void main() {
   useOfflineTestPolicy();

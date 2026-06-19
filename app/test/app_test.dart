@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import 'package:app/app.dart';
-import 'package:app/composition/persistence_provider.dart';
+import 'package:composition/composition.dart';
 import 'package:data/testing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

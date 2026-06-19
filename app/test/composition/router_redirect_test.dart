@@ -7,9 +7,8 @@
 // placeholder, so it is reachable on a profile alone. The gate inputs are faked
 // via overrideWith — no live DB, no asset IO. Run under the throwing HttpOverrides.
 
-import 'package:app/composition/active_profile_provider.dart';
-import 'package:app/composition/app_ready_provider.dart';
 import 'package:app/composition/router.dart';
+import 'package:composition/composition.dart';
 import 'package:features/features.dart' show MihrabAppearance, mihrabThemeFor;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

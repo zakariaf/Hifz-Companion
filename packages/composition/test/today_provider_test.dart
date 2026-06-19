@@ -6,12 +6,12 @@
 // the deterministic double the engine goldens (E04) and the DST matrix (E02-T08)
 // rely on. The shared throwing HttpOverrides offline guard stays installed.
 
-import 'package:app/composition/today_provider.dart';
+import 'package:composition/composition.dart';
 import 'package:engine/engine.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../test_setup.dart';
+import 'test_setup.dart';
 
 void main() {
   useOfflineTestPolicy();

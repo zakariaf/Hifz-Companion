@@ -24,9 +24,9 @@ final coreVerifiedProvider = FutureProvider<bool>((ref) async {
 /// The structural precondition for rendering Quran text: the core pack is
 /// verified **and** a profile exists (PRD R1; engineering 01 §6).
 ///
-/// The redirect guard (E07-T03) refuses any Quran-rendering route until this is
-/// `true`. The shell itself (Today + the inert placeholder tabs, which render no
-/// glyphs) is reachable as soon as a profile exists — gated on
+/// The redirect guard (E07-T03) refuses the glyph-rendering reader route until
+/// this is `true`. The shell itself (Today + the inert placeholder tabs, which
+/// render no glyphs) is reachable as soon as a profile exists — gated on
 /// [activeProfileProvider], not on the verified half — so a returning ḥāfiẓ
 /// lands on Today after seeding even before E11 wires the core install. Until
 /// [coreVerifiedProvider] resolves it reads `false` (fail-closed).

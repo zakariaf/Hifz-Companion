@@ -4,12 +4,12 @@
 // The active-profile gate: null on a fresh install (→ onboarding), initialised
 // from the injected persisted id, and mutated only by select/clear.
 
-import 'package:app/composition/active_profile_provider.dart';
+import 'package:composition/composition.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:models/models.dart' show ProfileId;
 
-import '../test_setup.dart';
+import 'test_setup.dart';
 
 void main() {
   useOfflineTestPolicy();

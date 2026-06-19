@@ -24,6 +24,8 @@ dependencies:
   # Full downward fan-in — expected here and only here.
   models:
     path: ../packages/models
+  composition:
+    path: ../packages/composition
   engine:
     path: ../packages/engine
   profiles:

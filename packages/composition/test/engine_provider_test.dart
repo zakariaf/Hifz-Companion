@@ -4,12 +4,12 @@
 // The engine is injected as a plain DI Provider: it opens no IO, so it resolves
 // live with no override, and a buildToday on an empty card set is a pure call.
 
-import 'package:app/composition/engine_provider.dart';
+import 'package:composition/composition.dart';
 import 'package:engine/engine.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../test_setup.dart';
+import 'test_setup.dart';
 
 void main() {
   useOfflineTestPolicy();
