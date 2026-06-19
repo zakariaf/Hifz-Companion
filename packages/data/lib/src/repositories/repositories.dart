@@ -17,6 +17,10 @@ import 'package:models/models.dart';
 /// transactional [ReviewRepository] / [ColdStartRepository] (never a raw upsert
 /// from a widget).
 abstract interface class CardRepository {
+  /// The card for `(profileId, pageId)`, or `null` if none exists. The
+  /// read half of the single write path's read-modify-write (E07-T05).
+  Future<Card?> byId(ProfileId profileId, int pageId);
+
   /// Every card for [profileId] (one row per held/un-held muṣḥaf page), read
   /// once. Used by the write path's read-modify-write and by callers that need
   /// a snapshot rather than a stream.

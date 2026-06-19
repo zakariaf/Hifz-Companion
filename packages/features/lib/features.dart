@@ -17,4 +17,6 @@ export 'src/placeholder/placeholder_screen.dart';
 export 'src/progress/progress_screen.dart';
 export 'src/settings/settings_screen.dart';
 export 'src/shell/section_placeholder.dart';
+export 'src/today/review_recorder.dart';
+export 'src/today/today_providers.dart';
 export 'src/today/today_screen.dart';

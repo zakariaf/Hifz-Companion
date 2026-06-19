@@ -60,6 +60,10 @@ final class LivePersistenceHandle
   // --- CardRepository reads (over the data-internal CardDao) ---
 
   @override
+  Future<Card?> byId(ProfileId profileId, int pageId) =>
+      _database.cardDao.byId(profileId, pageId);
+
+  @override
   Future<List<Card>> forProfile(ProfileId profileId) =>
       _database.cardDao.forProfile(profileId);
 
