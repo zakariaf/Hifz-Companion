@@ -57,17 +57,23 @@ class ColdStartSeeder {
     ProfileLocale locale = ProfileLocale.fa,
   }) async {
     final profileId = ProfileId(_newId());
-    final seeds = <CardSeed>[];
     final orderedJuz = heldJuz.toList()..sort();
-    for (final juz in orderedJuz) {
-      final juzConfidence = confidence[juz];
-      if (juzConfidence == null) continue; // held but unrated → skip
-      final pageIds = await _reference.pageIdsForJuz(juz);
-      for (final pageId in pageIds) {
-        // The engine is the sole source of (D, S, track); no UI seed table.
-        seeds.add(_engine.coldStartCard(pageId, juzConfidence, today));
-      }
-    }
+    // The per-juz page-span reads are independent — run them concurrently and
+    // keep juz order (Future.wait preserves input order). The engine is the sole
+    // source of (D, S, track); no UI seed table. A held-but-unrated juz yields
+    // no card.
+    final seedGroups = await Future.wait(
+      orderedJuz.map((juz) async {
+        final juzConfidence = confidence[juz];
+        if (juzConfidence == null) return const <CardSeed>[];
+        final pageIds = await _reference.pageIdsForJuz(juz);
+        return [
+          for (final pageId in pageIds)
+            _engine.coldStartCard(pageId, juzConfidence, today),
+        ];
+      }),
+    );
+    final seeds = [for (final group in seedGroups) ...group];
     final profile = Profile(
       profileId: profileId,
       displayName: displayName,

@@ -39,6 +39,13 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        // The two passes share one screen, so add a Back affordance to return
+        // from confidence to coverage and fix a selection (no route to pop).
+        leading: _ratingConfidence
+            ? BackButton(
+                onPressed: () => setState(() => _ratingConfidence = false),
+              )
+            : null,
         title: Text(
           _ratingConfidence
               ? l10n.onboardingConfidenceTitle

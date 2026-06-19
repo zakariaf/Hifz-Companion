@@ -14,18 +14,38 @@ import '../../design_system/theme/spacing_tokens.dart';
 /// the one-tap grade band. A domain-blind View: it takes [card] + [onGrade] and
 /// renders; the grade flows up to the single write path (E07-T05). No streak,
 /// score, or celebration; the page is never marked droppable.
-class PageCard extends StatelessWidget {
+class PageCard extends StatefulWidget {
   /// Creates the row for [card].
   const PageCard({required this.card, required this.onGrade, super.key});
 
   /// The page card to render.
   final Card card;
 
-  /// Called with the chosen grade when the ḥāfiẓ taps the grade band.
-  final void Function(ReviewGrade grade) onGrade;
+  /// Records the chosen grade; the returned future completes when the review is
+  /// durably committed. The grade band stays disabled while it is in flight, so
+  /// a rapid double-tap cannot commit two reviews for one intent.
+  final Future<void> Function(ReviewGrade grade) onGrade;
+
+  @override
+  State<PageCard> createState() => _PageCardState();
+}
+
+class _PageCardState extends State<PageCard> {
+  bool _submitting = false;
+
+  Future<void> _grade(ReviewGrade grade) async {
+    if (_submitting) return;
+    setState(() => _submitting = true);
+    try {
+      await widget.onGrade(grade);
+    } finally {
+      if (mounted) setState(() => _submitting = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final card = widget.card;
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final space = theme.extension<SpacingTokens>()!;
@@ -58,7 +78,7 @@ class PageCard extends StatelessWidget {
                   _DecayIndicator(isWeak: card.isWeak),
                 ],
               ),
-              _GradeBand(onGrade: onGrade),
+              _GradeBand(onGrade: _grade, enabled: !_submitting),
             ],
           ),
         ),
@@ -125,9 +145,13 @@ class _DecayIndicator extends StatelessWidget {
 }
 
 class _GradeBand extends StatelessWidget {
-  const _GradeBand({required this.onGrade});
+  const _GradeBand({required this.onGrade, required this.enabled});
 
   final void Function(ReviewGrade grade) onGrade;
+
+  /// Whether the band accepts taps; false while a grade is committing, so a
+  /// double-tap cannot commit two reviews.
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +170,7 @@ class _GradeBand extends StatelessWidget {
           Expanded(
             child: OutlinedButton(
               key: ValueKey<String>('grade.${grade.wireValue}'),
-              onPressed: () => onGrade(grade),
+              onPressed: enabled ? () => onGrade(grade) : null,
               child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis),
             ),
           ),

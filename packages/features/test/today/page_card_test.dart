@@ -5,6 +5,8 @@
 // indicator (a distinct glyph + a screen-reader label, not colour alone), and
 // the one-tap grade band that reports the chosen grade.
 
+import 'dart:async';
+
 import 'package:engine/engine.dart'
     show CalendarDate, Card, ReviewGrade, ReviewTrack;
 import 'package:features/features.dart'
@@ -33,7 +35,7 @@ void main() {
   Future<AppLocalizations> pumpCard(
     WidgetTester tester,
     Card card,
-    void Function(ReviewGrade) onGrade,
+    Future<void> Function(ReviewGrade) onGrade,
   ) async {
     await tester.pumpWidget(
       MaterialApp(
@@ -50,7 +52,7 @@ void main() {
 
   testWidgets('renders the track chip, page number, and four grade buttons',
       (t) async {
-    final l10n = await pumpCard(t, farCard(), (_) {});
+    final l10n = await pumpCard(t, farCard(), (_) async {});
 
     expect(find.text(l10n.trackFarLabel), findsOneWidget);
     expect(find.byKey(const ValueKey('grade.again')), findsOneWidget);
@@ -61,7 +63,7 @@ void main() {
 
   testWidgets('tapping a grade reports the chosen grade', (t) async {
     final taps = <ReviewGrade>[];
-    await pumpCard(t, farCard(), taps.add);
+    await pumpCard(t, farCard(), (g) async => taps.add(g));
 
     await t.tap(find.byKey(const ValueKey('grade.good')));
     await t.pumpAndSettle();
@@ -70,7 +72,27 @@ void main() {
 
   testWidgets('a weak page exposes the calm decay label (not colour alone)',
       (t) async {
-    final l10n = await pumpCard(t, farCard(isWeak: true), (_) {});
+    final l10n = await pumpCard(t, farCard(isWeak: true), (_) async {});
     expect(find.bySemanticsLabel(l10n.decayNeedsRevision), findsOneWidget);
+  });
+
+  testWidgets('the band is disabled while a grade is in flight (no double grade)',
+      (t) async {
+    final taps = <ReviewGrade>[];
+    final gate = Completer<void>();
+    await pumpCard(t, farCard(), (g) async {
+      taps.add(g);
+      await gate.future; // hold the write in flight
+    });
+
+    await t.tap(find.byKey(const ValueKey('grade.good')));
+    await t.pump(); // _submitting becomes true
+    // A second rapid tap (any grade) must be ignored while committing.
+    await t.tap(find.byKey(const ValueKey('grade.again')));
+    await t.pump();
+    expect(taps, [ReviewGrade.good]);
+
+    gate.complete();
+    await t.pumpAndSettle();
   });
 }

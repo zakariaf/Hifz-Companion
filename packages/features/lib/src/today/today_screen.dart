@@ -67,7 +67,7 @@ class _TodayList extends StatelessWidget {
   const _TodayList({required this.cards, required this.onGrade});
 
   final List<Card> cards;
-  final void Function(Card card, ReviewGrade grade) onGrade;
+  final Future<void> Function(Card card, ReviewGrade grade) onGrade;
 
   @override
   Widget build(BuildContext context) {
