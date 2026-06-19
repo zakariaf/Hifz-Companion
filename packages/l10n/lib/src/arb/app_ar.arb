@@ -107,5 +107,48 @@
   "commonRetry": "إعادة المحاولة",
   "@commonRetry": {
     "description": "Generic calm retry action for a failed local read (e.g. the Today queue) — never a guilt/error-shame message. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "pageNumber": "صفحة {pageNumber}",
+  "@pageNumber": {
+    "description": "A muṣḥaf page label on a Today row. {pageNumber} is pre-formatted in locale numerals by the caller (numberFormatFor). One card = one of 604 pages (C-031). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.",
+    "placeholders": {
+      "pageNumber": {"type": "String"}
+    }
+  },
+  "trackNewLabel": "سبق",
+  "@trackNewLabel": {
+    "description": "Track chip for a NEW page (today's new lesson) — the classical term-set 'sabaq'. TERM-SET vocabulary: scholar-reviewed + swappable (E16). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "trackNearLabel": "سبقي",
+  "@trackNearLabel": {
+    "description": "Track chip for a NEAR page (recent revision) — the classical term-set 'sabqi'. TERM-SET vocabulary. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "trackFarLabel": "منزل",
+  "@trackFarLabel": {
+    "description": "Track chip for a FAR page (consolidated revision) — the classical term-set 'manzil'. TERM-SET vocabulary. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "gradeAgain": "إعادة",
+  "@gradeAgain": {
+    "description": "Grade band: Again (the page needs re-revision). Calm self-assessment, never failure/shame. The full reveal-on-tap band is E12. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "gradeHard": "صعب",
+  "@gradeHard": {
+    "description": "Grade band: Hard. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "gradeGood": "جيد",
+  "@gradeGood": {
+    "description": "Grade band: Good. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "gradeEasy": "سهل",
+  "@gradeEasy": {
+    "description": "Grade band: Easy. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "decayNeedsRevision": "يحتاج مراجعة",
+  "@decayNeedsRevision": {
+    "description": "Calm decay indicator label for a weak page — needs revision, never 'failing'/'lost'/alarm. Paired with a distinct glyph (not colour alone). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "decaySteady": "ثابت",
+  "@decaySteady": {
+    "description": "Calm decay indicator label for a steady page. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
   }
 }

@@ -264,6 +264,66 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'إعادة المحاولة'**
   String get commonRetry;
+
+  /// A muṣḥaf page label on a Today row. {pageNumber} is pre-formatted in locale numerals by the caller (numberFormatFor). One card = one of 604 pages (C-031). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'صفحة {pageNumber}'**
+  String pageNumber(String pageNumber);
+
+  /// Track chip for a NEW page (today's new lesson) — the classical term-set 'sabaq'. TERM-SET vocabulary: scholar-reviewed + swappable (E16). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'سبق'**
+  String get trackNewLabel;
+
+  /// Track chip for a NEAR page (recent revision) — the classical term-set 'sabqi'. TERM-SET vocabulary. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'سبقي'**
+  String get trackNearLabel;
+
+  /// Track chip for a FAR page (consolidated revision) — the classical term-set 'manzil'. TERM-SET vocabulary. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'منزل'**
+  String get trackFarLabel;
+
+  /// Grade band: Again (the page needs re-revision). Calm self-assessment, never failure/shame. The full reveal-on-tap band is E12. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعادة'**
+  String get gradeAgain;
+
+  /// Grade band: Hard. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'صعب'**
+  String get gradeHard;
+
+  /// Grade band: Good. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'جيد'**
+  String get gradeGood;
+
+  /// Grade band: Easy. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'سهل'**
+  String get gradeEasy;
+
+  /// Calm decay indicator label for a weak page — needs revision, never 'failing'/'lost'/alarm. Paired with a distinct glyph (not colour alone). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'يحتاج مراجعة'**
+  String get decayNeedsRevision;
+
+  /// Calm decay indicator label for a steady page. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'ثابت'**
+  String get decaySteady;
 }
 
 class _AppLocalizationsDelegate

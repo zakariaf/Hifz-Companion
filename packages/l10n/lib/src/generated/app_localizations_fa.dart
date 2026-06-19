@@ -93,4 +93,36 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get commonRetry => 'تلاش دوباره';
+
+  @override
+  String pageNumber(String pageNumber) {
+    return 'صفحهٔ $pageNumber';
+  }
+
+  @override
+  String get trackNewLabel => 'سبق';
+
+  @override
+  String get trackNearLabel => 'سبقی';
+
+  @override
+  String get trackFarLabel => 'منزل';
+
+  @override
+  String get gradeAgain => 'دوباره';
+
+  @override
+  String get gradeHard => 'سخت';
+
+  @override
+  String get gradeGood => 'خوب';
+
+  @override
+  String get gradeEasy => 'آسان';
+
+  @override
+  String get decayNeedsRevision => 'نیازمند مرور';
+
+  @override
+  String get decaySteady => 'پایدار';
 }

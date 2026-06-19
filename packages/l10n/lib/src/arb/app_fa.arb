@@ -26,5 +26,15 @@
   "onboardingHeld": "حفظ‌شده",
   "onboardingNotHeld": "حفظ‌نشده",
   "todayEmpty": "در حال حاضر صفحه‌ای برای مرور نیست.",
-  "commonRetry": "تلاش دوباره"
+  "commonRetry": "تلاش دوباره",
+  "pageNumber": "صفحهٔ {pageNumber}",
+  "trackNewLabel": "سبق",
+  "trackNearLabel": "سبقی",
+  "trackFarLabel": "منزل",
+  "gradeAgain": "دوباره",
+  "gradeHard": "سخت",
+  "gradeGood": "خوب",
+  "gradeEasy": "آسان",
+  "decayNeedsRevision": "نیازمند مرور",
+  "decaySteady": "پایدار"
 }

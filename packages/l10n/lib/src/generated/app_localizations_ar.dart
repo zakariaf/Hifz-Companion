@@ -92,4 +92,36 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get commonRetry => 'إعادة المحاولة';
+
+  @override
+  String pageNumber(String pageNumber) {
+    return 'صفحة $pageNumber';
+  }
+
+  @override
+  String get trackNewLabel => 'سبق';
+
+  @override
+  String get trackNearLabel => 'سبقي';
+
+  @override
+  String get trackFarLabel => 'منزل';
+
+  @override
+  String get gradeAgain => 'إعادة';
+
+  @override
+  String get gradeHard => 'صعب';
+
+  @override
+  String get gradeGood => 'جيد';
+
+  @override
+  String get gradeEasy => 'سهل';
+
+  @override
+  String get decayNeedsRevision => 'يحتاج مراجعة';
+
+  @override
+  String get decaySteady => 'ثابت';
 }

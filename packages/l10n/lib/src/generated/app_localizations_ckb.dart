@@ -92,4 +92,36 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get commonRetry => 'هەوڵدانەوە';
+
+  @override
+  String pageNumber(String pageNumber) {
+    return 'پەڕەی $pageNumber';
+  }
+
+  @override
+  String get trackNewLabel => 'سەبەق';
+
+  @override
+  String get trackNearLabel => 'سەبقی';
+
+  @override
+  String get trackFarLabel => 'مەنزیل';
+
+  @override
+  String get gradeAgain => 'دووبارە';
+
+  @override
+  String get gradeHard => 'قورس';
+
+  @override
+  String get gradeGood => 'باش';
+
+  @override
+  String get gradeEasy => 'ئاسان';
+
+  @override
+  String get decayNeedsRevision => 'پێویستی بە پێداچوونەوەیە';
+
+  @override
+  String get decaySteady => 'جێگیر';
 }
