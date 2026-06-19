@@ -32,10 +32,13 @@ Future<void> seedReferenceFixture(
   );
   for (final entry in pagesByJuz.entries) {
     for (final pageId in entry.value) {
+      // qpc_font_name is inert in the spine (no glyph is rendered); use a
+      // neutral value so a QPC glyph token never leaks outside packages/quran
+      // (check_quran_isolation / PRD R1).
       await db.customStatement(
         'INSERT OR IGNORE INTO page (page_id, juz, hizb, rub, surah_start, '
         'ayah_start, surah_end, ayah_end, line_count, qpc_font_name) '
-        "VALUES ($pageId, ${entry.key}, 1, 1, 1, 1, 1, 7, 15, 'QCF_P001')",
+        "VALUES ($pageId, ${entry.key}, 1, 1, 1, 1, 1, 7, 15, 'fixture')",
       );
     }
   }

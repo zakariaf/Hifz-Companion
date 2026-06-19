@@ -75,7 +75,7 @@ void main() {
       router.go('/mushaf/page/5');
       await t.pumpAndSettle();
       expect(location(router), '/onboarding');
-      expect(find.byKey(const ValueKey('mushaf-page-stub')), findsNothing);
+      expect(find.byKey(const ValueKey('mushaf-page-5')), findsNothing);
     });
   });
 
@@ -102,7 +102,7 @@ void main() {
       router.go('/mushaf/page/5');
       await t.pumpAndSettle();
       expect(location(router), '/today');
-      expect(find.byKey(const ValueKey('mushaf-page-stub')), findsNothing);
+      expect(find.byKey(const ValueKey('mushaf-page-5')), findsNothing);
     });
   });
 
@@ -117,7 +117,7 @@ void main() {
       router.go('/mushaf/page/3');
       await t.pumpAndSettle();
       expect(location(router), '/mushaf/page/3');
-      expect(find.text('page-3'), findsOneWidget);
+      expect(find.byKey(const ValueKey('mushaf-page-3')), findsOneWidget);
     });
 
     testWidgets('a ready device on /onboarding is moved to /today', (t) async {
@@ -141,7 +141,7 @@ void main() {
       );
       router.go('/mushaf/page/12');
       await t.pumpAndSettle();
-      expect(find.text('page-12'), findsOneWidget);
+      expect(find.byKey(const ValueKey('mushaf-page-12')), findsOneWidget);
     });
 
     testWidgets('a non-int pageId fails closed (not-found), never throws',

@@ -140,7 +140,9 @@ class _ReaderStub extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Center(
-        key: const ValueKey<String>('mushaf-page-stub'),
-        child: Text('page-$pageId'),
+        // The parsed pageId rides in the key (no user-facing string in this
+        // throwaway stub); the real immutable page renderer is E13.
+        key: ValueKey<String>('mushaf-page-$pageId'),
+        child: const SizedBox.shrink(),
       );
 }
