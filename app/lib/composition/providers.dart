@@ -1,17 +1,19 @@
 // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-/// The single composition root: the one place where real implementations are
-/// bound into the app's `ProviderScope`.
+/// The composition-root DI provider set — one import point for the live service
+/// bindings wired in `main`'s `ProviderScope` (04 §1.2).
 ///
-/// Empty until E07. At that point this file declares the `List<Override>` that
-/// `main`'s `ProviderScope(overrides: ...)` receives, binding the Drift database
-/// handle, the asset loader, and the injected "today" clock. Nothing is wired
-/// yet — and no implementation is computed anywhere in `app/lib/`.
+/// Each provider is a thin wire holding no business logic: the injected "today"
+/// clock, the Drift persistence handle (throwing placeholder until overridden),
+/// the optional-pack downloader (throwing placeholder), the pure engine, the
+/// active-profile gate, and the app-ready gate. The IO-opening placeholders are
+/// satisfied only by `main`'s overrides; the rest resolve live.
 library;
 
-// E07 binds the real implementations here, for example:
-//   final compositionOverrides = <Override>[
-//     databaseProvider.overrideWithValue(database),
-//     clockProvider.overrideWithValue(systemClock),
-//   ];
+export 'active_profile_provider.dart';
+export 'app_ready_provider.dart';
+export 'asset_downloader_provider.dart';
+export 'engine_provider.dart';
+export 'persistence_provider.dart';
+export 'today_provider.dart';
