@@ -324,6 +324,24 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'ثابت'**
   String get decaySteady;
+
+  /// Screen-reader announcement (SemanticsService.announce, RTL) when the missed-day catch-up plan is ready on Today. Calm, supportive, located-revisit framing — never 'you are behind'/overdue/shame, never a celebration. Consumed by E11/E12; the key + announce path exist now. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'خطة المراجعة جاهزة.'**
+  String get a11yAnnounceCatchUpReady;
+
+  /// Screen-reader announcement (RTL) fired once after a page's grade is durably committed on Today. Calm receipt — no praise/score/celebration. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم تسجيل التقييم.'**
+  String get a11yAnnouncePageGraded;
+
+  /// Screen-reader announcement (RTL) when a teacher (talaqqī) sign-off is recorded. Servant-to-the-teacher register; no celebration. Consumed by E12/E16; the key + announce path exist now. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم تسجيل اعتماد المعلّم.'**
+  String get a11yAnnounceSignOffRecorded;
 }
 
 class _AppLocalizationsDelegate

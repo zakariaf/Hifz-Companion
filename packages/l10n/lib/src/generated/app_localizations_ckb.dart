@@ -124,4 +124,13 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get decaySteady => 'جێگیر';
+
+  @override
+  String get a11yAnnounceCatchUpReady => 'خشتەی پێداچوونەوە ئامادەیە.';
+
+  @override
+  String get a11yAnnouncePageGraded => 'هەڵسەنگاندن تۆمارکرا.';
+
+  @override
+  String get a11yAnnounceSignOffRecorded => 'پەسەندی مامۆستا تۆمارکرا.';
 }

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart' hide Card;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:l10n/l10n.dart';
 
+import '../a11y/announce.dart';
 import '../design_system/theme/spacing_tokens.dart';
 import 'today_providers.dart';
 import 'widgets/page_card.dart';
@@ -35,6 +36,11 @@ class TodayScreen extends ConsumerWidget {
               grade: reviewGrade,
               today: ref.read(todayProvider),
             );
+        // Calm, once-per-commit screen-reader receipt (RTL); the visual motion
+        // is suppressed under reduce-motion, the announce is not (E08-T02/T05).
+        if (context.mounted) {
+          await announceState(context, l10n.a11yAnnouncePageGraded);
+        }
       } on Exception {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(

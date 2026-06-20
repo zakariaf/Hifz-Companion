@@ -5,6 +5,7 @@ import 'package:engine/engine.dart' show Card, ReviewGrade, ReviewTrack;
 import 'package:flutter/material.dart' hide Card;
 import 'package:l10n/l10n.dart';
 
+import '../../a11y/semantics.dart';
 import '../../design_system/theme/mihrab_colors.dart';
 import '../../design_system/theme/spacing_tokens.dart';
 
@@ -65,18 +66,24 @@ class _PageCardState extends State<PageCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: space.space3,
             children: [
-              Row(
-                spacing: space.space2,
-                children: [
-                  _TrackChip(track: card.track),
-                  Expanded(
-                    child: Text(
-                      l10n.pageNumber(numerals.format(card.pageId)),
-                      style: theme.textTheme.titleMedium,
+              // Track · page · decay read as ONE localized phrase (e.g.
+              // "sabaq · page ٣ · needs revision"), not three fragments
+              // (E08-T02; design-system 09 §7). The grade band stays separate so
+              // each button is its own operable node.
+              mergedItem(
+                child: Row(
+                  spacing: space.space2,
+                  children: [
+                    _TrackChip(track: card.track),
+                    Expanded(
+                      child: Text(
+                        l10n.pageNumber(numerals.format(card.pageId)),
+                        style: theme.textTheme.titleMedium,
+                      ),
                     ),
-                  ),
-                  _DecayIndicator(isWeak: card.isWeak),
-                ],
+                    _DecayIndicator(isWeak: card.isWeak),
+                  ],
+                ),
               ),
               _GradeBand(onGrade: _grade, enabled: !_submitting),
             ],

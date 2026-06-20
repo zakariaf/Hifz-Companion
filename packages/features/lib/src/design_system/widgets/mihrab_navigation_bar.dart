@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:l10n/l10n.dart';
 
+import '../../a11y/semantics.dart';
 import '../theme/mihrab_colors.dart';
 import '../theme/motion_tokens.dart';
 import '../theme/spacing_tokens.dart';
@@ -183,29 +184,39 @@ class _Tab extends StatelessWidget {
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
     final tint = selected ? scheme.primary : scheme.onSurfaceVariant;
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: onTap,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        spacing: space.space1,
-        children: [
-          // The active tab's in-row icon is hidden — the floating bubble carries
-          // it — but kept in the layout so every label stays on one baseline.
-          Opacity(
-            opacity: selected ? 0 : 1,
-            child: Icon(item.icon, color: tint),
+    // The localized label + button role live on the merged Semantics node; the
+    // visual Text below is excluded so the tab reads as one node, not "Today
+    // Today" (E08-T02; design-system 09 §7).
+    return labeled(
+      button: true,
+      label: item.label,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: ExcludeSemantics(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            spacing: space.space1,
+            children: [
+              // The active tab's in-row icon is hidden — the floating bubble
+              // carries it — but kept in the layout so every label stays on one
+              // baseline.
+              Opacity(
+                opacity: selected ? 0 : 1,
+                child: Icon(item.icon, color: tint),
+              ),
+              Text(
+                item.label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: text.labelMedium?.copyWith(
+                  color: tint,
+                  fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
+                ),
+              ),
+            ],
           ),
-          Text(
-            item.label,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: text.labelMedium?.copyWith(
-              color: tint,
-              fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

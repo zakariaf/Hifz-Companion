@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:l10n/l10n.dart';
 
+import '../a11y/semantics.dart';
 import '../design_system/theme/spacing_tokens.dart';
 
 /// A calm, inert section placeholder for the E07 walking skeleton: a localized
@@ -39,22 +40,26 @@ class SectionPlaceholder extends StatelessWidget {
       container: true,
       child: Padding(
         padding: EdgeInsetsDirectional.all(space.space5),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          spacing: space.space2,
-          children: [
-            Text(
-              title,
-              style: theme.textTheme.titleMedium,
-              textAlign: TextAlign.center,
-            ),
-            Text(
-              l10n.sectionInPreparation,
-              style: theme.textTheme.bodyMedium
-                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
-              textAlign: TextAlign.center,
-            ),
-          ],
+        // Title + "being prepared" line read as ONE localized phrase, not two
+        // fragments (E08-T02; design-system 09 §7).
+        child: mergedItem(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            spacing: space.space2,
+            children: [
+              Text(
+                title,
+                style: theme.textTheme.titleMedium,
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                l10n.sectionInPreparation,
+                style: theme.textTheme.bodyMedium
+                    ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         ),
       ),
     );

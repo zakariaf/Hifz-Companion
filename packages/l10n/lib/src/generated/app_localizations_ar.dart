@@ -124,4 +124,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get decaySteady => 'ثابت';
+
+  @override
+  String get a11yAnnounceCatchUpReady => 'خطة المراجعة جاهزة.';
+
+  @override
+  String get a11yAnnouncePageGraded => 'تم تسجيل التقييم.';
+
+  @override
+  String get a11yAnnounceSignOffRecorded => 'تم تسجيل اعتماد المعلّم.';
 }

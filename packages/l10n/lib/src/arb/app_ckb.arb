@@ -36,5 +36,8 @@
   "gradeGood": "باش",
   "gradeEasy": "ئاسان",
   "decayNeedsRevision": "پێویستی بە پێداچوونەوەیە",
-  "decaySteady": "جێگیر"
+  "decaySteady": "جێگیر",
+  "a11yAnnounceCatchUpReady": "خشتەی پێداچوونەوە ئامادەیە.",
+  "a11yAnnouncePageGraded": "هەڵسەنگاندن تۆمارکرا.",
+  "a11yAnnounceSignOffRecorded": "پەسەندی مامۆستا تۆمارکرا."
 }

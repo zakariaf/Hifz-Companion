@@ -10,6 +10,7 @@
 /// the feature epics.
 library;
 
+export 'src/a11y/a11y.dart';
 export 'src/design_system/design_system.dart';
 export 'src/mushaf/mushaf_screen.dart';
 export 'src/mutashabihat/mutashabihat_screen.dart';
