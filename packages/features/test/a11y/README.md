@@ -51,8 +51,8 @@ Each non-negotiable, with the concrete in-tree proof:
   layout data is byte-identical under every `TextScaler`; no audit derives from a
   QPC glyph codepoint; the reader is fed the `PageReference`. (`packages/quran/test/mushaf_scaling_exclusion_seam_test.dart`)
 - **Offline / no-AI / no-mic** — the throwing `HttpOverrides` is installed in
-  every a11y test; no `http`/`dio`/`HttpClient`/`drift`/ASR/model import is
-  reachable from `features/test/a11y`; E01's no-network + allow-list gates green.
+  every a11y test; no networking, database, or model import is reachable from
+  `features/test/a11y`; E01's no-network + allow-list gates green.
 - **RTL fa/ckb/ar labels** — every audited label resolves through
   `AppLocalizations`; the contrast/traversal suites load the real bundled UI
   fonts (never `Ahem`); the A8 traversal test is green in all three locales.

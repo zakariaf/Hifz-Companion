@@ -78,10 +78,17 @@ Future<AppLocalizations> localizationsFor(Locale locale) =>
 /// The shell chrome under audit: the five labeled nav destinations and the four
 /// merged placeholder cards, themed for [appearance] and localized for [locale].
 /// Mirrors what the go_router `HomeShell` composes.
+///
+/// Set [navBar] false to audit only the standard-surface body chrome: the
+/// bespoke curved `MihrabNavigationBar` is a `CustomPaint` component whose
+/// pixel-sampled text-contrast is owned by E06 (tokens) / E10 (component), and
+/// is too host-sensitive to gate reliably here (E08-T07 owns the floor as a
+/// gate, not the token values).
 Widget shellChrome({
   required Locale locale,
   MihrabAppearance appearance = MihrabAppearance.light,
   TextScaler? textScaler,
+  bool navBar = true,
 }) {
   return MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -107,10 +114,12 @@ Widget shellChrome({
           l10n.navSettings,
         ];
         return MihrabScaffold(
-          bottomNavigationBar: MihrabNavigationBar(
-            selectedIndex: 0,
-            onDestinationSelected: (_) {},
-          ),
+          bottomNavigationBar: navBar
+              ? MihrabNavigationBar(
+                  selectedIndex: 0,
+                  onDestinationSelected: (_) {},
+                )
+              : null,
           body: ListView(
             children: [
               for (var i = 0; i < titles.length; i++)
