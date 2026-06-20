@@ -50,6 +50,16 @@ and a manual TalkBack/VoiceOver pass in fa/ckb/ar) in
 and enforced in CI by the accessibility audit gate. It is part of the
 release gates in [`docs/PRD.md`](docs/PRD.md) (§18, §20).
 
+**Dynamic text scale.** Chrome scales automatically through the Mihrab `type.*`
+styles and `MediaQuery.textScalerOf` — never a fixed-pixel font and never
+`TextScaler.noScaling` on user-facing text. Dense rows reflow (logical layout,
+`Wrap`/`Flexible`, single-`Text` labels) rather than truncate. The one sanctioned
+ceiling is `MediaQuery.withClampedTextScaling` (the `ClampedTextScaling` helper),
+applied only to the smallest dense subtree that provably clips after honest
+reflow, and only as a ceiling — scaling still applies up to the cap. The muṣḥaf
+glyph layer is **out of scope** here: it is never OS-scaled or reflowed, only
+enlarged by the reader's dedicated zoom transform.
+
 ## Contributing
 
 Contributions are welcome under the Developer Certificate of Origin (sign off

@@ -178,7 +178,10 @@ class _GradeBand extends StatelessWidget {
             child: OutlinedButton(
               key: ValueKey<String>('grade.${grade.wireValue}'),
               onPressed: enabled ? () => onGrade(grade) : null,
-              child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis),
+              // Reflow, never truncate: at large text scale the label wraps and
+              // the button grows taller (the Today list scrolls) instead of an
+              // ellipsis masking a clip (E08-T03; WCAG 1.4.4).
+              child: Text(label, textAlign: TextAlign.center),
             ),
           ),
       ],
