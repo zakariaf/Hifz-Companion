@@ -39,5 +39,8 @@
   "decaySteady": "پایدار",
   "a11yAnnounceCatchUpReady": "برنامهٔ مرور آماده است.",
   "a11yAnnouncePageGraded": "ارزیابی ثبت شد.",
-  "a11yAnnounceSignOffRecorded": "تأیید استاد ثبت شد."
+  "a11yAnnounceSignOffRecorded": "تأیید استاد ثبت شد.",
+  "stateDue": "موعد مرور",
+  "stateWeak": "ضعیف",
+  "stateSignedOff": "تأیید استاد"
 }

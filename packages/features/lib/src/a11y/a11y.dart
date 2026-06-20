@@ -12,5 +12,6 @@
 library;
 
 export 'announce.dart';
+export 'redundant_encoding.dart';
 export 'reduce_motion_substitution.dart';
 export 'semantics.dart';

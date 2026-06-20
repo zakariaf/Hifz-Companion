@@ -39,5 +39,8 @@
   "decaySteady": "جێگیر",
   "a11yAnnounceCatchUpReady": "خشتەی پێداچوونەوە ئامادەیە.",
   "a11yAnnouncePageGraded": "هەڵسەنگاندن تۆمارکرا.",
-  "a11yAnnounceSignOffRecorded": "پەسەندی مامۆستا تۆمارکرا."
+  "a11yAnnounceSignOffRecorded": "پەسەندی مامۆستا تۆمارکرا.",
+  "stateDue": "کاتی پێداچوونەوە",
+  "stateWeak": "لاواز",
+  "stateSignedOff": "پەسەندی مامۆستا"
 }

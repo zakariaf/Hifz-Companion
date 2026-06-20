@@ -133,4 +133,13 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get a11yAnnounceSignOffRecorded => 'پەسەندی مامۆستا تۆمارکرا.';
+
+  @override
+  String get stateDue => 'کاتی پێداچوونەوە';
+
+  @override
+  String get stateWeak => 'لاواز';
+
+  @override
+  String get stateSignedOff => 'پەسەندی مامۆستا';
 }

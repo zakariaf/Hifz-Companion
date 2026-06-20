@@ -133,4 +133,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get a11yAnnounceSignOffRecorded => 'تم تسجيل اعتماد المعلّم.';
+
+  @override
+  String get stateDue => 'مستحقة';
+
+  @override
+  String get stateWeak => 'ضعيفة';
+
+  @override
+  String get stateSignedOff => 'معتمدة من المعلّم';
 }

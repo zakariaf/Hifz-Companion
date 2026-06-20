@@ -342,6 +342,24 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تم تسجيل اعتماد المعلّم.'**
   String get a11yAnnounceSignOffRecorded;
+
+  /// State-chip label: the page is due for revision (never-color-alone redundant encoding, E08-T06 — paired with a distinct shape glyph). Calm, neutral; no guilt. Consumed by E12/E15. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'مستحقة'**
+  String get stateDue;
+
+  /// State-chip label: the page is weak / needs strengthening — never 'failing'/'lost', never 'safe to drop'. Paired with a distinct shape glyph (not colour alone). Consumed by E12/E15. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'ضعيفة'**
+  String get stateWeak;
+
+  /// State-chip label: a teacher (talaqqī) sign-off is recorded for the page. Servant-to-the-teacher register; no score/badge. Paired with a distinct shape glyph. Consumed by E12/E16. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'معتمدة من المعلّم'**
+  String get stateSignedOff;
 }
 
 class _AppLocalizationsDelegate
