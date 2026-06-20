@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:l10n/l10n.dart';
 
 import '../a11y/announce.dart';
+import '../a11y/reduce_motion_substitution.dart';
 import '../design_system/theme/spacing_tokens.dart';
 import 'today_providers.dart';
 import 'widgets/page_card.dart';
@@ -50,27 +51,42 @@ class TodayScreen extends ConsumerWidget {
       }
     }
 
+    // The content reveal is a non-essential motion surface: a calm cross-fade
+    // when the queue resolves, collapsing to an instant cut under the OS Reduce
+    // Motion flag (E08-T05). Each state carries a distinct key so the reveal is
+    // detected.
+    final content = queue.when(
+      loading: () => const Center(
+        key: ValueKey<String>('today.loading'),
+        child: CircularProgressIndicator(),
+      ),
+      error: (error, _) => _RetryView(
+        key: const ValueKey<String>('today.error'),
+        message: l10n.commonRetry,
+        onRetry: () => ref.invalidate(todayQueueProvider),
+      ),
+      data: (cards) => cards.isEmpty
+          ? _EmptyToday(
+              key: const ValueKey<String>('today.empty'),
+              message: l10n.todayEmpty,
+            )
+          : _TodayList(
+              key: const ValueKey<String>('today.list'),
+              cards: cards,
+              onGrade: grade,
+            ),
+    );
+
     return Semantics(
       identifier: 'screen.today',
       explicitChildNodes: true,
-      child: SafeArea(
-        child: queue.when(
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, _) => _RetryView(
-            message: l10n.commonRetry,
-            onRetry: () => ref.invalidate(todayQueueProvider),
-          ),
-          data: (cards) => cards.isEmpty
-              ? _EmptyToday(message: l10n.todayEmpty)
-              : _TodayList(cards: cards, onGrade: grade),
-        ),
-      ),
+      child: SafeArea(child: ReduceMotionSwitcher(child: content)),
     );
   }
 }
 
 class _TodayList extends StatelessWidget {
-  const _TodayList({required this.cards, required this.onGrade});
+  const _TodayList({required this.cards, required this.onGrade, super.key});
 
   final List<Card> cards;
   final Future<void> Function(Card card, ReviewGrade grade) onGrade;
@@ -94,7 +110,7 @@ class _TodayList extends StatelessWidget {
 }
 
 class _EmptyToday extends StatelessWidget {
-  const _EmptyToday({required this.message});
+  const _EmptyToday({required this.message, super.key});
 
   final String message;
 
@@ -107,7 +123,7 @@ class _EmptyToday extends StatelessWidget {
 }
 
 class _RetryView extends StatelessWidget {
-  const _RetryView({required this.message, required this.onRetry});
+  const _RetryView({required this.message, required this.onRetry, super.key});
 
   final String message;
   final VoidCallback onRetry;

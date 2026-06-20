@@ -12,4 +12,5 @@
 library;
 
 export 'announce.dart';
+export 'reduce_motion_substitution.dart';
 export 'semantics.dart';
