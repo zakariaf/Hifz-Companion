@@ -23,6 +23,33 @@ version on every job (`subosito/flutter-action@v2`, `channel: stable`) — a
 floating SDK would silently re-render the muṣḥaf goldens and break the
 rebuild-the-bytes reproducibility claim.
 
+## Accessibility
+
+Hifz Companion targets **WCAG 2.2 Level AA** as its explicit conformance bar —
+named as **WCAG 2.2 AA**, not 2.1. WCAG 2.2 is a strict, backwards-compatible
+superset of 2.1, so naming the newer version claims more, not less, and carries
+no regression. The bar is the same across all three languages (fa / ckb / ar).
+
+Two of WCAG 2.2's new success criteria are satisfied **by construction**, not by
+a feature we have to maintain:
+
+- **3.3.7 Redundant Entry (Level A)** — there is no account, no login, and no
+  data to re-enter; a profile is just a display name the user types, and
+  switching profile is a tap.
+- **3.3.8 Accessible Authentication (Minimum) (Level AA)** — there is no
+  authentication step at all, so there is no cognitive-function test to fail.
+
+Both hold identically in every locale: no language inherits a login, OTP, or
+CAPTCHA barrier.
+
+The bar is made measurable, not aspirational, by the release-blocking
+accessibility checklist (A1–A9 — contrast, color-independence, 200% text resize,
+muṣḥaf zoom-exclusion, touch targets, localized labels, RTL focus/reading order,
+and a manual TalkBack/VoiceOver pass in fa/ckb/ar) in
+[`docs/design-system/09-accessibility-and-inclusivity.md`](docs/design-system/09-accessibility-and-inclusivity.md),
+and enforced in CI by the accessibility audit gate. It is part of the
+release gates in [`docs/PRD.md`](docs/PRD.md) (§18, §20).
+
 ## Contributing
 
 Contributions are welcome under the Developer Certificate of Origin (sign off
