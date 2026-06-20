@@ -18,6 +18,8 @@ import 'package:flutter/services.dart' show FontLoader;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:l10n/l10n.dart';
 
+export 'package:features/features.dart' show MihrabAppearance, mihrabThemeFor;
+
 export '../test_setup.dart' show useOfflineTestPolicy;
 
 /// The three RTL locales every a11y suite runs under, each in its own script.
@@ -79,6 +81,7 @@ Future<AppLocalizations> localizationsFor(Locale locale) =>
 Widget shellChrome({
   required Locale locale,
   MihrabAppearance appearance = MihrabAppearance.light,
+  TextScaler? textScaler,
 }) {
   return MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -86,6 +89,14 @@ Widget shellChrome({
     localizationsDelegates: hifzLocalizationsDelegates,
     supportedLocales: AppLocalizations.supportedLocales,
     theme: mihrabThemeFor(appearance),
+    // Apply the test text scale below MaterialApp's own MediaQuery, so the whole
+    // app actually scales (wrapping the app from outside would be overridden).
+    builder: textScaler == null
+        ? null
+        : (context, child) => MediaQuery(
+              data: MediaQuery.of(context).copyWith(textScaler: textScaler),
+              child: child!,
+            ),
     home: Builder(
       builder: (context) {
         final l10n = AppLocalizations.of(context)!;

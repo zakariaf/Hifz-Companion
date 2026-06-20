@@ -12,6 +12,14 @@ import 'package:flutter/widgets.dart';
 /// shrinks large text below the 200% bar.
 const double denseRowTextScaleCeiling = 2.0;
 
+/// The text-scale ceiling for the fixed-height (62dp) bottom-nav bar — the one
+/// chrome component that genuinely cannot reflow or grow (design-system 09 §5).
+/// Below the [denseRowTextScaleCeiling] because the bar's height, not just its
+/// width, bounds the label: the nav glyph + tap target stay full size and the
+/// label is supplementary, so a lower cap here keeps the bar usable rather than
+/// clipping at large OS scale.
+const double navLabelTextScaleCeiling = 1.3;
+
 /// Caps the OS text scale applied to [child] at [maxScaleFactor] (default the
 /// [denseRowTextScaleCeiling]) via `MediaQuery.withClampedTextScaling` — the
 /// **only** sanctioned text-scale ceiling in the app.

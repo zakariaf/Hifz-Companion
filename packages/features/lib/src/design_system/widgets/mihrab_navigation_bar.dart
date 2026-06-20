@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:l10n/l10n.dart';
 
 import '../../a11y/semantics.dart';
+import '../a11y/clamped_text_scaling.dart';
 import '../theme/mihrab_colors.dart';
 import '../theme/motion_tokens.dart';
 import '../theme/spacing_tokens.dart';
@@ -50,10 +51,18 @@ class MihrabNavigationBar extends StatelessWidget {
       _NavItem(Icons.grid_view_outlined, Icons.grid_view, l10n.navProgress),
       _NavItem(Icons.settings_outlined, Icons.settings, l10n.navSettings),
     ];
-    return _CurvedNavBar(
-      items: items,
-      selectedIndex: selectedIndex,
-      onSelected: onDestinationSelected,
+    // why: the curved bar is a fixed-height (62dp) component that cannot reflow;
+    // cap the five nav labels so the longest (ckb mutashābihāt) stays within the
+    // bar at large OS text scale instead of overflowing it (E08-T03/T07; the one
+    // sanctioned clamp site in the shell). Icons + tap targets keep full size,
+    // and the label is supplementary to the icon. A no-op at normal scale.
+    return ClampedTextScaling(
+      maxScaleFactor: navLabelTextScaleCeiling,
+      child: _CurvedNavBar(
+        items: items,
+        selectedIndex: selectedIndex,
+        onSelected: onDestinationSelected,
+      ),
     );
   }
 }
