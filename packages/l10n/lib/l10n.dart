@@ -11,6 +11,7 @@ library;
 export 'src/bidi.dart';
 export 'src/calendar/calendar_presenter.dart'
     show CalendarPresenter, CalendarSystem, toLocaleNumerals;
-export 'src/ckb_material_localizations.dart' show hifzLocalizationsDelegates;
+export 'src/ckb_material_localizations.dart'
+    show CkbMaterialLocalizations, hifzLocalizationsDelegates;
 export 'src/generated/app_localizations.dart';
 export 'src/numerals.dart';

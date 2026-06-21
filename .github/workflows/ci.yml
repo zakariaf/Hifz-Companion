@@ -133,10 +133,11 @@ jobs:
           bash tool/test/check_l10n_complete_test.sh
       - name: Asset SHA-256 integrity (dormant/fail-closed on the empty manifest)
         run: dart run tool/verify_asset_hashes.dart
-      - name: Tool-gate unit suites (E05-T10 asset integrity + E09-T02 adab lint — package:test)
+      - name: Tool-gate unit suites (E05-T10 asset integrity + E09 adab/ckb lints — package:test)
         run: |
           dart test tool/test/verify_asset_integrity_test.dart
           dart test tool/test/check_adab_lint_test.dart
+          dart test tool/test/check_ckb_canonical_test.dart
       - name: REUSE license clarity (per-file SPDX GPL-3.0-or-later)
         uses: fsfe/reuse-action@v6
 

@@ -88,6 +88,11 @@ perl -pe 's/("navToday":\s*"[^"]*)"/${1}!"/' "$arb_bak" >"$arb"
 expect_fail "an exclamation mark in shipped copy" "never-ship copy"
 cp "$arb_bak" "$arb"
 
+# F. Canonical-Sorani — an Arabic kaf (U+0643) where Sorani kaf (U+06A9) belongs.
+perl -CO -pe 's/("navToday":\s*")/${1}\x{0643}/' "$arb_bak" >"$arb"
+expect_fail "a non-canonical Sorani code point" "non-canonical Sorani"
+cp "$arb_bak" "$arb"
+
 # Final: the restored tree passes again.
 expect_pass "restored tree passes"
 

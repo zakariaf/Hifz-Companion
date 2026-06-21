@@ -97,4 +97,9 @@ if ! dart run tool/check_adab_lint.dart; then
   status=1
 fi
 
+# ── Layer F — canonical-Sorani encoding lint over app_ckb.arb (E09-T03). ──
+if ! dart run tool/check_ckb_canonical.dart; then
+  status=1
+fi
+
 exit "$status"
