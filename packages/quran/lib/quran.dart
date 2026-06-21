@@ -15,6 +15,7 @@ export 'src/fonts/asset_vault.dart'
 export 'src/fonts/register_verified_page_fonts.dart'
     show registerVerifiedPageFonts;
 export 'src/page_geometry.dart';
+export 'src/page_reference.dart' show PageReference, SurahAyahRange;
 export 'src/quran_page_placeholder.dart';
 export 'src/render/assemble_page.dart' show MushafLayout, assemblePage;
 export 'src/render/glyph_line.dart'

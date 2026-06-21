@@ -73,7 +73,13 @@ void main() {
   testWidgets('a weak page exposes the calm decay label (not colour alone)',
       (t) async {
     final l10n = await pumpCard(t, farCard(isWeak: true), (_) async {});
-    expect(find.bySemanticsLabel(l10n.decayNeedsRevision), findsOneWidget);
+    // The decay word reaches the screen reader inside the card's one merged
+    // phrase (E08-T02: track · page · decay read as a single node), so match it
+    // as a substring of the merged label rather than as a standalone node.
+    expect(
+      find.bySemanticsLabel(RegExp(RegExp.escape(l10n.decayNeedsRevision))),
+      findsOneWidget,
+    );
   });
 
   testWidgets('the band is disabled while a grade is in flight (no double grade)',

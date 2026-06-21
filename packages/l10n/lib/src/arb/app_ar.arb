@@ -150,5 +150,29 @@
   "decaySteady": "ثابت",
   "@decaySteady": {
     "description": "Calm decay indicator label for a steady page. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "a11yAnnounceCatchUpReady": "خطة المراجعة جاهزة.",
+  "@a11yAnnounceCatchUpReady": {
+    "description": "Screen-reader announcement (SemanticsService.announce, RTL) when the missed-day catch-up plan is ready on Today. Calm, supportive, located-revisit framing — never 'you are behind'/overdue/shame, never a celebration. Consumed by E11/E12; the key + announce path exist now. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "a11yAnnouncePageGraded": "تم تسجيل التقييم.",
+  "@a11yAnnouncePageGraded": {
+    "description": "Screen-reader announcement (RTL) fired once after a page's grade is durably committed on Today. Calm receipt — no praise/score/celebration. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "a11yAnnounceSignOffRecorded": "تم تسجيل اعتماد المعلّم.",
+  "@a11yAnnounceSignOffRecorded": {
+    "description": "Screen-reader announcement (RTL) when a teacher (talaqqī) sign-off is recorded. Servant-to-the-teacher register; no celebration. Consumed by E12/E16; the key + announce path exist now. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "stateDue": "مستحقة",
+  "@stateDue": {
+    "description": "State-chip label: the page is due for revision (never-color-alone redundant encoding, E08-T06 — paired with a distinct shape glyph). Calm, neutral; no guilt. Consumed by E12/E15. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "stateWeak": "ضعيفة",
+  "@stateWeak": {
+    "description": "State-chip label: the page is weak / needs strengthening — never 'failing'/'lost', never 'safe to drop'. Paired with a distinct shape glyph (not colour alone). Consumed by E12/E15. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "stateSignedOff": "معتمدة من المعلّم",
+  "@stateSignedOff": {
+    "description": "State-chip label: a teacher (talaqqī) sign-off is recorded for the page. Servant-to-the-teacher register; no score/badge. Paired with a distinct shape glyph. Consumed by E12/E16. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
   }
 }

@@ -4,6 +4,8 @@
 import 'package:flutter/material.dart';
 import 'package:l10n/l10n.dart';
 
+import '../../a11y/semantics.dart';
+import '../a11y/clamped_text_scaling.dart';
 import '../theme/mihrab_colors.dart';
 import '../theme/motion_tokens.dart';
 import '../theme/spacing_tokens.dart';
@@ -49,10 +51,18 @@ class MihrabNavigationBar extends StatelessWidget {
       _NavItem(Icons.grid_view_outlined, Icons.grid_view, l10n.navProgress),
       _NavItem(Icons.settings_outlined, Icons.settings, l10n.navSettings),
     ];
-    return _CurvedNavBar(
-      items: items,
-      selectedIndex: selectedIndex,
-      onSelected: onDestinationSelected,
+    // why: the curved bar is a fixed-height (62dp) component that cannot reflow;
+    // cap the five nav labels so the longest (ckb mutashābihāt) stays within the
+    // bar at large OS text scale instead of overflowing it (E08-T03/T07; the one
+    // sanctioned clamp site in the shell). Icons + tap targets keep full size,
+    // and the label is supplementary to the icon. A no-op at normal scale.
+    return ClampedTextScaling(
+      maxScaleFactor: navLabelTextScaleCeiling,
+      child: _CurvedNavBar(
+        items: items,
+        selectedIndex: selectedIndex,
+        onSelected: onDestinationSelected,
+      ),
     );
   }
 }
@@ -183,29 +193,39 @@ class _Tab extends StatelessWidget {
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
     final tint = selected ? scheme.primary : scheme.onSurfaceVariant;
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: onTap,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        spacing: space.space1,
-        children: [
-          // The active tab's in-row icon is hidden — the floating bubble carries
-          // it — but kept in the layout so every label stays on one baseline.
-          Opacity(
-            opacity: selected ? 0 : 1,
-            child: Icon(item.icon, color: tint),
+    // The localized label + button role live on the merged Semantics node; the
+    // visual Text below is excluded so the tab reads as one node, not "Today
+    // Today" (E08-T02; design-system 09 §7).
+    return labeled(
+      button: true,
+      label: item.label,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: ExcludeSemantics(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            spacing: space.space1,
+            children: [
+              // The active tab's in-row icon is hidden — the floating bubble
+              // carries it — but kept in the layout so every label stays on one
+              // baseline.
+              Opacity(
+                opacity: selected ? 0 : 1,
+                child: Icon(item.icon, color: tint),
+              ),
+              Text(
+                item.label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: text.labelMedium?.copyWith(
+                  color: tint,
+                  fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
+                ),
+              ),
+            ],
           ),
-          Text(
-            item.label,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: text.labelMedium?.copyWith(
-              color: tint,
-              fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

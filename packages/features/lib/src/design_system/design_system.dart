@@ -6,6 +6,7 @@
 /// design-review preview. Presentation-only (E06).
 library;
 
+export 'a11y/clamped_text_scaling.dart';
 export 'theme/haptic_tokens.dart';
 export 'theme/mihrab_color_schemes.dart';
 export 'theme/mihrab_colors.dart';

@@ -434,7 +434,7 @@ The [PRD §20 gate 5](../PRD.md) is implemented as a layered, mostly-compile-tim
 | ASCII digits | Grep for raw int interpolation into `Text`/ARB | Wrong/un-localized numerals ([PRD §13.3](../PRD.md)) |
 | Arabic plurals | ARB completeness check | Missing CLDR plural category ([Flutter: i18n](https://docs.flutter.dev/ui/accessibility-and-internationalization/internationalization)) |
 | RTL + numerals | Per-locale golden screenshots | Mirroring + digit-block regressions ([PRD §20](../PRD.md)) |
-| Accessibility | Widget `SemanticsTester` + manual TalkBack/VoiceOver pass | Unlabeled controls, small targets, scale break ([Flutter: Accessibility](https://docs.flutter.dev/ui/accessibility-and-internationalization/accessibility)) |
+| Accessibility | Widget `SemanticsTester` + [manual TalkBack/VoiceOver pass](manual-a9-screenreader-procedure.md) (A9; recorded by E08-T09, executed by E20) | Unlabeled controls, small targets, scale break ([Flutter: Accessibility](https://docs.flutter.dev/ui/accessibility-and-internationalization/accessibility)) |
 
 ### Rationale
 

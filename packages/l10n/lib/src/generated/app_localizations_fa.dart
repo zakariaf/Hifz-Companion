@@ -125,4 +125,22 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get decaySteady => 'پایدار';
+
+  @override
+  String get a11yAnnounceCatchUpReady => 'برنامهٔ مرور آماده است.';
+
+  @override
+  String get a11yAnnouncePageGraded => 'ارزیابی ثبت شد.';
+
+  @override
+  String get a11yAnnounceSignOffRecorded => 'تأیید استاد ثبت شد.';
+
+  @override
+  String get stateDue => 'موعد مرور';
+
+  @override
+  String get stateWeak => 'ضعیف';
+
+  @override
+  String get stateSignedOff => 'تأیید استاد';
 }

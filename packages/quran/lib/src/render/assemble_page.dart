@@ -25,6 +25,15 @@ class MushafLayout {
 /// ordered by [LayoutWord.position] and their opaque glyph codes are plainly
 /// concatenated (not shaped, not split into spans). Pure: no `BuildContext`, no
 /// IO, no clock; line count comes from the data, never a hardcoded `15`.
+///
+/// **Scaling-exclusion seam (E08-T04; design-system 09 §5, PRD R1, §11.2).** The
+/// assembled layout is a pure function of `(pageNumber, MushafLayout)` and does
+/// **not** read `MediaQuery`, `TextScaler`, or any OS scale: the muṣḥaf glyph
+/// layer is never OS-scaled, re-typeset, or reflowed for any accessibility goal.
+/// Line and page breaks come only from the bundled dataset — never measured or
+/// recomputed at runtime. The only sanctioned enlargement is E13's zoom
+/// transform of the *already-rendered* layer. The screen reader is fed the page
+/// `PageReference` (surah/ayah/juz), never these glyph codes.
 ImmutableGlyphPage assemblePage(int pageNumber, MushafLayout layout) {
   final byLine = <int, List<LayoutWord>>{};
   for (final word in layout.wordsOnPage(pageNumber)) {
