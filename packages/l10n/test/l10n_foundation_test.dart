@@ -79,7 +79,8 @@ void main() {
       expect(ckbL.actionSave, isNot(arL.actionSave));
     });
 
-    test('mushafRiwayahLabel names the chrome edition, not the Quran', () async {
+    test('mushafRiwayahLabel names the chrome edition, not the Quran',
+        () async {
       // It names the riwāyah (Ḥafṣ ʿan ʿĀṣim) — never "the Quran" in the
       // absolute (design 12 §8). Proper nouns stay in Arabic script in every
       // locale; the surrounding chrome words are transcreated.

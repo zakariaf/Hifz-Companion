@@ -13,13 +13,23 @@ on:
 #  gate 2  visual-diff (604 muṣḥaf pages)      → golden + journeys
 #  gate 3  engine golden vectors               → fast (dart test engine/)
 #  gate 4  invariant property tests            → fast (dart test engine/, glados)
-#  gate 5  localization & RTL                  → restraint (check_l10n_complete:
-#                                                key coverage + hardcoded/physical/
-#                                                ASCII greps + adab lint, with its
-#                                                meta-test + adab unit suite) +
-#                                                fast (analyze = compile key-
-#                                                coverage half) + golden (RTL/
-#                                                numeral goldens, E09-T10)
+#  gate 5  localization & RTL                  → restraint (check_l10n_complete,
+#                                                the E09 layered gate: key-coverage
+#                                                superset + hardcoded-string +
+#                                                physical-side + hardcoded-
+#                                                Directionality + legacy-bidi-
+#                                                embedding + ASCII-digit greps +
+#                                                adab lint + canonical-ckb lint +
+#                                                Arabic six-plural check; with its
+#                                                deliberate-violation meta-test and
+#                                                the adab/ckb/plural package:test
+#                                                suites) + fast (analyze = the
+#                                                compile-time key-coverage half via
+#                                                nullable-getter:false; the font-
+#                                                independent per-locale RTL+numeral
+#                                                aggregation) + golden (the pinned-
+#                                                Linux per-locale RTL/numeral
+#                                                masters, E09-T10)
 #  gate 5  date correctness T1–T10             → fast (engine vectors T1–T7/T10 via
 #                                                dart test + l10n numerals T8 /
 #                                                round-trip T6/T7 / reference T9 via
