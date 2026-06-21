@@ -58,6 +58,28 @@ class AppLocalizationsFa extends AppLocalizations {
   }
 
   @override
+  String catchUpDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count روز در برنامهٔ جبران',
+      one: '$count روز در برنامهٔ جبران',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signOffCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count تأیید',
+      one: '$count تأیید',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String trackFar(String region) {
     String _temp0 = intl.Intl.selectLogic(
       region,

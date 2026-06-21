@@ -105,6 +105,14 @@ perl -CO -pe 's/("navToday":\s*")/${1}\x{0643}/' "$arb_bak" >"$arb"
 expect_fail "a non-canonical Sorani code point" "non-canonical Sorani"
 cp "$arb_bak" "$arb"
 
+# I. Incomplete Arabic plural — drop few/many from pagesDue in app_ar.arb.
+ar="packages/l10n/lib/src/arb/app_ar.arb"
+ar_bak2="$(mktemp)"
+cp "$ar" "$ar_bak2"
+perl -0pe 's/ few\{[^}]*\{count\}[^}]*\} many\{[^}]*\{count\}[^}]*\}//' "$ar_bak2" >"$ar"
+expect_fail "an incomplete Arabic plural (missing few/many)" "incomplete Arabic ICU plural"
+cp "$ar_bak2" "$ar" && rm -f "$ar_bak2"
+
 # Final: the restored tree passes again.
 expect_pass "restored tree passes"
 

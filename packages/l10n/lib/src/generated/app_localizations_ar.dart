@@ -62,6 +62,36 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String catchUpDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count يوم في خطة التدارك',
+      many: '$count يوماً في خطة التدارك',
+      few: '$count أيام في خطة التدارك',
+      two: 'يومان في خطة التدارك',
+      one: 'يوم واحد في خطة التدارك',
+      zero: 'لا أيام للتدارك',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signOffCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count اعتماد',
+      many: '$count اعتماداً',
+      few: '$count اعتمادات',
+      two: 'اعتمادان',
+      one: 'اعتماد واحد',
+      zero: 'لا اعتمادات',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String trackFar(String region) {
     String _temp0 = intl.Intl.selectLogic(
       region,

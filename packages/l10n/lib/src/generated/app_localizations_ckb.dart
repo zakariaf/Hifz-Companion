@@ -58,6 +58,28 @@ class AppLocalizationsCkb extends AppLocalizations {
   }
 
   @override
+  String catchUpDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ڕۆژ لە پلانی قەرەبووکردنەوە',
+      one: '$count ڕۆژ لە پلانی قەرەبووکردنەوە',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signOffCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count پەسەندکردن',
+      one: '$count پەسەندکردن',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String trackFar(String region) {
     String _temp0 = intl.Intl.selectLogic(
       region,

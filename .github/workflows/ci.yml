@@ -138,6 +138,7 @@ jobs:
           dart test tool/test/verify_asset_integrity_test.dart
           dart test tool/test/check_adab_lint_test.dart
           dart test tool/test/check_ckb_canonical_test.dart
+          dart test tool/test/check_arb_plurals_test.dart
       - name: REUSE license clarity (per-file SPDX GPL-3.0-or-later)
         uses: fsfe/reuse-action@v6
 

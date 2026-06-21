@@ -12,6 +12,8 @@
   "mushafRiwayahLabel": "روایت حفص از عاصم — مصحف مدینه",
   "juzLabel": "جزء {juz}",
   "pagesDue": "{count, plural, one{{count} صفحه برای مرور} other{{count} صفحه برای مرور}}",
+  "catchUpDays": "{count, plural, one{{count} روز در برنامهٔ جبران} other{{count} روز در برنامهٔ جبران}}",
+  "signOffCount": "{count, plural, one{{count} تأیید} other{{count} تأیید}}",
   "trackFar": "{region, select, levant{منزل} subcontinent{دور} other{منزل}}",
   "hijriUmmAlQuraQualifier": "(Umm al-Qurā)",
   "hijriCivilApproximationCaveat": "تاریخ هجریِ قمری یک تقویم مدنیِ تقریبی (اُمّ‌القُرا) است؛ آغاز برخی مناسبت‌ها ممکن است بر پایهٔ رؤیت هلال یک روز متفاوت باشد.",

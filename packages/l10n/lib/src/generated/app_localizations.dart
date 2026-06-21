@@ -175,6 +175,18 @@ abstract class AppLocalizations {
   /// **'{count, plural, zero{لا صفحات مستحقة للمراجعة} one{صفحة واحدة مستحقة للمراجعة} two{صفحتان مستحقتان للمراجعة} few{{count} صفحات مستحقة للمراجعة} many{{count} صفحة مستحقة للمراجعة} other{{count} صفحة مستحقة للمراجعة}}'**
   String pagesDue(int count);
 
+  /// Count of days in the missed-day catch-up plan (the ui-catch-up-banner). ICU plural with all six Arabic CLDR categories. Calm, supportive, located-revisit register — never 'behind'/'overdue'/guilt; the zero form is a neutral fact, not a celebration. {count} is locale-numeral-shaped before placement. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, zero{لا أيام للتدارك} one{يوم واحد في خطة التدارك} two{يومان في خطة التدارك} few{{count} أيام في خطة التدارك} many{{count} يوماً في خطة التدارك} other{{count} يوم في خطة التدارك}}'**
+  String catchUpDays(int count);
+
+  /// Count of teacher (talaqqī) sign-offs (the teacher/halaqa surface). ICU plural with all six Arabic CLDR categories. Servant-to-the-teacher register; neutral, no score/badge/celebration. {count} is locale-numeral-shaped before placement. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, zero{لا اعتمادات} one{اعتماد واحد} two{اعتمادان} few{{count} اعتمادات} many{{count} اعتماداً} other{{count} اعتماد}}'**
+  String signOffCount(int count);
+
   /// Far-revision track label (the consolidated-revision track); varies by regional tradition — 'manzil' in the Levant/Arab term-set, 'dhor' (دور) in the subcontinent. ICU select over a region key, seeding the one-file term-set swap shape E09-T09 builds out (the full sabaq/sabqi/manzil + grade-verb term-sets are E09-T09). TERM-SET vocabulary: NEEDS scholar review and ships provisional; no track/grade/cycle word is hard-coded in any widget. Best-effort fa/ckb.
   ///
   /// In ar, this message translates to:

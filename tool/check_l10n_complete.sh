@@ -123,4 +123,9 @@ if ! dart run tool/check_ckb_canonical.dart; then
   status=1
 fi
 
+# ── Layer I — Arabic six-category ICU-plural completeness (E09-T07). ──
+if ! dart run tool/check_arb_plurals.dart; then
+  status=1
+fi
+
 exit "$status"

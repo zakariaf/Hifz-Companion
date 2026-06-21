@@ -12,6 +12,8 @@
   "mushafRiwayahLabel": "ڕیوایەتی حەفس لە عاسم — موسحەفی مەدینە",
   "juzLabel": "جوزی {juz}",
   "pagesDue": "{count, plural, one{{count} پەڕە بۆ پێداچوونەوە} other{{count} پەڕە بۆ پێداچوونەوە}}",
+  "catchUpDays": "{count, plural, one{{count} ڕۆژ لە پلانی قەرەبووکردنەوە} other{{count} ڕۆژ لە پلانی قەرەبووکردنەوە}}",
+  "signOffCount": "{count, plural, one{{count} پەسەندکردن} other{{count} پەسەندکردن}}",
   "trackFar": "{region, select, levant{مەنزیل} subcontinent{دەور} other{مەنزیل}}",
   "hijriUmmAlQuraQualifier": "(Umm al-Qurā)",
   "hijriCivilApproximationCaveat": "ڕێکەوتی کۆچیی مانگی ساڵنامەیەکی مەدەنیی نزیکەییە (ئوم القورا)؛ لەوانەیە دەستپێکی هەندێک بۆنە بەپێی بینینی مانگ بە ڕۆژێک جیاواز بێت.",
