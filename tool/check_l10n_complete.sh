@@ -79,6 +79,18 @@ if [ -n "$physical" ]; then
   status=1
 fi
 
+# ── Layer G — no hardcoded app-wide Directionality (E09-T04). ──
+# RTL is locale-derived; only the two sanctioned islands (forced_ltr.dart,
+# language_preview.dart) may construct a Directionality. `.of(...)` reads pass.
+directionality="$(grep -rnE "Directionality\(" "${roots[@]}" packages/l10n/lib 2>/dev/null |
+  grep -v 'Directionality\.of' | grep -vE "$comment" | grep -v '/generated/' |
+  grep -vE '(forced_ltr|language_preview)\.dart' || true)"
+if [ -n "$directionality" ]; then
+  echo "::error::check_l10n_complete: hardcoded Directionality — RTL is locale-derived; only forced_ltr.dart / language_preview.dart may set it (engineering 12 §2):" >&2
+  echo "$directionality" >&2
+  status=1
+fi
+
 # ── Layer D — ASCII-digit interpolation into a user-facing string. ──
 # Dart: a $identifier or .toString() inside a Text(…); ARB: a $-splice in a value.
 # An ICU {placeholder} (no $) and a pre-formatted isolate(…) run pass.

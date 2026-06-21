@@ -68,6 +68,12 @@ printf "%s\n" "const a = Alignment.centerLeft;" >"$probe"
 expect_fail "Alignment.centerLeft" "physical-side layout"
 rm -f "$probe"
 
+# G. Hardcoded app-wide Directionality (RTL must be locale-derived).
+printf "%s\n" "import 'package:flutter/material.dart';" \
+  "final d = Directionality(textDirection: TextDirection.rtl, child: SizedBox());" >"$probe"
+expect_fail "a hardcoded Directionality" "hardcoded Directionality"
+rm -f "$probe"
+
 # D. ASCII-digit interpolation into a user-facing string.
 printf "%s\n" "import 'package:flutter/material.dart';" \
   "Widget c(int n) => Text('Page ' + n.toString());" >"$probe"
