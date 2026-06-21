@@ -7,6 +7,9 @@
 library;
 
 export 'a11y/clamped_text_scaling.dart';
+export 'grade/grade_band.dart';
+export 'grade/grade_choice.dart';
+export 'grade/teacher_signoff_toggle.dart';
 export 'heatmap/heat_level.dart';
 export 'heatmap/heatmap_cell.dart';
 export 'heatmap/heatmap_cell_data.dart';

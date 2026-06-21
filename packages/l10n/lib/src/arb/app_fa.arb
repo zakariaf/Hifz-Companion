@@ -75,5 +75,12 @@
   "stateWeak": "ضعیف",
   "stateSignedOff": "تأیید استاد",
   "stateDone": "امروز مرور شد",
-  "stateLocked": "قفل‌شده توسط معلم"
+  "stateLocked": "قفل‌شده توسط معلم",
+  "gradeAgainSemantics": "نیاز به کمک داشتم — برای مرور به‌زودی",
+  "gradeHardSemantics": "اشتباه‌های جزئی — مرور نزدیک‌تر",
+  "gradeGoodSemantics": "تلاوت روان — در موعد عادی",
+  "gradeEasySemantics": "بی‌زحمت — با فاصلهٔ بیشتر",
+  "gradeBandWaitingHint": "برای ارزیابی، صفحه را آشکار کنید",
+  "teacherSignoffLabel": "استاد حاضر است",
+  "teacherSignoffSupporting": "تا استادتان تأیید کند"
 }

@@ -409,4 +409,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get stateLocked => 'مقفلة من المعلّم';
+
+  @override
+  String get gradeAgainSemantics => 'احتجت إلى مساعدة — للمراجعة قريباً';
+
+  @override
+  String get gradeHardSemantics => 'أخطاء يسيرة — للمراجعة عن قرب';
+
+  @override
+  String get gradeGoodSemantics => 'تلاوة سليمة — في موعدها';
+
+  @override
+  String get gradeEasySemantics => 'بلا تكلّف — بمباعدة أطول';
+
+  @override
+  String get gradeBandWaitingHint => 'اكشف الصفحة لتقييمها';
+
+  @override
+  String get teacherSignoffLabel => 'المعلّم حاضر';
+
+  @override
+  String get teacherSignoffSupporting => 'ليؤكّدها معلّمك';
 }

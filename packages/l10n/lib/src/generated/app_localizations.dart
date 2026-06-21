@@ -558,6 +558,48 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'مقفلة من المعلّم'**
   String get stateLocked;
+
+  /// Screen-reader phrase for the AGAIN grade button — verdict + consequence. The consequence is the CALM 'for review soon': a located weak join to revisit, NEVER 'you failed'/'lost the page' (C-003). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'احتجت إلى مساعدة — للمراجعة قريباً'**
+  String get gradeAgainSemantics;
+
+  /// Screen-reader phrase for the HARD grade — verdict + calm consequence (revisited sooner). Never shame. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'أخطاء يسيرة — للمراجعة عن قرب'**
+  String get gradeHardSemantics;
+
+  /// Screen-reader phrase for the GOOD grade — verdict + calm consequence (kept on its usual schedule). No praise/celebration (C-045). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تلاوة سليمة — في موعدها'**
+  String get gradeGoodSemantics;
+
+  /// Screen-reader phrase for the EASY grade — verdict + calm consequence (revision spaces out). NEVER 'mastered'/'safe to drop' (C-019). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'بلا تكلّف — بمباعدة أطول'**
+  String get gradeEasySemantics;
+
+  /// Calm hint shown when the grade band is disabled before the page is revealed (reveal-on-tap, E12) — styled as WAITING, not an error or a dead button (design 07 §6). 'Reveal the page to grade it.' PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'اكشف الصفحة لتقييمها'**
+  String get gradeBandWaitingHint;
+
+  /// Label for the teacher (talaqqī) sign-off Switch — 'Teacher present'. OFF by default. Servant-to-the-teacher (C-021, C-038). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'المعلّم حاضر'**
+  String get teacherSignoffLabel;
+
+  /// Autonomy-supportive supporting copy under the teacher sign-off Switch — 'for your teacher to confirm'. NEVER commanding ('you must have a teacher'); the app is servant, not authority (C-046). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'ليؤكّدها معلّمك'**
+  String get teacherSignoffSupporting;
 }
 
 class _AppLocalizationsDelegate

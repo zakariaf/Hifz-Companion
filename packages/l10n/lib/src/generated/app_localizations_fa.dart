@@ -398,4 +398,25 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get stateLocked => 'قفل‌شده توسط معلم';
+
+  @override
+  String get gradeAgainSemantics => 'نیاز به کمک داشتم — برای مرور به‌زودی';
+
+  @override
+  String get gradeHardSemantics => 'اشتباه‌های جزئی — مرور نزدیک‌تر';
+
+  @override
+  String get gradeGoodSemantics => 'تلاوت روان — در موعد عادی';
+
+  @override
+  String get gradeEasySemantics => 'بی‌زحمت — با فاصلهٔ بیشتر';
+
+  @override
+  String get gradeBandWaitingHint => 'برای ارزیابی، صفحه را آشکار کنید';
+
+  @override
+  String get teacherSignoffLabel => 'استاد حاضر است';
+
+  @override
+  String get teacherSignoffSupporting => 'تا استادتان تأیید کند';
 }

@@ -422,5 +422,33 @@
   "stateLocked": "مقفلة من المعلّم",
   "@stateLocked": {
     "description": "Page-card state, spoken in the merged Semantics phrase: the page is locked by a teacher's manual_lock — a human (talaqqī) override, servant-to-the-teacher, never an alarm or punishment. Paired with a distinct lock glyph, never colour alone. Consumed by E12/E16. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "gradeAgainSemantics": "احتجت إلى مساعدة — للمراجعة قريباً",
+  "@gradeAgainSemantics": {
+    "description": "Screen-reader phrase for the AGAIN grade button — verdict + consequence. The consequence is the CALM 'for review soon': a located weak join to revisit, NEVER 'you failed'/'lost the page' (C-003). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "gradeHardSemantics": "أخطاء يسيرة — للمراجعة عن قرب",
+  "@gradeHardSemantics": {
+    "description": "Screen-reader phrase for the HARD grade — verdict + calm consequence (revisited sooner). Never shame. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "gradeGoodSemantics": "تلاوة سليمة — في موعدها",
+  "@gradeGoodSemantics": {
+    "description": "Screen-reader phrase for the GOOD grade — verdict + calm consequence (kept on its usual schedule). No praise/celebration (C-045). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "gradeEasySemantics": "بلا تكلّف — بمباعدة أطول",
+  "@gradeEasySemantics": {
+    "description": "Screen-reader phrase for the EASY grade — verdict + calm consequence (revision spaces out). NEVER 'mastered'/'safe to drop' (C-019). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "gradeBandWaitingHint": "اكشف الصفحة لتقييمها",
+  "@gradeBandWaitingHint": {
+    "description": "Calm hint shown when the grade band is disabled before the page is revealed (reveal-on-tap, E12) — styled as WAITING, not an error or a dead button (design 07 §6). 'Reveal the page to grade it.' PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "teacherSignoffLabel": "المعلّم حاضر",
+  "@teacherSignoffLabel": {
+    "description": "Label for the teacher (talaqqī) sign-off Switch — 'Teacher present'. OFF by default. Servant-to-the-teacher (C-021, C-038). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "teacherSignoffSupporting": "ليؤكّدها معلّمك",
+  "@teacherSignoffSupporting": {
+    "description": "Autonomy-supportive supporting copy under the teacher sign-off Switch — 'for your teacher to confirm'. NEVER commanding ('you must have a teacher'); the app is servant, not authority (C-046). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
   }
 }

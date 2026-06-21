@@ -397,4 +397,26 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get stateLocked => 'لەلایەن مامۆستاوە قوفڵکراوە';
+
+  @override
+  String get gradeAgainSemantics =>
+      'پێویستم بە یارمەتی بوو — بۆ پێداچوونەوەی نزیک';
+
+  @override
+  String get gradeHardSemantics => 'هەڵەی بچووک — پێداچوونەوەی نزیکتر';
+
+  @override
+  String get gradeGoodSemantics => 'خوێندنەوەیەکی ڕێک — لە کاتی ئاسایی';
+
+  @override
+  String get gradeEasySemantics => 'بێ ماندووبوون — بە ماوەیەکی درێژتر';
+
+  @override
+  String get gradeBandWaitingHint => 'بۆ هەڵسەنگاندن، پەڕەکە دەربخە';
+
+  @override
+  String get teacherSignoffLabel => 'مامۆستا ئامادەیە';
+
+  @override
+  String get teacherSignoffSupporting => 'بۆ ئەوەی مامۆستاکەت پەسەندی بکات';
 }

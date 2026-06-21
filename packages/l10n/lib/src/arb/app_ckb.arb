@@ -75,5 +75,12 @@
   "stateWeak": "لاواز",
   "stateSignedOff": "پەسەندی مامۆستا",
   "stateDone": "ئەمڕۆ پێداچوونەوەی بۆ کرا",
-  "stateLocked": "لەلایەن مامۆستاوە قوفڵکراوە"
+  "stateLocked": "لەلایەن مامۆستاوە قوفڵکراوە",
+  "gradeAgainSemantics": "پێویستم بە یارمەتی بوو — بۆ پێداچوونەوەی نزیک",
+  "gradeHardSemantics": "هەڵەی بچووک — پێداچوونەوەی نزیکتر",
+  "gradeGoodSemantics": "خوێندنەوەیەکی ڕێک — لە کاتی ئاسایی",
+  "gradeEasySemantics": "بێ ماندووبوون — بە ماوەیەکی درێژتر",
+  "gradeBandWaitingHint": "بۆ هەڵسەنگاندن، پەڕەکە دەربخە",
+  "teacherSignoffLabel": "مامۆستا ئامادەیە",
+  "teacherSignoffSupporting": "بۆ ئەوەی مامۆستاکەت پەسەندی بکات"
 }
