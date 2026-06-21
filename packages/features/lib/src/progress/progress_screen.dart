@@ -14,7 +14,7 @@ class ProgressScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SectionPlaceholder(
-        title: AppLocalizations.of(context)!.navProgress,
+        title: AppLocalizations.of(context).navProgress,
         identifier: 'screen.progress',
       );
 }

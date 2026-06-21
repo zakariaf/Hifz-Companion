@@ -15,6 +15,62 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get appTitle => 'Hifz Companion';
 
   @override
+  String get actionSave => 'پاشەکەوت';
+
+  @override
+  String get actionCancel => 'پاشگەزبوونەوە';
+
+  @override
+  String get actionConfirm => 'پشتڕاستکردنەوە';
+
+  @override
+  String get actionUndo => 'گەڕاندنەوە';
+
+  @override
+  String get actionRetry => 'هەوڵدانەوە';
+
+  @override
+  String get actionClose => 'داخستن';
+
+  @override
+  String get actionBack => 'گەڕانەوە';
+
+  @override
+  String get actionNext => 'دواتر';
+
+  @override
+  String get mushafRiwayahLabel => 'ڕیوایەتی حەفس لە عاسم — موسحەفی مەدینە';
+
+  @override
+  String juzLabel(String juz) {
+    return 'جوزی $juz';
+  }
+
+  @override
+  String pagesDue(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count پەڕە بۆ پێداچوونەوە',
+      one: '$count پەڕە بۆ پێداچوونەوە',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String trackFar(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'levant': 'مەنزیل',
+        'subcontinent': 'دەور',
+        'other': 'مەنزیل',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get hijriUmmAlQuraQualifier => '(Umm al-Qurā)';
 
   @override

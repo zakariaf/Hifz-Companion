@@ -67,7 +67,7 @@ void main() {
             return TextButton(
               onPressed: () => announceState(
                 context,
-                pick(AppLocalizations.of(context)!),
+                pick(AppLocalizations.of(context)),
               ),
               child: const Text('go'),
             );

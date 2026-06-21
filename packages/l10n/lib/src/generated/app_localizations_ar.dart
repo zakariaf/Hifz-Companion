@@ -15,6 +15,66 @@ class AppLocalizationsAr extends AppLocalizations {
   String get appTitle => 'Hifz Companion';
 
   @override
+  String get actionSave => 'حفظ';
+
+  @override
+  String get actionCancel => 'إلغاء';
+
+  @override
+  String get actionConfirm => 'تأكيد';
+
+  @override
+  String get actionUndo => 'تراجع';
+
+  @override
+  String get actionRetry => 'إعادة المحاولة';
+
+  @override
+  String get actionClose => 'إغلاق';
+
+  @override
+  String get actionBack => 'رجوع';
+
+  @override
+  String get actionNext => 'التالي';
+
+  @override
+  String get mushafRiwayahLabel => 'رواية حفص عن عاصم — مصحف المدينة';
+
+  @override
+  String juzLabel(String juz) {
+    return 'الجزء $juz';
+  }
+
+  @override
+  String pagesDue(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count صفحة مستحقة للمراجعة',
+      many: '$count صفحة مستحقة للمراجعة',
+      few: '$count صفحات مستحقة للمراجعة',
+      two: 'صفحتان مستحقتان للمراجعة',
+      one: 'صفحة واحدة مستحقة للمراجعة',
+      zero: 'لا صفحات مستحقة للمراجعة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String trackFar(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'levant': 'منزل',
+        'subcontinent': 'دور',
+        'other': 'منزل',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get hijriUmmAlQuraQualifier => '(Umm al-Qurā)';
 
   @override

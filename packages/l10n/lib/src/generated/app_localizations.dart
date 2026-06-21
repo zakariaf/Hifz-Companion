@@ -71,8 +71,8 @@ abstract class AppLocalizations {
 
   final String localeName;
 
-  static AppLocalizations? of(BuildContext context) {
-    return Localizations.of<AppLocalizations>(context, AppLocalizations);
+  static AppLocalizations of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
   }
 
   static const LocalizationsDelegate<AppLocalizations> delegate =
@@ -103,11 +103,83 @@ abstract class AppLocalizations {
     Locale('fa')
   ];
 
-  /// The application name, shown on the placeholder launch screen. Inert placeholder copy with no factual claim; full transcreation for ar/fa/ckb lands in E09.
+  /// The application name, shown on the placeholder launch screen. A proper noun; intentionally identical across locales (not transcreated).
   ///
   /// In ar, this message translates to:
   /// **'Hifz Companion'**
   String get appTitle;
+
+  /// Universal action verb (masdar form, not a command): commit/save the current change. Reused across the app. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'حفظ'**
+  String get actionSave;
+
+  /// Universal action verb: dismiss without committing. Reused across the app. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء'**
+  String get actionCancel;
+
+  /// Universal action verb: confirm an intended action. Reused across the app. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'تأكيد'**
+  String get actionConfirm;
+
+  /// Universal action verb: reverse the last action (e.g. an undo affordance after a grade). Reused across the app. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'تراجع'**
+  String get actionUndo;
+
+  /// Universal action verb: retry a failed local read/write — calm, never a guilt/error-shame message. Reused across the app. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعادة المحاولة'**
+  String get actionRetry;
+
+  /// Universal action verb: close a sheet/dialog. Reused across the app. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'إغلاق'**
+  String get actionClose;
+
+  /// Universal action verb: go back one step. Logical 'previous' — the directional icon mirrors by locale, the word does not (engineering 12 §2). Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'رجوع'**
+  String get actionBack;
+
+  /// Universal action verb: advance one step. Logical 'next' — the directional icon mirrors by locale, the word does not. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'التالي'**
+  String get actionNext;
+
+  /// Chrome label naming the muṣḥaf edition the app renders — the riwāyah (Ḥafṣ ʿan ʿĀṣim) and the muṣḥaf (Madani, 15-line). Names the CHROME edition only; it never speaks for the Quran 'in the absolute', and no localization mechanism (numerals, bidi, mirror, font) ever reaches a muṣḥaf glyph (design 12 §8). The proper nouns Ḥafṣ/ʿĀṣim are kept in Arabic script across locales; fa/ckb transcreate only the surrounding chrome words. needs-scholarly-review. Best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'رواية حفص عن عاصم — مصحف المدينة'**
+  String get mushafRiwayahLabel;
+
+  /// A juz label in chrome (e.g. a Today section header or progress roll-up). {juz} is an ALREADY locale-numeral-formatted, bidi-isolated token from numberFormatFor(locale)/bidi.dart — never a raw int and never concatenated (engineering 12 §4, §5). Demonstrates the foundation 'format → isolate → inject' discipline. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'الجزء {juz}'**
+  String juzLabel(String juz);
+
+  /// Count of muṣḥaf pages due for revision (a Today/heat-map summary line). ICU plural with ALL SIX Arabic CLDR categories (zero/one/two/few/many/other) — a missing category is a grammatical defect, not a cosmetic gap (engineering 12 §6); the static six-category completeness check is E09-T07. Calm loss-prevention register: pages 'due for revision', never 'overdue'/'behind'/guilt. {count} is locale-numeral-shaped by the generated formatter. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, zero{لا صفحات مستحقة للمراجعة} one{صفحة واحدة مستحقة للمراجعة} two{صفحتان مستحقتان للمراجعة} few{{count} صفحات مستحقة للمراجعة} many{{count} صفحة مستحقة للمراجعة} other{{count} صفحة مستحقة للمراجعة}}'**
+  String pagesDue(int count);
+
+  /// Far-revision track label (the consolidated-revision track); varies by regional tradition — 'manzil' in the Levant/Arab term-set, 'dhor' (دور) in the subcontinent. ICU select over a region key, seeding the one-file term-set swap shape E09-T09 builds out (the full sabaq/sabqi/manzil + grade-verb term-sets are E09-T09). TERM-SET vocabulary: NEEDS scholar review and ships provisional; no track/grade/cycle word is hard-coded in any widget. Best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, levant{منزل} subcontinent{دور} other{منزل}}'**
+  String trackFar(String region);
 
   /// Short qualifier appended to a Hijri date, naming the variant as the Umm al-Qurā civil calendar so a Hijri date is never shown as 'the Hijri date' in the absolute. Kept as the romanized proper noun across locales pending E09/E19 review of whether to localize the script. needs-scholarly-review (E19); register as a CLAIMS row — no id, grade, or citation here.
   ///

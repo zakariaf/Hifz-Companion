@@ -14,7 +14,7 @@ class MutashabihatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SectionPlaceholder(
-        title: AppLocalizations.of(context)!.navMutashabihat,
+        title: AppLocalizations.of(context).navMutashabihat,
         identifier: 'screen.mutashabihat',
       );
 }

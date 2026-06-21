@@ -31,7 +31,7 @@ class JuzConfidenceRater extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final space = Theme.of(context).extension<SpacingTokens>()!;
     final numerals =
         numberFormatFor(Localizations.localeOf(context).languageCode);

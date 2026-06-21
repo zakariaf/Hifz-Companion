@@ -22,7 +22,7 @@ class HifzApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
     return MaterialApp.router(
-      onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
+      onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
       localizationsDelegates: hifzLocalizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       theme: mihrabThemeFor(MihrabAppearance.light),

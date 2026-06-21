@@ -41,7 +41,7 @@ class AppearanceSwitcher extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final labels = _labels(l10n);
     return LayoutBuilder(
       builder: (context, constraints) {

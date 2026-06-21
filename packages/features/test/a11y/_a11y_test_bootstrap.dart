@@ -106,7 +106,7 @@ Widget shellChrome({
             ),
     home: Builder(
       builder: (context) {
-        final l10n = AppLocalizations.of(context)!;
+        final l10n = AppLocalizations.of(context);
         final titles = <String>[
           l10n.navMushaf,
           l10n.navMutashabihat,

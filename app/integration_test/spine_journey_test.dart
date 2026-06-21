@@ -55,7 +55,7 @@ void main() {
     expect(find.byType(OnboardingScreen), findsOneWidget);
     final l10n = AppLocalizations.of(
       tester.element(find.byType(OnboardingScreen)),
-    )!;
+    );
 
     // 2. Coverage: hold juz 1 (the first grid cell), then continue.
     await tester.tap(

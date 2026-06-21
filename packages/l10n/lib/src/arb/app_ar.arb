@@ -2,7 +2,70 @@
   "@@locale": "ar",
   "appTitle": "Hifz Companion",
   "@appTitle": {
-    "description": "The application name, shown on the placeholder launch screen. Inert placeholder copy with no factual claim; full transcreation for ar/fa/ckb lands in E09."
+    "description": "The application name, shown on the placeholder launch screen. A proper noun; intentionally identical across locales (not transcreated)."
+  },
+  "actionSave": "حفظ",
+  "@actionSave": {
+    "description": "Universal action verb (masdar form, not a command): commit/save the current change. Reused across the app. Best-effort fa/ckb pending native + scholarly review."
+  },
+  "actionCancel": "إلغاء",
+  "@actionCancel": {
+    "description": "Universal action verb: dismiss without committing. Reused across the app. Best-effort fa/ckb pending native + scholarly review."
+  },
+  "actionConfirm": "تأكيد",
+  "@actionConfirm": {
+    "description": "Universal action verb: confirm an intended action. Reused across the app. Best-effort fa/ckb pending native + scholarly review."
+  },
+  "actionUndo": "تراجع",
+  "@actionUndo": {
+    "description": "Universal action verb: reverse the last action (e.g. an undo affordance after a grade). Reused across the app. Best-effort fa/ckb pending native + scholarly review."
+  },
+  "actionRetry": "إعادة المحاولة",
+  "@actionRetry": {
+    "description": "Universal action verb: retry a failed local read/write — calm, never a guilt/error-shame message. Reused across the app. Best-effort fa/ckb pending native + scholarly review."
+  },
+  "actionClose": "إغلاق",
+  "@actionClose": {
+    "description": "Universal action verb: close a sheet/dialog. Reused across the app. Best-effort fa/ckb pending native + scholarly review."
+  },
+  "actionBack": "رجوع",
+  "@actionBack": {
+    "description": "Universal action verb: go back one step. Logical 'previous' — the directional icon mirrors by locale, the word does not (engineering 12 §2). Best-effort fa/ckb pending native + scholarly review."
+  },
+  "actionNext": "التالي",
+  "@actionNext": {
+    "description": "Universal action verb: advance one step. Logical 'next' — the directional icon mirrors by locale, the word does not. Best-effort fa/ckb pending native + scholarly review."
+  },
+  "mushafRiwayahLabel": "رواية حفص عن عاصم — مصحف المدينة",
+  "@mushafRiwayahLabel": {
+    "description": "Chrome label naming the muṣḥaf edition the app renders — the riwāyah (Ḥafṣ ʿan ʿĀṣim) and the muṣḥaf (Madani, 15-line). Names the CHROME edition only; it never speaks for the Quran 'in the absolute', and no localization mechanism (numerals, bidi, mirror, font) ever reaches a muṣḥaf glyph (design 12 §8). The proper nouns Ḥafṣ/ʿĀṣim are kept in Arabic script across locales; fa/ckb transcreate only the surrounding chrome words. needs-scholarly-review. Best-effort fa/ckb."
+  },
+  "juzLabel": "الجزء {juz}",
+  "@juzLabel": {
+    "description": "A juz label in chrome (e.g. a Today section header or progress roll-up). {juz} is an ALREADY locale-numeral-formatted, bidi-isolated token from numberFormatFor(locale)/bidi.dart — never a raw int and never concatenated (engineering 12 §4, §5). Demonstrates the foundation 'format → isolate → inject' discipline. Best-effort fa/ckb pending native + scholarly review.",
+    "placeholders": {
+      "juz": {
+        "type": "String"
+      }
+    }
+  },
+  "pagesDue": "{count, plural, zero{لا صفحات مستحقة للمراجعة} one{صفحة واحدة مستحقة للمراجعة} two{صفحتان مستحقتان للمراجعة} few{{count} صفحات مستحقة للمراجعة} many{{count} صفحة مستحقة للمراجعة} other{{count} صفحة مستحقة للمراجعة}}",
+  "@pagesDue": {
+    "description": "Count of muṣḥaf pages due for revision (a Today/heat-map summary line). ICU plural with ALL SIX Arabic CLDR categories (zero/one/two/few/many/other) — a missing category is a grammatical defect, not a cosmetic gap (engineering 12 §6); the static six-category completeness check is E09-T07. Calm loss-prevention register: pages 'due for revision', never 'overdue'/'behind'/guilt. {count} is locale-numeral-shaped by the generated formatter. Best-effort fa/ckb pending native + scholarly review.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "trackFar": "{region, select, levant{منزل} subcontinent{دور} other{منزل}}",
+  "@trackFar": {
+    "description": "Far-revision track label (the consolidated-revision track); varies by regional tradition — 'manzil' in the Levant/Arab term-set, 'dhor' (دور) in the subcontinent. ICU select over a region key, seeding the one-file term-set swap shape E09-T09 builds out (the full sabaq/sabqi/manzil + grade-verb term-sets are E09-T09). TERM-SET vocabulary: NEEDS scholar review and ships provisional; no track/grade/cycle word is hard-coded in any widget. Best-effort fa/ckb.",
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
   },
   "hijriUmmAlQuraQualifier": "(Umm al-Qurā)",
   "@hijriUmmAlQuraQualifier": {

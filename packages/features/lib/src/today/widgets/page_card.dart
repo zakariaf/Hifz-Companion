@@ -47,7 +47,7 @@ class _PageCardState extends State<PageCard> {
   @override
   Widget build(BuildContext context) {
     final card = widget.card;
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final space = theme.extension<SpacingTokens>()!;
     final numerals =
@@ -101,7 +101,7 @@ class _TrackChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final colors = theme.extension<MihrabColors>()!;
     final space = theme.extension<SpacingTokens>()!;
@@ -135,7 +135,7 @@ class _DecayIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final colors = theme.extension<MihrabColors>()!;
     return Semantics(
@@ -162,7 +162,7 @@ class _GradeBand extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final space = Theme.of(context).extension<SpacingTokens>()!;
     final grades = <(ReviewGrade, String)>[
       (ReviewGrade.again, l10n.gradeAgain),

@@ -24,7 +24,7 @@ class TodayScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final queue = ref.watch(todayQueueProvider);
 
     Future<void> grade(Card card, ReviewGrade reviewGrade) async {

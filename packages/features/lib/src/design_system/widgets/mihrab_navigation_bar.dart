@@ -39,7 +39,7 @@ class MihrabNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final items = <_NavItem>[
       _NavItem(Icons.wb_sunny_outlined, Icons.wb_sunny, l10n.navToday),
       _NavItem(Icons.menu_book_outlined, Icons.menu_book, l10n.navMushaf),

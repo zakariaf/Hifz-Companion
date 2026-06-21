@@ -112,7 +112,7 @@ class StateChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final space = theme.extension<SpacingTokens>()!;
     final channels = _channelsFor(state, l10n, theme);

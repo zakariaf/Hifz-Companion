@@ -70,7 +70,7 @@ Widget _gallery(MihrabAppearance appearance, Locale locale) {
     theme: mihrabThemeFor(appearance),
     home: Builder(
       builder: (context) {
-        final l10n = AppLocalizations.of(context)!;
+        final l10n = AppLocalizations.of(context);
         return MihrabScaffold(
           bottomNavigationBar: MihrabNavigationBar(
             selectedIndex: 0,

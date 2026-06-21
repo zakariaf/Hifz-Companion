@@ -27,7 +27,7 @@ void main() {
     await tester.pumpAndSettle();
 
     final BuildContext context = tester.element(find.byType(PlaceholderScreen));
-    final AppLocalizations l10n = AppLocalizations.of(context)!;
+    final AppLocalizations l10n = AppLocalizations.of(context);
     expect(find.text(l10n.appTitle), findsOneWidget);
     expect(Directionality.of(context), TextDirection.rtl);
   });
