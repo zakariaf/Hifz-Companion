@@ -145,6 +145,11 @@ class AppLocalizationsFa extends AppLocalizations {
   String get onboardingNotHeld => 'حفظ‌نشده';
 
   @override
+  String onboardingCoverageCellLabel(String juz, String state) {
+    return '$juz — $state';
+  }
+
+  @override
   String get todayEmpty => 'در حال حاضر صفحه‌ای برای مرور نیست.';
 
   @override

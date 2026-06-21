@@ -163,6 +163,18 @@
   "@onboardingNotHeld": {
     "description": "Accessibility/state word for an un-held juz cell — calm, never 'missing'/'0%'. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
   },
+  "onboardingCoverageCellLabel": "{juz} — {state}",
+  "@onboardingCoverageCellLabel": {
+    "description": "Screen-reader label for one juz coverage cell, composing the juz numeral and its held/not-held state. Both parts arrive ALREADY localized — {juz} pre-formatted in locale numerals (numberFormatFor) and {state} from onboardingHeld/onboardingNotHeld — so the composition (and its separator) live in ARB, never concatenated in a widget (engineering 12 §4). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.",
+    "placeholders": {
+      "juz": {
+        "type": "String"
+      },
+      "state": {
+        "type": "String"
+      }
+    }
+  },
   "todayEmpty": "لا توجد صفحات مستحقة الآن.",
   "@todayEmpty": {
     "description": "Calm Today empty state when no page is due right now — neutral, never 'done'/'safe to stop'/'all caught up' celebration (nothing is ever safe to drop). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."

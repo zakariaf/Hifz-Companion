@@ -144,6 +144,11 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get onboardingNotHeld => 'لەبەرنەکراو';
 
   @override
+  String onboardingCoverageCellLabel(String juz, String state) {
+    return '$juz — $state';
+  }
+
+  @override
   String get todayEmpty => 'لە ئێستادا هیچ پەڕەیەک نییە بۆ پێداچوونەوە.';
 
   @override

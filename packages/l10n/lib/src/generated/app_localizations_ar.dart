@@ -148,6 +148,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get onboardingNotHeld => 'غير محفوظ';
 
   @override
+  String onboardingCoverageCellLabel(String juz, String state) {
+    return '$juz — $state';
+  }
+
+  @override
   String get todayEmpty => 'لا توجد صفحات مستحقة الآن.';
 
   @override

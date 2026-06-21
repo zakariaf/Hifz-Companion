@@ -325,6 +325,12 @@ abstract class AppLocalizations {
   /// **'غير محفوظ'**
   String get onboardingNotHeld;
 
+  /// Screen-reader label for one juz coverage cell, composing the juz numeral and its held/not-held state. Both parts arrive ALREADY localized — {juz} pre-formatted in locale numerals (numberFormatFor) and {state} from onboardingHeld/onboardingNotHeld — so the composition (and its separator) live in ARB, never concatenated in a widget (engineering 12 §4). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'{juz} — {state}'**
+  String onboardingCoverageCellLabel(String juz, String state);
+
   /// Calm Today empty state when no page is due right now — neutral, never 'done'/'safe to stop'/'all caught up' celebration (nothing is ever safe to drop). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///
   /// In ar, this message translates to:

@@ -37,6 +37,7 @@
   "onboardingRetry": "هەوڵدانەوە",
   "onboardingHeld": "لەبەرکراو",
   "onboardingNotHeld": "لەبەرنەکراو",
+  "onboardingCoverageCellLabel": "{juz} — {state}",
   "todayEmpty": "لە ئێستادا هیچ پەڕەیەک نییە بۆ پێداچوونەوە.",
   "commonRetry": "هەوڵدانەوە",
   "pageNumber": "پەڕەی {pageNumber}",

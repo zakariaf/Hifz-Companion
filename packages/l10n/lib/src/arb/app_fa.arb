@@ -37,6 +37,7 @@
   "onboardingRetry": "تلاش دوباره",
   "onboardingHeld": "حفظ‌شده",
   "onboardingNotHeld": "حفظ‌نشده",
+  "onboardingCoverageCellLabel": "{juz} — {state}",
   "todayEmpty": "در حال حاضر صفحه‌ای برای مرور نیست.",
   "commonRetry": "تلاش دوباره",
   "pageNumber": "صفحهٔ {pageNumber}",

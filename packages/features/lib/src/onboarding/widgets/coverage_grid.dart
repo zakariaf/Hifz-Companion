@@ -73,10 +73,11 @@ class _JuzCell extends StatelessWidget {
     final scheme = theme.colorScheme;
     final space = theme.extension<SpacingTokens>()!;
     final radius = BorderRadius.circular(space.space3);
+    final l10n = AppLocalizations.of(context);
     return Semantics(
       button: true,
       selected: held,
-      label: '$numeral — $stateLabel',
+      label: l10n.onboardingCoverageCellLabel(numeral, stateLabel),
       child: InkWell(
         onTap: onTap,
         borderRadius: radius,
