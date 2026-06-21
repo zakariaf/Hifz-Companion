@@ -55,6 +55,23 @@ NumberFormat numberFormatFor(Locale locale) {
 String formatLocaleNumber(Locale locale, num value) =>
     toLocaleNumerals(numberFormatFor(locale).format(value), locale);
 
+/// THE only `int` → chrome-text shaper for an **index** — a muṣḥaf page number,
+/// a juz index, a day count: formats with **no grouping separator** (a 3-digit
+/// page must read `۲۵۳`, never with a thousands artifact) and pins the locale
+/// digit block via [toLocaleNumerals] (Extended Arabic-Indic for fa/ckb,
+/// Arabic-Indic for ar). `int.toString()` is grouping-free by construction, so
+/// the block remap is the only transform.
+///
+/// Distinct from [formatLocaleNumber], which is the general-number path and
+/// applies the locale's grouping (a thousands separator) — right for a measured
+/// quantity, wrong for an index. Use [localeDigits] for an index,
+/// [formatLocaleNumber] for a quantity. CHROME ONLY — never the muṣḥaf glyph
+/// layer (E05; design 12 §8). A formatted index is a known-direction LTR run:
+/// isolate it with `bidi.dart`'s `isolateLtr` before injecting into a placeholder
+/// — this function never concatenates.
+String localeDigits(int value, Locale locale) =>
+    toLocaleNumerals(value.toString(), locale);
+
 /// Remaps the ASCII digits in [latin] to the active locale's numeral block —
 /// the downstream numeral pass shared by [formatLocaleNumber] and the
 /// calendar-display layer (engineering 12 §5; PRD §13.3).

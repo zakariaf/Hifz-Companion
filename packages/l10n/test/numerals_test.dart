@@ -84,6 +84,45 @@ void main() {
     expect(formatLocaleNumber(const Locale('en'), 7), '7');
   });
 
+  group('localeDigits — the grouping-suppressed index shaper', () {
+    test('fa/ckb render Extended Arabic-Indic only, ar Arabic-Indic only', () {
+      expect(localeDigits(456, const Locale('fa')), '۴۵۶');
+      expect(
+        localeDigits(456, const Locale.fromSubtags(languageCode: 'ckb')),
+        '۴۵۶',
+      );
+      expect(localeDigits(456, const Locale('ar')), '٤٥٦');
+    });
+
+    test('a 3-digit muṣḥaf page index carries no thousands separator', () {
+      // 604 is the largest muṣḥaf page; the output is digits only.
+      final out = localeDigits(604, const Locale('fa'));
+      expect(out, '۶۰۴');
+      expect(
+        out.runes.every((r) => r >= _extendedZero && r <= _extendedNine),
+        isTrue,
+        reason: 'no grouping separator slipped into an index',
+      );
+    });
+
+    test('grouping is suppressed above a thousand (unlike formatLocaleNumber)',
+        () {
+      // localeDigits is the INDEX shaper: 1000 → ۱۰۰۰, no separator. The general
+      // formatLocaleNumber groups (۱٬۰۰۰) — the two have distinct jobs.
+      expect(localeDigits(1000, const Locale('fa')), '۱۰۰۰');
+      expect(
+        formatLocaleNumber(const Locale('fa'), 1000).runes.length,
+        greaterThan(localeDigits(1000, const Locale('fa')).runes.length),
+      );
+    });
+
+    test('no ASCII for a supported locale; passes through when unsupported',
+        () {
+      expect(localeDigits(7, const Locale('fa')), '۷');
+      expect(localeDigits(7, const Locale('en')), '7');
+    });
+  });
+
   test('format -> isolate -> inject round-trips with bidi + the ARB key',
       () async {
     const fa = Locale('fa');

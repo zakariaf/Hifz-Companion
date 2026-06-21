@@ -47,6 +47,11 @@ class AppLocalizationsCkb extends AppLocalizations {
   }
 
   @override
+  String pageJuz(String page, String juz) {
+    return 'پەڕەی $page · جوزی $juz';
+  }
+
+  @override
   String pagesDue(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

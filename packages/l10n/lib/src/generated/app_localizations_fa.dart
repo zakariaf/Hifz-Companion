@@ -47,6 +47,11 @@ class AppLocalizationsFa extends AppLocalizations {
   }
 
   @override
+  String pageJuz(String page, String juz) {
+    return 'صفحهٔ $page · جزء $juz';
+  }
+
+  @override
   String pagesDue(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

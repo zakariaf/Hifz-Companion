@@ -169,6 +169,12 @@ abstract class AppLocalizations {
   /// **'الجزء {juz}'**
   String juzLabel(String juz);
 
+  /// The muṣḥaf page-card headline 'Page N · Juz M' (design 07 §2). {page} and {juz} are ALREADY locale-numeral-formatted AND FSI/PDI-isolated tokens from localizedPageJuz (the numerals/bidi primitive, E10-T01) — never a raw int, never concatenated (engineering 12 §4–§5). The '·' separator and the page-before-juz order are the translator's. A CHROME label, never a muṣḥaf glyph. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'صفحة {page} · الجزء {juz}'**
+  String pageJuz(String page, String juz);
+
   /// Count of muṣḥaf pages due for revision (a Today/heat-map summary line). ICU plural with ALL SIX Arabic CLDR categories (zero/one/two/few/many/other) — a missing category is a grammatical defect, not a cosmetic gap (engineering 12 §6); the static six-category completeness check is E09-T07. Calm loss-prevention register: pages 'due for revision', never 'overdue'/'behind'/guilt. {count} is locale-numeral-shaped by the generated formatter. Best-effort fa/ckb pending native + scholarly review.
   ///
   /// In ar, this message translates to:

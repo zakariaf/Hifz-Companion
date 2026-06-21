@@ -11,6 +11,7 @@
   "actionNext": "دواتر",
   "mushafRiwayahLabel": "ڕیوایەتی حەفس لە عاسم — موسحەفی مەدینە",
   "juzLabel": "جوزی {juz}",
+  "pageJuz": "پەڕەی {page} · جوزی {juz}",
   "pagesDue": "{count, plural, one{{count} پەڕە بۆ پێداچوونەوە} other{{count} پەڕە بۆ پێداچوونەوە}}",
   "catchUpDays": "{count, plural, one{{count} ڕۆژ لە پلانی قەرەبووکردنەوە} other{{count} ڕۆژ لە پلانی قەرەبووکردنەوە}}",
   "signOffCount": "{count, plural, one{{count} پەسەندکردن} other{{count} پەسەندکردن}}",
