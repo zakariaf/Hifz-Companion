@@ -7,6 +7,8 @@
 library;
 
 export 'a11y/clamped_text_scaling.dart';
+export 'preview/component_gallery.dart';
+export 'state/mihrab_state_layer.dart';
 export 'theme/haptic_tokens.dart';
 export 'theme/mihrab_color_schemes.dart';
 export 'theme/mihrab_colors.dart';
