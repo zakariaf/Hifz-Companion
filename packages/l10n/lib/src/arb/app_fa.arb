@@ -72,5 +72,7 @@
   "a11yAnnounceSignOffRecorded": "تأیید استاد ثبت شد.",
   "stateDue": "موعد مرور",
   "stateWeak": "ضعیف",
-  "stateSignedOff": "تأیید استاد"
+  "stateSignedOff": "تأیید استاد",
+  "stateDone": "امروز مرور شد",
+  "stateLocked": "قفل‌شده توسط معلم"
 }

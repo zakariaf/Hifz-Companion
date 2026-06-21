@@ -398,4 +398,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get stateSignedOff => 'معتمدة من المعلّم';
+
+  @override
+  String get stateDone => 'تمت مراجعتها اليوم';
+
+  @override
+  String get stateLocked => 'مقفلة من المعلّم';
 }

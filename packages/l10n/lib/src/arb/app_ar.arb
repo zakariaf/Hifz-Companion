@@ -405,5 +405,13 @@
   "stateSignedOff": "معتمدة من المعلّم",
   "@stateSignedOff": {
     "description": "State-chip label: a teacher (talaqqī) sign-off is recorded for the page. Servant-to-the-teacher register; no score/badge. Paired with a distinct shape glyph. Consumed by E12/E16. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "stateDone": "تمت مراجعتها اليوم",
+  "@stateDone": {
+    "description": "Page-card state, spoken in the merged Semantics phrase: the page has been revised in TODAY'S session — explicitly today-scoped and calm. NEVER 'mastered'/'done forever'/'safe to drop' — a page is never safe to stop revising (C-019, PRD §7.12). Paired with a distinct check glyph, never colour alone. Consumed by E12. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "stateLocked": "مقفلة من المعلّم",
+  "@stateLocked": {
+    "description": "Page-card state, spoken in the merged Semantics phrase: the page is locked by a teacher's manual_lock — a human (talaqqī) override, servant-to-the-teacher, never an alarm or punishment. Paired with a distinct lock glyph, never colour alone. Consumed by E12/E16. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
   }
 }

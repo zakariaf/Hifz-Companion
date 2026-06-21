@@ -387,4 +387,10 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get stateSignedOff => 'تأیید استاد';
+
+  @override
+  String get stateDone => 'امروز مرور شد';
+
+  @override
+  String get stateLocked => 'قفل‌شده توسط معلم';
 }

@@ -72,5 +72,7 @@
   "a11yAnnounceSignOffRecorded": "پەسەندی مامۆستا تۆمارکرا.",
   "stateDue": "کاتی پێداچوونەوە",
   "stateWeak": "لاواز",
-  "stateSignedOff": "پەسەندی مامۆستا"
+  "stateSignedOff": "پەسەندی مامۆستا",
+  "stateDone": "ئەمڕۆ پێداچوونەوەی بۆ کرا",
+  "stateLocked": "لەلایەن مامۆستاوە قوفڵکراوە"
 }

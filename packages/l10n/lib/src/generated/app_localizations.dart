@@ -540,6 +540,18 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'معتمدة من المعلّم'**
   String get stateSignedOff;
+
+  /// Page-card state, spoken in the merged Semantics phrase: the page has been revised in TODAY'S session — explicitly today-scoped and calm. NEVER 'mastered'/'done forever'/'safe to drop' — a page is never safe to stop revising (C-019, PRD §7.12). Paired with a distinct check glyph, never colour alone. Consumed by E12. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تمت مراجعتها اليوم'**
+  String get stateDone;
+
+  /// Page-card state, spoken in the merged Semantics phrase: the page is locked by a teacher's manual_lock — a human (talaqqī) override, servant-to-the-teacher, never an alarm or punishment. Paired with a distinct lock glyph, never colour alone. Consumed by E12/E16. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'مقفلة من المعلّم'**
+  String get stateLocked;
 }
 
 class _AppLocalizationsDelegate

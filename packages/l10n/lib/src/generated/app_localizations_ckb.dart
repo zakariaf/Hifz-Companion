@@ -386,4 +386,10 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get stateSignedOff => 'پەسەندی مامۆستا';
+
+  @override
+  String get stateDone => 'ئەمڕۆ پێداچوونەوەی بۆ کرا';
+
+  @override
+  String get stateLocked => 'لەلایەن مامۆستاوە قوفڵکراوە';
 }
