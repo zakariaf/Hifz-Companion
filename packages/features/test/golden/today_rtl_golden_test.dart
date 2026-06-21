@@ -1,13 +1,6 @@
 // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 @Tags(['golden'])
-@Skip('E09-T10 golden code is ready; masters are captured on the pinned LINUX '
-    'golden lane via `flutter test --tags golden --update-goldens` (cross-OS '
-    'pixel drift — macOS cannot bless, see flutter_test_config.dart). The same '
-    'Linux pass also refreshes the today_scale ar masters whose page number '
-    'correctly moved Latin→Arabic-Indic in E09-T06. The font-INDEPENDENT proof '
-    'of these mechanisms runs green in the fast lane: '
-    'features/test/l10n/rtl_numeral_locale_test.dart.')
 library;
 
 // E09-T10 — the per-locale RTL + numeral pixel proof on the REAL bundled UI font
