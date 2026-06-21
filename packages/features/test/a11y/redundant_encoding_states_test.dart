@@ -66,6 +66,13 @@ void main() {
           reason: '$state needs a non-color shape glyph',
         );
         expect(find.text(_expectedLabel(l10n, state)), findsOneWidget);
+        // The merged spoken label is EXACTLY the localized term — the icon glyph
+        // (a PUA codepoint) must not leak into the phrase (Gemini review).
+        expect(
+          find.bySemanticsLabel(_expectedLabel(l10n, state)),
+          findsOneWidget,
+          reason: '$state merged label must be the term alone, no glyph',
+        );
         assertStateChipRedundancy(tester, find.byType(StateChip));
       }
       handle.dispose();

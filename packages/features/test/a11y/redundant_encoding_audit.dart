@@ -20,7 +20,9 @@ void assertStateChipRedundancy(WidgetTester tester, Finder chip) {
       .descendant(
         of: chip,
         matching: find.byWidgetPredicate(
-          (w) => w is Icon || w is CustomPaint || w is Text,
+          // `Text` wraps `RichText`; accept either, so a chip refactored to a
+          // direct `RichText` still satisfies the non-color visual channel.
+          (w) => w is Icon || w is CustomPaint || w is Text || w is RichText,
         ),
       )
       .evaluate()
