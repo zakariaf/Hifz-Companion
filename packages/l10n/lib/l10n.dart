@@ -9,6 +9,7 @@
 library;
 
 export 'src/bidi.dart';
+export 'src/calendar/calendar_display.dart';
 export 'src/calendar/calendar_presenter.dart'
     show CalendarPresenter, CalendarSystem;
 export 'src/ckb_material_localizations.dart'
