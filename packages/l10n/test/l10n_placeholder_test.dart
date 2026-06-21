@@ -34,13 +34,6 @@ void main() {
       expect(numberFormatFor('ckb').locale, 'fa');
       expect(numberFormatFor('ar').format(3), isNotEmpty);
     });
-
-    test('isolate brackets a run with FSI…PDI code points', () {
-      expect(isolate('x').codeUnits, <int>[
-        firstStrongIsolate,
-        0x78, // 'x'
-        popDirectionalIsolate,
-      ]);
-    });
+    // bidi isolation is owned by bidi_test.dart (E09-T05).
   });
 }

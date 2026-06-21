@@ -74,6 +74,12 @@ printf "%s\n" "import 'package:flutter/material.dart';" \
 expect_fail "a hardcoded Directionality" "hardcoded Directionality"
 rm -f "$probe"
 
+# H. Legacy bidi embedding/override (must use bidi.dart isolates).
+printf "%s\n" "import 'package:flutter/foundation.dart';" \
+  "final s = Unicode.RLE + 'x';" >"$probe"
+expect_fail "a legacy bidi embedding (Unicode.RLE)" "legacy bidi embedding"
+rm -f "$probe"
+
 # D. ASCII-digit interpolation into a user-facing string.
 printf "%s\n" "import 'package:flutter/material.dart';" \
   "Widget c(int n) => Text('Page ' + n.toString());" >"$probe"

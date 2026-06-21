@@ -91,6 +91,15 @@ if [ -n "$directionality" ]; then
   status=1
 fi
 
+# ── Layer H — no legacy bidi embedding/override; use bidi.dart isolates (T05). ──
+embedding="$(grep -rnE "Unicode\.(LRE|RLE|LRO|RLO)|Bidi\.(RTL_EMBEDDING|LTR_EMBEDDING|POP_DIRECTIONAL_FORMATTING)" "${roots[@]}" packages/l10n/lib 2>/dev/null |
+  grep -vE "$comment" | grep -v '/generated/' || true)"
+if [ -n "$embedding" ]; then
+  echo "::error::check_l10n_complete: legacy bidi embedding/override — use the bidi.dart isolates (FSI/LRI/RLI…PDI) (engineering 12 §4):" >&2
+  echo "$embedding" >&2
+  status=1
+fi
+
 # ── Layer D — ASCII-digit interpolation into a user-facing string. ──
 # Dart: a $identifier or .toString() inside a Text(…); ARB: a $-splice in a value.
 # An ICU {placeholder} (no $) and a pre-formatted isolate(…) run pass.
