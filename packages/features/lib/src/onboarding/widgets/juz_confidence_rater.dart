@@ -33,8 +33,7 @@ class JuzConfidenceRater extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final space = Theme.of(context).extension<SpacingTokens>()!;
-    final numerals =
-        numberFormatFor(Localizations.localeOf(context).languageCode);
+    final locale = Localizations.localeOf(context);
     final ordered = heldJuz.toList()..sort();
     return ListView.separated(
       padding: EdgeInsetsDirectional.all(space.space4),
@@ -47,7 +46,7 @@ class JuzConfidenceRater extends StatelessWidget {
           spacing: space.space2,
           children: [
             Text(
-              numerals.format(juz),
+              formatLocaleNumber(locale, juz),
               style: Theme.of(context).textTheme.titleMedium,
             ),
             SegmentedButton<JuzConfidence>(

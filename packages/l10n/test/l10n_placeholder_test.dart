@@ -27,13 +27,14 @@ void main() {
     });
 
     test('numberFormatFor wires a locale-bound formatter for ar/fa/ckb', () {
-      // The path is wired (a locale-bound NumberFormat per locale); E09 owns the
-      // finalized native-digit policy. ckb borrows fa's numeral set.
-      expect(numberFormatFor('ar').locale, 'ar');
-      expect(numberFormatFor('fa').locale, 'fa');
-      expect(numberFormatFor('ckb').locale, 'fa');
-      expect(numberFormatFor('ar').format(3), isNotEmpty);
+      // The structural formatter is locale-bound; ckb borrows fa. The native
+      // digit-block guarantee is formatLocaleNumber (numerals_test.dart, E09-T06).
+      expect(numberFormatFor(const Locale('ar')).locale, 'ar');
+      expect(numberFormatFor(const Locale('fa')).locale, 'fa');
+      expect(numberFormatFor(const Locale('ckb')).locale, 'fa');
+      expect(numberFormatFor(const Locale('ar')).format(3), isNotEmpty);
     });
-    // bidi isolation is owned by bidi_test.dart (E09-T05).
+    // bidi isolation is owned by bidi_test.dart (E09-T05); numeral blocks by
+    // numerals_test.dart (E09-T06).
   });
 }

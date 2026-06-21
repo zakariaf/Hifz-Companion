@@ -10,7 +10,7 @@ library;
 
 export 'src/bidi.dart';
 export 'src/calendar/calendar_presenter.dart'
-    show CalendarPresenter, CalendarSystem, toLocaleNumerals;
+    show CalendarPresenter, CalendarSystem;
 export 'src/ckb_material_localizations.dart'
     show CkbMaterialLocalizations, hifzLocalizationsDelegates;
 export 'src/forced_ltr.dart';

@@ -6,6 +6,7 @@
 // exact codepoint, written test-first.
 
 import 'package:flutter/foundation.dart' show Unicode;
+import 'package:flutter/widgets.dart' show Locale;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:l10n/l10n.dart';
 
@@ -95,7 +96,7 @@ void main() {
 
   test('composes with the locale-numeral path without mangling digits', () {
     // The real T06 call site: format a number to fa digits, then isolate LTR.
-    final run = numberFormatFor('fa').format(7);
+    final run = formatLocaleNumber(const Locale('fa'), 7);
     final isolated = isolateLtr(run);
     expect(isolated.contains('۷'), isTrue); // Extended Arabic-Indic seven
     expect(first(isolated), _lri);

@@ -29,8 +29,7 @@ class CoverageGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final space = Theme.of(context).extension<SpacingTokens>()!;
-    final numerals =
-        numberFormatFor(Localizations.localeOf(context).languageCode);
+    final locale = Localizations.localeOf(context);
     return GridView.builder(
       padding: EdgeInsetsDirectional.all(space.space4),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -42,7 +41,7 @@ class CoverageGrid extends StatelessWidget {
       itemBuilder: (context, index) {
         final juz = index + 1;
         final held = heldJuz.contains(juz);
-        final numeral = numerals.format(juz);
+        final numeral = formatLocaleNumber(locale, juz);
         return _JuzCell(
           numeral: numeral,
           held: held,

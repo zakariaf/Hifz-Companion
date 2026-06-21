@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
 import '../generated/app_localizations.dart';
+import '../numerals.dart' show toLocaleNumerals;
 
 /// The user's chosen calendar — an **explicit** Settings value (07 §4).
 ///
@@ -127,40 +128,4 @@ class CalendarPresenter {
   /// The highest Gregorian date the Umm al-Qurā table supports — 1500 AH
   /// (16 Nov 2077 CE), the `hijri` package's own documented bound (07 §6).
   static final DateTime hijriMaxSupported = DateTime.utc(2077, 11, 16);
-}
-
-/// Remaps the ASCII digits in an already-converted date label to the active
-/// locale's numeral block — the downstream numeral pass (07 §4; PRD §13.3).
-///
-/// `fa`/`ckb` → Extended Arabic-Indic (`۰۱۲۳۴۵۶۷۸۹`, U+06F0–U+06F9); `ar` →
-/// Arabic-Indic (`٠١٢٣٤٥٦٧٨٩`, U+0660–U+0669); other locales pass through. The
-/// two blocks are distinct and never cross: `ar` never shows `۴`, `fa`/`ckb`
-/// never show `٤`.
-///
-/// It substitutes **only** the ASCII digit code points (`0x30`–`0x39`), so a
-/// month name or the "(Umm al-Qurā)" tag — which carry no ASCII digit — pass
-/// through verbatim, and there is no grouping separator or sign to desync.
-/// It is idempotent: a string already in a locale block has no ASCII to remap.
-///
-/// This deliberately does **not** route date numerals through `intl`'s
-/// `NumberFormat`: in the pinned `intl` (0.20.x) the `-u-nu-arab` Unicode
-/// numbering-system extension is ignored — `ar` still renders Latin digits —
-/// and `decimalPattern` injects a thousands separator that is wrong for a year
-/// field. A field-safe digit-block substitution is the locale-faithful
-/// mechanism for dates (no grouping, no sign), which is what this matches.
-String toLocaleNumerals(String latin, Locale locale) {
-  final blockStart = switch (locale.languageCode) {
-    'fa' || 'ckb' => 0x06F0, // Extended Arabic-Indic
-    'ar' => 0x0660, // Arabic-Indic
-    _ => null,
-  };
-  if (blockStart == null) return latin;
-  const asciiZero = 0x30, asciiNine = 0x39;
-  return String.fromCharCodes([
-    for (final code in latin.codeUnits)
-      if (code >= asciiZero && code <= asciiNine)
-        blockStart + (code - asciiZero)
-      else
-        code,
-  ]);
 }

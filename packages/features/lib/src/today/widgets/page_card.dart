@@ -50,8 +50,7 @@ class _PageCardState extends State<PageCard> {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final space = theme.extension<SpacingTokens>()!;
-    final numerals =
-        numberFormatFor(Localizations.localeOf(context).languageCode);
+    final locale = Localizations.localeOf(context);
     return Padding(
       padding: EdgeInsetsDirectional.symmetric(vertical: space.space2),
       child: DecoratedBox(
@@ -77,7 +76,9 @@ class _PageCardState extends State<PageCard> {
                     _TrackChip(track: card.track),
                     Expanded(
                       child: Text(
-                        l10n.pageNumber(numerals.format(card.pageId)),
+                        l10n.pageNumber(
+                          formatLocaleNumber(locale, card.pageId),
+                        ),
                         style: theme.textTheme.titleMedium,
                       ),
                     ),
