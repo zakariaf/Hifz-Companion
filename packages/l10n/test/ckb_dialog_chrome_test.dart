@@ -109,11 +109,20 @@ void main() {
     expect(find.text('OK'), findsNothing);
   });
 
-  test('the vendored delegate is necessary: Global Material excludes ckb', () {
-    // Flutter ships no ckb Material localization, so the Global delegate refuses
-    // ckb and our vendored delegate is the only one that claims it — registered
-    // AFTER the Globals so it fills, never shadows.
+  test(
+      'no Global delegate claims ckb, so the custom ckb delegates are not '
+      'shadowed (the order is safe; locks against a future Flutter change)',
+      () {
+    // Flutter ships NO ckb framework localization, so EVERY Global delegate —
+    // Material, Widgets, AND Cupertino — returns isSupported(ckb) == false in the
+    // pinned Flutter. The custom ckb delegates are therefore reached and used
+    // regardless of registration order; they are not dead code (the dialog test
+    // above proves ckb renders Sorani Material + RTL via them). This refutes a
+    // "GlobalWidgets shadows the custom delegates" concern, and would fail loudly
+    // — prompting a reorder (prepend) — if a future Flutter made a Global claim ckb.
     expect(GlobalMaterialLocalizations.delegate.isSupported(_ckb), isFalse);
+    expect(GlobalWidgetsLocalizations.delegate.isSupported(_ckb), isFalse);
+    expect(GlobalCupertinoLocalizations.delegate.isSupported(_ckb), isFalse);
     expect(CkbMaterialLocalizations.delegate.isSupported(_ckb), isTrue);
   });
 }
