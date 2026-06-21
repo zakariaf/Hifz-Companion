@@ -93,6 +93,162 @@ class AppLocalizationsCkb extends AppLocalizations {
   }
 
   @override
+  String trackNewSabaq(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'سەبەق',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String trackNearSabqi(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'سەبقی',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String trackFarManzil(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'levant': 'مەنزیل',
+        'subcontinent': 'دەور',
+        'other': 'مەنزیل',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String trackRevisionGeneral(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'پێداچوونەوە',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String gradeAgainVerb(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'پێویستی بە یارمەتی',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String gradeHardVerb(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'هەڵەی بچووک',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String gradeGoodVerb(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'خوێندنەوەی ڕێک',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String gradeEasyVerb(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'بێ کۆسپ',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String cycleWeeklyKhatm(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'ختمی هەفتانەی مەنزیل',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String cycleOneJuzPerDay(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'یەک جوز لە ڕۆژێکدا',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String cycleHalfJuzPerDay(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'نیو جوز لە ڕۆژێکدا',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String cycleTwoJuzPerDay(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'دوو جوز لە ڕۆژێکدا',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String cycleCustom(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'تایبەت',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String cyclePureMode(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'دۆخی خولی پوختە',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get hijriUmmAlQuraQualifier => '(Umm al-Qurā)';
 
   @override

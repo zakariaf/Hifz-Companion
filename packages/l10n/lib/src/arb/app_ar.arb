@@ -85,6 +85,132 @@
       }
     }
   },
+  "trackNewSabaq": "{region, select, other{سبق}}",
+  "@trackNewSabaq": {
+    "description": "TERM-SET: the New-lesson track label (classical 'sabaq'). ICU select over a region key so a whole vocabulary swaps as one data file, never code. NEEDS scholar review; ckb provisional needs native + scholar review.",
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "trackNearSabqi": "{region, select, other{سبقي}}",
+  "@trackNearSabqi": {
+    "description": "TERM-SET: the Near-revision track label (classical 'sabqi'). NEEDS scholar review; ckb provisional needs native + scholar review.",
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "trackFarManzil": "{region, select, levant{منزل} subcontinent{دور} other{منزل}}",
+  "@trackFarManzil": {
+    "description": "TERM-SET: the Far-revision track label; varies by region — 'manzil' (Levant/Arab) vs 'dhor' (subcontinent). NEEDS scholar review; ckb provisional needs native + scholar review.",
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "trackRevisionGeneral": "{region, select, other{مراجعة}}",
+  "@trackRevisionGeneral": {
+    "description": "TERM-SET: the general-Revision label. NEEDS scholar review; ckb provisional needs native + scholar review.",
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "gradeAgainVerb": "{region, select, other{احتجت مساعدة}}",
+  "@gradeAgainVerb": {
+    "description": "TERM-SET: the traditional grade verb for Grade.again (PRD §6.3 'needed help'). The localized VERB only — never the enum name, never a number; the engine signal is unchanged. NEEDS scholar review; ckb provisional needs native + scholar review.",
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "gradeHardVerb": "{region, select, other{أخطاء يسيرة}}",
+  "@gradeHardVerb": {
+    "description": "TERM-SET: the traditional grade verb for Grade.hard (PRD §6.3 'minor mistakes'). NEEDS scholar review; ckb provisional needs native + scholar review.",
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "gradeGoodVerb": "{region, select, other{تلاوة سليمة}}",
+  "@gradeGoodVerb": {
+    "description": "TERM-SET: the traditional grade verb for Grade.good (PRD §6.3 'recited clean'). Calm — never 'mastered'. NEEDS scholar review; ckb provisional needs native + scholar review.",
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "gradeEasyVerb": "{region, select, other{بيُسر}}",
+  "@gradeEasyVerb": {
+    "description": "TERM-SET: the traditional grade verb for Grade.easy (PRD §6.3 'effortless'). NEEDS scholar review; ckb provisional needs native + scholar review.",
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "cycleWeeklyKhatm": "{region, select, other{ختمة المنازل الأسبوعية}}",
+  "@cycleWeeklyKhatm": {
+    "description": "TERM-SET: the 7-Manzil weekly-khatm cycle name (PRD §15.1). The count is part of the transcreated phrase per locale, never a spliced ASCII digit. NEEDS scholar review; ckb provisional needs native + scholar review.",
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "cycleOneJuzPerDay": "{region, select, other{جزء واحد يومياً}}",
+  "@cycleOneJuzPerDay": {
+    "description": "TERM-SET: the 1-juz/day cycle name (PRD §15.1). NEEDS scholar review; ckb provisional needs native + scholar review.",
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "cycleHalfJuzPerDay": "{region, select, other{نصف جزء يومياً}}",
+  "@cycleHalfJuzPerDay": {
+    "description": "TERM-SET: the ½-juz/day cycle name (PRD §15.1). NEEDS scholar review; ckb provisional needs native + scholar review.",
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "cycleTwoJuzPerDay": "{region, select, other{جزآن يومياً}}",
+  "@cycleTwoJuzPerDay": {
+    "description": "TERM-SET: the 2-juz/day cycle name (PRD §15.1). NEEDS scholar review; ckb provisional needs native + scholar review.",
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "cycleCustom": "{region, select, other{مخصّص}}",
+  "@cycleCustom": {
+    "description": "TERM-SET: the Custom cycle name (PRD §15.1). NEEDS scholar review; ckb provisional needs native + scholar review.",
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "cyclePureMode": "{region, select, other{الوضع الدوري الخالص}}",
+  "@cyclePureMode": {
+    "description": "TERM-SET: the Pure-cycle mode name (PRD §15.2). NEEDS scholar review; ckb provisional needs native + scholar review.",
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
   "hijriUmmAlQuraQualifier": "(Umm al-Qurā)",
   "@hijriUmmAlQuraQualifier": {
     "description": "Short qualifier appended to a Hijri date, naming the variant as the Umm al-Qurā civil calendar so a Hijri date is never shown as 'the Hijri date' in the absolute. Kept as the romanized proper noun across locales pending E09/E19 review of whether to localize the script. needs-scholarly-review (E19); register as a CLAIMS row — no id, grade, or citation here."

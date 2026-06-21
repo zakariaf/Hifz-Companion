@@ -12,6 +12,7 @@ library;
 
 export 'src/a11y/a11y.dart';
 export 'src/design_system/design_system.dart';
+export 'src/l10n/term_set.dart';
 export 'src/mushaf/mushaf_screen.dart';
 export 'src/mutashabihat/mutashabihat_screen.dart';
 export 'src/onboarding/cold_start_seeder.dart';

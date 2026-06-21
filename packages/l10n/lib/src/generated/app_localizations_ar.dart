@@ -105,6 +105,162 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String trackNewSabaq(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'سبق',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String trackNearSabqi(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'سبقي',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String trackFarManzil(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'levant': 'منزل',
+        'subcontinent': 'دور',
+        'other': 'منزل',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String trackRevisionGeneral(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'مراجعة',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String gradeAgainVerb(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'احتجت مساعدة',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String gradeHardVerb(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'أخطاء يسيرة',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String gradeGoodVerb(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'تلاوة سليمة',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String gradeEasyVerb(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'بيُسر',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String cycleWeeklyKhatm(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'ختمة المنازل الأسبوعية',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String cycleOneJuzPerDay(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'جزء واحد يومياً',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String cycleHalfJuzPerDay(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'نصف جزء يومياً',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String cycleTwoJuzPerDay(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'جزآن يومياً',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String cycleCustom(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'مخصّص',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String cyclePureMode(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'الوضع الدوري الخالص',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get hijriUmmAlQuraQualifier => '(Umm al-Qurā)';
 
   @override

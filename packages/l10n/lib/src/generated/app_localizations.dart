@@ -193,6 +193,90 @@ abstract class AppLocalizations {
   /// **'{region, select, levant{منزل} subcontinent{دور} other{منزل}}'**
   String trackFar(String region);
 
+  /// TERM-SET: the New-lesson track label (classical 'sabaq'). ICU select over a region key so a whole vocabulary swaps as one data file, never code. NEEDS scholar review; ckb provisional needs native + scholar review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{سبق}}'**
+  String trackNewSabaq(String region);
+
+  /// TERM-SET: the Near-revision track label (classical 'sabqi'). NEEDS scholar review; ckb provisional needs native + scholar review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{سبقي}}'**
+  String trackNearSabqi(String region);
+
+  /// TERM-SET: the Far-revision track label; varies by region — 'manzil' (Levant/Arab) vs 'dhor' (subcontinent). NEEDS scholar review; ckb provisional needs native + scholar review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, levant{منزل} subcontinent{دور} other{منزل}}'**
+  String trackFarManzil(String region);
+
+  /// TERM-SET: the general-Revision label. NEEDS scholar review; ckb provisional needs native + scholar review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{مراجعة}}'**
+  String trackRevisionGeneral(String region);
+
+  /// TERM-SET: the traditional grade verb for Grade.again (PRD §6.3 'needed help'). The localized VERB only — never the enum name, never a number; the engine signal is unchanged. NEEDS scholar review; ckb provisional needs native + scholar review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{احتجت مساعدة}}'**
+  String gradeAgainVerb(String region);
+
+  /// TERM-SET: the traditional grade verb for Grade.hard (PRD §6.3 'minor mistakes'). NEEDS scholar review; ckb provisional needs native + scholar review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{أخطاء يسيرة}}'**
+  String gradeHardVerb(String region);
+
+  /// TERM-SET: the traditional grade verb for Grade.good (PRD §6.3 'recited clean'). Calm — never 'mastered'. NEEDS scholar review; ckb provisional needs native + scholar review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{تلاوة سليمة}}'**
+  String gradeGoodVerb(String region);
+
+  /// TERM-SET: the traditional grade verb for Grade.easy (PRD §6.3 'effortless'). NEEDS scholar review; ckb provisional needs native + scholar review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{بيُسر}}'**
+  String gradeEasyVerb(String region);
+
+  /// TERM-SET: the 7-Manzil weekly-khatm cycle name (PRD §15.1). The count is part of the transcreated phrase per locale, never a spliced ASCII digit. NEEDS scholar review; ckb provisional needs native + scholar review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{ختمة المنازل الأسبوعية}}'**
+  String cycleWeeklyKhatm(String region);
+
+  /// TERM-SET: the 1-juz/day cycle name (PRD §15.1). NEEDS scholar review; ckb provisional needs native + scholar review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{جزء واحد يومياً}}'**
+  String cycleOneJuzPerDay(String region);
+
+  /// TERM-SET: the ½-juz/day cycle name (PRD §15.1). NEEDS scholar review; ckb provisional needs native + scholar review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{نصف جزء يومياً}}'**
+  String cycleHalfJuzPerDay(String region);
+
+  /// TERM-SET: the 2-juz/day cycle name (PRD §15.1). NEEDS scholar review; ckb provisional needs native + scholar review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{جزآن يومياً}}'**
+  String cycleTwoJuzPerDay(String region);
+
+  /// TERM-SET: the Custom cycle name (PRD §15.1). NEEDS scholar review; ckb provisional needs native + scholar review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{مخصّص}}'**
+  String cycleCustom(String region);
+
+  /// TERM-SET: the Pure-cycle mode name (PRD §15.2). NEEDS scholar review; ckb provisional needs native + scholar review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{الوضع الدوري الخالص}}'**
+  String cyclePureMode(String region);
+
   /// Short qualifier appended to a Hijri date, naming the variant as the Umm al-Qurā civil calendar so a Hijri date is never shown as 'the Hijri date' in the absolute. Kept as the romanized proper noun across locales pending E09/E19 review of whether to localize the script. needs-scholarly-review (E19); register as a CLAIMS row — no id, grade, or citation here.
   ///
   /// In ar, this message translates to:
