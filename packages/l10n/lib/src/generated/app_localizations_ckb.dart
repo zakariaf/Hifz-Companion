@@ -52,6 +52,11 @@ class AppLocalizationsCkb extends AppLocalizations {
   }
 
   @override
+  String heatmapWeakestPage(String page) {
+    return 'لاوازترین پەڕە $page';
+  }
+
+  @override
   String pagesDue(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

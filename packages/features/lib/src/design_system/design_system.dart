@@ -7,6 +7,10 @@
 library;
 
 export 'a11y/clamped_text_scaling.dart';
+export 'heatmap/heat_level.dart';
+export 'heatmap/heatmap_cell.dart';
+export 'heatmap/heatmap_cell_data.dart';
+export 'heatmap/weakest_page_badge.dart';
 export 'page_card/decay_indicator.dart';
 export 'page_card/page_card.dart';
 export 'page_card/page_card_view_data.dart';

@@ -12,6 +12,7 @@
   "mushafRiwayahLabel": "روایت حفص از عاصم — مصحف مدینه",
   "juzLabel": "جزء {juz}",
   "pageJuz": "صفحهٔ {page} · جزء {juz}",
+  "heatmapWeakestPage": "ضعیف‌ترین صفحه {page}",
   "pagesDue": "{count, plural, one{{count} صفحه برای مرور} other{{count} صفحه برای مرور}}",
   "catchUpDays": "{count, plural, one{{count} روز در برنامهٔ جبران} other{{count} روز در برنامهٔ جبران}}",
   "signOffCount": "{count, plural, one{{count} تأیید} other{{count} تأیید}}",

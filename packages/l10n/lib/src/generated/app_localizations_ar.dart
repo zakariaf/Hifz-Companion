@@ -52,6 +52,11 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String heatmapWeakestPage(String page) {
+    return 'أضعف صفحة $page';
+  }
+
+  @override
   String pagesDue(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

@@ -175,6 +175,12 @@ abstract class AppLocalizations {
   /// **'صفحة {page} · الجزء {juz}'**
   String pageJuz(String page, String juz);
 
+  /// Retention heat-map: the weakest page named by a juz roll-up tile's badge, spoken in the cell's merged Semantics phrase (design 08 §6). MIN-LEANING honesty — one weak page is what fails the juz, never averaged away (C-019). {page} is an ALREADY locale-numeral-formatted token (localeDigits, E10-T01), never a raw int. Calm maintenance register, never alarm/shame. Consumed by E15. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'أضعف صفحة {page}'**
+  String heatmapWeakestPage(String page);
+
   /// Count of muṣḥaf pages due for revision (a Today/heat-map summary line). ICU plural with ALL SIX Arabic CLDR categories (zero/one/two/few/many/other) — a missing category is a grammatical defect, not a cosmetic gap (engineering 12 §6); the static six-category completeness check is E09-T07. Calm loss-prevention register: pages 'due for revision', never 'overdue'/'behind'/guilt. {count} is locale-numeral-shaped by the generated formatter. Best-effort fa/ckb pending native + scholarly review.
   ///
   /// In ar, this message translates to:
