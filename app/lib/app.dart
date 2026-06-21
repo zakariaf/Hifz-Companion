@@ -10,10 +10,12 @@ import 'composition/router.dart';
 
 /// The root widget of the Hifz Companion shell.
 ///
-/// It builds [MaterialApp.router] over the injected [routerProvider], declares
-/// the fa/ckb/ar supported-locale set (all right-to-left), and forces
-/// [TextDirection.rtl] by construction from that all-RTL set — direction is
-/// never set per widget. It wires only; it computes nothing.
+/// It builds [MaterialApp.router] over the injected [routerProvider] and
+/// declares the fa/ckb/ar supported-locale set (all right-to-left). RTL is a
+/// *consequence* of that all-RTL `supportedLocales` resolving through
+/// `GlobalWidgetsLocalizations` (and the ckb widgets delegate) — there is no
+/// hardcoded app-wide `Directionality` (engineering 12 §2). It wires only; it
+/// computes nothing.
 class HifzApp extends ConsumerWidget {
   /// Creates the app shell.
   const HifzApp({super.key});
@@ -22,16 +24,12 @@ class HifzApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
     return MaterialApp.router(
-      onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
+      onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
       localizationsDelegates: hifzLocalizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       theme: mihrabThemeFor(MihrabAppearance.light),
       darkTheme: mihrabThemeFor(MihrabAppearance.dark),
       routerConfig: router,
-      builder: (context, child) => Directionality(
-        textDirection: TextDirection.rtl,
-        child: child ?? const SizedBox.shrink(),
-      ),
     );
   }
 }

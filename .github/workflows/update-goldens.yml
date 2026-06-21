@@ -1,0 +1,58 @@
+# SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# One-shot golden-master regeneration on the pinned LINUX runner — the only place
+# masters can be blessed (the macOS-vs-Linux render gap exceeds the 0.01%
+# comparator tolerance; flutter_test_config.dart). Trigger by pushing a commit
+# whose message contains `[update-goldens]`. It runs `--update-goldens` over the
+# features golden suite, commits only the masters that actually changed, and
+# pushes them back so the regular `golden` lane verifies them. The master commit
+# carries no `[update-goldens]` flag (so it does not re-trigger this) and no
+# `[skip ci]` (so the golden lane re-runs on the fresh masters).
+
+name: Update Goldens
+
+on:
+  push:
+    branches: ['epic/**']
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-goldens-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  FLUTTER_VERSION: '3.41.2'
+
+jobs:
+  update:
+    if: contains(github.event.head_commit.message, '[update-goldens]')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+      - run: flutter pub get
+      - name: Regenerate the features golden masters (Linux)
+        run: flutter test packages/features --tags golden --update-goldens
+      - name: Commit and push only changed masters
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          # Stage only files under a goldens/ dir (never the failures/ artifacts).
+          git add $(find packages/features/test -type d -name goldens)
+          if git diff --cached --quiet; then
+            echo 'No golden master changes to commit.'
+          else
+            git commit \
+              -m 'E09: regenerate golden masters on the Linux lane' \
+              -m 'Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>' \
+              -m 'Signed-off-by: Zakaria Fatahi <zakaria.fatahi@gmail.com>'
+            git push
+          fi

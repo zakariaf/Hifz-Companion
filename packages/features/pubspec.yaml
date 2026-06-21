@@ -36,3 +36,4 @@ dev_dependencies:
 # Deliberately NO http/dio (no feature fetches anything), NO drift (features
 # touch the DB only through data's repositories). flutter_riverpod only — no
 # provider/get_it/Bloc.
+  intl: any

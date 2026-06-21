@@ -71,8 +71,8 @@ abstract class AppLocalizations {
 
   final String localeName;
 
-  static AppLocalizations? of(BuildContext context) {
-    return Localizations.of<AppLocalizations>(context, AppLocalizations);
+  static AppLocalizations of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
   }
 
   static const LocalizationsDelegate<AppLocalizations> delegate =
@@ -103,11 +103,179 @@ abstract class AppLocalizations {
     Locale('fa')
   ];
 
-  /// The application name, shown on the placeholder launch screen. Inert placeholder copy with no factual claim; full transcreation for ar/fa/ckb lands in E09.
+  /// The application name, shown on the placeholder launch screen. A proper noun; intentionally identical across locales (not transcreated).
   ///
   /// In ar, this message translates to:
   /// **'Hifz Companion'**
   String get appTitle;
+
+  /// Universal action verb (masdar form, not a command): commit/save the current change. Reused across the app. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'حفظ'**
+  String get actionSave;
+
+  /// Universal action verb: dismiss without committing. Reused across the app. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء'**
+  String get actionCancel;
+
+  /// Universal action verb: confirm an intended action. Reused across the app. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'تأكيد'**
+  String get actionConfirm;
+
+  /// Universal action verb: reverse the last action (e.g. an undo affordance after a grade). Reused across the app. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'تراجع'**
+  String get actionUndo;
+
+  /// Universal action verb: retry a failed local read/write — calm, never a guilt/error-shame message. Reused across the app. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعادة المحاولة'**
+  String get actionRetry;
+
+  /// Universal action verb: close a sheet/dialog. Reused across the app. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'إغلاق'**
+  String get actionClose;
+
+  /// Universal action verb: go back one step. Logical 'previous' — the directional icon mirrors by locale, the word does not (engineering 12 §2). Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'رجوع'**
+  String get actionBack;
+
+  /// Universal action verb: advance one step. Logical 'next' — the directional icon mirrors by locale, the word does not. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'التالي'**
+  String get actionNext;
+
+  /// Chrome label naming the muṣḥaf edition the app renders — the riwāyah (Ḥafṣ ʿan ʿĀṣim) and the muṣḥaf (Madani, 15-line). Names the CHROME edition only; it never speaks for the Quran 'in the absolute', and no localization mechanism (numerals, bidi, mirror, font) ever reaches a muṣḥaf glyph (design 12 §8). The proper nouns Ḥafṣ/ʿĀṣim are kept in Arabic script across locales; fa/ckb transcreate only the surrounding chrome words. needs-scholarly-review. Best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'رواية حفص عن عاصم — مصحف المدينة'**
+  String get mushafRiwayahLabel;
+
+  /// A juz label in chrome (e.g. a Today section header or progress roll-up). {juz} is an ALREADY locale-numeral-formatted, bidi-isolated token from numberFormatFor(locale)/bidi.dart — never a raw int and never concatenated (engineering 12 §4, §5). Demonstrates the foundation 'format → isolate → inject' discipline. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'الجزء {juz}'**
+  String juzLabel(String juz);
+
+  /// Count of muṣḥaf pages due for revision (a Today/heat-map summary line). ICU plural with ALL SIX Arabic CLDR categories (zero/one/two/few/many/other) — a missing category is a grammatical defect, not a cosmetic gap (engineering 12 §6); the static six-category completeness check is E09-T07. Calm loss-prevention register: pages 'due for revision', never 'overdue'/'behind'/guilt. {count} is locale-numeral-shaped by the generated formatter. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, zero{لا صفحات مستحقة للمراجعة} one{صفحة واحدة مستحقة للمراجعة} two{صفحتان مستحقتان للمراجعة} few{{count} صفحات مستحقة للمراجعة} many{{count} صفحة مستحقة للمراجعة} other{{count} صفحة مستحقة للمراجعة}}'**
+  String pagesDue(int count);
+
+  /// Count of days in the missed-day catch-up plan (the ui-catch-up-banner). ICU plural with all six Arabic CLDR categories. Calm, supportive, located-revisit register — never 'behind'/'overdue'/guilt; the zero form is a neutral fact, not a celebration. {count} is locale-numeral-shaped before placement. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, zero{لا أيام للتدارك} one{يوم واحد في خطة التدارك} two{يومان في خطة التدارك} few{{count} أيام في خطة التدارك} many{{count} يوماً في خطة التدارك} other{{count} يوم في خطة التدارك}}'**
+  String catchUpDays(int count);
+
+  /// Count of teacher (talaqqī) sign-offs (the teacher/halaqa surface). ICU plural with all six Arabic CLDR categories. Servant-to-the-teacher register; neutral, no score/badge/celebration. {count} is locale-numeral-shaped before placement. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, zero{لا اعتمادات} one{اعتماد واحد} two{اعتمادان} few{{count} اعتمادات} many{{count} اعتماداً} other{{count} اعتماد}}'**
+  String signOffCount(int count);
+
+  /// Far-revision track label (the consolidated-revision track); varies by regional tradition — 'manzil' in the Levant/Arab term-set, 'dhor' (دور) in the subcontinent. ICU select over a region key, seeding the one-file term-set swap shape E09-T09 builds out (the full sabaq/sabqi/manzil + grade-verb term-sets are E09-T09). TERM-SET vocabulary: NEEDS scholar review and ships provisional; no track/grade/cycle word is hard-coded in any widget. Best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, levant{منزل} subcontinent{دور} other{منزل}}'**
+  String trackFar(String region);
+
+  /// TERM-SET: the New-lesson track label (classical 'sabaq'). ICU select over a region key so a whole vocabulary swaps as one data file, never code. NEEDS scholar review; ckb provisional needs native + scholar review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{سبق}}'**
+  String trackNewSabaq(String region);
+
+  /// TERM-SET: the Near-revision track label (classical 'sabqi'). NEEDS scholar review; ckb provisional needs native + scholar review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{سبقي}}'**
+  String trackNearSabqi(String region);
+
+  /// TERM-SET: the Far-revision track label; varies by region — 'manzil' (Levant/Arab) vs 'dhor' (subcontinent). NEEDS scholar review; ckb provisional needs native + scholar review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, levant{منزل} subcontinent{دور} other{منزل}}'**
+  String trackFarManzil(String region);
+
+  /// TERM-SET: the general-Revision label. NEEDS scholar review; ckb provisional needs native + scholar review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{مراجعة}}'**
+  String trackRevisionGeneral(String region);
+
+  /// TERM-SET: the traditional grade verb for Grade.again (PRD §6.3 'needed help'). The localized VERB only — never the enum name, never a number; the engine signal is unchanged. NEEDS scholar review; ckb provisional needs native + scholar review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{احتجت مساعدة}}'**
+  String gradeAgainVerb(String region);
+
+  /// TERM-SET: the traditional grade verb for Grade.hard (PRD §6.3 'minor mistakes'). NEEDS scholar review; ckb provisional needs native + scholar review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{أخطاء يسيرة}}'**
+  String gradeHardVerb(String region);
+
+  /// TERM-SET: the traditional grade verb for Grade.good (PRD §6.3 'recited clean'). Calm — never 'mastered'. NEEDS scholar review; ckb provisional needs native + scholar review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{تلاوة سليمة}}'**
+  String gradeGoodVerb(String region);
+
+  /// TERM-SET: the traditional grade verb for Grade.easy (PRD §6.3 'effortless'). NEEDS scholar review; ckb provisional needs native + scholar review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{بيُسر}}'**
+  String gradeEasyVerb(String region);
+
+  /// TERM-SET: the 7-Manzil weekly-khatm cycle name (PRD §15.1). The count is part of the transcreated phrase per locale, never a spliced ASCII digit. NEEDS scholar review; ckb provisional needs native + scholar review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{ختمة المنازل الأسبوعية}}'**
+  String cycleWeeklyKhatm(String region);
+
+  /// TERM-SET: the 1-juz/day cycle name (PRD §15.1). NEEDS scholar review; ckb provisional needs native + scholar review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{جزء واحد يومياً}}'**
+  String cycleOneJuzPerDay(String region);
+
+  /// TERM-SET: the ½-juz/day cycle name (PRD §15.1). NEEDS scholar review; ckb provisional needs native + scholar review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{نصف جزء يومياً}}'**
+  String cycleHalfJuzPerDay(String region);
+
+  /// TERM-SET: the 2-juz/day cycle name (PRD §15.1). NEEDS scholar review; ckb provisional needs native + scholar review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{جزآن يومياً}}'**
+  String cycleTwoJuzPerDay(String region);
+
+  /// TERM-SET: the Custom cycle name (PRD §15.1). NEEDS scholar review; ckb provisional needs native + scholar review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{مخصّص}}'**
+  String cycleCustom(String region);
+
+  /// TERM-SET: the Pure-cycle mode name (PRD §15.2). NEEDS scholar review; ckb provisional needs native + scholar review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{الوضع الدوري الخالص}}'**
+  String cyclePureMode(String region);
 
   /// Short qualifier appended to a Hijri date, naming the variant as the Umm al-Qurā civil calendar so a Hijri date is never shown as 'the Hijri date' in the absolute. Kept as the romanized proper noun across locales pending E09/E19 review of whether to localize the script. needs-scholarly-review (E19); register as a CLAIMS row — no id, grade, or citation here.
   ///
@@ -252,6 +420,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'غير محفوظ'**
   String get onboardingNotHeld;
+
+  /// Screen-reader label for one juz coverage cell, composing the juz numeral and its held/not-held state. Both parts arrive ALREADY localized — {juz} pre-formatted in locale numerals (numberFormatFor) and {state} from onboardingHeld/onboardingNotHeld — so the composition (and its separator) live in ARB, never concatenated in a widget (engineering 12 §4). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'{juz} — {state}'**
+  String onboardingCoverageCellLabel(String juz, String state);
 
   /// Calm Today empty state when no page is due right now — neutral, never 'done'/'safe to stop'/'all caught up' celebration (nothing is ever safe to drop). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///

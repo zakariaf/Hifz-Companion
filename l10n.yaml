@@ -12,6 +12,13 @@ template-arb-file: app_ar.arb
 output-dir: packages/l10n/lib/src/generated
 output-localization-file: app_localizations.dart
 output-class: AppLocalizations
+# A missing/typo key is a COMPILE error (non-nullable getters + non-null `of`),
+# never a silently-empty widget (engineering 12 §1). Call sites read
+# `AppLocalizations.of(context).key` directly — no `!`, no `?? ''` fallback.
+nullable-getter: false
+# Literal braces/apostrophes in fa/ar/ckb copy are escaped, so an apostrophe in
+# a transcreation can never be mis-parsed as an ICU quote (engineering 12 §1).
+use-escaping: true
 # Prepend the REUSE SPDX header to every generated file so regeneration keeps
 # them covered (rather than relying on a .reuse/dep5 stanza for generated code).
 header: |

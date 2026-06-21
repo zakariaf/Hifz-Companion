@@ -17,7 +17,7 @@ class PlaceholderScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     // Establish the View→ViewModel dependency (1:1). The placeholder does not
     // yet branch on the state; E07 binds real reactive state here.
     ref.watch(placeholderViewModelProvider);

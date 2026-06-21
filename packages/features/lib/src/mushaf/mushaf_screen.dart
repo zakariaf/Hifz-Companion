@@ -16,7 +16,7 @@ class MushafScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SectionPlaceholder(
-        title: AppLocalizations.of(context)!.navMushaf,
+        title: AppLocalizations.of(context).navMushaf,
         identifier: 'screen.mushaf',
       );
 }

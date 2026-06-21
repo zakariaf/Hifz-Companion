@@ -13,7 +13,23 @@ on:
 #  gate 2  visual-diff (604 muṣḥaf pages)      → golden + journeys
 #  gate 3  engine golden vectors               → fast (dart test engine/)
 #  gate 4  invariant property tests            → fast (dart test engine/, glados)
-#  gate 5  localization & RTL                  → golden + fast (check_l10n_complete)
+#  gate 5  localization & RTL                  → restraint (check_l10n_complete,
+#                                                the E09 layered gate: key-coverage
+#                                                superset + hardcoded-string +
+#                                                physical-side + hardcoded-
+#                                                Directionality + legacy-bidi-
+#                                                embedding + ASCII-digit greps +
+#                                                adab lint + canonical-ckb lint +
+#                                                Arabic six-plural check; with its
+#                                                deliberate-violation meta-test and
+#                                                the adab/ckb/plural package:test
+#                                                suites) + fast (analyze = the
+#                                                compile-time key-coverage half via
+#                                                nullable-getter:false; the font-
+#                                                independent per-locale RTL+numeral
+#                                                aggregation) + golden (the pinned-
+#                                                Linux per-locale RTL/numeral
+#                                                masters, E09-T10)
 #  gate 5  date correctness T1–T10             → fast (engine vectors T1–T7/T10 via
 #                                                dart test + l10n numerals T8 /
 #                                                round-trip T6/T7 / reference T9 via
@@ -124,10 +140,15 @@ jobs:
           bash tool/test/check_token_discipline_test.sh
           bash tool/check_dep_allowlist.sh
           bash tool/check_l10n_complete.sh
+          bash tool/test/check_l10n_complete_test.sh
       - name: Asset SHA-256 integrity (dormant/fail-closed on the empty manifest)
         run: dart run tool/verify_asset_hashes.dart
-      - name: Asset-integrity verifier logic (E05-T10 pure gate — package:test)
-        run: dart test tool/test/verify_asset_integrity_test.dart
+      - name: Tool-gate unit suites (E05-T10 asset integrity + E09 adab/ckb lints — package:test)
+        run: |
+          dart test tool/test/verify_asset_integrity_test.dart
+          dart test tool/test/check_adab_lint_test.dart
+          dart test tool/test/check_ckb_canonical_test.dart
+          dart test tool/test/check_arb_plurals_test.dart
       - name: REUSE license clarity (per-file SPDX GPL-3.0-or-later)
         uses: fsfe/reuse-action@v6
 

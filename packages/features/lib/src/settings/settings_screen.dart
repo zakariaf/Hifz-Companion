@@ -14,7 +14,7 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SectionPlaceholder(
-        title: AppLocalizations.of(context)!.navSettings,
+        title: AppLocalizations.of(context).navSettings,
         identifier: 'screen.settings',
       );
 }

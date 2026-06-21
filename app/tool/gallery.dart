@@ -317,7 +317,7 @@ class _Components extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final space = Theme.of(context).extension<SpacingTokens>()!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,

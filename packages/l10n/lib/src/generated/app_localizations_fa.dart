@@ -15,6 +15,240 @@ class AppLocalizationsFa extends AppLocalizations {
   String get appTitle => 'Hifz Companion';
 
   @override
+  String get actionSave => 'ذخیره';
+
+  @override
+  String get actionCancel => 'انصراف';
+
+  @override
+  String get actionConfirm => 'تأیید';
+
+  @override
+  String get actionUndo => 'واگرد';
+
+  @override
+  String get actionRetry => 'تلاش دوباره';
+
+  @override
+  String get actionClose => 'بستن';
+
+  @override
+  String get actionBack => 'بازگشت';
+
+  @override
+  String get actionNext => 'بعدی';
+
+  @override
+  String get mushafRiwayahLabel => 'روایت حفص از عاصم — مصحف مدینه';
+
+  @override
+  String juzLabel(String juz) {
+    return 'جزء $juz';
+  }
+
+  @override
+  String pagesDue(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count صفحه برای مرور',
+      one: '$count صفحه برای مرور',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String catchUpDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count روز در برنامهٔ جبران',
+      one: '$count روز در برنامهٔ جبران',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String signOffCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count تأیید',
+      one: '$count تأیید',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String trackFar(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'levant': 'منزل',
+        'subcontinent': 'دور',
+        'other': 'منزل',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String trackNewSabaq(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'سبق',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String trackNearSabqi(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'سبقی',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String trackFarManzil(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'levant': 'منزل',
+        'subcontinent': 'دور',
+        'other': 'منزل',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String trackRevisionGeneral(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'مرور',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String gradeAgainVerb(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'نیازمند کمک',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String gradeHardVerb(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'اشتباهات جزئی',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String gradeGoodVerb(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'روان و درست',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String gradeEasyVerb(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'بی‌لغزش',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String cycleWeeklyKhatm(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'ختم هفتگی منازل',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String cycleOneJuzPerDay(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'یک جزء در روز',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String cycleHalfJuzPerDay(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'نیم جزء در روز',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String cycleTwoJuzPerDay(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'دو جزء در روز',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String cycleCustom(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'سفارشی',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String cyclePureMode(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'حالت دوره‌ای خالص',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get hijriUmmAlQuraQualifier => '(Umm al-Qurā)';
 
   @override
@@ -87,6 +321,11 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get onboardingNotHeld => 'حفظ‌نشده';
+
+  @override
+  String onboardingCoverageCellLabel(String juz, String state) {
+    return '$juz — $state';
+  }
 
   @override
   String get todayEmpty => 'در حال حاضر صفحه‌ای برای مرور نیست.';

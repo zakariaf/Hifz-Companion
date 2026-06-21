@@ -40,7 +40,7 @@ void main() {
 
     final l10n = AppLocalizations.of(
       tester.element(find.byType(AppearanceSwitcher)),
-    )!;
+    );
     await tester.tap(find.text(l10n.appearanceSepia));
     await tester.pumpAndSettle();
     expect(chosen, AppearanceSetting.sepia);
@@ -62,7 +62,7 @@ void main() {
 
     final l10n = AppLocalizations.of(
       tester.element(find.byType(AppearanceSwitcher)),
-    )!;
+    );
     await tester.tap(find.text(l10n.appearanceNight));
     await tester.pumpAndSettle();
     expect(chosen, AppearanceSetting.night);
