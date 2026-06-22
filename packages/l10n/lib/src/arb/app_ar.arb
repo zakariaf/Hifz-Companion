@@ -320,6 +320,30 @@
   "@onboardingBack": {
     "description": "Onboarding chrome Back affordance — returns to the previous step without losing captured values. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
   },
+  "onboardingWelcomeIntent": "هذا التطبيق هديةٌ مجانية، صدقةٌ جارية، ليعينك على حفظ ما حفظت.",
+  "@onboardingWelcomeIntent": {
+    "description": "Welcome step intent line — the app is offered free as ṣadaqah jāriyah; no transactional/upgrade framing. Methodology/religious — PROVISIONAL, needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingWelcomePrivacyNoAccount": "بلا حساب ولا تسجيل دخول.",
+  "@onboardingWelcomePrivacyNoAccount": {
+    "description": "Welcome privacy fact (C-048): no account / no sign-in. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingWelcomePrivacyNoMic": "لا يسجّل صوتك، ولا ميكروفون فيه.",
+  "@onboardingWelcomePrivacyNoMic": {
+    "description": "Welcome privacy fact (C-048): never records audio / no microphone — stated as a protection, not a silent gap. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingWelcomePrivacyOnDevice": "لا شيء عنك يغادر هذا الجهاز.",
+  "@onboardingWelcomePrivacyOnDevice": {
+    "description": "Welcome privacy fact (C-048): nothing about the user leaves the device; no telemetry. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingWelcomePrivacyOfflineAfter": "يعمل بلا إنترنت؛ يمكنك إبقاؤه في وضع الطيران.",
+  "@onboardingWelcomePrivacyOfflineAfter": {
+    "description": "Welcome privacy fact (C-048): works fully offline (the core muṣḥaf is bundled in the app), try airplane mode. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingWelcomeServant": "هو عونٌ لمراجعتك وخادمٌ لمعلّمك، لا بديلٌ عن التلقّي، وليس فتوى.",
+  "@onboardingWelcomeServant": {
+    "description": "Welcome servant-to-the-teacher framing (C-046): an aid to revision and a servant to the teacher, not a replacement for oral correction (talaqqī), not a fatwa. Methodology/religious — PROVISIONAL, needs native + scholarly review; best-effort fa/ckb."
+  },
   "onboardingDone": "تم",
   "@onboardingDone": {
     "description": "Button committing the cold-start seed (then the first day is generated). No celebration register. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."

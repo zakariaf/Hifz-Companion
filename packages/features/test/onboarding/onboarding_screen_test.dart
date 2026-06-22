@@ -8,6 +8,7 @@
 
 import 'package:features/features.dart';
 import 'package:features/src/onboarding/widgets/coverage_grid.dart';
+import 'package:features/src/onboarding/widgets/welcome_step.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -45,8 +46,8 @@ void main() {
 
   testWidgets('opens on the welcome step with no Back affordance', (t) async {
     final l10n = await pumpOnboarding(t);
-    expect(stepHost(OnboardingStep.welcomePrivacy), findsOneWidget);
-    // Back is hidden on the first step; Continue is present.
+    expect(find.byType(WelcomeStep), findsOneWidget);
+    // The welcome landing carries its own Continue CTA and no chrome Back.
     expect(find.widgetWithText(TextButton, l10n.onboardingBack), findsNothing);
     expect(continueEnabled(t, l10n.onboardingContinue), isTrue);
   });
@@ -59,13 +60,13 @@ void main() {
     await t.pumpAndSettle();
     // Now on the language step, with a Back affordance.
     expect(stepHost(OnboardingStep.language), findsOneWidget);
-    expect(stepHost(OnboardingStep.welcomePrivacy), findsNothing);
+    expect(find.byType(WelcomeStep), findsNothing);
     final back = find.widgetWithText(TextButton, l10n.onboardingBack);
     expect(back, findsOneWidget);
 
     await t.tap(back);
     await t.pumpAndSettle();
-    expect(stepHost(OnboardingStep.welcomePrivacy), findsOneWidget);
+    expect(find.byType(WelcomeStep), findsOneWidget);
   });
 
   testWidgets('the coverage step host composes the live coverage grid',

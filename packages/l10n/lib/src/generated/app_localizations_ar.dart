@@ -338,6 +338,28 @@ class AppLocalizationsAr extends AppLocalizations {
   String get onboardingBack => 'رجوع';
 
   @override
+  String get onboardingWelcomeIntent =>
+      'هذا التطبيق هديةٌ مجانية، صدقةٌ جارية، ليعينك على حفظ ما حفظت.';
+
+  @override
+  String get onboardingWelcomePrivacyNoAccount => 'بلا حساب ولا تسجيل دخول.';
+
+  @override
+  String get onboardingWelcomePrivacyNoMic =>
+      'لا يسجّل صوتك، ولا ميكروفون فيه.';
+
+  @override
+  String get onboardingWelcomePrivacyOnDevice => 'لا شيء عنك يغادر هذا الجهاز.';
+
+  @override
+  String get onboardingWelcomePrivacyOfflineAfter =>
+      'يعمل بلا إنترنت؛ يمكنك إبقاؤه في وضع الطيران.';
+
+  @override
+  String get onboardingWelcomeServant =>
+      'هو عونٌ لمراجعتك وخادمٌ لمعلّمك، لا بديلٌ عن التلقّي، وليس فتوى.';
+
+  @override
   String get onboardingDone => 'تم';
 
   @override

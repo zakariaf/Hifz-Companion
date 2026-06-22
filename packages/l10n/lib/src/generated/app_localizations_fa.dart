@@ -328,6 +328,29 @@ class AppLocalizationsFa extends AppLocalizations {
   String get onboardingBack => 'بازگشت';
 
   @override
+  String get onboardingWelcomeIntent =>
+      'این برنامه هدیه‌ای رایگان است، صدقه‌ای جاری، تا در نگه‌داشتِ آنچه از بر کرده‌اید یاری‌تان کند.';
+
+  @override
+  String get onboardingWelcomePrivacyNoAccount => 'بدون حساب و بدون ورود.';
+
+  @override
+  String get onboardingWelcomePrivacyNoMic =>
+      'صدای شما را ضبط نمی‌کند و میکروفون ندارد.';
+
+  @override
+  String get onboardingWelcomePrivacyOnDevice =>
+      'هیچ‌چیزی دربارهٔ شما این دستگاه را ترک نمی‌کند.';
+
+  @override
+  String get onboardingWelcomePrivacyOfflineAfter =>
+      'بدون اینترنت کار می‌کند؛ می‌توانید آن را در حالت پرواز نگه دارید.';
+
+  @override
+  String get onboardingWelcomeServant =>
+      'یاری‌رسانِ مرورِ شماست و خدمتگزارِ معلّم‌تان، نه جایگزینِ تلقّی و نه فتوا.';
+
+  @override
   String get onboardingDone => 'پایان';
 
   @override

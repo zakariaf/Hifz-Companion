@@ -421,6 +421,42 @@ abstract class AppLocalizations {
   /// **'رجوع'**
   String get onboardingBack;
 
+  /// Welcome step intent line — the app is offered free as ṣadaqah jāriyah; no transactional/upgrade framing. Methodology/religious — PROVISIONAL, needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا التطبيق هديةٌ مجانية، صدقةٌ جارية، ليعينك على حفظ ما حفظت.'**
+  String get onboardingWelcomeIntent;
+
+  /// Welcome privacy fact (C-048): no account / no sign-in. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'بلا حساب ولا تسجيل دخول.'**
+  String get onboardingWelcomePrivacyNoAccount;
+
+  /// Welcome privacy fact (C-048): never records audio / no microphone — stated as a protection, not a silent gap. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا يسجّل صوتك، ولا ميكروفون فيه.'**
+  String get onboardingWelcomePrivacyNoMic;
+
+  /// Welcome privacy fact (C-048): nothing about the user leaves the device; no telemetry. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا شيء عنك يغادر هذا الجهاز.'**
+  String get onboardingWelcomePrivacyOnDevice;
+
+  /// Welcome privacy fact (C-048): works fully offline (the core muṣḥaf is bundled in the app), try airplane mode. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'يعمل بلا إنترنت؛ يمكنك إبقاؤه في وضع الطيران.'**
+  String get onboardingWelcomePrivacyOfflineAfter;
+
+  /// Welcome servant-to-the-teacher framing (C-046): an aid to revision and a servant to the teacher, not a replacement for oral correction (talaqqī), not a fatwa. Methodology/religious — PROVISIONAL, needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'هو عونٌ لمراجعتك وخادمٌ لمعلّمك، لا بديلٌ عن التلقّي، وليس فتوى.'**
+  String get onboardingWelcomeServant;
+
   /// Button committing the cold-start seed (then the first day is generated). No celebration register. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///
   /// In ar, this message translates to:

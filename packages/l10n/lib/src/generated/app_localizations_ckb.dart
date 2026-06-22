@@ -327,6 +327,30 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get onboardingBack => 'گەڕانەوە';
 
   @override
+  String get onboardingWelcomeIntent =>
+      'ئەم ئەپە دیارییەکی بەخۆڕاییە، سەدەقەیەکی بەردەوام، بۆ یارمەتیدانت لە پاراستنی ئەوەی لەبەرت کردووە.';
+
+  @override
+  String get onboardingWelcomePrivacyNoAccount =>
+      'بەبێ هەژمار و بەبێ چوونەژوورەوە.';
+
+  @override
+  String get onboardingWelcomePrivacyNoMic =>
+      'دەنگت تۆمار ناکات و مایکرۆفۆنی نییە.';
+
+  @override
+  String get onboardingWelcomePrivacyOnDevice =>
+      'هیچ شتێک دەربارەی تۆ ئەم ئامێرە بەجێناهێڵێت.';
+
+  @override
+  String get onboardingWelcomePrivacyOfflineAfter =>
+      'بەبێ ئینتەرنێت کار دەکات؛ دەتوانیت لە دۆخی فڕیندا بیهێڵیتەوە.';
+
+  @override
+  String get onboardingWelcomeServant =>
+      'یارمەتیدەری پێداچوونەوەتە و خزمەتکاری مامۆستاکەتە، نە جێگرەوەی تەلەقین و نە فەتوا.';
+
+  @override
   String get onboardingDone => 'تەواو';
 
   @override

@@ -11,6 +11,7 @@ import 'onboarding_view_model.dart';
 import 'widgets/coverage_grid.dart';
 import 'widgets/juz_confidence_rater.dart';
 import 'widgets/onboarding_chrome.dart';
+import 'widgets/welcome_step.dart';
 
 /// The dumb onboarding host (E11-T01). It reads the one resume-safe capture
 /// controller (keyed by the active profile — `null` on a fresh device) and shows
@@ -51,12 +52,13 @@ class OnboardingScreen extends ConsumerWidget {
                 ),
               ),
               Expanded(child: _stepView(state, controller)),
-              OnboardingNavBar(
-                onBack: state.cursor == OnboardingStep.welcomePrivacy
-                    ? null
-                    : controller.back,
-                onContinue: controller.canAdvance ? controller.next : null,
-              ),
+              // The welcome landing carries its own Continue CTA; every other
+              // step uses the shared back/next chrome.
+              if (state.cursor != OnboardingStep.welcomePrivacy)
+                OnboardingNavBar(
+                  onBack: controller.back,
+                  onContinue: controller.canAdvance ? controller.next : null,
+                ),
             ],
           ),
         ),
@@ -70,7 +72,7 @@ class OnboardingScreen extends ConsumerWidget {
   Widget _stepView(OnboardingState state, OnboardingController controller) =>
       switch (state.cursor) {
         OnboardingStep.welcomePrivacy =>
-          const _StepHost(OnboardingStep.welcomePrivacy),
+          WelcomeStep(onContinue: controller.next),
         OnboardingStep.language => const _StepHost(OnboardingStep.language),
         OnboardingStep.riwayahConfirm =>
           const _StepHost(OnboardingStep.riwayahConfirm),
