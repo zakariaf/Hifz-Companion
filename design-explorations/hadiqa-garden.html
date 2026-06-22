@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<!-- Hifz — "ḤADĪQA": organic garden theme (jannah / "gardens beneath which rivers flow").
+     Throwaway mockup. Signature: organic blob shapes, botanical line-art, a flowing
+     river progress wave (gentle motion), emerald + rose + gold. The soft, non-geometric pole. -->
+<html lang="en"><head><meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Hifz · Ḥadīqa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Reem+Kufi:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#1f8a5b;--teal:#16a394;--deep:#0c4a36;--rose:#e98aa6;--blush:#ffe1e8;--gold:#e8b34a;
+    --cream:#fbfaf4;--mint:#dff2e6;--ink:#173a2c;--muted:#6f9183;
+    --ui:'Plus Jakarta Sans',sans-serif;--serif:'Fraunces',Georgia,serif;--ar:'Reem Kufi',sans-serif;
+    --soft:0 40px 84px -42px rgba(15,70,50,.5);--soft-sm:0 24px 48px -26px rgba(15,70,50,.32);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased;}
+  body{font-family:var(--ui);color:#eafff6;min-height:100vh;padding:62px 26px 100px;
+    background:radial-gradient(900px 600px at 14% -8%,#1f7a59,transparent 55%),
+      radial-gradient(800px 600px at 110% 8%,#0e6b62,transparent 50%),#0b3d2e;}
+  .masthead{max-width:920px;margin:0 auto 46px;text-align:center;}
+  .masthead .k{display:inline-block;font-size:11px;letter-spacing:.3em;text-transform:uppercase;font-weight:700;
+    color:#0b3d2e;background:#bff0d3;padding:7px 14px;border-radius:999px;}
+  .masthead h1{font-family:var(--serif);font-weight:400;font-size:clamp(36px,5.6vw,68px);line-height:1.02;margin:16px 0 12px;}
+  .masthead h1 em{font-style:italic;color:#ffd98a;}
+  .masthead p{max-width:560px;margin:0 auto;color:#a7d8c5;font-size:16px;line-height:1.6;}
+  figure{display:flex;flex-direction:column;align-items:center;gap:20px;}
+  figcaption{font-family:var(--serif);font-style:italic;font-size:19px;color:#a7d8c5;}
+
+  .phone{width:404px;height:858px;border-radius:54px;padding:13px;background:linear-gradient(160deg,#103b2c,#072017);
+    box-shadow:var(--soft);position:relative;margin:0 auto;}
+  .phone::after{content:"";position:absolute;top:27px;left:50%;transform:translateX(-50%);width:116px;height:28px;
+    border-radius:16px;background:#061a12;z-index:30;}
+  .screen{width:100%;height:100%;border-radius:42px;overflow:hidden;background:var(--cream);position:relative;}
+
+  /* organic blob header */
+  .head{position:relative;padding:62px 28px 40px;color:#fff;overflow:hidden;
+    background:linear-gradient(150deg,var(--teal),var(--green) 70%,var(--deep));
+    border-radius:0 0 46% 54% / 0 0 26% 34%;box-shadow:var(--soft-sm);}
+  .head .vine{position:absolute;top:30px;right:-10px;width:150px;opacity:.85;}
+  .head .row{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2;}
+  .head .ar{font-family:var(--ar);font-size:21px;color:#eafff3;}
+  .head .av{width:46px;height:46px;border-radius:60% 40% 50% 50%/50% 60% 40% 50%;display:grid;place-items:center;
+    font-family:var(--ar);font-size:20px;font-weight:700;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);}
+  .head h2{position:relative;z-index:2;font-family:var(--serif);font-style:italic;font-weight:500;font-size:33px;line-height:1.08;margin-top:22px;max-width:250px;}
+  .head p{position:relative;z-index:2;color:rgba(255,255,255,.82);font-size:13px;margin-top:10px;max-width:240px;line-height:1.5;}
+
+  /* hero: plant illustration + stat */
+  .hero{display:flex;align-items:center;gap:6px;padding:22px 28px 0;margin-top:-8px;}
+  .plant{width:130px;height:130px;border-radius:58% 42% 50% 50%/50% 50% 50% 50%;flex:none;display:grid;place-items:center;
+    background:radial-gradient(circle at 50% 35%,var(--mint),#eaf7ef);box-shadow:var(--soft-sm);}
+  .plant svg{width:78px;height:78px;}
+  .hero .big{flex:1;}
+  .hero .big .n{font-family:var(--serif);font-weight:500;font-size:66px;line-height:.9;color:var(--ink);}
+  .hero .big .n em{font-style:italic;color:var(--green);}
+  .hero .big .l{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.4;}
+
+  /* flowing river progress */
+  .riverwrap{margin:22px 28px 0;}
+  .riverwrap .cap{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);margin-bottom:8px;}
+  .riverwrap .cap b{color:var(--ink);font-weight:700;}
+  .river{position:relative;height:54px;border-radius:18px;overflow:hidden;background:#e6f1ff;box-shadow:inset 0 2px 8px rgba(20,80,120,.12);}
+  .river svg{position:absolute;bottom:-6px;left:0;width:200%;height:48px;}
+  .river .w1{fill:rgba(22,163,148,.55);animation:flow 9s linear infinite;}
+  .river .w2{fill:rgba(31,138,200,.45);animation:flow 6s linear infinite reverse;}
+  @keyframes flow{to{transform:translateX(-50%)}}
+
+  /* organic cards */
+  .cards{display:flex;gap:13px;padding:20px 28px 0;}
+  .gcard{flex:1;padding:16px 15px;color:var(--ink);box-shadow:var(--soft-sm);position:relative;}
+  .gcard.a{background:var(--mint);border-radius:62% 38% 46% 54%/60% 50% 50% 40%;}
+  .gcard.b{background:var(--blush);border-radius:42% 58% 56% 44%/52% 44% 56% 48%;}
+  .gcard .ic{font-size:20px;} .gcard .n{font-family:var(--serif);font-weight:500;font-size:30px;margin-top:8px;}
+  .gcard .k{font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.3;}
+
+  .sect{padding:22px 28px 0;}
+  .sect h3{font-family:var(--serif);font-style:italic;font-size:23px;color:var(--ink);margin-bottom:12px;}
+  .item{display:flex;align-items:center;gap:13px;background:#fff;border-radius:40% 60% 60% 40%/50% 50% 50% 50%;
+    padding:12px 16px;margin-bottom:11px;box-shadow:var(--soft-sm);}
+  .item .leaf{width:40px;height:40px;border-radius:60% 40% 50% 50%/55% 45% 55% 45%;flex:none;display:grid;place-items:center;font-size:17px;}
+  .item .m{flex:1;} .item .m .t{font-weight:700;font-size:14.5px;color:var(--ink);}
+  .item .m .s{font-size:12px;color:var(--muted);margin-top:2px;}
+
+  .cta{margin:8px 28px 0;width:calc(100% - 56px);border:none;cursor:pointer;color:#fff;font-weight:700;font-size:16px;
+    padding:17px;border-radius:40% 60% 55% 45%/50% 50% 50% 50%;
+    background:linear-gradient(96deg,var(--green),var(--teal));box-shadow:0 18px 44px -16px rgba(22,140,110,.7);}
+  @media (prefers-reduced-motion:reduce){.river .w1,.river .w2{animation:none}}
+</style></head>
+<body>
+  <header class="masthead">
+    <span class="k">Concept V</span>
+    <h1>Ḥadīqa — <em>the garden</em>.</h1>
+    <p>Memory as something living, tended daily. Organic shapes, botanical line-art, a flowing river of progress.</p>
+  </header>
+
+  <figure>
+    <div class="phone"><div class="screen">
+      <div class="head">
+        <svg class="vine" viewBox="0 0 120 160" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="2" stroke-linecap="round">
+          <path d="M70 0 C 60 40, 80 70, 60 110 C 50 135, 64 150, 60 160"/>
+          <path d="M64 30 C 40 22, 28 34, 26 50 C 46 52, 60 46, 64 30 Z" fill="rgba(255,255,255,.18)"/>
+          <path d="M70 64 C 92 56, 104 70, 104 86 C 84 86, 70 78, 70 64 Z" fill="rgba(255,255,255,.18)"/>
+          <path d="M58 100 C 36 96, 26 108, 26 124 C 46 122, 58 114, 58 100 Z" fill="rgba(255,255,255,.18)"/>
+        </svg>
+        <div class="row"><span class="ar">السَّلامُ عَلَيْكُم</span><span class="av">ز</span></div>
+        <h2>Your memory is flourishing.</h2>
+        <p>Tend it a little today — like a garden beneath which rivers flow.</p>
+      </div>
+
+      <div class="hero">
+        <div class="plant">
+          <svg viewBox="0 0 100 100" fill="none" stroke="#1f8a5b" stroke-width="3" stroke-linecap="round">
+            <path d="M50 92 V 44"/>
+            <path d="M50 60 C 26 56, 16 40, 18 22 C 40 26, 52 40, 50 60 Z" fill="#bde8cd"/>
+            <path d="M50 52 C 74 48, 86 34, 84 16 C 62 20, 50 34, 50 52 Z" fill="#d7f0e2"/>
+            <circle cx="50" cy="40" r="4" fill="#e8b34a" stroke="none"/>
+          </svg>
+        </div>
+        <div class="big">
+          <div class="n">94<em>%</em></div>
+          <div class="l">roots deep across all thirty juz</div>
+        </div>
+      </div>
+
+      <div class="riverwrap">
+        <div class="cap"><span>This week’s flow</span><span><b>84</b> pages reviewed</span></div>
+        <div class="river">
+          <svg class="w1" viewBox="0 0 200 48" preserveAspectRatio="none"><path d="M0 24 q25 -16 50 0 t50 0 t50 0 t50 0 V48 H0 Z"/></svg>
+          <svg class="w2" viewBox="0 0 200 48" preserveAspectRatio="none"><path d="M0 30 q25 -14 50 0 t50 0 t50 0 t50 0 V48 H0 Z"/></svg>
+        </div>
+      </div>
+
+      <div class="cards">
+        <div class="gcard a"><div class="ic">🌿</div><div class="n">7</div><div class="k">pages due today</div></div>
+        <div class="gcard b"><div class="ic">🌹</div><div class="n">28</div><div class="k">needs gentle care</div></div>
+      </div>
+
+      <div class="sect">
+        <h3>Tend today</h3>
+        <div class="item"><div class="leaf" style="background:#cdeed9">🌿</div><div class="m"><div class="t">Al-Baqarah · pp. 22–23</div><div class="s">far cycle · last seen 9 days ago</div></div></div>
+        <div class="item"><div class="leaf" style="background:#ffd9e0">🌹</div><div class="m"><div class="t">An-Naba’ · p. 582</div><div class="s">pulled forward · a little dry</div></div></div>
+      </div>
+
+      <button class="cta">Tend your garden →</button>
+    </div></div>
+    <figcaption>Ḥadīqa · organic blobs, botanical line-art, a flowing river</figcaption>
+  </figure>
+</body></html>

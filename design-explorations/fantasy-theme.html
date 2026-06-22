@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<!--
+  Hifz Companion — FANTASY THEME EXPLORATION (throwaway visual mockup)
+  Not wired to the app, not the Mihrab design system. Pure HTML/CSS to feel out
+  a bolder, more colorful, more "3D-hero" direction.
+
+  Brief honored, requirement by requirement:
+    • No AppBar — every screen is a Stack: layered/positioned children that overlap.
+    • Dark, curved top header (elliptical convex bottom).
+    • Bright pastel metric cards FLOATING over the dark→light transition (overlap via
+      negative margin + z-index).
+    • A large, dedicated 3D-ASSET slot, surrounded by bold oversized typography
+      (incl. a giant translucent ghost-word behind it).
+    • Custom soft-drop shadows (high blur radius, low opacity) — never default elevation.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hifz · Fantasy theme explorations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Reem+Kufi:wght@500;600;700&display=swap" rel="stylesheet" />
+<style>
+  /* ============================ TOKENS ============================ */
+  :root{
+    --font-ui:'Plus Jakarta Sans',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    --font-display:'Space Grotesk','Plus Jakarta Sans',sans-serif;
+    --font-ar:'Reem Kufi','Plus Jakarta Sans',sans-serif;
+
+    /* Custom SOFT-DROP shadows: large offset, very high blur, low opacity.
+       (the whole point — nothing like Material elevation) */
+    --soft-xl: 0 44px 90px -36px rgba(20,12,48,.55);
+    --soft-lg: 0 34px 64px -28px rgba(20,12,48,.40);
+    --soft-md: 0 26px 48px -22px rgba(20,12,48,.28);
+    --soft-sm: 0 18px 34px -18px rgba(20,12,48,.22);
+    --glow:    0 0 60px 0 rgba(255,255,255,.18);
+  }
+
+  /* ---- Palette A — "AURORA" : indigo/violet night + aurora pastels ---- */
+  .t-aurora{
+    --ink-1:#241552; --ink-2:#3a1d74; --ink-3:#5b2da0;
+    --body:#f4f1ff;
+    --header-blob-1:rgba(124,92,255,.55);
+    --header-blob-2:rgba(255,122,156,.45);
+    --header-blob-3:rgba(56,224,201,.40);
+    --accent:#7c5cff; --accent-2:#ff7a9c; --gold:#ffd166;
+    --c-mint:#d6f6ea; --c-lav:#e9e0ff; --c-peach:#ffe2d6; --c-sky:#d9ecff; --c-butter:#fff3c4;
+    --ink-mint:#0e6b53; --ink-lav:#5a36c9; --ink-peach:#c2552f; --ink-sky:#1f6fb8; --ink-butter:#9b7400;
+    --text:#241552; --muted:#7a6fa6;
+  }
+  /* ---- Palette B — "MIHRAB DUSK" : deep emerald/teal + warm sand pastels ---- */
+  .t-dusk{
+    --ink-1:#063a31; --ink-2:#0a5347; --ink-3:#0f7a63;
+    --body:#fff7ef;
+    --header-blob-1:rgba(16,184,146,.55);
+    --header-blob-2:rgba(255,180,90,.50);
+    --header-blob-3:rgba(120,220,255,.35);
+    --accent:#0fb892; --accent-2:#ff8a5c; --gold:#ffc24b;
+    --c-mint:#cdeee0; --c-lav:#e3f0ff; --c-peach:#ffe0cf; --c-sky:#d7efff; --c-butter:#ffeab0;
+    --ink-mint:#0a6b50; --ink-lav:#2f6fb8; --ink-peach:#c25a2b; --ink-sky:#1f74a8; --ink-butter:#a07400;
+    --text:#063a31; --muted:#5f8378;
+  }
+
+  /* ============================ GALLERY SHELL ============================ */
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased;}
+  body{
+    font-family:var(--font-ui);
+    background:
+      radial-gradient(1200px 600px at 15% -10%, #2a1a55 0%, transparent 60%),
+      radial-gradient(1000px 500px at 110% 10%, #102a44 0%, transparent 55%),
+      #0c0a1a;
+    color:#fff; min-height:100vh; padding:56px 28px 90px;
+  }
+  .masthead{max-width:1180px;margin:0 auto 46px;}
+  .masthead .kicker{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:700;
+    letter-spacing:.22em;text-transform:uppercase;color:#b9adf0;
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+    padding:8px 14px;border-radius:999px;}
+  .masthead h1{font-family:var(--font-display);font-weight:700;font-size:clamp(34px,5vw,62px);
+    line-height:1.02;letter-spacing:-.02em;margin:18px 0 12px;
+    background:linear-gradient(92deg,#fff 0%,#cdbcff 45%,#8de9d6 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  .masthead p{max-width:680px;color:#aaa2c8;font-size:16px;line-height:1.6;}
+  .masthead .note{margin-top:16px;font-size:13.5px;color:#8d85ad;border-left:2px solid var(--accent,#7c5cff);
+    padding-left:14px;max-width:680px;}
+
+  .gallery{max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:54px 46px;justify-content:center;}
+  figure{display:flex;flex-direction:column;align-items:center;gap:18px;}
+  figcaption{font-size:14px;color:#c8c1e6;text-align:center;}
+  figcaption b{color:#fff;font-weight:700;}
+  figcaption .chip{display:inline-block;margin-top:7px;font-size:11px;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;color:#0c0a1a;background:#cdbcff;padding:4px 11px;border-radius:999px;}
+  .t-dusk-chip{background:#9fe7cf !important;}
+
+  /* ============================ PHONE FRAME ============================ */
+  .phone{
+    width:392px;height:838px;border-radius:54px;padding:13px;
+    background:linear-gradient(150deg,#1a1830,#0e0d1d);
+    box-shadow:var(--soft-xl), inset 0 1px 0 rgba(255,255,255,.06);
+    position:relative;
+  }
+  .phone::after{ /* speaker notch */
+    content:"";position:absolute;top:26px;left:50%;transform:translateX(-50%);
+    width:118px;height:30px;border-radius:18px;background:#080711;z-index:40;
+  }
+  .screen{
+    position:relative;width:100%;height:100%;border-radius:42px;overflow:hidden;
+    background:var(--body);isolation:isolate;
+  }
+
+  /* ===== LAYER 1 — dark CURVED header (the Stack base) ===== */
+  .header{
+    position:relative;z-index:1;height:454px;padding:64px 26px 0;color:#fff;overflow:hidden;
+    background:linear-gradient(160deg,var(--ink-2) 0%,var(--ink-1) 60%,var(--ink-1) 100%);
+    /* elliptical convex curve along the bottom */
+    border-radius:0 0 50% 50% / 0 0 66px 66px;
+    box-shadow:var(--soft-lg);
+  }
+  /* aurora blobs for depth + sparkle */
+  .blob{position:absolute;border-radius:50%;filter:blur(34px);opacity:.9;pointer-events:none;}
+  .b1{width:240px;height:240px;background:var(--header-blob-1);top:-50px;right:-40px;}
+  .b2{width:200px;height:200px;background:var(--header-blob-2);top:120px;left:-70px;}
+  .b3{width:170px;height:170px;background:var(--header-blob-3);bottom:30px;right:40px;opacity:.7;}
+  .stars{position:absolute;inset:0;background-image:
+      radial-gradient(1.6px 1.6px at 30% 22%, rgba(255,255,255,.9), transparent),
+      radial-gradient(1.4px 1.4px at 72% 14%, rgba(255,255,255,.7), transparent),
+      radial-gradient(1.2px 1.2px at 54% 40%, rgba(255,255,255,.6), transparent),
+      radial-gradient(1.6px 1.6px at 84% 52%, rgba(255,255,255,.55), transparent);
+    pointer-events:none;}
+
+  .topbar{position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;}
+  .hello{font-family:var(--font-ar);font-size:21px;font-weight:600;display:block;line-height:1;
+    color:#fff;opacity:.96;}
+  .sub{font-size:13px;color:rgba(255,255,255,.62);margin-top:6px;letter-spacing:.02em;}
+  .avatar{width:50px;height:50px;border-radius:17px;display:grid;place-items:center;
+    font-family:var(--font-ar);font-size:22px;font-weight:700;color:#fff;
+    background:linear-gradient(140deg,var(--accent),var(--accent-2));
+    box-shadow:var(--soft-sm), inset 0 1px 0 rgba(255,255,255,.4);}
+
+  /* ===== oversized typography wrapping the 3D slot ===== */
+  .hero{position:relative;z-index:3;margin-top:18px;text-align:center;}
+  .ghost{position:absolute;z-index:-1;left:50%;top:96px;transform:translateX(-50%);
+    font-family:var(--font-ar);font-weight:700;font-size:188px;line-height:.8;
+    color:rgba(255,255,255,.06);letter-spacing:.02em;white-space:nowrap;pointer-events:none;}
+  .bigtype{font-family:var(--font-display);font-weight:700;font-size:40px;line-height:1.02;
+    letter-spacing:-.02em;text-shadow:0 8px 30px rgba(0,0,0,.25);}
+  .bigtype em{font-style:normal;
+    background:linear-gradient(96deg,var(--gold),#fff);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+
+  /* ===== LARGE 3D-ASSET SLOT ===== */
+  .asset{position:relative;width:236px;height:236px;margin:14px auto 0;}
+  .asset .halo{position:absolute;inset:-6px;border-radius:50%;
+    background:radial-gradient(circle at 50% 40%,var(--header-blob-1),transparent 62%);
+    filter:blur(14px);}
+  .asset .slot{position:absolute;inset:0;border-radius:50%;
+    border:1.5px dashed rgba(255,255,255,.4);
+    background:radial-gradient(circle at 50% 38%, rgba(255,255,255,.18), rgba(255,255,255,.04) 55%, transparent 72%);
+    display:grid;place-items:center;text-align:center;color:#fff;backdrop-filter:blur(2px);}
+  .asset .cube{font-size:46px;filter:drop-shadow(0 12px 22px rgba(0,0,0,.4));}
+  .asset .slot small{display:block;margin-top:10px;font-size:11px;font-weight:700;letter-spacing:.16em;
+    text-transform:uppercase;color:rgba(255,255,255,.92);}
+  .asset .slot span{display:block;font-size:11.5px;color:rgba(255,255,255,.6);margin-top:3px;letter-spacing:.02em;}
+  .asset .pedestal{position:absolute;left:50%;bottom:-12px;transform:translateX(-50%);
+    width:170px;height:26px;border-radius:50%;background:rgba(0,0,0,.45);filter:blur(16px);} /* soft floor shadow */
+
+  /* ===== LAYER 2 — pastel cards FLOATING over the curve (overlap) ===== */
+  .scroll{position:relative;z-index:2;padding:0 22px 30px;}
+  .metrics{display:flex;gap:13px;margin-top:-58px;}        /* negative margin = the overlap */
+  .card{flex:1;border-radius:26px;padding:16px 14px;position:relative;overflow:hidden;
+    box-shadow:var(--soft-md);}
+  .card .ic{width:34px;height:34px;border-radius:12px;display:grid;place-items:center;font-size:17px;
+    background:rgba(255,255,255,.55);box-shadow:inset 0 1px 0 rgba(255,255,255,.7);}
+  .card .num{font-family:var(--font-display);font-weight:700;font-size:30px;letter-spacing:-.02em;margin-top:14px;line-height:1;}
+  .card .lbl{font-size:11.5px;font-weight:600;margin-top:7px;opacity:.78;line-height:1.25;}
+  .c-mint{background:var(--c-mint);color:var(--ink-mint);}
+  .c-lav {background:var(--c-lav); color:var(--ink-lav);}
+  .c-peach{background:var(--c-peach);color:var(--ink-peach);}
+  .c-sky {background:var(--c-sky); color:var(--ink-sky);}
+  .c-butter{background:var(--c-butter);color:var(--ink-butter);}
+
+  /* ===== body content on the light surface ===== */
+  .body{margin-top:26px;}
+  .sect{display:flex;align-items:baseline;justify-content:space-between;margin:0 4px 14px;}
+  .sect h2{font-family:var(--font-display);font-weight:700;font-size:24px;letter-spacing:-.02em;color:var(--text);}
+  .sect a{font-size:12.5px;font-weight:700;color:var(--accent);text-decoration:none;}
+
+  .item{display:flex;align-items:center;gap:14px;background:#fff;border-radius:22px;padding:14px;
+    margin-bottom:12px;box-shadow:var(--soft-sm);}
+  .item .dot{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;
+    font-family:var(--font-display);font-weight:700;font-size:17px;color:#fff;flex:none;}
+  .item .meta{flex:1;min-width:0;}
+  .item .t{font-weight:700;font-size:15px;color:var(--text);}
+  .item .d{font-size:12.5px;color:var(--muted);margin-top:3px;}
+  .item .pill{font-size:11px;font-weight:700;padding:5px 11px;border-radius:999px;}
+
+  .cta{margin-top:6px;width:100%;border:none;cursor:pointer;
+    font-family:var(--font-ui);font-weight:700;font-size:16px;color:#fff;
+    padding:18px;border-radius:22px;letter-spacing:.01em;
+    background:linear-gradient(96deg,var(--accent),var(--accent-2));
+    box-shadow:var(--soft-md);}
+
+  /* ===== JUZ MAP (screen 2) — pastel retention grid ===== */
+  .juzgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin-top:-46px;
+    background:#fff;padding:18px;border-radius:28px;box-shadow:var(--soft-md);}
+  .juz{aspect-ratio:1;border-radius:14px;display:grid;place-items:center;
+    font-family:var(--font-display);font-weight:700;font-size:13px;color:var(--text);}
+  .lvl5{background:var(--accent);color:#fff;} .lvl4{background:#bfa9ff;}
+  .lvl3{background:var(--c-lav);} .lvl2{background:var(--c-peach);color:var(--ink-peach);}
+  .lvl1{background:#ffd0c2;color:var(--ink-peach);}
+  .t-dusk .lvl4{background:#7fd9bf;} .t-dusk .lvl3{background:var(--c-mint);}
+  .legend{display:flex;align-items:center;gap:8px;margin:16px 4px 0;font-size:11.5px;color:var(--muted);}
+  .legend i{width:16px;height:16px;border-radius:5px;display:inline-block;}
+
+  /* small helper rows for "two-up" metrics in body */
+  .twoup{display:flex;gap:13px;margin-top:16px;}
+</style>
+</head>
+<body>
+
+  <header class="masthead">
+    <span class="kicker">✦ Concept · not the Mihrab system</span>
+    <h1>A brighter, bolder Hifz.</h1>
+    <p>Throwaway exploration of a more colorful, more dimensional theme — dark curved headers,
+       pastel cards floating over the transition, and a big 3D hero slot framed by oversized type.</p>
+    <p class="note">Visuals go maximal; the <b>content</b> stays calm loss-prevention framing — no streaks,
+       points, or badges on sacred work. Two palettes shown: <b>Aurora</b> (indigo night) and <b>Mihrab&nbsp;Dusk</b> (emerald).</p>
+  </header>
+
+  <main class="gallery">
+
+    <!-- ============ SCREEN 1 · HOME · AURORA ============ -->
+    <figure>
+      <div class="phone t-aurora">
+        <div class="screen">
+          <div class="header">
+            <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+            <div class="stars"></div>
+            <div class="topbar">
+              <div>
+                <span class="hello">السَّلامُ عَلَيْكُم</span>
+                <span class="sub">Tuesday · 30 Dhū al-Ḥijjah</span>
+              </div>
+              <div class="avatar">ز</div>
+            </div>
+            <div class="hero">
+              <div class="ghost">نور</div>
+              <h1 class="bigtype">Your ḥifẓ is<br><em>holding steady</em></h1>
+              <div class="asset">
+                <div class="halo"></div>
+                <div class="pedestal"></div>
+                <div class="slot">
+                  <div>
+                    <div class="cube">🕋</div>
+                    <small>3D asset slot</small>
+                    <span>drop hero render · muṣḥaf / 8-pt star</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="scroll">
+            <div class="metrics">
+              <div class="card c-mint"><div class="ic">📖</div><div class="num">12</div><div class="lbl">Pages due today</div></div>
+              <div class="card c-lav"><div class="ic">🫀</div><div class="num">94%</div><div class="lbl">Overall strength</div></div>
+              <div class="card c-peach"><div class="ic">🪶</div><div class="num">28</div><div class="lbl">Needs attention</div></div>
+            </div>
+
+            <div class="body">
+              <div class="sect"><h2>Today’s review</h2><a>See all</a></div>
+              <div class="item">
+                <div class="dot" style="background:linear-gradient(140deg,#7c5cff,#ff7a9c)">2</div>
+                <div class="meta"><div class="t">Al-Baqarah · pages 22–23</div><div class="d">Far cycle · last seen 9 days ago</div></div>
+                <span class="pill c-peach">due</span>
+              </div>
+              <div class="item">
+                <div class="dot" style="background:linear-gradient(140deg,#38e0c9,#1f6fb8)">28</div>
+                <div class="meta"><div class="t">An-Naba’ · page 582</div><div class="d">Pulled forward · weak lines flagged</div></div>
+                <span class="pill c-lav">soon</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <figcaption><b>Home</b> — hero 3D + floating metrics<br><span class="chip">Aurora</span></figcaption>
+    </figure>
+
+    <!-- ============ SCREEN 2 · JUZ MAP · AURORA ============ -->
+    <figure>
+      <div class="phone t-aurora">
+        <div class="screen">
+          <div class="header" style="height:392px">
+            <div class="blob b1"></div><div class="blob b2"></div><div class="stars"></div>
+            <div class="topbar">
+              <div><span class="hello">Retention map</span><span class="sub">All 30 juz · nothing left to fade</span></div>
+              <div class="avatar">ز</div>
+            </div>
+            <div class="hero">
+              <div class="ghost" style="font-size:150px;top:70px">٣٠</div>
+              <h1 class="bigtype" style="font-size:46px;margin-top:8px">Across<br><em>thirty juz</em></h1>
+              <p class="sub" style="margin-top:14px">A quiet map of where your memory is strong — and where to revisit before it slips.</p>
+            </div>
+          </div>
+
+          <div class="scroll">
+            <div class="juzgrid">
+              <div class="juz lvl5">1</div><div class="juz lvl5">2</div><div class="juz lvl4">3</div><div class="juz lvl5">4</div><div class="juz lvl3">5</div><div class="juz lvl4">6</div>
+              <div class="juz lvl5">7</div><div class="juz lvl4">8</div><div class="juz lvl5">9</div><div class="juz lvl3">10</div><div class="juz lvl4">11</div><div class="juz lvl5">12</div>
+              <div class="juz lvl4">13</div><div class="juz lvl5">14</div><div class="juz lvl5">15</div><div class="juz lvl2">16</div><div class="juz lvl4">17</div><div class="juz lvl3">18</div>
+              <div class="juz lvl5">19</div><div class="juz lvl4">20</div><div class="juz lvl5">21</div><div class="juz lvl5">22</div><div class="juz lvl3">23</div><div class="juz lvl4">24</div>
+              <div class="juz lvl5">25</div><div class="juz lvl2">26</div><div class="juz lvl4">27</div><div class="juz lvl1">28</div><div class="juz lvl3">29</div><div class="juz lvl4">30</div>
+            </div>
+            <div class="legend"><i style="background:#ffd0c2"></i>Revisit<i style="background:var(--c-lav);margin-left:8px"></i>Steady<i style="background:var(--accent);margin-left:8px"></i>Strong</div>
+
+            <div class="twoup">
+              <div class="card c-sky"><div class="ic">🌿</div><div class="num">21</div><div class="lbl">Juz at full strength</div></div>
+              <div class="card c-butter"><div class="ic">🔎</div><div class="num">28</div><div class="lbl">Weakest — review first</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <figcaption><b>Retention map</b> — the 30-juz grid<br><span class="chip">Aurora</span></figcaption>
+    </figure>
+
+    <!-- ============ SCREEN 3 · REVIEW · AURORA ============ -->
+    <figure>
+      <div class="phone t-aurora">
+        <div class="screen">
+          <div class="header" style="height:470px">
+            <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="stars"></div>
+            <div class="topbar">
+              <div><span class="hello">Today’s session</span><span class="sub">Calm pace · ~18 min</span></div>
+              <div class="avatar">ز</div>
+            </div>
+            <div class="hero">
+              <div class="ghost" style="font-size:240px;top:120px">١٢</div>
+              <h1 class="bigtype" style="font-size:38px">Ready when<br><em>you are</em></h1>
+              <div class="asset" style="width:210px;height:210px">
+                <div class="halo"></div><div class="pedestal"></div>
+                <div class="slot"><div><div class="cube">📿</div><small>3D asset slot</small><span>animated muṣḥaf / tasbīḥ</span></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="scroll">
+            <div class="metrics">
+              <div class="card c-lav"><div class="ic">📖</div><div class="num">12</div><div class="lbl">Pages queued</div></div>
+              <div class="card c-mint"><div class="ic">⏳</div><div class="num">18m</div><div class="lbl">Est. time</div></div>
+            </div>
+            <div class="body">
+              <div class="item">
+                <div class="dot" style="background:linear-gradient(140deg,#7c5cff,#ff7a9c)">①</div>
+                <div class="meta"><div class="t">Warm-up · yesterday’s pages</div><div class="d">3 pages · reveal-on-tap</div></div>
+              </div>
+              <div class="item">
+                <div class="dot" style="background:linear-gradient(140deg,#38e0c9,#1f6fb8)">②</div>
+                <div class="meta"><div class="t">Far cycle · spaced review</div><div class="d">9 pages · self-rate each</div></div>
+              </div>
+              <button class="cta">Begin review →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <figcaption><b>Review</b> — session intro + CTA<br><span class="chip">Aurora</span></figcaption>
+    </figure>
+
+    <!-- ============ SCREEN 4 · HOME · MIHRAB DUSK ============ -->
+    <figure>
+      <div class="phone t-dusk">
+        <div class="screen">
+          <div class="header">
+            <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="stars"></div>
+            <div class="topbar">
+              <div><span class="hello">السَّلامُ عَلَيْكُم</span><span class="sub">Same layout · warmer palette</span></div>
+              <div class="avatar">ز</div>
+            </div>
+            <div class="hero">
+              <div class="ghost">نور</div>
+              <h1 class="bigtype">Your ḥifẓ is<br><em>holding steady</em></h1>
+              <div class="asset">
+                <div class="halo"></div><div class="pedestal"></div>
+                <div class="slot"><div><div class="cube">🕌</div><small>3D asset slot</small><span>drop hero render · mihrab / star</span></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="scroll">
+            <div class="metrics">
+              <div class="card c-mint"><div class="ic">📖</div><div class="num">12</div><div class="lbl">Pages due today</div></div>
+              <div class="card c-peach"><div class="ic">🫀</div><div class="num">94%</div><div class="lbl">Overall strength</div></div>
+              <div class="card c-butter"><div class="ic">🪶</div><div class="num">28</div><div class="lbl">Needs attention</div></div>
+            </div>
+            <div class="body">
+              <div class="sect"><h2>Today’s review</h2><a>See all</a></div>
+              <div class="item">
+                <div class="dot" style="background:linear-gradient(140deg,#0fb892,#ff8a5c)">2</div>
+                <div class="meta"><div class="t">Al-Baqarah · pages 22–23</div><div class="d">Far cycle · last seen 9 days ago</div></div>
+                <span class="pill c-peach">due</span>
+              </div>
+              <div class="item">
+                <div class="dot" style="background:linear-gradient(140deg,#ffc24b,#ff8a5c)">28</div>
+                <div class="meta"><div class="t">An-Naba’ · page 582</div><div class="d">Pulled forward · weak lines flagged</div></div>
+                <span class="pill c-sky">soon</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <figcaption><b>Home</b> — identical layout, <b>Mihrab Dusk</b> palette<br><span class="chip t-dusk-chip">Dusk</span></figcaption>
+    </figure>
+
+  </main>
+</body>
+</html>

@@ -18,6 +18,7 @@ Files:
  epics/*
  research/*
  demo/*
+ design-explorations/*
 Copyright: 2026 Zakaria Fatahi and Hifz Companion contributors
 License: GPL-3.0-or-later
 
