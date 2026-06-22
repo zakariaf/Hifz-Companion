@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<!-- Hifz — "ZELLIJ": Moroccan-mosaic maximalism. Throwaway mockup.
+     Signature: jewel tones + the 30-juz retention map rebuilt as a tilework mosaic of
+     CSS geometric stars; cream-grout grid; a tessellated header band. -->
+<html lang="en"><head><meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Hifz · Zellij</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Reem+Kufi:wght@500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --emerald:#0e6e5a;--emerald-d:#0a4f41;--cobalt:#1b4fb0;--terra:#c0492b;--saffron:#e3a008;
+    --cream:#f4ead2;--cream-d:#e7d8b3;--ink:#2a2113;
+    --ui:'Plus Jakarta Sans',sans-serif;--mono:'Space Grotesk',sans-serif;--ar:'Reem Kufi',sans-serif;
+    --soft:0 40px 84px -40px rgba(20,40,30,.6);--soft-sm:0 22px 44px -24px rgba(20,40,30,.4);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased;}
+  body{font-family:var(--ui);color:#fff;min-height:100vh;padding:62px 26px 100px;
+    background:
+      radial-gradient(900px 600px at 12% -8%,#155e4f,transparent 55%),
+      radial-gradient(800px 600px at 110% 10%,#16407f,transparent 50%),
+      #0a3a31;}
+  .masthead{max-width:920px;margin:0 auto 46px;text-align:center;}
+  .masthead .k{display:inline-block;font-size:11px;letter-spacing:.3em;text-transform:uppercase;font-weight:700;
+    color:#0a3a31;background:var(--saffron);padding:7px 14px;border-radius:6px;}
+  .masthead h1{font-weight:800;font-size:clamp(36px,5.6vw,68px);line-height:1.02;margin:16px 0 12px;letter-spacing:-.02em;
+    background:linear-gradient(95deg,#fff,#ffe6a8 60%,#ffd27a);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  .masthead p{max-width:560px;margin:0 auto;color:#bfe6d9;font-size:16px;line-height:1.6;}
+  figure{display:flex;flex-direction:column;align-items:center;gap:20px;}
+  figcaption{font-size:18px;color:#bfe6d9;}
+
+  .phone{width:404px;height:858px;border-radius:54px;padding:13px;background:linear-gradient(160deg,#0e2722,#06140f);
+    box-shadow:var(--soft);position:relative;margin:0 auto;}
+  .phone::after{content:"";position:absolute;top:27px;left:50%;transform:translateX(-50%);width:116px;height:28px;
+    border-radius:16px;background:#05100c;z-index:30;}
+  .screen{width:100%;height:100%;border-radius:42px;overflow:hidden;background:var(--cream);position:relative;}
+
+  /* tessellated header band */
+  .band{position:relative;height:230px;padding:62px 26px 0;color:#fff;overflow:hidden;
+    background-color:var(--emerald);
+    background-image:
+      repeating-linear-gradient(45deg, rgba(255,255,255,.07) 0 2px, transparent 2px 22px),
+      repeating-linear-gradient(-45deg, rgba(255,255,255,.07) 0 2px, transparent 2px 22px),
+      repeating-linear-gradient(45deg, rgba(0,0,0,.10) 0 2px, transparent 2px 44px),
+      radial-gradient(120% 90% at 50% -20%, rgba(227,160,8,.35), transparent 55%);
+    border-radius:0 0 30px 30px;box-shadow:var(--soft-sm);}
+  .band .row{display:flex;align-items:center;justify-content:space-between;}
+  .band .ar{font-family:var(--ar);font-size:22px;color:#ffe6a8;text-shadow:0 2px 14px rgba(0,0,0,.3);}
+  .band .dot{width:46px;height:46px;border-radius:12px;background:var(--saffron);transform:rotate(45deg);
+    box-shadow:0 0 0 4px rgba(255,255,255,.18),var(--soft-sm);}
+  .plaque{margin-top:20px;background:var(--cream);color:var(--ink);border-radius:14px;padding:16px 18px;
+    box-shadow:var(--soft-sm);border:2px solid var(--cream-d);position:relative;}
+  .plaque h2{font-weight:800;font-size:22px;letter-spacing:-.01em;}
+  .plaque p{font-size:12.5px;color:#7a6a44;margin-top:4px;}
+
+  /* mosaic */
+  .mosaic{margin:18px 22px 0;background:var(--cream-d);padding:8px;border-radius:16px;
+    display:grid;grid-template-columns:repeat(6,1fr);gap:7px;box-shadow:inset 0 2px 6px rgba(120,90,30,.25);}
+  .tile{aspect-ratio:1;border-radius:7px;display:grid;place-items:center;position:relative;overflow:hidden;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);}
+  .tile .star,.tile .star::before{position:absolute;inset:24%;border:1.5px solid rgba(255,255,255,.6);border-radius:2px;}
+  .tile .star{display:block;}
+  .tile .star::before{content:"";transform:rotate(45deg);}
+  .tile b{position:relative;z-index:2;font-family:var(--mono);font-weight:700;font-size:11px;color:rgba(255,255,255,.92);}
+  .s5{background:var(--emerald);} .s4{background:#1b8e75;} .s3{background:var(--cobalt);}
+  .s2{background:var(--saffron);} .s1{background:var(--terra);}
+
+  .legend{display:flex;gap:14px;justify-content:center;margin:16px 0 0;color:#7a6a44;font-size:11.5px;font-weight:600;}
+  .legend i{width:14px;height:14px;border-radius:4px;display:inline-block;vertical-align:-2px;margin-right:5px;}
+
+  .stats{display:flex;gap:12px;margin:18px 22px 0;}
+  .stat{flex:1;background:#fff;border-radius:14px;padding:15px;box-shadow:var(--soft-sm);
+    border:2px solid var(--cream-d);position:relative;}
+  .stat::before{content:"";position:absolute;top:-2px;left:14px;right:14px;height:3px;border-radius:3px;}
+  .stat.a::before{background:var(--emerald);} .stat.b::before{background:var(--terra);}
+  .stat .v{font-family:var(--mono);font-weight:700;font-size:26px;color:var(--ink);}
+  .stat .k{font-size:11.5px;color:#7a6a44;margin-top:4px;}
+
+  .cta{margin:18px 22px 0;width:calc(100% - 44px);border:none;cursor:pointer;color:#0a3a31;font-weight:800;font-size:16px;
+    padding:17px;border-radius:14px;background:var(--saffron);box-shadow:var(--soft-sm);
+    background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.18) 0 2px,transparent 2px 14px);}
+</style></head>
+<body>
+  <header class="masthead">
+    <span class="k">Concept IV</span>
+    <h1>Zellij — the mosaic.</h1>
+    <p>Your retention map, re-imagined as Moroccan tilework: each juz a geometric star, set in cream grout.</p>
+  </header>
+
+  <figure>
+    <div class="phone"><div class="screen">
+      <div class="band">
+        <div class="row"><span class="ar">ثَلاثُونَ جُزْءًا</span><span class="dot"></span></div>
+        <div class="plaque"><h2>The mosaic of your ḥifẓ</h2><p>All thirty juz · 21 at full strength · nothing fading unseen</p></div>
+      </div>
+
+      <div class="mosaic">
+        <div class="tile s5"><span class="star"></span><b>1</b></div><div class="tile s5"><span class="star"></span><b>2</b></div>
+        <div class="tile s4"><span class="star"></span><b>3</b></div><div class="tile s5"><span class="star"></span><b>4</b></div>
+        <div class="tile s3"><span class="star"></span><b>5</b></div><div class="tile s4"><span class="star"></span><b>6</b></div>
+        <div class="tile s5"><span class="star"></span><b>7</b></div><div class="tile s4"><span class="star"></span><b>8</b></div>
+        <div class="tile s5"><span class="star"></span><b>9</b></div><div class="tile s3"><span class="star"></span><b>10</b></div>
+        <div class="tile s4"><span class="star"></span><b>11</b></div><div class="tile s5"><span class="star"></span><b>12</b></div>
+        <div class="tile s4"><span class="star"></span><b>13</b></div><div class="tile s5"><span class="star"></span><b>14</b></div>
+        <div class="tile s5"><span class="star"></span><b>15</b></div><div class="tile s2"><span class="star"></span><b>16</b></div>
+        <div class="tile s4"><span class="star"></span><b>17</b></div><div class="tile s3"><span class="star"></span><b>18</b></div>
+        <div class="tile s5"><span class="star"></span><b>19</b></div><div class="tile s4"><span class="star"></span><b>20</b></div>
+        <div class="tile s5"><span class="star"></span><b>21</b></div><div class="tile s5"><span class="star"></span><b>22</b></div>
+        <div class="tile s3"><span class="star"></span><b>23</b></div><div class="tile s4"><span class="star"></span><b>24</b></div>
+        <div class="tile s5"><span class="star"></span><b>25</b></div><div class="tile s2"><span class="star"></span><b>26</b></div>
+        <div class="tile s4"><span class="star"></span><b>27</b></div><div class="tile s1"><span class="star"></span><b>28</b></div>
+        <div class="tile s3"><span class="star"></span><b>29</b></div><div class="tile s4"><span class="star"></span><b>30</b></div>
+      </div>
+
+      <div class="legend">
+        <span><i style="background:var(--terra)"></i>Revisit</span>
+        <span><i style="background:var(--cobalt)"></i>Steady</span>
+        <span><i style="background:var(--emerald)"></i>Strong</span>
+      </div>
+
+      <div class="stats">
+        <div class="stat a"><div class="v">21</div><div class="k">juz at full strength</div></div>
+        <div class="stat b"><div class="v">28</div><div class="k">weakest — revisit first</div></div>
+      </div>
+
+      <button class="cta">Revisit juz 28 →</button>
+    </div></div>
+    <figcaption>Zellij · the retention map as living tilework</figcaption>
+  </figure>
+</body></html>

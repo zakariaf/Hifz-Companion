@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<!--
+  Hifz Companion — "LAYL" night-vigil exploration (throwaway visual mockup).
+  A completely different direction from the first concept:
+    • Cosmic OLED-dark, a living twinkling sky, nebula gradients.
+    • A hand-built Islamic 8-point geometric star (pure CSS) rotating behind…
+    • …a conic-gradient "moon-phase" strength ring with a glowing core.
+    • Glassmorphism (backdrop-filter) cards & rows; gold illumination accents.
+    • A shimmering gold divider; gentle float/twinkle/pulse motion.
+    • Screen 2: an immersive reader with a gold geometric illuminated frame.
+  Motion is disabled under prefers-reduced-motion (the app honors reduce-motion).
+  Content stays calm + reverent — no gamification, no fiqh rulings.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hifz · Layl (night vigil)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Reem+Kufi:wght@500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ui:'Plus Jakarta Sans',system-ui,sans-serif;
+    --display:'Cormorant Garamond',Georgia,serif;      /* elegant illuminated voice */
+    --mono:'Space Grotesk',sans-serif;
+    --ar:'Reem Kufi',sans-serif;
+
+    --gold-1:#ffe9a8; --gold-2:#f4cf6b; --gold-3:#caa14a;
+    --violet:#7c5cff; --rose:#ff5c8a; --teal:#34e0d0; --ink:#f3f0ff; --muted:#9a92c4;
+
+    /* soft-drop shadows: huge blur, low opacity */
+    --soft:0 40px 90px -40px rgba(0,0,0,.8);
+    --soft-sm:0 24px 50px -28px rgba(0,0,0,.7);
+    --glass:rgba(255,255,255,.055);
+    --glass-line:rgba(255,255,255,.13);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased;}
+
+  body{
+    font-family:var(--ui);color:var(--ink);min-height:100vh;padding:60px 26px 100px;
+    background:
+      radial-gradient(1100px 700px at 12% -8%, #2a1a63 0%, transparent 55%),
+      radial-gradient(900px 600px at 108% 6%, #0a2f4a 0%, transparent 50%),
+      radial-gradient(700px 600px at 60% 120%, #3a0f3d 0%, transparent 55%),
+      #05030f;
+    overflow-x:hidden;
+  }
+
+  /* ---------- masthead ---------- */
+  .masthead{max-width:980px;margin:0 auto 50px;text-align:center;}
+  .masthead .ar{font-family:var(--ar);font-size:28px;color:var(--gold-2);letter-spacing:.04em;
+    text-shadow:0 0 30px rgba(244,207,107,.45);}
+  .masthead h1{font-family:var(--display);font-weight:600;font-style:italic;
+    font-size:clamp(40px,6vw,76px);line-height:1;margin:10px 0 16px;letter-spacing:.01em;
+    background:linear-gradient(100deg,#fff,#d9ccff 40%,var(--gold-1) 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  .masthead p{max-width:620px;margin:0 auto;color:#a79edb;font-size:16px;line-height:1.65;}
+
+  .gallery{max-width:980px;margin:0 auto;display:flex;flex-wrap:wrap;gap:60px 50px;justify-content:center;}
+  figure{display:flex;flex-direction:column;align-items:center;gap:20px;}
+  figcaption{font-family:var(--display);font-style:italic;font-size:19px;color:#cabff2;text-align:center;}
+
+  /* ---------- phone ---------- */
+  .phone{
+    width:412px;height:874px;border-radius:56px;padding:13px;position:relative;
+    background:linear-gradient(160deg,#161329,#080614);
+    box-shadow:var(--soft), 0 0 80px -20px rgba(124,92,255,.5), inset 0 1px 0 rgba(255,255,255,.07);
+  }
+  .phone::after{content:"";position:absolute;top:27px;left:50%;transform:translateX(-50%);
+    width:120px;height:30px;border-radius:18px;background:#040310;z-index:60;}
+  .screen{position:relative;width:100%;height:100%;border-radius:44px;overflow:hidden;
+    background:
+      radial-gradient(120% 80% at 50% -10%, #241455 0%, transparent 50%),
+      radial-gradient(90% 70% at 100% 60%, #15103a 0%, transparent 55%),
+      linear-gradient(180deg,#0a0720 0%,#05030f 100%);
+    isolation:isolate;}
+
+  /* twinkling sky (two layers, different cadence) */
+  .sky,.sky2{position:absolute;inset:0;pointer-events:none;}
+  .sky{background-image:
+      radial-gradient(1.5px 1.5px at 18% 12%, #fff,transparent),
+      radial-gradient(1.5px 1.5px at 67% 8%, #fff,transparent),
+      radial-gradient(2px 2px at 84% 22%, #fff,transparent),
+      radial-gradient(1.2px 1.2px at 35% 26%, #cdbcff,transparent),
+      radial-gradient(1.4px 1.4px at 50% 18%, #fff,transparent),
+      radial-gradient(1.2px 1.2px at 8% 34%, #fff,transparent);
+    animation:tw 4s ease-in-out infinite;}
+  .sky2{background-image:
+      radial-gradient(1.3px 1.3px at 28% 16%, #ffe9a8,transparent),
+      radial-gradient(1.1px 1.1px at 75% 30%, #fff,transparent),
+      radial-gradient(1.5px 1.5px at 92% 12%, #9fe7ff,transparent),
+      radial-gradient(1.1px 1.1px at 44% 33%, #fff,transparent);
+    animation:tw 6s ease-in-out infinite reverse;}
+  @keyframes tw{0%,100%{opacity:.45} 50%{opacity:1}}
+
+  /* ===== top row (no app bar — floating glass chip) ===== */
+  .top{position:relative;z-index:5;display:flex;align-items:center;justify-content:space-between;
+    padding:62px 26px 0;}
+  .moonchip{display:inline-flex;align-items:center;gap:9px;font-size:12.5px;color:#d9d2ff;font-weight:600;
+    background:var(--glass);border:1px solid var(--glass-line);padding:9px 14px;border-radius:999px;
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
+  .iconbtn{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;font-size:18px;
+    background:var(--glass);border:1px solid var(--glass-line);backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);color:#e7e1ff;}
+
+  /* ===== greeting ===== */
+  .greet{position:relative;z-index:5;text-align:center;margin-top:26px;padding:0 26px;}
+  .greet .ar{font-family:var(--ar);font-size:25px;color:var(--gold-1);
+    text-shadow:0 0 26px rgba(255,233,168,.5);}
+  .greet h2{font-family:var(--display);font-style:italic;font-weight:600;font-size:34px;line-height:1.08;
+    margin-top:8px;color:#f6f3ff;}
+  .greet p{color:#a79edb;font-size:13.5px;margin-top:9px;line-height:1.5;}
+
+  /* ===== HERO: rotating CSS star + moon-phase ring + glowing core ===== */
+  .hero{position:relative;z-index:5;height:332px;display:grid;place-items:center;margin-top:6px;}
+  .starwrap{position:absolute;width:320px;height:320px;display:grid;place-items:center;
+    animation:spin 60s linear infinite;}
+  /* 8-point star = two overlapping bordered squares */
+  .sq{position:absolute;width:200px;height:200px;border:1.5px solid rgba(244,207,107,.34);border-radius:14px;
+    box-shadow:0 0 30px rgba(244,207,107,.12), inset 0 0 30px rgba(244,207,107,.06);}
+  .sq.b{transform:rotate(45deg);}
+  .ring-halo{position:absolute;width:300px;height:300px;border-radius:50%;
+    background:radial-gradient(circle,rgba(124,92,255,.32),transparent 62%);filter:blur(8px);
+    animation:pulse 7s ease-in-out infinite;}
+  .ring{position:relative;width:248px;height:248px;border-radius:50%;
+    background:conic-gradient(from -90deg,
+      var(--gold-1) 0%, var(--gold-2) 38%, var(--violet) 70%, var(--rose) 90%,
+      rgba(255,255,255,.08) 90%, rgba(255,255,255,.08) 100%);
+    box-shadow:0 0 50px -6px rgba(124,92,255,.55), inset 0 0 30px rgba(0,0,0,.5);
+    display:grid;place-items:center;}
+  .core{width:198px;height:198px;border-radius:50%;display:grid;place-items:center;text-align:center;
+    background:
+      radial-gradient(circle at 50% 32%, rgba(124,92,255,.5), transparent 60%),
+      radial-gradient(circle at 50% 100%, rgba(52,224,208,.28), transparent 55%),
+      #0a0720;
+    border:1px solid rgba(255,255,255,.1);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.14), inset 0 -30px 60px rgba(0,0,0,.6);
+    animation:float 6s ease-in-out infinite;}
+  .core .pct{font-family:var(--mono);font-weight:700;font-size:58px;line-height:1;letter-spacing:-.02em;
+    background:linear-gradient(180deg,#fff,#d9ccff);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  .core .cap{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#a79edb;margin-top:8px;}
+  .core .ar-small{font-family:var(--ar);color:var(--gold-1);font-size:15px;margin-top:6px;opacity:.85;}
+
+  /* ===== glass stat chips ===== */
+  .chips{position:relative;z-index:5;display:flex;gap:11px;padding:6px 24px 0;}
+  .chip{flex:1;background:var(--glass);border:1px solid var(--glass-line);border-radius:20px;padding:14px 12px;
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:var(--soft-sm);text-align:center;}
+  .chip .v{font-family:var(--mono);font-weight:700;font-size:22px;color:#fff;}
+  .chip .k{font-size:10.5px;color:#a79edb;margin-top:5px;letter-spacing:.04em;}
+
+  /* shimmering gold divider */
+  .divider{position:relative;z-index:5;height:1px;margin:24px 26px 18px;
+    background:linear-gradient(90deg,transparent,rgba(244,207,107,.7),transparent);
+    background-size:200% 100%;animation:shimmer 5s linear infinite;}
+  .divider::after{content:"❋";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    color:var(--gold-2);font-size:13px;background:#07051a;padding:0 12px;text-shadow:0 0 14px rgba(244,207,107,.6);}
+
+  /* ===== tonight list (glass rows) ===== */
+  .sect{position:relative;z-index:5;padding:0 26px;}
+  .sect .h{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px;}
+  .sect .h h3{font-family:var(--display);font-style:italic;font-weight:600;font-size:24px;color:#f3f0ff;}
+  .sect .h span{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8d85ba;}
+  .row{display:flex;align-items:center;gap:14px;background:var(--glass);border:1px solid var(--glass-line);
+    border-radius:20px;padding:13px 14px;margin-bottom:11px;backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);box-shadow:var(--soft-sm);}
+  .row .orb{width:44px;height:44px;border-radius:50%;flex:none;display:grid;place-items:center;
+    font-family:var(--mono);font-weight:700;font-size:13px;color:#0a0720;
+    box-shadow:0 0 22px -2px currentColor;}
+  .row .m{flex:1;min-width:0;}
+  .row .m .t{font-weight:600;font-size:14.5px;color:#f3f0ff;}
+  .row .m .s{font-size:12px;color:#9a92c4;margin-top:3px;}
+  .row .ar{font-family:var(--ar);font-size:20px;color:var(--gold-1);opacity:.9;}
+
+  /* glowing CTA */
+  .cta{position:relative;z-index:5;margin:18px 26px 0;display:block;width:calc(100% - 52px);border:none;
+    cursor:pointer;font-family:var(--ui);font-weight:700;font-size:16px;color:#1a1140;padding:18px;
+    border-radius:20px;background:linear-gradient(96deg,var(--gold-1),var(--gold-2));
+    box-shadow:0 18px 50px -16px rgba(244,207,107,.7), inset 0 1px 0 rgba(255,255,255,.6);}
+
+  /* ============ SCREEN 2 — illuminated reader ============ */
+  .reader-top{position:relative;z-index:5;display:flex;align-items:center;justify-content:space-between;
+    padding:64px 26px 0;}
+  .reader-top .pg{font-family:var(--display);font-style:italic;font-size:20px;color:#e7e1ff;}
+  .progressline{position:relative;z-index:5;height:4px;margin:20px 26px 0;border-radius:99px;
+    background:rgba(255,255,255,.1);overflow:hidden;}
+  .progressline i{position:absolute;inset:0;width:42%;border-radius:99px;
+    background:linear-gradient(90deg,var(--violet),var(--gold-2));box-shadow:0 0 16px rgba(244,207,107,.6);}
+
+  .frame-wrap{position:relative;z-index:5;margin:30px 26px 0;display:grid;place-items:center;}
+  /* gold geometric illuminated frame */
+  .frame{position:relative;width:300px;height:404px;border-radius:10px;padding:18px;
+    background:
+      radial-gradient(120% 80% at 50% 0%, rgba(124,92,255,.16), transparent 55%),
+      linear-gradient(180deg,#0d0926,#070418);
+    border:2px solid transparent;
+    background-clip:padding-box;
+    box-shadow:0 40px 90px -40px rgba(0,0,0,.9), 0 0 50px -12px rgba(124,92,255,.45);}
+  .frame::before{content:"";position:absolute;inset:0;border-radius:10px;padding:2px;
+    background:linear-gradient(135deg,var(--gold-1),var(--gold-3),var(--gold-1));
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;}
+  .frame::after{content:"";position:absolute;inset:8px;border:1px solid rgba(244,207,107,.4);border-radius:5px;}
+  /* corner ornaments */
+  .corner{position:absolute;width:16px;height:16px;border:1.5px solid var(--gold-2);transform:rotate(45deg);
+    box-shadow:0 0 12px rgba(244,207,107,.5);}
+  .corner.tl{top:11px;left:11px;} .corner.tr{top:11px;right:11px;}
+  .corner.bl{bottom:11px;left:11px;} .corner.br{bottom:11px;right:11px;}
+  /* the muṣḥaf "page" placeholder (abstract lines, never real Quran text) */
+  .page{position:relative;height:100%;border-radius:5px;display:flex;flex-direction:column;
+    justify-content:center;gap:15px;padding:22px 18px;overflow:hidden;}
+  .page .wm{position:absolute;inset:0;display:grid;place-items:center;opacity:.06;}
+  .page .wm .sq{width:150px;height:150px;border-color:var(--gold-1);}
+  .gline{height:9px;border-radius:6px;background:linear-gradient(90deg,rgba(255,255,255,.22),rgba(255,255,255,.06));}
+  .gline.c{margin:0 auto;}
+  .page .lbl{position:absolute;bottom:14px;left:0;right:0;text-align:center;font-size:10.5px;
+    letter-spacing:.18em;text-transform:uppercase;color:#8d85ba;}
+  .reveal{position:relative;z-index:5;text-align:center;margin-top:22px;color:#a79edb;font-size:13px;}
+  .reveal b{color:var(--gold-1);font-weight:700;}
+
+  /* self-rating orbs (reveal-on-tap grades — authentic, not gamified) */
+  .rate{position:relative;z-index:5;display:flex;gap:12px;padding:20px 26px 0;}
+  .rate button{flex:1;border:1px solid var(--glass-line);background:var(--glass);backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);border-radius:18px;padding:15px 8px;cursor:pointer;text-align:center;
+    box-shadow:var(--soft-sm);}
+  .rate .o{width:30px;height:30px;border-radius:50%;margin:0 auto 9px;box-shadow:0 0 20px -2px currentColor;}
+  .rate .t{font-weight:700;font-size:13px;color:#f3f0ff;}
+  .rate .d{font-size:10.5px;color:#9a92c4;margin-top:3px;}
+
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+  @keyframes pulse{0%,100%{opacity:.55;transform:scale(.98)}50%{opacity:1;transform:scale(1.04)}}
+  @keyframes shimmer{to{background-position:200% 0}}
+  @media (prefers-reduced-motion:reduce){
+    .sky,.sky2,.starwrap,.ring-halo,.core,.divider{animation:none !important;}
+  }
+</style>
+</head>
+<body>
+
+  <header class="masthead">
+    <div class="ar">لَيْل</div>
+    <h1>The quiet hours.</h1>
+    <p>A completely different mood — a night-vigil theme for revising before sleep. Living sky,
+       a CSS geometric star turning behind a moon-phase strength ring, glass &amp; gold.</p>
+  </header>
+
+  <main class="gallery">
+
+    <!-- ===================== SCREEN 1 — NIGHT HOME ===================== -->
+    <figure>
+      <div class="phone">
+        <div class="screen">
+          <div class="sky"></div><div class="sky2"></div>
+
+          <div class="top">
+            <span class="moonchip">🌙 The quiet hours · 2:14 AM</span>
+            <div class="iconbtn">☾</div>
+          </div>
+
+          <div class="greet">
+            <div class="ar">السَّلامُ عَلَيْكُم</div>
+            <h2>Before you rest,<br>a little light.</h2>
+            <p>Your memory is steady. A short, calm revision — then sleep in peace.</p>
+          </div>
+
+          <div class="hero">
+            <div class="ring-halo"></div>
+            <div class="starwrap"><div class="sq a"></div><div class="sq b"></div></div>
+            <div class="ring">
+              <div class="core">
+                <div>
+                  <div class="pct">94</div>
+                  <div class="cap">ḥifẓ strength</div>
+                  <div class="ar-small">نُور</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="chips">
+            <div class="chip"><div class="v">7</div><div class="k">pages tonight</div></div>
+            <div class="chip"><div class="v">≈11m</div><div class="k">gentle pace</div></div>
+            <div class="chip"><div class="v">21h</div><div class="k">since last</div></div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="sect">
+            <div class="h"><h3>Tonight’s revision</h3><span>3 of 7</span></div>
+            <div class="row">
+              <div class="orb" style="background:linear-gradient(140deg,#ffe9a8,#f4cf6b);color:#f4cf6b">562</div>
+              <div class="m"><div class="t">Al-Mulk · page 562</div><div class="s">Your nightly page · whole sūrah</div></div>
+              <div class="ar">المُلْك</div>
+            </div>
+            <div class="row">
+              <div class="orb" style="background:linear-gradient(140deg,#a98bff,#7c5cff);color:#7c5cff">255</div>
+              <div class="m"><div class="t">Āyat al-Kursī · page 42</div><div class="s">Before sleep · one āyah</div></div>
+              <div class="ar">البَقَرَة</div>
+            </div>
+            <div class="row">
+              <div class="orb" style="background:linear-gradient(140deg,#5ff0e0,#34e0d0);color:#34e0d0">440</div>
+              <div class="m"><div class="t">Yā-Sīn · pages 440–441</div><div class="s">Far cycle · gentle revision</div></div>
+              <div class="ar">يٰسٓ</div>
+            </div>
+          </div>
+
+          <button class="cta">Begin the night revision →</button>
+        </div>
+      </div>
+      <figcaption>Night home · moon-phase strength + living sky</figcaption>
+    </figure>
+
+    <!-- ===================== SCREEN 2 — ILLUMINATED READER ===================== -->
+    <figure>
+      <div class="phone">
+        <div class="screen">
+          <div class="sky"></div><div class="sky2"></div>
+
+          <div class="reader-top">
+            <span class="moonchip">‹ back</span>
+            <span class="pg">Al-Mulk · 562</span>
+            <div class="iconbtn">Aa</div>
+          </div>
+
+          <div class="progressline"><i></i></div>
+
+          <div class="frame-wrap">
+            <div class="frame">
+              <span class="corner tl"></span><span class="corner tr"></span>
+              <span class="corner bl"></span><span class="corner br"></span>
+              <div class="page">
+                <div class="wm"><div class="sq" style="transform:rotate(0deg)"></div><div class="sq" style="transform:rotate(45deg)"></div></div>
+                <div class="gline c" style="width:70%"></div>
+                <div class="gline" style="width:96%"></div>
+                <div class="gline" style="width:88%"></div>
+                <div class="gline" style="width:93%"></div>
+                <div class="gline c" style="width:60%"></div>
+                <div class="gline" style="width:90%"></div>
+                <div class="gline" style="width:84%"></div>
+                <div class="lbl">muṣḥaf page · QPC glyph layer</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="reveal">Recite from memory — then <b>tap to reveal</b> &amp; rate your recall.</div>
+
+          <div class="rate">
+            <button><div class="o" style="background:#ff5c8a;color:#ff5c8a"></div><div class="t">Again</div><div class="d">slipped</div></button>
+            <button><div class="o" style="background:#ffce5c;color:#ffce5c"></div><div class="t">Good</div><div class="d">a pause</div></button>
+            <button><div class="o" style="background:#34e0d0;color:#34e0d0"></div><div class="t">Firm</div><div class="d">flowed</div></button>
+          </div>
+        </div>
+      </div>
+      <figcaption>Illuminated reader · gold geometric frame + reveal-on-tap</figcaption>
+    </figure>
+
+  </main>
+</body>
+</html>

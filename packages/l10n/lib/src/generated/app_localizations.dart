@@ -169,6 +169,18 @@ abstract class AppLocalizations {
   /// **'الجزء {juz}'**
   String juzLabel(String juz);
 
+  /// The muṣḥaf page-card headline 'Page N · Juz M' (design 07 §2). {page} and {juz} are ALREADY locale-numeral-formatted AND FSI/PDI-isolated tokens from localizedPageJuz (the numerals/bidi primitive, E10-T01) — never a raw int, never concatenated (engineering 12 §4–§5). The '·' separator and the page-before-juz order are the translator's. A CHROME label, never a muṣḥaf glyph. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'صفحة {page} · الجزء {juz}'**
+  String pageJuz(String page, String juz);
+
+  /// Retention heat-map: the weakest page named by a juz roll-up tile's badge, spoken in the cell's merged Semantics phrase (design 08 §6). MIN-LEANING honesty — one weak page is what fails the juz, never averaged away (C-019). {page} is an ALREADY locale-numeral-formatted token (localeDigits, E10-T01), never a raw int. Calm maintenance register, never alarm/shame. Consumed by E15. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'أضعف صفحة {page}'**
+  String heatmapWeakestPage(String page);
+
   /// Count of muṣḥaf pages due for revision (a Today/heat-map summary line). ICU plural with ALL SIX Arabic CLDR categories (zero/one/two/few/many/other) — a missing category is a grammatical defect, not a cosmetic gap (engineering 12 §6); the static six-category completeness check is E09-T07. Calm loss-prevention register: pages 'due for revision', never 'overdue'/'behind'/guilt. {count} is locale-numeral-shaped by the generated formatter. Best-effort fa/ckb pending native + scholarly review.
   ///
   /// In ar, this message translates to:
@@ -276,6 +288,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'{region, select, other{الوضع الدوري الخالص}}'**
   String cyclePureMode(String region);
+
+  /// Subtitle under the Pure-cycle toggle — framed as FIDELITY ('follow your cycle exactly — no reordering'), servant-to-the-teacher (C-014); NEVER 'disable smart features'/'make the app worse', no command/urgency. The longer/pure cycle is never 'permission to stop revising' (C-019, PRD §7.11–§7.12). Consumed by E11/E16. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'اتّبع دورتك تماماً — دون إعادة ترتيب'**
+  String get cyclePureModeSubtitle;
 
   /// Short qualifier appended to a Hijri date, naming the variant as the Umm al-Qurā civil calendar so a Hijri date is never shown as 'the Hijri date' in the absolute. Kept as the romanized proper noun across locales pending E09/E19 review of whether to localize the script. needs-scholarly-review (E19); register as a CLAIMS row — no id, grade, or citation here.
   ///
@@ -534,6 +552,240 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'معتمدة من المعلّم'**
   String get stateSignedOff;
+
+  /// Page-card state, spoken in the merged Semantics phrase: the page has been revised in TODAY'S session — explicitly today-scoped and calm. NEVER 'mastered'/'done forever'/'safe to drop' — a page is never safe to stop revising (C-019, PRD §7.12). Paired with a distinct check glyph, never colour alone. Consumed by E12. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تمت مراجعتها اليوم'**
+  String get stateDone;
+
+  /// Page-card state, spoken in the merged Semantics phrase: the page is locked by a teacher's manual_lock — a human (talaqqī) override, servant-to-the-teacher, never an alarm or punishment. Paired with a distinct lock glyph, never colour alone. Consumed by E12/E16. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'مقفلة من المعلّم'**
+  String get stateLocked;
+
+  /// Screen-reader phrase for the AGAIN grade button — verdict + consequence. The consequence is the CALM 'for review soon': a located weak join to revisit, NEVER 'you failed'/'lost the page' (C-003). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'احتجت إلى مساعدة — للمراجعة قريباً'**
+  String get gradeAgainSemantics;
+
+  /// Screen-reader phrase for the HARD grade — verdict + calm consequence (revisited sooner). Never shame. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'أخطاء يسيرة — للمراجعة عن قرب'**
+  String get gradeHardSemantics;
+
+  /// Screen-reader phrase for the GOOD grade — verdict + calm consequence (kept on its usual schedule). No praise/celebration (C-045). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تلاوة سليمة — في موعدها'**
+  String get gradeGoodSemantics;
+
+  /// Screen-reader phrase for the EASY grade — verdict + calm consequence (revision spaces out). NEVER 'mastered'/'safe to drop' (C-019). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'بلا تكلّف — بمباعدة أطول'**
+  String get gradeEasySemantics;
+
+  /// Calm hint shown when the grade band is disabled before the page is revealed (reveal-on-tap, E12) — styled as WAITING, not an error or a dead button (design 07 §6). 'Reveal the page to grade it.' PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'اكشف الصفحة لتقييمها'**
+  String get gradeBandWaitingHint;
+
+  /// Label for the teacher (talaqqī) sign-off Switch — 'Teacher present'. OFF by default. Servant-to-the-teacher (C-021, C-038). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'المعلّم حاضر'**
+  String get teacherSignoffLabel;
+
+  /// Autonomy-supportive supporting copy under the teacher sign-off Switch — 'for your teacher to confirm'. NEVER commanding ('you must have a teacher'); the app is servant, not authority (C-046). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'ليؤكّدها معلّمك'**
+  String get teacherSignoffSupporting;
+
+  /// Screen-reader prefix read before an evidence-certainty phrase, so the grade is conveyed as TEXT, never colour (science 11 §5, §7; C-047). 'Strength of the evidence:'. The label describes certainty ABOUT THE EVIDENCE, never about the user's own Quran. Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'قوة الدليل: '**
+  String get certaintyEvidencePrefix;
+
+  /// Evidence-certainty lay phrase for grade [MA] (meta-analysis) — 'among the best-established findings in memory science' (science 11 §5). Describes the EVIDENCE only; NEVER 'proven'/a star/a percentage/a Quran-retention promise (C-016, C-017). Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'من أرسخ نتائج علم الذاكرة'**
+  String get certaintyMaPhrase;
+
+  /// Evidence-certainty lay phrase shared by grades [RCT] and [EXP] — 'a single controlled study' (science 11 §5). Evidence only; no 'proven'/star/percentage. Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'دراسة محكومة واحدة'**
+  String get certaintyRctExpPhrase;
+
+  /// Evidence-certainty lay phrase for grade [CS] — 'a classic foundational study' (science 11 §5). Evidence only. Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'دراسة تأسيسية كلاسيكية'**
+  String get certaintyCsPhrase;
+
+  /// Evidence-certainty lay phrase for grade [OBS] — 'an observational / field study' (science 11 §5). Evidence only; calm, never a weakness to be ashamed of. Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'دراسة ميدانية رصدية'**
+  String get certaintyObsPhrase;
+
+  /// Evidence-certainty lay phrase for grade [TEXT] — 'an expert review / algorithm documentation' (science 11 §5). Evidence only. Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'مراجعة خبير أو توثيق منهجي'**
+  String get certaintyTextPhrase;
+
+  /// Evidence-certainty lay phrase for grade [TRAD] — 'traditional scholarship, source named below' (science 11 §5). Named scholarship paired with its source; issues NO fiqh ruling and is NOT ranked above the empirical grades; defers to the teacher and the sanad (C-046, CLAIMS scope clause). Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'علم نقلي، مصدره مذكور أدناه'**
+  String get certaintyTradPhrase;
+
+  /// Title of the always-reachable plain-words evidence-certainty legend (science 11 §3, §5). 'The strength of the evidence we rely on.' Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'قوة الأدلة التي نستند إليها'**
+  String get certaintyLegendTitle;
+
+  /// The EMPATHY line that opens the missed-day catch-up banner (voice 11 §4 empathy→fact→path→choice). Calm, non-blaming acknowledgment — NEVER 'you're behind'/'you let this slip'/guilt. A missed gap is never a streak reset (C-042, C-043). Consumed by E12. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا حرج — لنتدارك بهدوء'**
+  String get catchUpEmpathy;
+
+  /// The honest-FACT line of the catch-up banner — 'N days passed without revision' (voice 11 §4). Neutral statement of fact, NEVER 'N days lost'/'you're behind'/shame (C-042). ICU plural with ALL SIX Arabic CLDR categories; {count} is locale-numeral-shaped downstream by the caller (intl #197). Consumed by E12. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, zero{لم تمضِ أيام دون مراجعة} one{مضى يوم واحد دون مراجعة} two{مضى يومان دون مراجعة} few{مضت {count} أيام دون مراجعة} many{مضى {count} يوماً دون مراجعة} other{مضى {count} يوم دون مراجعة}}'**
+  String catchUpMissedDays(num count);
+
+  /// The PATH line of the catch-up banner — 'a plan over N days that still completes your cycle' (voice 11 §4; PRD §7.9). Reassuring, the cycle still completes; FAR/manzil items are never dropped to shorten it. ICU plural, six Arabic categories; {count} locale-shaped downstream. Consumed by E12. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, zero{خطة تُكمل دورتك} one{خطة ليوم واحد تُكمل دورتك} two{خطة ليومين تُكمل دورتك} few{خطة على {count} أيام تُكمل دورتك} many{خطة على {count} يوماً تُكمل دورتك} other{خطة على {count} يوم تُكمل دورتك}}'**
+  String catchUpPlanLine(num count);
+
+  /// Catch-up banner CHOICE — start the re-spread plan (the user-owned primary choice, never a mandate). Consumed by E12. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'ابدأ الخطة'**
+  String get catchUpStartPlan;
+
+  /// Catch-up banner CHOICE — adjust the plan. Invite, never command. Consumed by E12. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'عدّل الخطة'**
+  String get catchUpAdjust;
+
+  /// Catch-up banner CHOICE — defer / decide later. The user owns the choice; deferring is blameless. Consumed by E12. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'لاحقاً'**
+  String get catchUpDefer;
+
+  /// First-run empty state — the calm fact, framed as invitation, never shaming the absence (ui-empty-state). Consumed by E11/E12. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'ستظهر مراجعتك هنا بعد أن تبدأ'**
+  String get emptyFirstRunBody;
+
+  /// First-run empty state — the one gentle next-step label (invitation into cold-start, owned by E11). NEVER 'come back tomorrow'/FOMO/urgency. Consumed by E11/E12. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'ابدأ'**
+  String get emptyFirstRunAction;
+
+  /// All-done / nothing-due terminal state — one calm closing line in color.text.secondary, INFORMATIONAL, never confetti/streak/badge/exclamation/celebration (design 07 §1; PRD R3, C6). Today-scoped completion, never 'safe to drop'/'mastered' (C-019). Consumed by E12. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'اكتملت مراجعة اليوم'**
+  String get emptyAllDone;
+
+  /// Reminder-row toggle label — a single daily reminder, OFF by default, one tap to opt in / silence (privacy 10 §9–§10). Consumed by E16/E18. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تذكير يومي'**
+  String get reminderToggleLabel;
+
+  /// Reminder-row time-picker label, shown only when the reminder is enabled; the time renders in the user's calendar + locale numerals (T01). Consumed by E16/E18. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'وقت التذكير'**
+  String get reminderTimeLabel;
+
+  /// Reminder-row optional catch-up-note toggle — framed as HELP, never blame ('N days lost'), never a streak (C-042, C-043). Fully optional and silenceable. Consumed by E16/E18. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تنبيه لطيف عند تراكم بضعة أيام'**
+  String get reminderCatchUpNoteLabel;
+
+  /// The one honest local-only line under the reminder row — a neutral reminder, silenceable anytime, nothing sent (no server/push, C-043). Calm, no guilt/fear/loss, no exclamation. Consumed by E16/E18. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تذكير محايد في وقت تختاره؛ يمكنك إسكاته في أي وقت — لا يُرسَل شيء'**
+  String get reminderHonestLine;
+
+  /// The SAFE primary action of the destructive-confirm gate — Cancel / Keep my data (the visually-primary, default-focused button; privacy 10 §9, §11). Never buried. Consumed by E16/E17. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'احتفظ ببياناتي'**
+  String get destructiveKeepData;
+
+  /// Erase-all concrete, irreversible consequence (privacy 10 §8) — what is erased, permanent, nothing recoverable elsewhere (no server). Never a bare 'Are you sure?', never 'you'll lose your hifz' fear-framing. Consumed by E16/E17. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'سيمحو هذا نهائياً جميع سجلات الحفظ لكل الملفات على هذا الجهاز؛ لا يمكن التراجع، ولأنه لا يوجد خادم فلا شيء قابل للاسترجاع في مكان آخر.'**
+  String get destructiveEraseAllConsequence;
+
+  /// Erase-all step-1 destructive trigger (advances to the second deliberate confirm). A plainer secondary affordance in the hard-to-reach top-start corner, never the bright/default button. Consumed by E16/E17. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'متابعة المحو'**
+  String get destructiveEraseAllConfirm;
+
+  /// Erase-all step-2 final consequence — the second deliberate gesture sized to the whole-device blast radius (privacy 10 §11). Consumed by E16/E17. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تأكيد أخير: سيُمحى كل شيء الآن نهائياً.'**
+  String get destructiveEraseAllSecondConsequence;
+
+  /// Erase-all step-2 destructive trigger — fires the confirmed intent only after the second deliberate gesture. Consumed by E16/E17. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'امحُ كل شيء نهائياً'**
+  String get destructiveEraseAllSecondConfirm;
+
+  /// Wipe-single-profile concrete, irreversible consequence (privacy 10 §8). Consumed by E16. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'سيمحو هذا نهائياً سجلات هذا الملف على هذا الجهاز؛ لا يمكن التراجع.'**
+  String get destructiveWipeProfileConsequence;
+
+  /// Wipe-single-profile destructive trigger (one consequence step — minimum gesture for its blast radius). Consumed by E16. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'امحُ هذا الملف'**
+  String get destructiveWipeProfileConfirm;
+
+  /// Abort-and-discard concrete, irreversible consequence (privacy 10 §8). Consumed by E11/E16. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'سيتجاهل هذا المسودة الحالية؛ لا يمكن التراجع.'**
+  String get destructiveAbortConsequence;
+
+  /// Abort-and-discard destructive trigger (one consequence step). Consumed by E11/E16. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تجاهل المسودة'**
+  String get destructiveAbortConfirm;
 }
 
 class _AppLocalizationsDelegate

@@ -18,4 +18,5 @@ export 'src/forced_ltr.dart';
 export 'src/generated/app_localizations.dart';
 export 'src/icon_mirror_policy.dart';
 export 'src/language_preview.dart';
+export 'src/localized_runs.dart';
 export 'src/numerals.dart';

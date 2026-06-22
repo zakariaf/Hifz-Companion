@@ -47,6 +47,16 @@ class AppLocalizationsFa extends AppLocalizations {
   }
 
   @override
+  String pageJuz(String page, String juz) {
+    return 'صفحهٔ $page · جزء $juz';
+  }
+
+  @override
+  String heatmapWeakestPage(String page) {
+    return 'ضعیف‌ترین صفحه $page';
+  }
+
+  @override
   String pagesDue(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -249,6 +259,10 @@ class AppLocalizationsFa extends AppLocalizations {
   }
 
   @override
+  String get cyclePureModeSubtitle =>
+      'دقیقاً از چرخهٔ خود پیروی کن — بدون ترتیب‌بندی مجدد';
+
+  @override
   String get hijriUmmAlQuraQualifier => '(Umm al-Qurā)';
 
   @override
@@ -382,4 +396,142 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get stateSignedOff => 'تأیید استاد';
+
+  @override
+  String get stateDone => 'امروز مرور شد';
+
+  @override
+  String get stateLocked => 'قفل‌شده توسط معلم';
+
+  @override
+  String get gradeAgainSemantics => 'نیاز به کمک داشتم — برای مرور به‌زودی';
+
+  @override
+  String get gradeHardSemantics => 'اشتباه‌های جزئی — مرور نزدیک‌تر';
+
+  @override
+  String get gradeGoodSemantics => 'تلاوت روان — در موعد عادی';
+
+  @override
+  String get gradeEasySemantics => 'بی‌زحمت — با فاصلهٔ بیشتر';
+
+  @override
+  String get gradeBandWaitingHint => 'برای ارزیابی، صفحه را آشکار کنید';
+
+  @override
+  String get teacherSignoffLabel => 'استاد حاضر است';
+
+  @override
+  String get teacherSignoffSupporting => 'تا استادتان تأیید کند';
+
+  @override
+  String get certaintyEvidencePrefix => 'قوّت شواهد: ';
+
+  @override
+  String get certaintyMaPhrase => 'از استوارترین یافته‌های دانش حافظه';
+
+  @override
+  String get certaintyRctExpPhrase => 'یک پژوهش کنترل‌شده';
+
+  @override
+  String get certaintyCsPhrase => 'یک پژوهش بنیادی کلاسیک';
+
+  @override
+  String get certaintyObsPhrase => 'یک پژوهش میدانی/مشاهده‌ای';
+
+  @override
+  String get certaintyTextPhrase => 'بازبینی کارشناسی یا مستندات روش';
+
+  @override
+  String get certaintyTradPhrase => 'دانش نقلی؛ منبعش در زیر آمده است';
+
+  @override
+  String get certaintyLegendTitle => 'استواری شواهدی که بر آن تکیه می‌کنیم';
+
+  @override
+  String get catchUpEmpathy => 'ایرادی ندارد — با آرامش جبران می‌کنیم';
+
+  @override
+  String catchUpMissedDays(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count روز بدون مرور گذشت',
+      one: '$count روز بدون مرور گذشت',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String catchUpPlanLine(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'برنامه‌ای برای $count روز که چرخه‌ات را کامل می‌کند',
+      one: 'برنامه‌ای برای $count روز که چرخه‌ات را کامل می‌کند',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get catchUpStartPlan => 'شروع برنامه';
+
+  @override
+  String get catchUpAdjust => 'تنظیم برنامه';
+
+  @override
+  String get catchUpDefer => 'بعداً';
+
+  @override
+  String get emptyFirstRunBody => 'پس از آغاز، مرور شما اینجا نمایان می‌شود';
+
+  @override
+  String get emptyFirstRunAction => 'آغاز';
+
+  @override
+  String get emptyAllDone => 'مرور امروز کامل شد';
+
+  @override
+  String get reminderToggleLabel => 'یادآوری روزانه';
+
+  @override
+  String get reminderTimeLabel => 'زمان یادآوری';
+
+  @override
+  String get reminderCatchUpNoteLabel => 'یادداشتی آرام وقتی چند روز جمع شود';
+
+  @override
+  String get reminderHonestLine =>
+      'یادآوری بی‌طرف در زمانی که خودت انتخاب می‌کنی؛ هر وقت خواستی خاموشش کن — چیزی ارسال نمی‌شود';
+
+  @override
+  String get destructiveKeepData => 'داده‌هایم را نگه دار';
+
+  @override
+  String get destructiveEraseAllConsequence =>
+      'این کار همهٔ سوابق حفظِ همهٔ نمایه‌ها را روی این دستگاه برای همیشه پاک می‌کند؛ قابل بازگشت نیست و چون سروری وجود ندارد، جایی دیگر قابل بازیابی نیست.';
+
+  @override
+  String get destructiveEraseAllConfirm => 'ادامهٔ پاک‌سازی';
+
+  @override
+  String get destructiveEraseAllSecondConsequence =>
+      'تأیید نهایی: اکنون همه‌چیز برای همیشه پاک می‌شود.';
+
+  @override
+  String get destructiveEraseAllSecondConfirm => 'همه‌چیز را برای همیشه پاک کن';
+
+  @override
+  String get destructiveWipeProfileConsequence =>
+      'این کار سوابق این نمایه را روی این دستگاه برای همیشه پاک می‌کند؛ قابل بازگشت نیست.';
+
+  @override
+  String get destructiveWipeProfileConfirm => 'این نمایه را پاک کن';
+
+  @override
+  String get destructiveAbortConsequence =>
+      'این کار پیش‌نویس فعلی را دور می‌ریزد؛ قابل بازگشت نیست.';
+
+  @override
+  String get destructiveAbortConfirm => 'دور ریختن پیش‌نویس';
 }

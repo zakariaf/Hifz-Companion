@@ -47,6 +47,16 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String pageJuz(String page, String juz) {
+    return 'صفحة $page · الجزء $juz';
+  }
+
+  @override
+  String heatmapWeakestPage(String page) {
+    return 'أضعف صفحة $page';
+  }
+
+  @override
   String pagesDue(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -261,6 +271,9 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get cyclePureModeSubtitle => 'اتّبع دورتك تماماً — دون إعادة ترتيب';
+
+  @override
   String get hijriUmmAlQuraQualifier => '(Umm al-Qurā)';
 
   @override
@@ -393,4 +406,150 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get stateSignedOff => 'معتمدة من المعلّم';
+
+  @override
+  String get stateDone => 'تمت مراجعتها اليوم';
+
+  @override
+  String get stateLocked => 'مقفلة من المعلّم';
+
+  @override
+  String get gradeAgainSemantics => 'احتجت إلى مساعدة — للمراجعة قريباً';
+
+  @override
+  String get gradeHardSemantics => 'أخطاء يسيرة — للمراجعة عن قرب';
+
+  @override
+  String get gradeGoodSemantics => 'تلاوة سليمة — في موعدها';
+
+  @override
+  String get gradeEasySemantics => 'بلا تكلّف — بمباعدة أطول';
+
+  @override
+  String get gradeBandWaitingHint => 'اكشف الصفحة لتقييمها';
+
+  @override
+  String get teacherSignoffLabel => 'المعلّم حاضر';
+
+  @override
+  String get teacherSignoffSupporting => 'ليؤكّدها معلّمك';
+
+  @override
+  String get certaintyEvidencePrefix => 'قوة الدليل: ';
+
+  @override
+  String get certaintyMaPhrase => 'من أرسخ نتائج علم الذاكرة';
+
+  @override
+  String get certaintyRctExpPhrase => 'دراسة محكومة واحدة';
+
+  @override
+  String get certaintyCsPhrase => 'دراسة تأسيسية كلاسيكية';
+
+  @override
+  String get certaintyObsPhrase => 'دراسة ميدانية رصدية';
+
+  @override
+  String get certaintyTextPhrase => 'مراجعة خبير أو توثيق منهجي';
+
+  @override
+  String get certaintyTradPhrase => 'علم نقلي، مصدره مذكور أدناه';
+
+  @override
+  String get certaintyLegendTitle => 'قوة الأدلة التي نستند إليها';
+
+  @override
+  String get catchUpEmpathy => 'لا حرج — لنتدارك بهدوء';
+
+  @override
+  String catchUpMissedDays(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'مضى $count يوم دون مراجعة',
+      many: 'مضى $count يوماً دون مراجعة',
+      few: 'مضت $count أيام دون مراجعة',
+      two: 'مضى يومان دون مراجعة',
+      one: 'مضى يوم واحد دون مراجعة',
+      zero: 'لم تمضِ أيام دون مراجعة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String catchUpPlanLine(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'خطة على $count يوم تُكمل دورتك',
+      many: 'خطة على $count يوماً تُكمل دورتك',
+      few: 'خطة على $count أيام تُكمل دورتك',
+      two: 'خطة ليومين تُكمل دورتك',
+      one: 'خطة ليوم واحد تُكمل دورتك',
+      zero: 'خطة تُكمل دورتك',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get catchUpStartPlan => 'ابدأ الخطة';
+
+  @override
+  String get catchUpAdjust => 'عدّل الخطة';
+
+  @override
+  String get catchUpDefer => 'لاحقاً';
+
+  @override
+  String get emptyFirstRunBody => 'ستظهر مراجعتك هنا بعد أن تبدأ';
+
+  @override
+  String get emptyFirstRunAction => 'ابدأ';
+
+  @override
+  String get emptyAllDone => 'اكتملت مراجعة اليوم';
+
+  @override
+  String get reminderToggleLabel => 'تذكير يومي';
+
+  @override
+  String get reminderTimeLabel => 'وقت التذكير';
+
+  @override
+  String get reminderCatchUpNoteLabel => 'تنبيه لطيف عند تراكم بضعة أيام';
+
+  @override
+  String get reminderHonestLine =>
+      'تذكير محايد في وقت تختاره؛ يمكنك إسكاته في أي وقت — لا يُرسَل شيء';
+
+  @override
+  String get destructiveKeepData => 'احتفظ ببياناتي';
+
+  @override
+  String get destructiveEraseAllConsequence =>
+      'سيمحو هذا نهائياً جميع سجلات الحفظ لكل الملفات على هذا الجهاز؛ لا يمكن التراجع، ولأنه لا يوجد خادم فلا شيء قابل للاسترجاع في مكان آخر.';
+
+  @override
+  String get destructiveEraseAllConfirm => 'متابعة المحو';
+
+  @override
+  String get destructiveEraseAllSecondConsequence =>
+      'تأكيد أخير: سيُمحى كل شيء الآن نهائياً.';
+
+  @override
+  String get destructiveEraseAllSecondConfirm => 'امحُ كل شيء نهائياً';
+
+  @override
+  String get destructiveWipeProfileConsequence =>
+      'سيمحو هذا نهائياً سجلات هذا الملف على هذا الجهاز؛ لا يمكن التراجع.';
+
+  @override
+  String get destructiveWipeProfileConfirm => 'امحُ هذا الملف';
+
+  @override
+  String get destructiveAbortConsequence =>
+      'سيتجاهل هذا المسودة الحالية؛ لا يمكن التراجع.';
+
+  @override
+  String get destructiveAbortConfirm => 'تجاهل المسودة';
 }

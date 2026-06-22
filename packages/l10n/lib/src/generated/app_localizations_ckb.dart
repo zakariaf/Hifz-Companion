@@ -47,6 +47,16 @@ class AppLocalizationsCkb extends AppLocalizations {
   }
 
   @override
+  String pageJuz(String page, String juz) {
+    return 'پەڕەی $page · جوزی $juz';
+  }
+
+  @override
+  String heatmapWeakestPage(String page) {
+    return 'لاوازترین پەڕە $page';
+  }
+
+  @override
   String pagesDue(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -249,6 +259,10 @@ class AppLocalizationsCkb extends AppLocalizations {
   }
 
   @override
+  String get cyclePureModeSubtitle =>
+      'بە تەواوی سووڕەکەت بکە — بەبێ ڕیزبەندی نوێ';
+
+  @override
   String get hijriUmmAlQuraQualifier => '(Umm al-Qurā)';
 
   @override
@@ -381,4 +395,146 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get stateSignedOff => 'پەسەندی مامۆستا';
+
+  @override
+  String get stateDone => 'ئەمڕۆ پێداچوونەوەی بۆ کرا';
+
+  @override
+  String get stateLocked => 'لەلایەن مامۆستاوە قوفڵکراوە';
+
+  @override
+  String get gradeAgainSemantics =>
+      'پێویستم بە یارمەتی بوو — بۆ پێداچوونەوەی نزیک';
+
+  @override
+  String get gradeHardSemantics => 'هەڵەی بچووک — پێداچوونەوەی نزیکتر';
+
+  @override
+  String get gradeGoodSemantics => 'خوێندنەوەیەکی ڕێک — لە کاتی ئاسایی';
+
+  @override
+  String get gradeEasySemantics => 'بێ ماندووبوون — بە ماوەیەکی درێژتر';
+
+  @override
+  String get gradeBandWaitingHint => 'بۆ هەڵسەنگاندن، پەڕەکە دەربخە';
+
+  @override
+  String get teacherSignoffLabel => 'مامۆستا ئامادەیە';
+
+  @override
+  String get teacherSignoffSupporting => 'بۆ ئەوەی مامۆستاکەت پەسەندی بکات';
+
+  @override
+  String get certaintyEvidencePrefix => 'هێزی بەڵگە: ';
+
+  @override
+  String get certaintyMaPhrase => 'لە جێگیرترین دۆزینەوەکانی زانستی بیرەوەری';
+
+  @override
+  String get certaintyRctExpPhrase => 'تاقیکردنەوەیەکی کۆنترۆڵکراو';
+
+  @override
+  String get certaintyCsPhrase => 'تویژینەوەیەکی بنەڕەتی کلاسیک';
+
+  @override
+  String get certaintyObsPhrase => 'تویژینەوەیەکی مەیدانی/چاودێری';
+
+  @override
+  String get certaintyTextPhrase => 'پێداچوونەوەی شارەزا یان بەڵگەنامەی ڕێباز';
+
+  @override
+  String get certaintyTradPhrase =>
+      'زانستی نەقلی؛ سەرچاوەکەی لە خوارەوە ناوبراوە';
+
+  @override
+  String get certaintyLegendTitle => 'هێزی ئەو بەڵگانەی پشتی پێدەبەستین';
+
+  @override
+  String get catchUpEmpathy => 'کێشە نییە — بەهێمنی قەرەبووی دەکەینەوە';
+
+  @override
+  String catchUpMissedDays(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ڕۆژ بەبێ پێداچوونەوە تێپەڕی',
+      one: '$count ڕۆژ بەبێ پێداچوونەوە تێپەڕی',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String catchUpPlanLine(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'پلانێک بۆ $count ڕۆژ کە سووڕەکەت تەواو دەکات',
+      one: 'پلانێک بۆ $count ڕۆژ کە سووڕەکەت تەواو دەکات',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get catchUpStartPlan => 'دەستپێکی پلان';
+
+  @override
+  String get catchUpAdjust => 'ڕێکخستنی پلان';
+
+  @override
+  String get catchUpDefer => 'دواتر';
+
+  @override
+  String get emptyFirstRunBody =>
+      'دوای دەستپێکردن، پێداچوونەوەکەت لێرە دەردەکەوێت';
+
+  @override
+  String get emptyFirstRunAction => 'دەستپێبکە';
+
+  @override
+  String get emptyAllDone => 'پێداچوونەوەی ئەمڕۆ تەواوبوو';
+
+  @override
+  String get reminderToggleLabel => 'بیرخستنەوەی ڕۆژانە';
+
+  @override
+  String get reminderTimeLabel => 'کاتی بیرخستنەوە';
+
+  @override
+  String get reminderCatchUpNoteLabel =>
+      'تێبینییەکی هێمن کاتێک چەند ڕۆژێک تێدەپەڕێت';
+
+  @override
+  String get reminderHonestLine =>
+      'بیرخستنەوەیەکی بێلایەن لە کاتێکدا کە خۆت هەڵیدەبژێریت؛ هەر کاتێک بتەوێت بێدەنگی بکە — هیچ نانێردرێت';
+
+  @override
+  String get destructiveKeepData => 'داتاکانم بهێڵەرەوە';
+
+  @override
+  String get destructiveEraseAllConsequence =>
+      'ئەمە هەموو تۆمارەکانی حیفز بۆ هەموو پرۆفایلەکان لەسەر ئەم ئامێرە بۆ هەمیشە دەسڕێتەوە؛ ناگەڕێتەوە، و چونکە هیچ ڕاژەیەک نییە لە هیچ شوێنێکی تردا ناگەڕێتەوە.';
+
+  @override
+  String get destructiveEraseAllConfirm => 'بەردەوامبوون لە سڕینەوە';
+
+  @override
+  String get destructiveEraseAllSecondConsequence =>
+      'دڵنیاکردنەوەی کۆتایی: ئێستا هەموو شتێک بۆ هەمیشە دەسڕێتەوە.';
+
+  @override
+  String get destructiveEraseAllSecondConfirm => 'هەموو شتێک بۆ هەمیشە بسڕەوە';
+
+  @override
+  String get destructiveWipeProfileConsequence =>
+      'ئەمە تۆمارەکانی ئەم پرۆفایلە لەسەر ئەم ئامێرە بۆ هەمیشە دەسڕێتەوە؛ ناگەڕێتەوە.';
+
+  @override
+  String get destructiveWipeProfileConfirm => 'ئەم پرۆفایلە بسڕەوە';
+
+  @override
+  String get destructiveAbortConsequence =>
+      'ئەمە ڕەشنووسی ئێستا فڕێدەدات؛ ناگەڕێتەوە.';
+
+  @override
+  String get destructiveAbortConfirm => 'ڕەشنووس فڕێبدە';
 }
