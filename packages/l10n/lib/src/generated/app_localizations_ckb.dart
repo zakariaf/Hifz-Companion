@@ -359,6 +359,36 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get staleBandMoreThanFiveYears => 'زیاتر لە ۵ ساڵ';
 
   @override
+  String get onboardingCyclePresetStepTitle => 'خولی پێداچوونەوە';
+
+  @override
+  String get onboardingCyclePresetStepBody =>
+      'ڕیتمێک کە مامۆستاکەت دەیناسێت — هەڵیبژێرە یان دڵخوازی بکە.';
+
+  @override
+  String get dailyBudgetLabel => 'کاتی پێداچوونەوەی ڕۆژانە';
+
+  @override
+  String dailyBudgetMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count خولەک',
+      one: '$count خولەک',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get customFarCycleDays => 'درێژی خول (ڕۆژ)';
+
+  @override
+  String get customNearWindowJuz => 'پەنجەرەی نزیک (جزء)';
+
+  @override
+  String get customNewLinesPerDay => 'دێڕی نوێ لە ڕۆژدا';
+
+  @override
   String get onboardingContinue => 'بەردەوامبوون';
 
   @override

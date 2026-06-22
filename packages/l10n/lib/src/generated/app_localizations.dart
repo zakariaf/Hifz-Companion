@@ -475,6 +475,48 @@ abstract class AppLocalizations {
   /// **'أكثر من ٥ سنوات'**
   String get staleBandMoreThanFiveYears;
 
+  /// Cycle-preset step heading (calm noun). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'دورة المراجعة'**
+  String get onboardingCyclePresetStepTitle;
+
+  /// Cycle-preset step helper — a named tradition a teacher recognises, not a retention dial; pick a named preset or Custom. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'إيقاعٌ يعرفه معلّمك — اختره أو خصّصه.'**
+  String get onboardingCyclePresetStepBody;
+
+  /// Label for the daily revision time-budget stepper. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'وقت المراجعة اليومي'**
+  String get dailyBudgetLabel;
+
+  /// The daily budget rendered as minutes — ICU plural with all six Arabic CLDR categories. {count} is locale-numeral-shaped downstream (intl #197). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, zero{لا دقائق} one{دقيقة واحدة} two{دقيقتان} few{{count} دقائق} many{{count} دقيقة} other{{count} دقيقة}}'**
+  String dailyBudgetMinutes(int count);
+
+  /// Custom-cycle field: far-cycle length in days (the cycle ceiling). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'طول الدورة (أيام)'**
+  String get customFarCycleDays;
+
+  /// Custom-cycle field: near-window size in juz. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'نافذة القريب (أجزاء)'**
+  String get customNearWindowJuz;
+
+  /// Custom-cycle field: new lines introduced per day. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'أسطر جديدة يومياً'**
+  String get customNewLinesPerDay;
+
   /// Button advancing from coverage capture to the confidence step. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///
   /// In ar, this message translates to:

@@ -64,6 +64,50 @@ enum CoreSetupPhase {
   integrityFailure,
 }
 
+/// The four bounded fields a Custom cycle carries (E11-T08). Each maps 1:1 to an
+/// `EngineConfig`/`cycle_config` field at the placement commit; there is no raw
+/// retention target here — a named choice, never a dial.
+@immutable
+class CustomCycleConfig {
+  /// Creates a custom cycle.
+  const CustomCycleConfig({
+    required this.farCycleDays,
+    required this.nearWindowJuz,
+    required this.newLinesPerDay,
+  });
+
+  /// The far/manzil cycle ceiling in days (the trust clamp reads this).
+  final int farCycleDays;
+
+  /// The near-window size in juz.
+  final int nearWindowJuz;
+
+  /// New lines introduced per day.
+  final int newLinesPerDay;
+
+  /// Returns a copy with the given fields replaced.
+  CustomCycleConfig copyWith({
+    int? farCycleDays,
+    int? nearWindowJuz,
+    int? newLinesPerDay,
+  }) =>
+      CustomCycleConfig(
+        farCycleDays: farCycleDays ?? this.farCycleDays,
+        nearWindowJuz: nearWindowJuz ?? this.nearWindowJuz,
+        newLinesPerDay: newLinesPerDay ?? this.newLinesPerDay,
+      );
+
+  @override
+  bool operator ==(Object other) =>
+      other is CustomCycleConfig &&
+      other.farCycleDays == farCycleDays &&
+      other.nearWindowJuz == nearWindowJuz &&
+      other.newLinesPerDay == newLinesPerDay;
+
+  @override
+  int get hashCode => Object.hash(farCycleDays, nearWindowJuz, newLinesPerDay);
+}
+
 /// The immutable, resume-safe capture for the whole onboarding flow.
 ///
 /// It holds **inputs only**: the chosen locale, the named muṣḥaf edition, the
@@ -85,6 +129,8 @@ class OnboardingState {
     this.confidence = const <int, JuzConfidence>{},
     this.memorizedOn = const <int, CalendarDate>{},
     this.cyclePreset,
+    this.pureCycleMode = false,
+    this.customCycle,
     this.dailyBudgetMinutes,
   });
 
@@ -113,6 +159,12 @@ class OnboardingState {
   /// The named cycle preset (E11-T08), or null until picked.
   final CyclePreset? cyclePreset;
 
+  /// Whether Pure-cycle mode (fixed rotation, fidelity) is on (E11-T08).
+  final bool pureCycleMode;
+
+  /// The four bounded Custom fields, set only when [cyclePreset] is `custom`.
+  final CustomCycleConfig? customCycle;
+
   /// The daily revision time budget in minutes, or null until set.
   final int? dailyBudgetMinutes;
 
@@ -130,6 +182,8 @@ class OnboardingState {
     Map<int, JuzConfidence>? confidence,
     Map<int, CalendarDate>? memorizedOn,
     CyclePreset? cyclePreset,
+    bool? pureCycleMode,
+    CustomCycleConfig? customCycle,
     int? dailyBudgetMinutes,
   }) =>
       OnboardingState(
@@ -141,6 +195,8 @@ class OnboardingState {
         confidence: confidence ?? this.confidence,
         memorizedOn: memorizedOn ?? this.memorizedOn,
         cyclePreset: cyclePreset ?? this.cyclePreset,
+        pureCycleMode: pureCycleMode ?? this.pureCycleMode,
+        customCycle: customCycle ?? this.customCycle,
         dailyBudgetMinutes: dailyBudgetMinutes ?? this.dailyBudgetMinutes,
       );
 
@@ -155,6 +211,8 @@ class OnboardingState {
       mapEquals(other.confidence, confidence) &&
       mapEquals(other.memorizedOn, memorizedOn) &&
       other.cyclePreset == cyclePreset &&
+      other.pureCycleMode == pureCycleMode &&
+      other.customCycle == customCycle &&
       other.dailyBudgetMinutes == dailyBudgetMinutes;
 
   @override
@@ -169,7 +227,7 @@ class OnboardingState {
         Object.hashAllUnordered(memorizedOn.keys),
         Object.hashAllUnordered(memorizedOn.values),
         cyclePreset,
-        dailyBudgetMinutes,
+        Object.hash(pureCycleMode, customCycle, dailyBudgetMinutes),
       );
 }
 
@@ -298,6 +356,15 @@ class OnboardingController extends Notifier<OnboardingState> {
   void setCyclePreset(CyclePreset preset) =>
       state = state.copyWith(cyclePreset: preset);
 
+  /// Toggles Pure-cycle mode (fixed rotation / fidelity) — exactly one flag.
+  void setPureCycle({required bool enabled}) =>
+      state = state.copyWith(pureCycleMode: enabled);
+
+  /// Sets the four bounded Custom-cycle fields (only meaningful when the
+  /// selected preset is `custom`).
+  void setCustomCycle(CustomCycleConfig config) =>
+      state = state.copyWith(customCycle: config);
+
   /// Sets the daily revision budget in [minutes].
   void setDailyBudget(int minutes) =>
       state = state.copyWith(dailyBudgetMinutes: minutes);
@@ -333,7 +400,9 @@ class OnboardingController extends Notifier<OnboardingState> {
           state.coreSetupPhase == CoreSetupPhase.ready,
         OnboardingStep.coverage => state.coverage.isNotEmpty,
         OnboardingStep.confidence => state.everyHeldJuzRated,
-        OnboardingStep.cyclePreset => state.cyclePreset != null,
+        // A sensible named default (and budget) is applied at the commit if the
+        // user leaves the preset/budget untouched, so the step never blocks.
+        OnboardingStep.cyclePreset => true,
         OnboardingStep.done => false,
       };
 }

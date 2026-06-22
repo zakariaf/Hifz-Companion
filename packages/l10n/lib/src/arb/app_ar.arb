@@ -361,6 +361,39 @@
   "@staleBandMoreThanFiveYears": {
     "description": "Coarse 'when memorized' band: more than five years ago (digits in the locale numeral set). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
   },
+  "onboardingCyclePresetStepTitle": "دورة المراجعة",
+  "@onboardingCyclePresetStepTitle": {
+    "description": "Cycle-preset step heading (calm noun). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingCyclePresetStepBody": "إيقاعٌ يعرفه معلّمك — اختره أو خصّصه.",
+  "@onboardingCyclePresetStepBody": {
+    "description": "Cycle-preset step helper — a named tradition a teacher recognises, not a retention dial; pick a named preset or Custom. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "dailyBudgetLabel": "وقت المراجعة اليومي",
+  "@dailyBudgetLabel": {
+    "description": "Label for the daily revision time-budget stepper. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "dailyBudgetMinutes": "{count, plural, zero{لا دقائق} one{دقيقة واحدة} two{دقيقتان} few{{count} دقائق} many{{count} دقيقة} other{{count} دقيقة}}",
+  "@dailyBudgetMinutes": {
+    "description": "The daily budget rendered as minutes — ICU plural with all six Arabic CLDR categories. {count} is locale-numeral-shaped downstream (intl #197). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "customFarCycleDays": "طول الدورة (أيام)",
+  "@customFarCycleDays": {
+    "description": "Custom-cycle field: far-cycle length in days (the cycle ceiling). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "customNearWindowJuz": "نافذة القريب (أجزاء)",
+  "@customNearWindowJuz": {
+    "description": "Custom-cycle field: near-window size in juz. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "customNewLinesPerDay": "أسطر جديدة يومياً",
+  "@customNewLinesPerDay": {
+    "description": "Custom-cycle field: new lines introduced per day. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
   "onboardingContinue": "متابعة",
   "@onboardingContinue": {
     "description": "Button advancing from coverage capture to the confidence step. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."

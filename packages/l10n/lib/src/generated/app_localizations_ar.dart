@@ -368,6 +368,40 @@ class AppLocalizationsAr extends AppLocalizations {
   String get staleBandMoreThanFiveYears => 'أكثر من ٥ سنوات';
 
   @override
+  String get onboardingCyclePresetStepTitle => 'دورة المراجعة';
+
+  @override
+  String get onboardingCyclePresetStepBody =>
+      'إيقاعٌ يعرفه معلّمك — اختره أو خصّصه.';
+
+  @override
+  String get dailyBudgetLabel => 'وقت المراجعة اليومي';
+
+  @override
+  String dailyBudgetMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count دقيقة',
+      many: '$count دقيقة',
+      few: '$count دقائق',
+      two: 'دقيقتان',
+      one: 'دقيقة واحدة',
+      zero: 'لا دقائق',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get customFarCycleDays => 'طول الدورة (أيام)';
+
+  @override
+  String get customNearWindowJuz => 'نافذة القريب (أجزاء)';
+
+  @override
+  String get customNewLinesPerDay => 'أسطر جديدة يومياً';
+
+  @override
   String get onboardingContinue => 'متابعة';
 
   @override

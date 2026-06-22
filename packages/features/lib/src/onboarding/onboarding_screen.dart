@@ -12,6 +12,7 @@ import 'onboarding_view_model.dart';
 import 'widgets/confidence_step.dart';
 import 'widgets/core_setup_step.dart';
 import 'widgets/coverage_capture_grid.dart';
+import 'widgets/cycle_preset_step.dart';
 import 'widgets/language_step.dart';
 import 'widgets/onboarding_chrome.dart';
 import 'widgets/riwayah_step.dart';
@@ -110,8 +111,17 @@ class OnboardingScreen extends ConsumerWidget {
             onSetMemorized: controller.setMemorizedOn,
             onClearMemorized: controller.clearMemorizedOn,
           ),
-        OnboardingStep.cyclePreset =>
-          const _StepHost(OnboardingStep.cyclePreset),
+        OnboardingStep.cyclePreset => CyclePresetStep(
+            selected: state.cyclePreset,
+            pureCycleEnabled: state.pureCycleMode,
+            budgetMinutes: state.dailyBudgetMinutes,
+            customCycle: state.customCycle,
+            onPresetSelected: controller.setCyclePreset,
+            onPureCycleChanged: (enabled) =>
+                controller.setPureCycle(enabled: enabled),
+            onBudgetChanged: controller.setDailyBudget,
+            onCustomChanged: controller.setCustomCycle,
+          ),
         OnboardingStep.done => const _StepHost(OnboardingStep.done),
       };
 }

@@ -358,6 +358,36 @@ class AppLocalizationsFa extends AppLocalizations {
   String get staleBandMoreThanFiveYears => 'بیش از ۵ سال پیش';
 
   @override
+  String get onboardingCyclePresetStepTitle => 'دورهٔ مرور';
+
+  @override
+  String get onboardingCyclePresetStepBody =>
+      'آهنگی که معلّم‌تان می‌شناسد — انتخاب یا سفارشی‌سازی کنید.';
+
+  @override
+  String get dailyBudgetLabel => 'زمان مرور روزانه';
+
+  @override
+  String dailyBudgetMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count دقیقه',
+      one: '$count دقیقه',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get customFarCycleDays => 'طول دوره (روز)';
+
+  @override
+  String get customNearWindowJuz => 'پنجرهٔ نزدیک (جزء)';
+
+  @override
+  String get customNewLinesPerDay => 'سطرهای تازه در روز';
+
+  @override
   String get onboardingContinue => 'ادامه';
 
   @override
