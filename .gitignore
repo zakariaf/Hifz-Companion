@@ -23,3 +23,6 @@ build/
 # the ~40-55 MB core set here for the build/integration step; never committed —
 # bundling vs build-time-fetch is an open decision, E05-T05/T10).
 assets-src/
+
+# Flutter golden-test failure output (regenerable diff PNGs; never committed)
+**/failures/
