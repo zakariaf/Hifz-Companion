@@ -57,11 +57,18 @@ List<CkbViolation> scanValue(String key, String value) {
   return out;
 }
 
+/// Keys exempt from the canonical-Sorani rule: foreign-language **endonyms** are
+/// proper nouns written in their own script (e.g. `languageNameAr` = `العربية`,
+/// which legitimately uses U+0629 ة), so the Sorani substitution bans do not
+/// apply to them — they are not Sorani copy.
+bool _isExempt(String key) => key.startsWith('languageName');
+
 /// Scans every non-`@` string value in a decoded ARB map.
 List<CkbViolation> scanArb(Map<String, dynamic> arb) {
   final out = <CkbViolation>[];
   for (final entry in arb.entries) {
     if (entry.key.startsWith('@')) continue; // @@locale / @metadata
+    if (_isExempt(entry.key)) continue; // foreign-language endonyms
     final value = entry.value;
     if (value is String) out.addAll(scanValue(entry.key, value));
   }
