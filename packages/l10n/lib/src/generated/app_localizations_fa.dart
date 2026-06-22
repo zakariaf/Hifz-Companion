@@ -351,6 +351,29 @@ class AppLocalizationsFa extends AppLocalizations {
       'یاری‌رسانِ مرورِ شماست و خدمتگزارِ معلّم‌تان، نه جایگزینِ تلقّی و نه فتوا.';
 
   @override
+  String get onboardingLanguageStepTitle => 'زبان برنامه';
+
+  @override
+  String get onboardingLanguageStepBody =>
+      'بی‌درنگ بر صفحه‌های راه‌اندازی اعمال می‌شود.';
+
+  @override
+  String get languageNameFa => 'فارسی';
+
+  @override
+  String get languageNameCkb => 'کوردیی ناوەندی';
+
+  @override
+  String get languageNameAr => 'العربية';
+
+  @override
+  String get onboardingRiwayahStepTitle => 'مصحف';
+
+  @override
+  String get onboardingRiwayahStepBody =>
+      'این مصحفِ همراهِ برنامه است؛ بعداً از تنظیمات قابلِ تعویض است. زمان‌بندی به متنِ خاصی وابسته نیست.';
+
+  @override
   String get onboardingDone => 'پایان';
 
   @override

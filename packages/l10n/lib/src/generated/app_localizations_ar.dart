@@ -360,6 +360,28 @@ class AppLocalizationsAr extends AppLocalizations {
       'هو عونٌ لمراجعتك وخادمٌ لمعلّمك، لا بديلٌ عن التلقّي، وليس فتوى.';
 
   @override
+  String get onboardingLanguageStepTitle => 'لغة التطبيق';
+
+  @override
+  String get onboardingLanguageStepBody => 'تُطبَّق فورًا على شاشات الإعداد.';
+
+  @override
+  String get languageNameFa => 'فارسی';
+
+  @override
+  String get languageNameCkb => 'کوردیی ناوەندی';
+
+  @override
+  String get languageNameAr => 'العربية';
+
+  @override
+  String get onboardingRiwayahStepTitle => 'المصحف';
+
+  @override
+  String get onboardingRiwayahStepBody =>
+      'هذا هو المصحف المضمَّن؛ يمكن تبديله لاحقًا من الإعدادات. الجدول لا يتعلّق بنصّ بعينه.';
+
+  @override
   String get onboardingDone => 'تم';
 
   @override

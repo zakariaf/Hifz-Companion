@@ -457,6 +457,48 @@ abstract class AppLocalizations {
   /// **'هو عونٌ لمراجعتك وخادمٌ لمعلّمك، لا بديلٌ عن التلقّي، وليس فتوى.'**
   String get onboardingWelcomeServant;
 
+  /// Language-pick step heading (calm noun, not an imperative). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'لغة التطبيق'**
+  String get onboardingLanguageStepTitle;
+
+  /// Language-pick step helper — the choice applies live as a display transform. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تُطبَّق فورًا على شاشات الإعداد.'**
+  String get onboardingLanguageStepBody;
+
+  /// Persian language endonym — the same in every UI locale (a language's own name), shown as the fa option.
+  ///
+  /// In ar, this message translates to:
+  /// **'فارسی'**
+  String get languageNameFa;
+
+  /// Central Kurdish (Sorani) language endonym — the same in every UI locale, shown as the ckb option. PROVISIONAL — needs native review.
+  ///
+  /// In ar, this message translates to:
+  /// **'کوردیی ناوەندی'**
+  String get languageNameCkb;
+
+  /// Arabic language endonym — the same in every UI locale, shown as the ar option.
+  ///
+  /// In ar, this message translates to:
+  /// **'العربية'**
+  String get languageNameAr;
+
+  /// Riwāyah/muṣḥaf confirmation step heading (calm noun). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'المصحف'**
+  String get onboardingRiwayahStepTitle;
+
+  /// Riwāyah step helper — names the bundled edition as fact, notes it is swappable later in Settings and that the scheduler is text-agnostic; issues no ruling on which riwāyah is correct (R2). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا هو المصحف المضمَّن؛ يمكن تبديله لاحقًا من الإعدادات. الجدول لا يتعلّق بنصّ بعينه.'**
+  String get onboardingRiwayahStepBody;
+
   /// Button committing the cold-start seed (then the first day is generated). No celebration register. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///
   /// In ar, this message translates to:

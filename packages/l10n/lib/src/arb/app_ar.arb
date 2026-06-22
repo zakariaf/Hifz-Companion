@@ -344,6 +344,34 @@
   "@onboardingWelcomeServant": {
     "description": "Welcome servant-to-the-teacher framing (C-046): an aid to revision and a servant to the teacher, not a replacement for oral correction (talaqqī), not a fatwa. Methodology/religious — PROVISIONAL, needs native + scholarly review; best-effort fa/ckb."
   },
+  "onboardingLanguageStepTitle": "لغة التطبيق",
+  "@onboardingLanguageStepTitle": {
+    "description": "Language-pick step heading (calm noun, not an imperative). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingLanguageStepBody": "تُطبَّق فورًا على شاشات الإعداد.",
+  "@onboardingLanguageStepBody": {
+    "description": "Language-pick step helper — the choice applies live as a display transform. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "languageNameFa": "فارسی",
+  "@languageNameFa": {
+    "description": "Persian language endonym — the same in every UI locale (a language's own name), shown as the fa option."
+  },
+  "languageNameCkb": "کوردیی ناوەندی",
+  "@languageNameCkb": {
+    "description": "Central Kurdish (Sorani) language endonym — the same in every UI locale, shown as the ckb option. PROVISIONAL — needs native review."
+  },
+  "languageNameAr": "العربية",
+  "@languageNameAr": {
+    "description": "Arabic language endonym — the same in every UI locale, shown as the ar option."
+  },
+  "onboardingRiwayahStepTitle": "المصحف",
+  "@onboardingRiwayahStepTitle": {
+    "description": "Riwāyah/muṣḥaf confirmation step heading (calm noun). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingRiwayahStepBody": "هذا هو المصحف المضمَّن؛ يمكن تبديله لاحقًا من الإعدادات. الجدول لا يتعلّق بنصّ بعينه.",
+  "@onboardingRiwayahStepBody": {
+    "description": "Riwāyah step helper — names the bundled edition as fact, notes it is swappable later in Settings and that the scheduler is text-agnostic; issues no ruling on which riwāyah is correct (R2). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
   "onboardingDone": "تم",
   "@onboardingDone": {
     "description": "Button committing the cold-start seed (then the first day is generated). No celebration register. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."

@@ -8,6 +8,7 @@
 
 import 'package:features/features.dart';
 import 'package:features/src/onboarding/widgets/coverage_grid.dart';
+import 'package:features/src/onboarding/widgets/language_step.dart';
 import 'package:features/src/onboarding/widgets/welcome_step.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,9 +36,6 @@ void main() {
     return AppLocalizations.delegate.load(const Locale('ar'));
   }
 
-  Finder stepHost(OnboardingStep step) =>
-      find.byKey(ValueKey<String>('onboarding.step.${step.name}'));
-
   bool continueEnabled(WidgetTester tester, String label) =>
       tester
           .widget<FilledButton>(find.widgetWithText(FilledButton, label))
@@ -59,7 +57,7 @@ void main() {
     await t.tap(find.widgetWithText(FilledButton, l10n.onboardingContinue));
     await t.pumpAndSettle();
     // Now on the language step, with a Back affordance.
-    expect(stepHost(OnboardingStep.language), findsOneWidget);
+    expect(find.byType(LanguageStep), findsOneWidget);
     expect(find.byType(WelcomeStep), findsNothing);
     final back = find.widgetWithText(TextButton, l10n.onboardingBack);
     expect(back, findsOneWidget);

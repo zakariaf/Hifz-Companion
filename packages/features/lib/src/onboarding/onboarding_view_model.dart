@@ -295,7 +295,9 @@ class OnboardingController extends Notifier<OnboardingState> {
   bool _canLeave(OnboardingStep step) => switch (step) {
         OnboardingStep.welcomePrivacy => true,
         OnboardingStep.language => state.locale != null,
-        OnboardingStep.riwayahConfirm => state.mushafEditionId != null,
+        // v1 ships one bundled edition, so the riwāyah step names and confirms
+        // it (a display) — the commit defaults `mushafEditionId` when absent.
+        OnboardingStep.riwayahConfirm => true,
         OnboardingStep.coreSetup =>
           state.coreSetupPhase == CoreSetupPhase.ready,
         OnboardingStep.coverage => state.coverage.isNotEmpty,

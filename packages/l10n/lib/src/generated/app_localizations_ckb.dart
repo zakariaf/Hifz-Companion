@@ -351,6 +351,29 @@ class AppLocalizationsCkb extends AppLocalizations {
       'یارمەتیدەری پێداچوونەوەتە و خزمەتکاری مامۆستاکەتە، نە جێگرەوەی تەلەقین و نە فەتوا.';
 
   @override
+  String get onboardingLanguageStepTitle => 'زمانی ئەپ';
+
+  @override
+  String get onboardingLanguageStepBody =>
+      'دەستبەجێ لە شاشەکانی ڕێکخستندا دەردەکەوێت.';
+
+  @override
+  String get languageNameFa => 'فارسی';
+
+  @override
+  String get languageNameCkb => 'کوردیی ناوەندی';
+
+  @override
+  String get languageNameAr => 'العربية';
+
+  @override
+  String get onboardingRiwayahStepTitle => 'موسحەف';
+
+  @override
+  String get onboardingRiwayahStepBody =>
+      'ئەمە موسحەفی پاڵپشتکراوە؛ دواتر لە ڕێکخستنەکان دەگۆڕدرێت. خشتەکە بە دەقێکی دیاریکراوەوە نووساو نییە.';
+
+  @override
   String get onboardingDone => 'تەواو';
 
   @override

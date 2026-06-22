@@ -10,7 +10,9 @@ import 'onboarding_providers.dart';
 import 'onboarding_view_model.dart';
 import 'widgets/coverage_grid.dart';
 import 'widgets/juz_confidence_rater.dart';
+import 'widgets/language_step.dart';
 import 'widgets/onboarding_chrome.dart';
+import 'widgets/riwayah_step.dart';
 import 'widgets/welcome_step.dart';
 
 /// The dumb onboarding host (E11-T01). It reads the one resume-safe capture
@@ -38,28 +40,35 @@ class OnboardingScreen extends ConsumerWidget {
     final controller = ref.read(provider.notifier);
 
     return Scaffold(
-      body: Semantics(
-        identifier: 'screen.onboarding',
-        explicitChildNodes: true,
-        child: SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsetsDirectional.all(space.space4),
-                child: OnboardingStepProgress(
-                  stepCount: OnboardingStep.values.length,
-                  currentIndex: state.cursor.index,
+      // The language pick applies live as a display transform: re-localize the
+      // whole onboarding subtree (chrome + step) to the captured locale. All
+      // three locales are RTL, so direction is unchanged; `null` inherits.
+      body: Localizations.override(
+        context: context,
+        locale: state.locale,
+        child: Semantics(
+          identifier: 'screen.onboarding',
+          explicitChildNodes: true,
+          child: SafeArea(
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsetsDirectional.all(space.space4),
+                  child: OnboardingStepProgress(
+                    stepCount: OnboardingStep.values.length,
+                    currentIndex: state.cursor.index,
+                  ),
                 ),
-              ),
-              Expanded(child: _stepView(state, controller)),
-              // The welcome landing carries its own Continue CTA; every other
-              // step uses the shared back/next chrome.
-              if (state.cursor != OnboardingStep.welcomePrivacy)
-                OnboardingNavBar(
-                  onBack: controller.back,
-                  onContinue: controller.canAdvance ? controller.next : null,
-                ),
-            ],
+                Expanded(child: _stepView(state, controller)),
+                // The welcome landing carries its own Continue CTA; every other
+                // step uses the shared back/next chrome.
+                if (state.cursor != OnboardingStep.welcomePrivacy)
+                  OnboardingNavBar(
+                    onBack: controller.back,
+                    onContinue: controller.canAdvance ? controller.next : null,
+                  ),
+              ],
+            ),
           ),
         ),
       ),
@@ -73,9 +82,14 @@ class OnboardingScreen extends ConsumerWidget {
       switch (state.cursor) {
         OnboardingStep.welcomePrivacy =>
           WelcomeStep(onContinue: controller.next),
-        OnboardingStep.language => const _StepHost(OnboardingStep.language),
-        OnboardingStep.riwayahConfirm =>
-          const _StepHost(OnboardingStep.riwayahConfirm),
+        OnboardingStep.language => LanguageStep(
+            selected: state.locale,
+            onSelected: controller.setLocale,
+          ),
+        OnboardingStep.riwayahConfirm => RiwayahStep(
+            selected: state.mushafEditionId,
+            onSelected: controller.confirmMushaf,
+          ),
         OnboardingStep.coreSetup => const _StepHost(OnboardingStep.coreSetup),
         OnboardingStep.coverage => CoverageGrid(
             heldJuz: state.coverage,
