@@ -59,7 +59,10 @@ class ComponentGallery extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     final space = Theme.of(context).extension<SpacingTokens>()!;
     final text = Theme.of(context).textTheme;
-    return ColoredBox(
+    // A `Material` (not a bare `ColoredBox`) so specimens that expect the
+    // ancestor a real host supplies — `ListTile`/`SwitchListTile` and the M3 ink
+    // surfaces — render host-less without a "No Material widget found" error.
+    return Material(
       color: scheme.surface,
       child: ListView(
         padding: EdgeInsetsDirectional.all(space.space4),

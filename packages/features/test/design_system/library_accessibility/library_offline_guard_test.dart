@@ -1,12 +1,13 @@
 // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-// E10-T10 — the offline guard is live for the whole library: under the shared
-// throwing-HttpOverrides bootstrap, a stray request from any specimen cannot
-// reach the wire (intercepted → HTTP 400 under the flutter_test binding, or the
-// throwing StateError in pure package:test). No component opens a socket.
-
-import 'dart:io';
+// E10-T10 — the offline guard is live for the whole library: every component
+// renders under the shared throwing offline-override bootstrap with no network.
+// The guarantee is structural — `useOfflineTestPolicy()` installs the throwing
+// override and the `check_no_network` gate bans every network-client / socket
+// symbol outside packages/assets/, so no component can open a connection (a test
+// that tried would itself fail that gate). This suite proves the library
+// composes under the guard.
 
 import 'package:features/features.dart';
 import 'package:flutter/material.dart';
@@ -20,40 +21,34 @@ void main() {
   useOfflineTestPolicy();
   setUpAll(loadMihrabUiFonts);
 
-  testWidgets('the registry is non-empty and renders under the offline guard',
-      (tester) async {
+  test('the component registry is non-empty', () {
     expect(librarySpecimens(), isNotEmpty);
-    final specimen = librarySpecimens().first;
-    await tester.pumpWidget(
-      MaterialApp(
-        debugShowCheckedModeBanner: false,
-        locale: const Locale('ar'),
-        localizationsDelegates: hifzLocalizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        theme: mihrabThemeFor(MihrabAppearance.light),
-        home: Scaffold(body: Builder(builder: specimen.build)),
-      ),
-    );
-    await tester.pumpAndSettle();
-    expect(find.byType(MihrabPageCard), findsOneWidget);
   });
 
-  testWidgets('a stray request never reaches a real socket', (tester) async {
-    Object? error;
-    int? status;
-    await tester.runAsync(() async {
-      try {
-        final request =
-            await HttpClient().getUrl(Uri.parse('http://example.invalid/'));
-        status = (await request.close()).statusCode;
-      } on Object catch (e) {
-        error = e;
-      }
-    });
-    expect(
-      error != null || status == 400,
-      isTrue,
-      reason: 'a stray network call must be intercepted, never a real socket',
-    );
+  testWidgets('every component renders under the offline guard (no network)',
+      (tester) async {
+    for (final specimen in librarySpecimens()) {
+      await tester.pumpWidget(
+        MaterialApp(
+          debugShowCheckedModeBanner: false,
+          locale: const Locale('ar'),
+          localizationsDelegates: hifzLocalizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          theme: mihrabThemeFor(MihrabAppearance.light)
+              .copyWith(platform: TargetPlatform.android),
+          home: Scaffold(
+            body: SingleChildScrollView(
+              child: Builder(builder: specimen.build),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(
+        tester.takeException(),
+        isNull,
+        reason: '${specimen.name} must render offline without error',
+      );
+    }
   });
 }

@@ -6,8 +6,6 @@
 // that follows the component, disabled = dimmed-not-error, the Semantics flags,
 // and the load-bearing adab guard that NO pressed/selected path is a reward.
 
-import 'dart:io';
-
 import 'package:features/features.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -229,27 +227,9 @@ void main() {
     });
   });
 
-  testWidgets('offline by construction — a stray request never connects',
-      (tester) async {
-    // The library bootstrap installs the throwing override; under the
-    // flutter_test binding a stray request is additionally intercepted (HTTP
-    // 400, no real socket). Either way a network call cannot reach the wire —
-    // the offline guarantee the whole E10 library relies on.
-    Object? error;
-    int? status;
-    await tester.runAsync(() async {
-      try {
-        final request =
-            await HttpClient().getUrl(Uri.parse('http://example.invalid/'));
-        status = (await request.close()).statusCode;
-      } on Object catch (e) {
-        error = e;
-      }
-    });
-    expect(
-      error != null || status == 400,
-      isTrue,
-      reason: 'a stray network call must be intercepted, never a real socket',
-    );
-  });
+  // The offline guarantee is enforced structurally, not by a behavioral network
+  // call: `useOfflineTestPolicy()` installs the throwing override and the
+  // `check_no_network` gate bans every network-client / socket symbol outside
+  // `packages/assets/` (and `test_setup.dart`) — so no component can open a
+  // connection and a test attempting one would itself fail that gate.
 }
