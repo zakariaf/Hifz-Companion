@@ -600,6 +600,54 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'ليؤكّدها معلّمك'**
   String get teacherSignoffSupporting;
+
+  /// Screen-reader prefix read before an evidence-certainty phrase, so the grade is conveyed as TEXT, never colour (science 11 §5, §7; C-047). 'Strength of the evidence:'. The label describes certainty ABOUT THE EVIDENCE, never about the user's own Quran. Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'قوة الدليل: '**
+  String get certaintyEvidencePrefix;
+
+  /// Evidence-certainty lay phrase for grade [MA] (meta-analysis) — 'among the best-established findings in memory science' (science 11 §5). Describes the EVIDENCE only; NEVER 'proven'/a star/a percentage/a Quran-retention promise (C-016, C-017). Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'من أرسخ نتائج علم الذاكرة'**
+  String get certaintyMaPhrase;
+
+  /// Evidence-certainty lay phrase shared by grades [RCT] and [EXP] — 'a single controlled study' (science 11 §5). Evidence only; no 'proven'/star/percentage. Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'دراسة محكومة واحدة'**
+  String get certaintyRctExpPhrase;
+
+  /// Evidence-certainty lay phrase for grade [CS] — 'a classic foundational study' (science 11 §5). Evidence only. Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'دراسة تأسيسية كلاسيكية'**
+  String get certaintyCsPhrase;
+
+  /// Evidence-certainty lay phrase for grade [OBS] — 'an observational / field study' (science 11 §5). Evidence only; calm, never a weakness to be ashamed of. Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'دراسة ميدانية رصدية'**
+  String get certaintyObsPhrase;
+
+  /// Evidence-certainty lay phrase for grade [TEXT] — 'an expert review / algorithm documentation' (science 11 §5). Evidence only. Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'مراجعة خبير أو توثيق منهجي'**
+  String get certaintyTextPhrase;
+
+  /// Evidence-certainty lay phrase for grade [TRAD] — 'traditional scholarship, source named below' (science 11 §5). Named scholarship paired with its source; issues NO fiqh ruling and is NOT ranked above the empirical grades; defers to the teacher and the sanad (C-046, CLAIMS scope clause). Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'علم نقلي، مصدره مذكور أدناه'**
+  String get certaintyTradPhrase;
+
+  /// Title of the always-reachable plain-words evidence-certainty legend (science 11 §3, §5). 'The strength of the evidence we rely on.' Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'قوة الأدلة التي نستند إليها'**
+  String get certaintyLegendTitle;
 }
 
 class _AppLocalizationsDelegate

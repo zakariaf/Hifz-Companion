@@ -419,4 +419,28 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get teacherSignoffSupporting => 'تا استادتان تأیید کند';
+
+  @override
+  String get certaintyEvidencePrefix => 'قوّت شواهد: ';
+
+  @override
+  String get certaintyMaPhrase => 'از استوارترین یافته‌های دانش حافظه';
+
+  @override
+  String get certaintyRctExpPhrase => 'یک پژوهش کنترل‌شده';
+
+  @override
+  String get certaintyCsPhrase => 'یک پژوهش بنیادی کلاسیک';
+
+  @override
+  String get certaintyObsPhrase => 'یک پژوهش میدانی/مشاهده‌ای';
+
+  @override
+  String get certaintyTextPhrase => 'بازبینی کارشناسی یا مستندات روش';
+
+  @override
+  String get certaintyTradPhrase => 'دانش نقلی؛ منبعش در زیر آمده است';
+
+  @override
+  String get certaintyLegendTitle => 'استواری شواهدی که بر آن تکیه می‌کنیم';
 }

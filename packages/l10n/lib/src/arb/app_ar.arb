@@ -450,5 +450,37 @@
   "teacherSignoffSupporting": "ليؤكّدها معلّمك",
   "@teacherSignoffSupporting": {
     "description": "Autonomy-supportive supporting copy under the teacher sign-off Switch — 'for your teacher to confirm'. NEVER commanding ('you must have a teacher'); the app is servant, not authority (C-046). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "certaintyEvidencePrefix": "قوة الدليل: ",
+  "@certaintyEvidencePrefix": {
+    "description": "Screen-reader prefix read before an evidence-certainty phrase, so the grade is conveyed as TEXT, never colour (science 11 §5, §7; C-047). 'Strength of the evidence:'. The label describes certainty ABOUT THE EVIDENCE, never about the user's own Quran. Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "certaintyMaPhrase": "من أرسخ نتائج علم الذاكرة",
+  "@certaintyMaPhrase": {
+    "description": "Evidence-certainty lay phrase for grade [MA] (meta-analysis) — 'among the best-established findings in memory science' (science 11 §5). Describes the EVIDENCE only; NEVER 'proven'/a star/a percentage/a Quran-retention promise (C-016, C-017). Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "certaintyRctExpPhrase": "دراسة محكومة واحدة",
+  "@certaintyRctExpPhrase": {
+    "description": "Evidence-certainty lay phrase shared by grades [RCT] and [EXP] — 'a single controlled study' (science 11 §5). Evidence only; no 'proven'/star/percentage. Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "certaintyCsPhrase": "دراسة تأسيسية كلاسيكية",
+  "@certaintyCsPhrase": {
+    "description": "Evidence-certainty lay phrase for grade [CS] — 'a classic foundational study' (science 11 §5). Evidence only. Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "certaintyObsPhrase": "دراسة ميدانية رصدية",
+  "@certaintyObsPhrase": {
+    "description": "Evidence-certainty lay phrase for grade [OBS] — 'an observational / field study' (science 11 §5). Evidence only; calm, never a weakness to be ashamed of. Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "certaintyTextPhrase": "مراجعة خبير أو توثيق منهجي",
+  "@certaintyTextPhrase": {
+    "description": "Evidence-certainty lay phrase for grade [TEXT] — 'an expert review / algorithm documentation' (science 11 §5). Evidence only. Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "certaintyTradPhrase": "علم نقلي، مصدره مذكور أدناه",
+  "@certaintyTradPhrase": {
+    "description": "Evidence-certainty lay phrase for grade [TRAD] — 'traditional scholarship, source named below' (science 11 §5). Named scholarship paired with its source; issues NO fiqh ruling and is NOT ranked above the empirical grades; defers to the teacher and the sanad (C-046, CLAIMS scope clause). Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "certaintyLegendTitle": "قوة الأدلة التي نستند إليها",
+  "@certaintyLegendTitle": {
+    "description": "Title of the always-reachable plain-words evidence-certainty legend (science 11 §3, §5). 'The strength of the evidence we rely on.' Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
   }
 }

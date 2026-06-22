@@ -82,5 +82,13 @@
   "gradeEasySemantics": "بی‌زحمت — با فاصلهٔ بیشتر",
   "gradeBandWaitingHint": "برای ارزیابی، صفحه را آشکار کنید",
   "teacherSignoffLabel": "استاد حاضر است",
-  "teacherSignoffSupporting": "تا استادتان تأیید کند"
+  "teacherSignoffSupporting": "تا استادتان تأیید کند",
+  "certaintyEvidencePrefix": "قوّت شواهد: ",
+  "certaintyMaPhrase": "از استوارترین یافته‌های دانش حافظه",
+  "certaintyRctExpPhrase": "یک پژوهش کنترل‌شده",
+  "certaintyCsPhrase": "یک پژوهش بنیادی کلاسیک",
+  "certaintyObsPhrase": "یک پژوهش میدانی/مشاهده‌ای",
+  "certaintyTextPhrase": "بازبینی کارشناسی یا مستندات روش",
+  "certaintyTradPhrase": "دانش نقلی؛ منبعش در زیر آمده است",
+  "certaintyLegendTitle": "استواری شواهدی که بر آن تکیه می‌کنیم"
 }

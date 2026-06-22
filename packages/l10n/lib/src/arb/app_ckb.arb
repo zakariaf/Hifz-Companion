@@ -82,5 +82,13 @@
   "gradeEasySemantics": "بێ ماندووبوون — بە ماوەیەکی درێژتر",
   "gradeBandWaitingHint": "بۆ هەڵسەنگاندن، پەڕەکە دەربخە",
   "teacherSignoffLabel": "مامۆستا ئامادەیە",
-  "teacherSignoffSupporting": "بۆ ئەوەی مامۆستاکەت پەسەندی بکات"
+  "teacherSignoffSupporting": "بۆ ئەوەی مامۆستاکەت پەسەندی بکات",
+  "certaintyEvidencePrefix": "هێزی بەڵگە: ",
+  "certaintyMaPhrase": "لە جێگیرترین دۆزینەوەکانی زانستی بیرەوەری",
+  "certaintyRctExpPhrase": "تاقیکردنەوەیەکی کۆنترۆڵکراو",
+  "certaintyCsPhrase": "تویژینەوەیەکی بنەڕەتی کلاسیک",
+  "certaintyObsPhrase": "تویژینەوەیەکی مەیدانی/چاودێری",
+  "certaintyTextPhrase": "پێداچوونەوەی شارەزا یان بەڵگەنامەی ڕێباز",
+  "certaintyTradPhrase": "زانستی نەقلی؛ سەرچاوەکەی لە خوارەوە ناوبراوە",
+  "certaintyLegendTitle": "هێزی ئەو بەڵگانەی پشتی پێدەبەستین"
 }

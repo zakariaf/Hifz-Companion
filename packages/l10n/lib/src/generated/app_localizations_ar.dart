@@ -430,4 +430,28 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get teacherSignoffSupporting => 'ليؤكّدها معلّمك';
+
+  @override
+  String get certaintyEvidencePrefix => 'قوة الدليل: ';
+
+  @override
+  String get certaintyMaPhrase => 'من أرسخ نتائج علم الذاكرة';
+
+  @override
+  String get certaintyRctExpPhrase => 'دراسة محكومة واحدة';
+
+  @override
+  String get certaintyCsPhrase => 'دراسة تأسيسية كلاسيكية';
+
+  @override
+  String get certaintyObsPhrase => 'دراسة ميدانية رصدية';
+
+  @override
+  String get certaintyTextPhrase => 'مراجعة خبير أو توثيق منهجي';
+
+  @override
+  String get certaintyTradPhrase => 'علم نقلي، مصدره مذكور أدناه';
+
+  @override
+  String get certaintyLegendTitle => 'قوة الأدلة التي نستند إليها';
 }

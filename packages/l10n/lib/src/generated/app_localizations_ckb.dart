@@ -419,4 +419,29 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get teacherSignoffSupporting => 'بۆ ئەوەی مامۆستاکەت پەسەندی بکات';
+
+  @override
+  String get certaintyEvidencePrefix => 'هێزی بەڵگە: ';
+
+  @override
+  String get certaintyMaPhrase => 'لە جێگیرترین دۆزینەوەکانی زانستی بیرەوەری';
+
+  @override
+  String get certaintyRctExpPhrase => 'تاقیکردنەوەیەکی کۆنترۆڵکراو';
+
+  @override
+  String get certaintyCsPhrase => 'تویژینەوەیەکی بنەڕەتی کلاسیک';
+
+  @override
+  String get certaintyObsPhrase => 'تویژینەوەیەکی مەیدانی/چاودێری';
+
+  @override
+  String get certaintyTextPhrase => 'پێداچوونەوەی شارەزا یان بەڵگەنامەی ڕێباز';
+
+  @override
+  String get certaintyTradPhrase =>
+      'زانستی نەقلی؛ سەرچاوەکەی لە خوارەوە ناوبراوە';
+
+  @override
+  String get certaintyLegendTitle => 'هێزی ئەو بەڵگانەی پشتی پێدەبەستین';
 }
