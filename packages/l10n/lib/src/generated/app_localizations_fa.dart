@@ -259,6 +259,10 @@ class AppLocalizationsFa extends AppLocalizations {
   }
 
   @override
+  String get cyclePureModeSubtitle =>
+      'دقیقاً از چرخهٔ خود پیروی کن — بدون ترتیب‌بندی مجدد';
+
+  @override
   String get hijriUmmAlQuraQualifier => '(Umm al-Qurā)';
 
   @override

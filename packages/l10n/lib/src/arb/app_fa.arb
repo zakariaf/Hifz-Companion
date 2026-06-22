@@ -31,6 +31,7 @@
   "cycleTwoJuzPerDay": "{region, select, other{دو جزء در روز}}",
   "cycleCustom": "{region, select, other{سفارشی}}",
   "cyclePureMode": "{region, select, other{حالت دوره‌ای خالص}}",
+  "cyclePureModeSubtitle": "دقیقاً از چرخهٔ خود پیروی کن — بدون ترتیب‌بندی مجدد",
   "hijriUmmAlQuraQualifier": "(Umm al-Qurā)",
   "hijriCivilApproximationCaveat": "تاریخ هجریِ قمری یک تقویم مدنیِ تقریبی (اُمّ‌القُرا) است؛ آغاز برخی مناسبت‌ها ممکن است بر پایهٔ رؤیت هلال یک روز متفاوت باشد.",
   "navToday": "امروز",

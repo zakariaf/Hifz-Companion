@@ -289,6 +289,12 @@ abstract class AppLocalizations {
   /// **'{region, select, other{الوضع الدوري الخالص}}'**
   String cyclePureMode(String region);
 
+  /// Subtitle under the Pure-cycle toggle — framed as FIDELITY ('follow your cycle exactly — no reordering'), servant-to-the-teacher (C-014); NEVER 'disable smart features'/'make the app worse', no command/urgency. The longer/pure cycle is never 'permission to stop revising' (C-019, PRD §7.11–§7.12). Consumed by E11/E16. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'اتّبع دورتك تماماً — دون إعادة ترتيب'**
+  String get cyclePureModeSubtitle;
+
   /// Short qualifier appended to a Hijri date, naming the variant as the Umm al-Qurā civil calendar so a Hijri date is never shown as 'the Hijri date' in the absolute. Kept as the romanized proper noun across locales pending E09/E19 review of whether to localize the script. needs-scholarly-review (E19); register as a CLAIMS row — no id, grade, or citation here.
   ///
   /// In ar, this message translates to:

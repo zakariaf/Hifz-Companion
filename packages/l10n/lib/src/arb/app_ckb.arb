@@ -31,6 +31,7 @@
   "cycleTwoJuzPerDay": "{region, select, other{دوو جوز لە ڕۆژێکدا}}",
   "cycleCustom": "{region, select, other{تایبەت}}",
   "cyclePureMode": "{region, select, other{دۆخی خولی پوختە}}",
+  "cyclePureModeSubtitle": "بە تەواوی سووڕەکەت بکە — بەبێ ڕیزبەندی نوێ",
   "hijriUmmAlQuraQualifier": "(Umm al-Qurā)",
   "hijriCivilApproximationCaveat": "ڕێکەوتی کۆچیی مانگی ساڵنامەیەکی مەدەنیی نزیکەییە (ئوم القورا)؛ لەوانەیە دەستپێکی هەندێک بۆنە بەپێی بینینی مانگ بە ڕۆژێک جیاواز بێت.",
   "navToday": "ئەمڕۆ",

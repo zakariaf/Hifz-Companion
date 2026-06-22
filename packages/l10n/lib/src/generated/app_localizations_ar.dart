@@ -271,6 +271,9 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get cyclePureModeSubtitle => 'اتّبع دورتك تماماً — دون إعادة ترتيب';
+
+  @override
   String get hijriUmmAlQuraQualifier => '(Umm al-Qurā)';
 
   @override

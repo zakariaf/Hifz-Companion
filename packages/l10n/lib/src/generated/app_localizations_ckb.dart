@@ -259,6 +259,10 @@ class AppLocalizationsCkb extends AppLocalizations {
   }
 
   @override
+  String get cyclePureModeSubtitle =>
+      'بە تەواوی سووڕەکەت بکە — بەبێ ڕیزبەندی نوێ';
+
+  @override
   String get hijriUmmAlQuraQualifier => '(Umm al-Qurā)';
 
   @override
