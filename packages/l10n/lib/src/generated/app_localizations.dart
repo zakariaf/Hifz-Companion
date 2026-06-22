@@ -415,6 +415,12 @@ abstract class AppLocalizations {
   /// **'متابعة'**
   String get onboardingContinue;
 
+  /// Onboarding chrome Back affordance — returns to the previous step without losing captured values. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'رجوع'**
+  String get onboardingBack;
+
   /// Button committing the cold-start seed (then the first day is generated). No celebration register. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///
   /// In ar, this message translates to:

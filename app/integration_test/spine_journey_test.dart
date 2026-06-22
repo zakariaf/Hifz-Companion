@@ -1,5 +1,11 @@
 // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
+@Skip(
+  'E07 spine journey: the onboarding flow it drives (coverage→confidence→Done) '
+  'is rebuilt by E11-T01 into the full §12.1 sequence; the cold-start→first-day '
+  'journey is re-established over the full flow in E11-T09.',
+)
+library;
 
 // The E07 walking-skeleton spine, end to end through the real HifzApp: a fresh
 // device lands on onboarding → marks a held juz Solid → the seed commits through

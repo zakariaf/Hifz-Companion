@@ -325,6 +325,9 @@ class AppLocalizationsFa extends AppLocalizations {
   String get onboardingContinue => 'ادامه';
 
   @override
+  String get onboardingBack => 'بازگشت';
+
+  @override
   String get onboardingDone => 'پایان';
 
   @override

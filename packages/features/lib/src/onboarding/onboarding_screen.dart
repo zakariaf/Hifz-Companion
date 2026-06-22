@@ -1,102 +1,61 @@
 // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import 'package:composition/composition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:l10n/l10n.dart';
 
 import '../design_system/theme/spacing_tokens.dart';
 import 'onboarding_providers.dart';
 import 'onboarding_view_model.dart';
 import 'widgets/coverage_grid.dart';
 import 'widgets/juz_confidence_rater.dart';
+import 'widgets/onboarding_chrome.dart';
 
-/// The minimal cold-start sub-step: coverage capture, then per-held-juz
-/// Solid/Shaky/Rusty. On commit, the controller seeds the profile through the
-/// single write path and flips the active profile — the router's redirect guard
-/// then leaves onboarding for Today (this View navigates nothing). The full
-/// onboarding (welcome, core download, "when memorized", cycle preset, budget)
-/// is E11.
-class OnboardingScreen extends ConsumerStatefulWidget {
-  /// Creates the cold-start sub-step.
+/// The dumb onboarding host (E11-T01). It reads the one resume-safe capture
+/// controller (keyed by the active profile — `null` on a fresh device) and shows
+/// the current step's View plus the shared chrome (step-progress + back/next).
+///
+/// It holds only show/hide + which-step routing — no repository/engine call, no
+/// business `try/catch`, no clock read, no persisted write. Inter-step movement
+/// is internal (the body swaps on cursor change); the screen does not push a
+/// `GoRoute`, and the controller never navigates (the E07 redirect guard routes
+/// a seeded device away from `/onboarding`).
+///
+/// Each sibling task (E11-T02…T08) replaces its step's placeholder host with the
+/// real step View; the placement commit + first-day handoff is E11-T09.
+class OnboardingScreen extends ConsumerWidget {
+  /// Creates the onboarding host.
   const OnboardingScreen({super.key});
 
   @override
-  ConsumerState<OnboardingScreen> createState() => _OnboardingScreenState();
-}
-
-class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
-  // Which pass is on screen — view-local transient UI, not engine/profile state.
-  bool _ratingConfidence = false;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
+  Widget build(BuildContext context, WidgetRef ref) {
     final space = Theme.of(context).extension<SpacingTokens>()!;
-    final state = ref.watch(onboardingControllerProvider);
-    final controller = ref.read(onboardingControllerProvider.notifier);
-    final seeding = state.status == OnboardingStatus.seeding;
+    final profileScope = ref.watch(activeProfileProvider);
+    final provider = onboardingControllerProvider(profileScope);
+    final state = ref.watch(provider);
+    final controller = ref.read(provider.notifier);
 
     return Scaffold(
-      appBar: AppBar(
-        // The two passes share one screen, so add a Back affordance to return
-        // from confidence to coverage and fix a selection (no route to pop).
-        leading: _ratingConfidence
-            ? BackButton(
-                onPressed: () => setState(() => _ratingConfidence = false),
-              )
-            : null,
-        title: Text(
-          _ratingConfidence
-              ? l10n.onboardingConfidenceTitle
-              : l10n.onboardingCoverageTitle,
-        ),
-      ),
       body: Semantics(
         identifier: 'screen.onboarding',
         explicitChildNodes: true,
         child: SafeArea(
           child: Column(
             children: [
-              if (!_ratingConfidence)
-                Padding(
-                  padding: EdgeInsetsDirectional.all(space.space4),
-                  child: Text(
-                    l10n.onboardingCoverageInstruction,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ),
-              Expanded(
-                child: _ratingConfidence
-                    ? JuzConfidenceRater(
-                        heldJuz: state.heldJuz,
-                        confidence: state.confidence,
-                        onPick: controller.setConfidence,
-                      )
-                    : CoverageGrid(
-                        heldJuz: state.heldJuz,
-                        onToggle: controller.toggleJuz,
-                      ),
-              ),
               Padding(
                 padding: EdgeInsetsDirectional.all(space.space4),
-                child: _ratingConfidence
-                    ? FilledButton(
-                        onPressed: state.isReadyToSeed && !seeding
-                            ? controller.commitPlacement
-                            : null,
-                        child: Text(
-                          state.status == OnboardingStatus.failed
-                              ? l10n.onboardingRetry
-                              : l10n.onboardingDone,
-                        ),
-                      )
-                    : FilledButton(
-                        onPressed: state.heldJuz.isEmpty
-                            ? null
-                            : () => setState(() => _ratingConfidence = true),
-                        child: Text(l10n.onboardingContinue),
-                      ),
+                child: OnboardingStepProgress(
+                  stepCount: OnboardingStep.values.length,
+                  currentIndex: state.cursor.index,
+                ),
+              ),
+              Expanded(child: _stepView(state, controller)),
+              OnboardingNavBar(
+                onBack: state.cursor == OnboardingStep.welcomePrivacy
+                    ? null
+                    : controller.back,
+                onContinue: controller.canAdvance ? controller.next : null,
               ),
             ],
           ),
@@ -104,4 +63,41 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       ),
     );
   }
+
+  /// Routes the cursor to its step View. Steps not yet built (E11-T02…T08) show
+  /// a keyed placeholder host the sibling task replaces; the coverage and
+  /// confidence passes already compose their leaf widgets.
+  Widget _stepView(OnboardingState state, OnboardingController controller) =>
+      switch (state.cursor) {
+        OnboardingStep.welcomePrivacy =>
+          const _StepHost(OnboardingStep.welcomePrivacy),
+        OnboardingStep.language => const _StepHost(OnboardingStep.language),
+        OnboardingStep.riwayahConfirm =>
+          const _StepHost(OnboardingStep.riwayahConfirm),
+        OnboardingStep.coreSetup => const _StepHost(OnboardingStep.coreSetup),
+        OnboardingStep.coverage => CoverageGrid(
+            heldJuz: state.coverage,
+            onToggle: controller.toggleJuz,
+          ),
+        OnboardingStep.confidence => JuzConfidenceRater(
+            heldJuz: state.coverage,
+            confidence: state.confidence,
+            onPick: controller.setJuzConfidence,
+          ),
+        OnboardingStep.cyclePreset =>
+          const _StepHost(OnboardingStep.cyclePreset),
+        OnboardingStep.done => const _StepHost(OnboardingStep.done),
+      };
+}
+
+/// A keyed, contentless placeholder for a step whose View is built by a sibling
+/// task (E11-T02…T09). It renders no user-facing literal.
+class _StepHost extends StatelessWidget {
+  const _StepHost(this.step);
+
+  final OnboardingStep step;
+
+  @override
+  Widget build(BuildContext context) =>
+      SizedBox.expand(key: ValueKey<String>('onboarding.step.${step.name}'));
 }

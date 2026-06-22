@@ -335,6 +335,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get onboardingContinue => 'متابعة';
 
   @override
+  String get onboardingBack => 'رجوع';
+
+  @override
   String get onboardingDone => 'تم';
 
   @override

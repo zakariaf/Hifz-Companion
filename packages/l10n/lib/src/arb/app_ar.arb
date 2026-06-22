@@ -316,6 +316,10 @@
   "@onboardingContinue": {
     "description": "Button advancing from coverage capture to the confidence step. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
   },
+  "onboardingBack": "رجوع",
+  "@onboardingBack": {
+    "description": "Onboarding chrome Back affordance — returns to the previous step without losing captured values. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
   "onboardingDone": "تم",
   "@onboardingDone": {
     "description": "Button committing the cold-start seed (then the first day is generated). No celebration register. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."

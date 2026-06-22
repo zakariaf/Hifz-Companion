@@ -324,6 +324,9 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get onboardingContinue => 'بەردەوامبوون';
 
   @override
+  String get onboardingBack => 'گەڕانەوە';
+
+  @override
   String get onboardingDone => 'تەواو';
 
   @override

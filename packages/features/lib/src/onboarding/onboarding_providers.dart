@@ -3,12 +3,25 @@
 
 import 'package:composition/composition.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:models/models.dart' show ProfileId;
 
 import 'cold_start_seeder.dart';
 import 'onboarding_view_model.dart';
 
+/// The resume-safe onboarding capture controller, keyed by the active
+/// [ProfileId] (`null` on a fresh device's first onboarding) and `autoDispose`d
+/// so abandoning the flow discards the captured state (clean restart).
+///
+/// It is **not** an app-scope singleton: re-running placement for a second
+/// profile (teacher mode, E16) is isolated under that profile's id.
+final onboardingControllerProvider = NotifierProvider.autoDispose
+    .family<OnboardingController, OnboardingState, ProfileId?>(
+  OnboardingController.new,
+);
+
 /// The cold-start seed orchestration, wired from the composition seams (the
-/// reference read + the cold-start write path + the pure engine).
+/// reference read + the cold-start write path + the pure engine). The placement
+/// commit (E11-T09) routes through it; the capture controller never writes.
 final coldStartSeederProvider = Provider<ColdStartSeeder>((ref) {
   final persistence = ref.watch(persistenceProvider);
   return ColdStartSeeder(
@@ -17,9 +30,3 @@ final coldStartSeederProvider = Provider<ColdStartSeeder>((ref) {
     engine: ref.watch(engineProvider),
   );
 });
-
-/// The cold-start sub-step controller (1:1 with the onboarding View).
-final onboardingControllerProvider =
-    NotifierProvider<OnboardingController, OnboardingState>(
-  OnboardingController.new,
-);
