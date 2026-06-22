@@ -88,7 +88,9 @@ class CustomCycleConfig {
     required this.farCycleDays,
     required this.nearWindowJuz,
     required this.newLinesPerDay,
-  });
+  })  : assert(farCycleDays > 0, 'farCycleDays must be > 0 (cycle ceiling)'),
+        assert(nearWindowJuz > 0, 'nearWindowJuz must be > 0'),
+        assert(newLinesPerDay >= 0, 'newLinesPerDay cannot be negative');
 
   /// The far/manzil cycle ceiling in days (the trust clamp reads this).
   final int farCycleDays;
@@ -382,6 +384,9 @@ class OnboardingController extends Notifier<OnboardingState> {
   /// [CoreSetupPhase.integrityFailure] — the cursor guard then refuses to reach
   /// coverage, so no muṣḥaf glyph can render from unverified bytes.
   Future<void> runCoreSetup() async {
+    // Re-entrancy guard: ignore a trigger while a preparation is already in
+    // flight (a rapid double-entry must not run two installs).
+    if (state.coreSetupPhase == CoreSetupPhase.preparing) return;
     state = state.copyWith(coreSetupPhase: CoreSetupPhase.preparing);
     try {
       final phase = await ref.read(coreSetupActionProvider)();
@@ -483,6 +488,9 @@ class OnboardingController extends Notifier<OnboardingState> {
   /// (a calm [PlacementStatus.failed] retry state), and a kill mid-flow leaves
   /// no half-seeded state (the `seedColdStart` transaction rolls back).
   Future<void> commitAndBuildFirstDay() async {
+    // Re-entrancy guard (sanad-critical): a rapid double-trigger must never run
+    // two seed commits / two write transactions.
+    if (state.placement == PlacementStatus.committing) return;
     state = state.copyWith(placement: PlacementStatus.committing);
     try {
       final id = await ref

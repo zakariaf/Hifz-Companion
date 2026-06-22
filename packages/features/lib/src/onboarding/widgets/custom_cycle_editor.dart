@@ -69,7 +69,10 @@ class BoundedStepper extends StatelessWidget {
               child: Text(label, style: theme.textTheme.bodyLarge),
             ),
             IconButton(
-              onPressed: value > min ? () => onChanged(value - step) : null,
+              // Check the post-step value so a non-step-aligned start can't step
+              // out of bounds.
+              onPressed:
+                  value - step >= min ? () => onChanged(value - step) : null,
               icon: const Icon(Icons.remove),
             ),
             Text(
@@ -77,7 +80,8 @@ class BoundedStepper extends StatelessWidget {
               style: theme.textTheme.titleMedium,
             ),
             IconButton(
-              onPressed: value < max ? () => onChanged(value + step) : null,
+              onPressed:
+                  value + step <= max ? () => onChanged(value + step) : null,
               icon: const Icon(Icons.add),
             ),
           ],
