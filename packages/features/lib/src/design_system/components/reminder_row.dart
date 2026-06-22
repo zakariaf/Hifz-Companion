@@ -111,9 +111,12 @@ class ReminderRow extends StatelessWidget {
         ],
         Padding(
           padding: EdgeInsetsDirectional.all(space.space4),
+          // The honest local-only line is `type.body` in `color.text.primary`
+          // (privacy 10 §9 allows primary/secondary) — an important disclosure
+          // that stays plainly legible (not a faint 12.5dp aside).
           child: Text(
             l10n.reminderHonestLine,
-            style: text.bodySmall?.copyWith(color: scheme.onSurfaceVariant),
+            style: text.bodyMedium?.copyWith(color: scheme.onSurface),
           ),
         ),
       ],
