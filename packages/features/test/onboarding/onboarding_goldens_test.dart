@@ -60,7 +60,9 @@ void main() {
     for (final entry in surfaces.entries) {
       testWidgets('onboarding ${entry.key} ($code)', (tester) async {
         tester.view.devicePixelRatio = 2.0;
-        tester.view.physicalSize = const Size(420, 920);
+        // A real phone logical size (physical = logical × DPR); a too-small
+        // logical viewport overflows the grid cells / step content.
+        tester.view.physicalSize = const Size(420, 1000) * 2.0;
         addTearDown(tester.view.resetPhysicalSize);
         addTearDown(tester.view.resetDevicePixelRatio);
 
