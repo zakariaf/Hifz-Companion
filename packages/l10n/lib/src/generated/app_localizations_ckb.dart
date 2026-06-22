@@ -321,6 +321,21 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get confidenceRusty => 'پێویستی بە پێداچوونەوەیە';
 
   @override
+  String get confidenceSolidSemantics => 'ڕاسخ — بە جێگیری لەبەرمە';
+
+  @override
+  String get confidenceShakySemantics =>
+      'لەرزۆک — پێویستی بە پێداچوونەوەی بەردەوامە';
+
+  @override
+  String get confidenceRustySemantics =>
+      'پێویستی بە پێداچوونەوەیە — دوور کەوتووەتەوە';
+
+  @override
+  String get confidenceBiasNote =>
+      'هەرچی لەبەرتە جارێک پێداچوونەوەی بۆ دەکەین، پاشان بەپێی خوێندنەوەکەت ڕێکی دەخەین.';
+
+  @override
   String get onboardingContinue => 'بەردەوامبوون';
 
   @override

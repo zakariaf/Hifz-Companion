@@ -312,6 +312,22 @@
   "@confidenceRusty": {
     "description": "Self-report confidence: the juz has gone rusty / needs reactivation. Maps to JuzConfidence.rusty. Calm, never 'lost'/'failed'. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
   },
+  "confidenceSolidSemantics": "راسخ — أحفظه بثبات",
+  "@confidenceSolidSemantics": {
+    "description": "Screen-reader announcement for the Solid option — the word plus its plain meaning. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "confidenceShakySemantics": "متذبذب — يحتاج مراجعة منتظمة",
+  "@confidenceShakySemantics": {
+    "description": "Screen-reader announcement for the Shaky option — the word plus its plain meaning. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "confidenceRustySemantics": "بحاجة للمراجعة — صار بعيدًا",
+  "@confidenceRustySemantics": {
+    "description": "Screen-reader announcement for the Rusty option — the word plus its plain meaning; calm, never 'lost'/'failed'. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "confidenceBiasNote": "سنراجع كل ما تحفظه مرّة، ثم نضبط حسب تلاوتك.",
+  "@confidenceBiasNote": {
+    "description": "Calm conservative-bias note (C-009) shown at the foot of the confidence step — we revise everything once, then adjust to your recitation. Carries NO readiness number, no seeded D/S/R, no percentage. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
   "onboardingContinue": "متابعة",
   "@onboardingContinue": {
     "description": "Button advancing from coverage capture to the confidence step. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."

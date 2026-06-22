@@ -409,6 +409,30 @@ abstract class AppLocalizations {
   /// **'بحاجة للمراجعة'**
   String get confidenceRusty;
 
+  /// Screen-reader announcement for the Solid option — the word plus its plain meaning. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'راسخ — أحفظه بثبات'**
+  String get confidenceSolidSemantics;
+
+  /// Screen-reader announcement for the Shaky option — the word plus its plain meaning. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'متذبذب — يحتاج مراجعة منتظمة'**
+  String get confidenceShakySemantics;
+
+  /// Screen-reader announcement for the Rusty option — the word plus its plain meaning; calm, never 'lost'/'failed'. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'بحاجة للمراجعة — صار بعيدًا'**
+  String get confidenceRustySemantics;
+
+  /// Calm conservative-bias note (C-009) shown at the foot of the confidence step — we revise everything once, then adjust to your recitation. Carries NO readiness number, no seeded D/S/R, no percentage. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'سنراجع كل ما تحفظه مرّة، ثم نضبط حسب تلاوتك.'**
+  String get confidenceBiasNote;
+
   /// Button advancing from coverage capture to the confidence step. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///
   /// In ar, this message translates to:

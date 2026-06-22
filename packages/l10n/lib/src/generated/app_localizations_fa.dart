@@ -322,6 +322,19 @@ class AppLocalizationsFa extends AppLocalizations {
   String get confidenceRusty => 'نیازمند مرور';
 
   @override
+  String get confidenceSolidSemantics => 'راسخ — استوار در یادم است';
+
+  @override
+  String get confidenceShakySemantics => 'متزلزل — به مرورِ منظم نیاز دارد';
+
+  @override
+  String get confidenceRustySemantics => 'نیازمند مرور — دور شده است';
+
+  @override
+  String get confidenceBiasNote =>
+      'هر آنچه از بر دارید را یک‌بار مرور می‌کنیم، سپس بر پایهٔ تلاوتتان تنظیم می‌کنیم.';
+
+  @override
   String get onboardingContinue => 'ادامه';
 
   @override

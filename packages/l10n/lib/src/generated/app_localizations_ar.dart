@@ -332,6 +332,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get confidenceRusty => 'بحاجة للمراجعة';
 
   @override
+  String get confidenceSolidSemantics => 'راسخ — أحفظه بثبات';
+
+  @override
+  String get confidenceShakySemantics => 'متذبذب — يحتاج مراجعة منتظمة';
+
+  @override
+  String get confidenceRustySemantics => 'بحاجة للمراجعة — صار بعيدًا';
+
+  @override
+  String get confidenceBiasNote =>
+      'سنراجع كل ما تحفظه مرّة، ثم نضبط حسب تلاوتك.';
+
+  @override
   String get onboardingContinue => 'متابعة';
 
   @override
