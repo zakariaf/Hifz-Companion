@@ -374,6 +374,28 @@ class AppLocalizationsCkb extends AppLocalizations {
       'ئەمە موسحەفی پاڵپشتکراوە؛ دواتر لە ڕێکخستنەکان دەگۆڕدرێت. خشتەکە بە دەقێکی دیاریکراوەوە نووساو نییە.';
 
   @override
+  String get onboardingCorePreparingTitle => 'ئامادەکردنی موسحەف';
+
+  @override
+  String get onboardingCorePreparingBody =>
+      'فایلەکانی موسحەفی پاڵپشتکراو پشکنین دەکرێن.';
+
+  @override
+  String get onboardingCoreReadyTitle => 'موسحەف ئامادەیە';
+
+  @override
+  String get onboardingCoreReadyBody =>
+      'ئێستا هەموو شتێک لەسەر ئامێرەکەتە؛ لە دۆخی فڕیندا کار دەکات.';
+
+  @override
+  String get onboardingCoreIntegrityFailureTitle =>
+      'پشتڕاستکردنەوەی موسحەف نەکرا';
+
+  @override
+  String get onboardingCoreIntegrityFailureBody =>
+      'فایلەکانی موسحەف یەک ناگرنەوە، بۆیە بۆ پاراستنی وردی، دەقەکە پیشان نادرێت.';
+
+  @override
   String get onboardingDone => 'تەواو';
 
   @override

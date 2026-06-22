@@ -372,6 +372,30 @@
   "@onboardingRiwayahStepBody": {
     "description": "Riwāyah step helper — names the bundled edition as fact, notes it is swappable later in Settings and that the scheduler is text-agnostic; issues no ruling on which riwāyah is correct (R2). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
   },
+  "onboardingCorePreparingTitle": "جارٍ تحضير المصحف",
+  "@onboardingCorePreparingTitle": {
+    "description": "Core-preparation step — the bundled muṣḥaf is being verified and prepared (not a network download). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingCorePreparingBody": "نتحقّق من ملفات المصحف المضمَّنة.",
+  "@onboardingCorePreparingBody": {
+    "description": "Core-preparation helper — verifying the bundled muṣḥaf files. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingCoreReadyTitle": "المصحف جاهز",
+  "@onboardingCoreReadyTitle": {
+    "description": "Core-preparation done — quiet confirmation, never a celebration. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingCoreReadyBody": "كلّ شيء على جهازك الآن؛ يعمل في وضع الطيران.",
+  "@onboardingCoreReadyBody": {
+    "description": "Core-ready airplane-mode-after proof (C-048): everything is on the device now; works in airplane mode. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingCoreIntegrityFailureTitle": "تعذّر التحقّق من المصحف",
+  "@onboardingCoreIntegrityFailureTitle": {
+    "description": "Core-preparation fail-closed heading — could not verify the muṣḥaf. Calm, non-blaming, no exclamation. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingCoreIntegrityFailureBody": "لم تتطابق ملفات المصحف، فلا يُعرَض النصّ حفاظًا على دقّته.",
+  "@onboardingCoreIntegrityFailureBody": {
+    "description": "Core-preparation fail-closed body — the files did not match, so the text is not shown to preserve its accuracy (R1, §11.1.1). Honest, never punitive; no skip is offered. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
   "onboardingDone": "تم",
   "@onboardingDone": {
     "description": "Button committing the cold-start seed (then the first day is generated). No celebration register. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."

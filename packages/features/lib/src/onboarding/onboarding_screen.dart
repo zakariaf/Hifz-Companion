@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../design_system/theme/spacing_tokens.dart';
 import 'onboarding_providers.dart';
 import 'onboarding_view_model.dart';
+import 'widgets/core_setup_step.dart';
 import 'widgets/coverage_grid.dart';
 import 'widgets/juz_confidence_rater.dart';
 import 'widgets/language_step.dart';
@@ -90,7 +91,10 @@ class OnboardingScreen extends ConsumerWidget {
             selected: state.mushafEditionId,
             onSelected: controller.confirmMushaf,
           ),
-        OnboardingStep.coreSetup => const _StepHost(OnboardingStep.coreSetup),
+        OnboardingStep.coreSetup => CoreSetupStep(
+            phase: state.coreSetupPhase,
+            onRun: controller.runCoreSetup,
+          ),
         OnboardingStep.coverage => CoverageGrid(
             heldJuz: state.coverage,
             onToggle: controller.toggleJuz,

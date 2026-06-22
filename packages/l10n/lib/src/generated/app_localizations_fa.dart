@@ -374,6 +374,27 @@ class AppLocalizationsFa extends AppLocalizations {
       'این مصحفِ همراهِ برنامه است؛ بعداً از تنظیمات قابلِ تعویض است. زمان‌بندی به متنِ خاصی وابسته نیست.';
 
   @override
+  String get onboardingCorePreparingTitle => 'آماده‌سازی مصحف';
+
+  @override
+  String get onboardingCorePreparingBody =>
+      'فایل‌های مصحفِ همراه بررسی می‌شوند.';
+
+  @override
+  String get onboardingCoreReadyTitle => 'مصحف آماده است';
+
+  @override
+  String get onboardingCoreReadyBody =>
+      'همه‌چیز اکنون روی دستگاهِ شماست؛ در حالت پرواز کار می‌کند.';
+
+  @override
+  String get onboardingCoreIntegrityFailureTitle => 'تأییدِ مصحف ممکن نشد';
+
+  @override
+  String get onboardingCoreIntegrityFailureBody =>
+      'فایل‌های مصحف مطابقت نداشتند، پس برای حفظِ دقّت، متن نمایش داده نمی‌شود.';
+
+  @override
   String get onboardingDone => 'پایان';
 
   @override

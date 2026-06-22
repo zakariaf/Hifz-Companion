@@ -382,6 +382,26 @@ class AppLocalizationsAr extends AppLocalizations {
       'هذا هو المصحف المضمَّن؛ يمكن تبديله لاحقًا من الإعدادات. الجدول لا يتعلّق بنصّ بعينه.';
 
   @override
+  String get onboardingCorePreparingTitle => 'جارٍ تحضير المصحف';
+
+  @override
+  String get onboardingCorePreparingBody => 'نتحقّق من ملفات المصحف المضمَّنة.';
+
+  @override
+  String get onboardingCoreReadyTitle => 'المصحف جاهز';
+
+  @override
+  String get onboardingCoreReadyBody =>
+      'كلّ شيء على جهازك الآن؛ يعمل في وضع الطيران.';
+
+  @override
+  String get onboardingCoreIntegrityFailureTitle => 'تعذّر التحقّق من المصحف';
+
+  @override
+  String get onboardingCoreIntegrityFailureBody =>
+      'لم تتطابق ملفات المصحف، فلا يُعرَض النصّ حفاظًا على دقّته.';
+
+  @override
   String get onboardingDone => 'تم';
 
   @override

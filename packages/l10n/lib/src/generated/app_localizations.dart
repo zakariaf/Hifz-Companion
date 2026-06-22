@@ -499,6 +499,42 @@ abstract class AppLocalizations {
   /// **'هذا هو المصحف المضمَّن؛ يمكن تبديله لاحقًا من الإعدادات. الجدول لا يتعلّق بنصّ بعينه.'**
   String get onboardingRiwayahStepBody;
 
+  /// Core-preparation step — the bundled muṣḥaf is being verified and prepared (not a network download). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'جارٍ تحضير المصحف'**
+  String get onboardingCorePreparingTitle;
+
+  /// Core-preparation helper — verifying the bundled muṣḥaf files. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'نتحقّق من ملفات المصحف المضمَّنة.'**
+  String get onboardingCorePreparingBody;
+
+  /// Core-preparation done — quiet confirmation, never a celebration. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'المصحف جاهز'**
+  String get onboardingCoreReadyTitle;
+
+  /// Core-ready airplane-mode-after proof (C-048): everything is on the device now; works in airplane mode. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'كلّ شيء على جهازك الآن؛ يعمل في وضع الطيران.'**
+  String get onboardingCoreReadyBody;
+
+  /// Core-preparation fail-closed heading — could not verify the muṣḥaf. Calm, non-blaming, no exclamation. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذّر التحقّق من المصحف'**
+  String get onboardingCoreIntegrityFailureTitle;
+
+  /// Core-preparation fail-closed body — the files did not match, so the text is not shown to preserve its accuracy (R1, §11.1.1). Honest, never punitive; no skip is offered. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم تتطابق ملفات المصحف، فلا يُعرَض النصّ حفاظًا على دقّته.'**
+  String get onboardingCoreIntegrityFailureBody;
+
   /// Button committing the cold-start seed (then the first day is generated). No celebration register. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///
   /// In ar, this message translates to:

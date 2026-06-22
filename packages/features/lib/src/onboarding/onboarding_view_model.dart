@@ -173,6 +173,20 @@ class OnboardingState {
       );
 }
 
+/// The injected one-time core-preparation action (E11-T04). It returns the
+/// resulting [CoreSetupPhase] — `ready` when the bundled muṣḥaf verifies and the
+/// reference DB + checksum stamp are written, `integrityFailure` when a bundled
+/// byte fails its SHA-256 (fail-closed). The live adapter over E05's
+/// `CoreReferenceInstaller.installCorePack` is wired at the app root once the
+/// real bundled assets land; it throws un-overridden so a test must inject a
+/// fake (the core install must never be implicit).
+final coreSetupActionProvider = Provider<Future<CoreSetupPhase> Function()>(
+  (ref) => throw UnimplementedError(
+    'coreSetupActionProvider must be overridden at the composition root with '
+    'the live installCorePack adapter (E05) or a test fake.',
+  ),
+);
+
 /// The resume-safe onboarding capture controller (E11-T01).
 ///
 /// It is a **pure capture surface**: every command updates the in-memory
@@ -216,6 +230,23 @@ class OnboardingController extends Notifier<OnboardingState> {
   /// guard can fail-closed before the verified muṣḥaf (E11-T04 drives this).
   void setCoreSetupPhase(CoreSetupPhase phase) =>
       state = state.copyWith(coreSetupPhase: phase);
+
+  /// Runs the one-time core preparation (E11-T04): verify the bundled muṣḥaf
+  /// bytes, build the reference DB, stamp `text_checksum_verified_at`. The
+  /// concrete install is injected via [coreSetupActionProvider] (its live
+  /// adapter over E05's `installCorePack` is wired at the app root); this
+  /// command only drives the calm phases. **Fail-closed**: any error lands on
+  /// [CoreSetupPhase.integrityFailure] — the cursor guard then refuses to reach
+  /// coverage, so no muṣḥaf glyph can render from unverified bytes.
+  Future<void> runCoreSetup() async {
+    state = state.copyWith(coreSetupPhase: CoreSetupPhase.preparing);
+    try {
+      final phase = await ref.read(coreSetupActionProvider)();
+      state = state.copyWith(coreSetupPhase: phase);
+    } on Object {
+      state = state.copyWith(coreSetupPhase: CoreSetupPhase.integrityFailure);
+    }
+  }
 
   /// Toggles whether [juz] (1–30) is held; un-holding also drops its confidence
   /// and "when memorized" so they cannot orphan.
