@@ -98,6 +98,7 @@
   "onboardingNotHeld": "لەبەرنەکراو",
   "onboardingCoverageCellLabel": "{juz} — {state}",
   "todayEmpty": "لە ئێستادا هیچ پەڕەیەک نییە بۆ پێداچوونەوە.",
+  "todaySemanticTitle": "پێداچوونەوەی ئەمڕۆ",
   "commonRetry": "هەوڵدانەوە",
   "pageNumber": "پەڕەی {pageNumber}",
   "trackNewLabel": "سەبەق",

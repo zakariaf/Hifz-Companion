@@ -26,4 +26,6 @@ export 'src/shell/section_placeholder.dart';
 export 'src/today/review_recorder.dart';
 export 'src/today/today_providers.dart';
 export 'src/today/today_screen.dart';
+export 'src/today/today_session.dart';
+export 'src/today/today_view_model.dart';
 export 'src/today/widgets/page_card.dart';

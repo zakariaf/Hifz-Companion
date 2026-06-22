@@ -1,39 +1,41 @@
 // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-// The Today View renders the queue's states: a calm empty line when nothing is
-// due, and the due pages as a list. Driven by overriding todayQueueProvider so
-// no DB/engine is needed.
+// The dumb Today View renders the controller's calm states — loading skeleton,
+// error retry, calm all-done close, and the populated-day slot — driven by
+// overriding the upstream todayQueueProvider (never the notifier). No DB/engine.
 
-import 'package:engine/engine.dart' show CalendarDate, Card, ReviewTrack;
+import 'dart:async';
+
+import 'package:composition/composition.dart';
+import 'package:engine/engine.dart' show Card;
 import 'package:features/features.dart'
     show MihrabAppearance, TodayScreen, mihrabThemeFor, todayQueueProvider;
 import 'package:flutter/material.dart' hide Card;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:l10n/l10n.dart';
-import 'package:models/models.dart' show ProfileId;
 
 import '../test_setup.dart';
-
-Card dueFar(int pageId) => Card(
-      profileId: const ProfileId('p1'),
-      pageId: pageId,
-      track: ReviewTrack.far,
-      difficulty: 5,
-      stabilityDays: 30,
-      lastReviewedDay: CalendarDate.ymd(2026, 5, 1),
-      dueAt: CalendarDate.ymd(2026, 6, 19),
-    );
+import 'today_fixtures.dart';
 
 void main() {
   useOfflineTestPolicy();
 
-  Future<void> pumpToday(WidgetTester tester, List<Card> queue) async {
+  // Drives the controller via the upstream queue; [withProfile] gates the
+  // active-profile branch (false ⇒ activeProfileProvider stays null).
+  Future<void> pump(
+    WidgetTester tester,
+    Stream<List<Card>> queue, {
+    bool withProfile = true,
+  }) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          todayQueueProvider.overrideWith((ref) => Stream.value(queue)),
+          if (withProfile)
+            initialActiveProfileProvider.overrideWithValue(kTestProfile),
+          todayProvider.overrideWithValue(kToday),
+          todayQueueProvider.overrideWith((ref) => queue),
         ],
         child: MaterialApp(
           locale: const Locale('ar'),
@@ -44,18 +46,59 @@ void main() {
         ),
       ),
     );
-    await tester.pumpAndSettle();
   }
 
-  testWidgets('renders the calm empty line when nothing is due', (t) async {
-    await pumpToday(t, const <Card>[]);
-    final l10n = await AppLocalizations.delegate.load(const Locale('ar'));
-    expect(find.text(l10n.todayEmpty), findsOneWidget);
+  testWidgets('loading shows the calm skeleton, not a spinner-of-shame',
+      (t) async {
+    final controller = StreamController<List<Card>>();
+    addTearDown(controller.close);
+    await pump(t, controller.stream);
+    await t.pump();
+    expect(find.byKey(const ValueKey<String>('today.loading')), findsOneWidget);
+    expect(find.byType(CircularProgressIndicator), findsNothing);
   });
 
-  testWidgets('renders one row per due page', (t) async {
-    await pumpToday(t, [dueFar(3), dueFar(4)]);
-    expect(find.byKey(const ValueKey<int>(3)), findsOneWidget);
-    expect(find.byKey(const ValueKey<int>(4)), findsOneWidget);
+  testWidgets('error shows the calm retry view', (t) async {
+    final controller = StreamController<List<Card>>();
+    addTearDown(controller.close);
+    await pump(t, controller.stream);
+    await t.pump();
+    controller.addError(Exception('read failed'));
+    for (var i = 0; i < 6; i++) {
+      await t.pump(const Duration(milliseconds: 50));
+    }
+    expect(find.byKey(const ValueKey<String>('today.error')), findsOneWidget);
+    final l10n = await AppLocalizations.delegate.load(const Locale('ar'));
+    expect(find.text(l10n.commonRetry), findsOneWidget);
+  });
+
+  testWidgets('empty day shows the calm all-done close', (t) async {
+    await pump(t, Stream<List<Card>>.value(const <Card>[]));
+    await t.pumpAndSettle();
+    expect(find.byKey(const ValueKey<String>('today.allDone')), findsOneWidget);
+    final l10n = await AppLocalizations.delegate.load(const Locale('ar'));
+    expect(find.text(l10n.emptyAllDone), findsOneWidget);
+  });
+
+  testWidgets('a non-empty day reaches the populated slot', (t) async {
+    await pump(t, Stream<List<Card>>.value([dueFar(3), dueNear(4), dueNew(5)]));
+    await t.pumpAndSettle();
+    expect(
+      find.byKey(const ValueKey<String>('today.populated')),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('exposes the "Revise today" Semantics container', (t) async {
+    await pump(t, Stream<List<Card>>.value(const <Card>[]));
+    await t.pumpAndSettle();
+    final l10n = await AppLocalizations.delegate.load(const Locale('ar'));
+    expect(find.bySemanticsLabel(l10n.todaySemanticTitle), findsWidgets);
+  });
+
+  testWidgets('no active profile resolves to the all-done close', (t) async {
+    await pump(t, Stream<List<Card>>.value(const <Card>[]), withProfile: false);
+    await t.pumpAndSettle();
+    expect(find.byKey(const ValueKey<String>('today.allDone')), findsOneWidget);
   });
 }

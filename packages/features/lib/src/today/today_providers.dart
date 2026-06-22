@@ -6,6 +6,8 @@ import 'package:engine/engine.dart' show BuildDay, Card;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'review_recorder.dart';
+import 'today_session.dart';
+import 'today_view_model.dart';
 
 /// The reactive Today queue: the engine-selected due pages for the active
 /// profile in recitation order (Far → Near → New), recomputed on every committed
@@ -25,6 +27,14 @@ final todayQueueProvider = StreamProvider<List<Card>>((ref) {
       .watchForProfile(profileId)
       .map((cards) => engine.buildToday(cards, today).items);
 });
+
+/// The 1:1 Today view-model provider — the single thing the dumb [TodayScreen]
+/// reads (04 §1.3). App-scope (never `autoDispose`): Today is the persistent
+/// home tab and the controller holds no per-screen state. It publishes the
+/// immutable [TodaySession]; tests drive its states by overriding the upstream
+/// [todayQueueProvider], never the notifier.
+final todayControllerProvider =
+    AsyncNotifierProvider<TodayController, TodaySession>(TodayController.new);
 
 /// The grade-one-page command, wired from the composition seams (the persistence
 /// handle's read seam + single write path, and the pure engine).

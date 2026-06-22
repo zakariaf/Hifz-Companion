@@ -488,6 +488,9 @@ class AppLocalizationsFa extends AppLocalizations {
   String get todayEmpty => 'در حال حاضر صفحه‌ای برای مرور نیست.';
 
   @override
+  String get todaySemanticTitle => 'مرور امروز';
+
+  @override
   String get commonRetry => 'تلاش دوباره';
 
   @override

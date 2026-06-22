@@ -691,6 +691,12 @@ abstract class AppLocalizations {
   /// **'لا توجد صفحات مستحقة الآن.'**
   String get todayEmpty;
 
+  /// The screen-reader container label for the Today list ('Revise today') — names the daily revision surface; calm, never a scoreboard or count. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'مراجعة اليوم'**
+  String get todaySemanticTitle;
+
   /// Generic calm retry action for a failed local read (e.g. the Today queue) — never a guilt/error-shame message. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///
   /// In ar, this message translates to:

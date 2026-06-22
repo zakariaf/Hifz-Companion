@@ -499,6 +499,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get todayEmpty => 'لا توجد صفحات مستحقة الآن.';
 
   @override
+  String get todaySemanticTitle => 'مراجعة اليوم';
+
+  @override
   String get commonRetry => 'إعادة المحاولة';
 
   @override

@@ -1,23 +1,23 @@
 // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import 'package:composition/composition.dart';
-import 'package:engine/engine.dart' show Card, ReviewGrade;
-import 'package:flutter/material.dart' hide Card;
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:l10n/l10n.dart';
 
-import '../a11y/announce.dart';
 import '../a11y/reduce_motion_substitution.dart';
-import '../design_system/theme/spacing_tokens.dart';
+import '../design_system/banners/empty_state.dart';
 import 'today_providers.dart';
-import 'widgets/page_card.dart';
+import 'widgets/session_skeleton.dart';
+import 'widgets/today_retry_view.dart';
 
-/// The Today tab: the engine-selected due pages (Far → Near → New) for the
-/// active profile, a dumb View over the reactive [todayQueueProvider]. A graded
-/// page routes through the single write path ([ReviewRecorder]); the committed
-/// review re-emits the stream and the page leaves the list — there is no manual
-/// refresh.
+/// The Today tab: a **dumb** View over the 1:1 [todayControllerProvider]
+/// (04 §1.3). It reads exactly one controller and renders its four calm states —
+/// `loading` skeleton, `error` retry, the calm all-done close, and the populated
+/// day — never calling the engine, never sorting/capping/load-balancing, never
+/// reading `DateTime.now()`. The grouped Far → Near → New list (E12-T03), the
+/// budget-feedback line (E12-T04), and the catch-up banner (E12-T05) fill the
+/// `populated` / catch-up slots this scaffold lays out.
 class TodayScreen extends ConsumerWidget {
   /// Creates the Today screen.
   const TodayScreen({super.key});
@@ -25,119 +25,50 @@ class TodayScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final queue = ref.watch(todayQueueProvider);
+    final session = ref.watch(todayControllerProvider);
 
-    Future<void> grade(Card card, ReviewGrade reviewGrade) async {
-      final profile = ref.read(activeProfileProvider);
-      if (profile == null) return;
-      try {
-        await ref.read(reviewRecorderProvider).recordReview(
-              profile: profile,
-              pageId: card.pageId,
-              grade: reviewGrade,
-              today: ref.read(todayProvider),
-            );
-        // Calm, once-per-commit screen-reader receipt (RTL); the visual motion
-        // is suppressed under reduce-motion, the announce is not (E08-T02/T05).
-        if (context.mounted) {
-          await announceState(context, l10n.a11yAnnouncePageGraded);
-        }
-      } on Exception {
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(l10n.commonRetry)),
-          );
-        }
-      }
-    }
-
-    // The content reveal is a non-essential motion surface: a calm cross-fade
-    // when the queue resolves, collapsing to an instant cut under the OS Reduce
-    // Motion flag (E08-T05). Each state carries a distinct key so the reveal is
-    // detected.
-    final content = queue.when(
-      loading: () => const Center(
-        key: ValueKey<String>('today.loading'),
-        child: CircularProgressIndicator(),
-      ),
-      error: (error, _) => _RetryView(
+    // Each state carries a distinct key so the calm content cross-fade (instant
+    // under the OS Reduce Motion flag, E08-T05) is detected on transition.
+    final content = session.when(
+      loading: () => const SessionSkeleton(key: ValueKey<String>('today.loading')),
+      error: (error, _) => TodayRetryView(
         key: const ValueKey<String>('today.error'),
         message: l10n.commonRetry,
-        onRetry: () => ref.invalidate(todayQueueProvider),
+        onRetry: () => ref.invalidate(todayControllerProvider),
       ),
-      data: (cards) => cards.isEmpty
-          ? _EmptyToday(
-              key: const ValueKey<String>('today.empty'),
-              message: l10n.todayEmpty,
+      data: (data) => data.isEmpty
+          ? EmptyState(
+              key: const ValueKey<String>('today.allDone'),
+              model: EmptyStateModel(
+                kind: EmptyStateKind.allDone,
+                body: l10n.emptyAllDone,
+              ),
             )
-          : _TodayList(
-              key: const ValueKey<String>('today.list'),
-              cards: cards,
-              onGrade: grade,
-            ),
+          : const _TodayDayPlaceholder(key: ValueKey<String>('today.populated')),
     );
 
     return Semantics(
       identifier: 'screen.today',
+      container: true,
+      label: l10n.todaySemanticTitle,
       explicitChildNodes: true,
       child: SafeArea(child: ReduceMotionSwitcher(child: content)),
     );
   }
 }
 
-class _TodayList extends StatelessWidget {
-  const _TodayList({required this.cards, required this.onGrade, super.key});
-
-  final List<Card> cards;
-  final Future<void> Function(Card card, ReviewGrade grade) onGrade;
-
-  @override
-  Widget build(BuildContext context) {
-    final space = Theme.of(context).extension<SpacingTokens>()!;
-    return ListView.builder(
-      padding: EdgeInsetsDirectional.all(space.space3),
-      itemCount: cards.length,
-      itemBuilder: (context, index) {
-        final card = cards[index];
-        return PageCard(
-          key: ValueKey<int>(card.pageId),
-          card: card,
-          onGrade: (grade) => onGrade(card, grade),
-        );
-      },
-    );
-  }
-}
-
-class _EmptyToday extends StatelessWidget {
-  const _EmptyToday({required this.message, super.key});
-
-  final String message;
+/// The populated-day slot. E12-T03 replaces this placeholder with the finite,
+/// budget-capped Far → Near → New session list assembling the E10 page cards.
+class _TodayDayPlaceholder extends StatelessWidget {
+  const _TodayDayPlaceholder({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Center(
-      child: Text(message, style: Theme.of(context).textTheme.bodyMedium),
-    );
-  }
-}
-
-class _RetryView extends StatelessWidget {
-  const _RetryView({required this.message, required this.onRetry, super.key});
-
-  final String message;
-  final VoidCallback onRetry;
-
-  @override
-  Widget build(BuildContext context) {
-    final space = Theme.of(context).extension<SpacingTokens>()!;
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        spacing: space.space3,
-        children: [
-          FilledButton(onPressed: onRetry, child: Text(message)),
-        ],
+      child: Text(
+        l10n.todaySemanticTitle,
+        style: Theme.of(context).textTheme.titleMedium,
       ),
     );
   }

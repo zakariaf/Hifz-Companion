@@ -491,6 +491,9 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get todayEmpty => 'لە ئێستادا هیچ پەڕەیەک نییە بۆ پێداچوونەوە.';
 
   @override
+  String get todaySemanticTitle => 'پێداچوونەوەی ئەمڕۆ';
+
+  @override
   String get commonRetry => 'هەوڵدانەوە';
 
   @override
