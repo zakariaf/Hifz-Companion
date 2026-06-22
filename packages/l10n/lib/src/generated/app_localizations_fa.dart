@@ -447,4 +447,47 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get certaintyLegendTitle => 'استواری شواهدی که بر آن تکیه می‌کنیم';
+
+  @override
+  String get catchUpEmpathy => 'ایرادی ندارد — با آرامش جبران می‌کنیم';
+
+  @override
+  String catchUpMissedDays(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count روز بدون مرور گذشت',
+      one: '$count روز بدون مرور گذشت',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String catchUpPlanLine(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'برنامه‌ای برای $count روز که چرخه‌ات را کامل می‌کند',
+      one: 'برنامه‌ای برای $count روز که چرخه‌ات را کامل می‌کند',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get catchUpStartPlan => 'شروع برنامه';
+
+  @override
+  String get catchUpAdjust => 'تنظیم برنامه';
+
+  @override
+  String get catchUpDefer => 'بعداً';
+
+  @override
+  String get emptyFirstRunBody => 'پس از آغاز، مرور شما اینجا نمایان می‌شود';
+
+  @override
+  String get emptyFirstRunAction => 'آغاز';
+
+  @override
+  String get emptyAllDone => 'مرور امروز کامل شد';
 }

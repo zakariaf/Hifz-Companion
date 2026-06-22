@@ -91,5 +91,14 @@
   "certaintyObsPhrase": "تویژینەوەیەکی مەیدانی/چاودێری",
   "certaintyTextPhrase": "پێداچوونەوەی شارەزا یان بەڵگەنامەی ڕێباز",
   "certaintyTradPhrase": "زانستی نەقلی؛ سەرچاوەکەی لە خوارەوە ناوبراوە",
-  "certaintyLegendTitle": "هێزی ئەو بەڵگانەی پشتی پێدەبەستین"
+  "certaintyLegendTitle": "هێزی ئەو بەڵگانەی پشتی پێدەبەستین",
+  "catchUpEmpathy": "کێشە نییە — بەهێمنی قەرەبووی دەکەینەوە",
+  "catchUpMissedDays": "{count, plural, one{{count} ڕۆژ بەبێ پێداچوونەوە تێپەڕی} other{{count} ڕۆژ بەبێ پێداچوونەوە تێپەڕی}}",
+  "catchUpPlanLine": "{count, plural, one{پلانێک بۆ {count} ڕۆژ کە سووڕەکەت تەواو دەکات} other{پلانێک بۆ {count} ڕۆژ کە سووڕەکەت تەواو دەکات}}",
+  "catchUpStartPlan": "دەستپێکی پلان",
+  "catchUpAdjust": "ڕێکخستنی پلان",
+  "catchUpDefer": "دواتر",
+  "emptyFirstRunBody": "دوای دەستپێکردن، پێداچوونەوەکەت لێرە دەردەکەوێت",
+  "emptyFirstRunAction": "دەستپێبکە",
+  "emptyAllDone": "پێداچوونەوەی ئەمڕۆ تەواوبوو"
 }

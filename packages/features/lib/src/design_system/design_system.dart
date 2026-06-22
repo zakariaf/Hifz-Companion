@@ -7,6 +7,8 @@
 library;
 
 export 'a11y/clamped_text_scaling.dart';
+export 'banners/catch_up_banner.dart';
+export 'banners/empty_state.dart';
 export 'certainty/certainty_label.dart';
 export 'certainty/certainty_strings.dart';
 export 'certainty/evidence_grade.dart';

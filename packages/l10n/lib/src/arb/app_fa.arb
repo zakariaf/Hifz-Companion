@@ -91,5 +91,14 @@
   "certaintyObsPhrase": "یک پژوهش میدانی/مشاهده‌ای",
   "certaintyTextPhrase": "بازبینی کارشناسی یا مستندات روش",
   "certaintyTradPhrase": "دانش نقلی؛ منبعش در زیر آمده است",
-  "certaintyLegendTitle": "استواری شواهدی که بر آن تکیه می‌کنیم"
+  "certaintyLegendTitle": "استواری شواهدی که بر آن تکیه می‌کنیم",
+  "catchUpEmpathy": "ایرادی ندارد — با آرامش جبران می‌کنیم",
+  "catchUpMissedDays": "{count, plural, one{{count} روز بدون مرور گذشت} other{{count} روز بدون مرور گذشت}}",
+  "catchUpPlanLine": "{count, plural, one{برنامه‌ای برای {count} روز که چرخه‌ات را کامل می‌کند} other{برنامه‌ای برای {count} روز که چرخه‌ات را کامل می‌کند}}",
+  "catchUpStartPlan": "شروع برنامه",
+  "catchUpAdjust": "تنظیم برنامه",
+  "catchUpDefer": "بعداً",
+  "emptyFirstRunBody": "پس از آغاز، مرور شما اینجا نمایان می‌شود",
+  "emptyFirstRunAction": "آغاز",
+  "emptyAllDone": "مرور امروز کامل شد"
 }

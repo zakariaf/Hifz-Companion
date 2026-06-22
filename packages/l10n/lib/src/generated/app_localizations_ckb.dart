@@ -448,4 +448,48 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get certaintyLegendTitle => 'هێزی ئەو بەڵگانەی پشتی پێدەبەستین';
+
+  @override
+  String get catchUpEmpathy => 'کێشە نییە — بەهێمنی قەرەبووی دەکەینەوە';
+
+  @override
+  String catchUpMissedDays(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ڕۆژ بەبێ پێداچوونەوە تێپەڕی',
+      one: '$count ڕۆژ بەبێ پێداچوونەوە تێپەڕی',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String catchUpPlanLine(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'پلانێک بۆ $count ڕۆژ کە سووڕەکەت تەواو دەکات',
+      one: 'پلانێک بۆ $count ڕۆژ کە سووڕەکەت تەواو دەکات',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get catchUpStartPlan => 'دەستپێکی پلان';
+
+  @override
+  String get catchUpAdjust => 'ڕێکخستنی پلان';
+
+  @override
+  String get catchUpDefer => 'دواتر';
+
+  @override
+  String get emptyFirstRunBody =>
+      'دوای دەستپێکردن، پێداچوونەوەکەت لێرە دەردەکەوێت';
+
+  @override
+  String get emptyFirstRunAction => 'دەستپێبکە';
+
+  @override
+  String get emptyAllDone => 'پێداچوونەوەی ئەمڕۆ تەواوبوو';
 }

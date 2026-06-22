@@ -457,4 +457,55 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get certaintyLegendTitle => 'قوة الأدلة التي نستند إليها';
+
+  @override
+  String get catchUpEmpathy => 'لا حرج — لنتدارك بهدوء';
+
+  @override
+  String catchUpMissedDays(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'مضى $count يوم دون مراجعة',
+      many: 'مضى $count يوماً دون مراجعة',
+      few: 'مضت $count أيام دون مراجعة',
+      two: 'مضى يومان دون مراجعة',
+      one: 'مضى يوم واحد دون مراجعة',
+      zero: 'لم تمضِ أيام دون مراجعة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String catchUpPlanLine(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'خطة على $count يوم تُكمل دورتك',
+      many: 'خطة على $count يوماً تُكمل دورتك',
+      few: 'خطة على $count أيام تُكمل دورتك',
+      two: 'خطة ليومين تُكمل دورتك',
+      one: 'خطة ليوم واحد تُكمل دورتك',
+      zero: 'خطة تُكمل دورتك',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get catchUpStartPlan => 'ابدأ الخطة';
+
+  @override
+  String get catchUpAdjust => 'عدّل الخطة';
+
+  @override
+  String get catchUpDefer => 'لاحقاً';
+
+  @override
+  String get emptyFirstRunBody => 'ستظهر مراجعتك هنا بعد أن تبدأ';
+
+  @override
+  String get emptyFirstRunAction => 'ابدأ';
+
+  @override
+  String get emptyAllDone => 'اكتملت مراجعة اليوم';
 }

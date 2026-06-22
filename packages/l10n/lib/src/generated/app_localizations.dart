@@ -654,6 +654,60 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'قوة الأدلة التي نستند إليها'**
   String get certaintyLegendTitle;
+
+  /// The EMPATHY line that opens the missed-day catch-up banner (voice 11 §4 empathy→fact→path→choice). Calm, non-blaming acknowledgment — NEVER 'you're behind'/'you let this slip'/guilt. A missed gap is never a streak reset (C-042, C-043). Consumed by E12. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا حرج — لنتدارك بهدوء'**
+  String get catchUpEmpathy;
+
+  /// The honest-FACT line of the catch-up banner — 'N days passed without revision' (voice 11 §4). Neutral statement of fact, NEVER 'N days lost'/'you're behind'/shame (C-042). ICU plural with ALL SIX Arabic CLDR categories; {count} is locale-numeral-shaped downstream by the caller (intl #197). Consumed by E12. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, zero{لم تمضِ أيام دون مراجعة} one{مضى يوم واحد دون مراجعة} two{مضى يومان دون مراجعة} few{مضت {count} أيام دون مراجعة} many{مضى {count} يوماً دون مراجعة} other{مضى {count} يوم دون مراجعة}}'**
+  String catchUpMissedDays(num count);
+
+  /// The PATH line of the catch-up banner — 'a plan over N days that still completes your cycle' (voice 11 §4; PRD §7.9). Reassuring, the cycle still completes; FAR/manzil items are never dropped to shorten it. ICU plural, six Arabic categories; {count} locale-shaped downstream. Consumed by E12. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, zero{خطة تُكمل دورتك} one{خطة ليوم واحد تُكمل دورتك} two{خطة ليومين تُكمل دورتك} few{خطة على {count} أيام تُكمل دورتك} many{خطة على {count} يوماً تُكمل دورتك} other{خطة على {count} يوم تُكمل دورتك}}'**
+  String catchUpPlanLine(num count);
+
+  /// Catch-up banner CHOICE — start the re-spread plan (the user-owned primary choice, never a mandate). Consumed by E12. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'ابدأ الخطة'**
+  String get catchUpStartPlan;
+
+  /// Catch-up banner CHOICE — adjust the plan. Invite, never command. Consumed by E12. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'عدّل الخطة'**
+  String get catchUpAdjust;
+
+  /// Catch-up banner CHOICE — defer / decide later. The user owns the choice; deferring is blameless. Consumed by E12. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'لاحقاً'**
+  String get catchUpDefer;
+
+  /// First-run empty state — the calm fact, framed as invitation, never shaming the absence (ui-empty-state). Consumed by E11/E12. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'ستظهر مراجعتك هنا بعد أن تبدأ'**
+  String get emptyFirstRunBody;
+
+  /// First-run empty state — the one gentle next-step label (invitation into cold-start, owned by E11). NEVER 'come back tomorrow'/FOMO/urgency. Consumed by E11/E12. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'ابدأ'**
+  String get emptyFirstRunAction;
+
+  /// All-done / nothing-due terminal state — one calm closing line in color.text.secondary, INFORMATIONAL, never confetti/streak/badge/exclamation/celebration (design 07 §1; PRD R3, C6). Today-scoped completion, never 'safe to drop'/'mastered' (C-019). Consumed by E12. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'اكتملت مراجعة اليوم'**
+  String get emptyAllDone;
 }
 
 class _AppLocalizationsDelegate
