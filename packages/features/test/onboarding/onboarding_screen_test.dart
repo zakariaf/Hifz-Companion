@@ -1,14 +1,15 @@
 // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-// The cold-start capture flow: a juz-coverage grid (continue gated on a
-// selection), then a per-held-juz Solid/Shaky/Rusty rater (done gated on a
-// rating). No persistence is touched until commit, so the capture flow needs no
-// repository override.
+// The dumb onboarding host (E11-T01): it shows the cursor's step View plus the
+// shared chrome (step-progress + back/next), advances/returns by calling the
+// capture controller, and touches no persistence (it is pumped with no override,
+// so any data read would throw the un-overridden placeholder).
 
 import 'package:features/features.dart';
-import 'package:features/src/onboarding/widgets/coverage_grid.dart';
-import 'package:features/src/onboarding/widgets/juz_confidence_rater.dart';
+import 'package:features/src/onboarding/widgets/coverage_capture_grid.dart';
+import 'package:features/src/onboarding/widgets/language_step.dart';
+import 'package:features/src/onboarding/widgets/welcome_step.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -35,44 +36,68 @@ void main() {
     return AppLocalizations.delegate.load(const Locale('ar'));
   }
 
-  Finder firstJuzCell() => find
-      .descendant(of: find.byType(CoverageGrid), matching: find.byType(InkWell))
-      .first;
-
-  bool isEnabled(WidgetTester tester, String label) =>
+  bool continueEnabled(WidgetTester tester, String label) =>
       tester
           .widget<FilledButton>(find.widgetWithText(FilledButton, label))
           .onPressed !=
       null;
 
-  testWidgets('coverage first; continue is gated on a selection', (t) async {
+  testWidgets('opens on the welcome step with no Back affordance', (t) async {
     final l10n = await pumpOnboarding(t);
-
-    expect(find.byType(CoverageGrid), findsOneWidget);
-    expect(find.byType(JuzConfidenceRater), findsNothing);
-    expect(isEnabled(t, l10n.onboardingContinue), isFalse);
-
-    // Hold a juz → continue enables.
-    await t.tap(firstJuzCell());
-    await t.pumpAndSettle();
-    expect(isEnabled(t, l10n.onboardingContinue), isTrue);
+    expect(find.byType(WelcomeStep), findsOneWidget);
+    // The welcome landing carries its own Continue CTA and no chrome Back.
+    expect(find.widgetWithText(TextButton, l10n.onboardingBack), findsNothing);
+    expect(continueEnabled(t, l10n.onboardingContinue), isTrue);
   });
 
-  testWidgets('advancing shows the rater; done is gated on a rating',
+  testWidgets('Continue advances the cursor; Back returns without loss',
       (t) async {
     final l10n = await pumpOnboarding(t);
 
-    await t.tap(firstJuzCell());
-    await t.pumpAndSettle();
     await t.tap(find.widgetWithText(FilledButton, l10n.onboardingContinue));
     await t.pumpAndSettle();
+    // Now on the language step, with a Back affordance.
+    expect(find.byType(LanguageStep), findsOneWidget);
+    expect(find.byType(WelcomeStep), findsNothing);
+    final back = find.widgetWithText(TextButton, l10n.onboardingBack);
+    expect(back, findsOneWidget);
 
-    expect(find.byType(JuzConfidenceRater), findsOneWidget);
-    expect(isEnabled(t, l10n.onboardingDone), isFalse);
-
-    // Rate the held juz → done enables.
-    await t.tap(find.text(l10n.confidenceSolid));
+    await t.tap(back);
     await t.pumpAndSettle();
-    expect(isEnabled(t, l10n.onboardingDone), isTrue);
+    expect(find.byType(WelcomeStep), findsOneWidget);
+  });
+
+  testWidgets('the coverage step host composes the live coverage grid',
+      (t) async {
+    final l10n = await pumpOnboarding(t);
+    // The View cannot itself satisfy the language/riwāyah/coreSetup guards
+    // (those are sibling steps), so drive the cursor to coverage via the
+    // controller, then assert the host→leaf wiring and the grid→controller path.
+    final container = ProviderScope.containerOf(
+      t.element(find.byType(OnboardingScreen)),
+    );
+    container.read(onboardingControllerProvider(null).notifier)
+      ..next()
+      ..setLocale(const Locale('ar'))
+      ..next()
+      ..confirmMushaf('kfgqpc_hafs_madani_v2')
+      ..next()
+      ..setCoreSetupPhase(CoreSetupPhase.ready)
+      ..next();
+    await t.pumpAndSettle();
+    expect(find.byType(CoverageCaptureGrid), findsOneWidget);
+    expect(continueEnabled(t, l10n.onboardingContinue), isFalse);
+
+    // Tapping a cell drives the controller (no local copy) and enables Continue.
+    await t.tap(
+      find
+          .descendant(
+            of: find.byType(CoverageCaptureGrid),
+            matching: find.byType(InkWell),
+          )
+          .first,
+    );
+    await t.pumpAndSettle();
+    expect(continueEnabled(t, l10n.onboardingContinue), isTrue);
   });
 }

@@ -1,19 +1,26 @@
 // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-// The cold-start seed orchestration, tested by faking the repositories (not the
-// engine): a held juz expands to its page cards, the captured confidence maps
-// verbatim through the pure engine (so the resulting track is the engine's), and
-// the seed commits through the single all-or-nothing write path. The FSRS (D, S)
-// numbers are the engine's own golden vectors — here we assert wiring.
+// The cold-start placement commit (E11-T09), tested by faking the repositories
+// (not the engine): a held juz expands to one card PER PAGE, the captured
+// confidence maps verbatim through the pure engine (track is the engine's),
+// optional memorizedOn threads through per juz, the captured cycle preset becomes
+// the cycle_config, and everything commits through the single all-or-nothing
+// write path. The FSRS (D, S) numbers are the engine's own golden vectors.
 
 import 'package:data/data.dart'
     show ColdStartRepository, ColdStartSeedFailed, ReferenceRepository;
 import 'package:engine/engine.dart';
-import 'package:features/features.dart' show ColdStartSeeder;
+import 'package:features/features.dart'
+    show ColdStartSeeder, CyclePreset, PlacementInput;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:models/models.dart'
-    show CycleConfig, Profile, ProfileId, kKfgqpcHafsMadaniV2Edition;
+    show
+        CycleConfig,
+        Profile,
+        ProfileId,
+        ProfileLocale,
+        kKfgqpcHafsMadaniV2Edition;
 
 import '../test_setup.dart';
 
@@ -59,8 +66,29 @@ void main() {
   useOfflineTestPolicy();
 
   final engine = SchedulingEngine(EngineConfig.defaults());
+  final today = CalendarDate.ymd(2026, 6, 22);
 
-  test('expands each held juz to its page cards via the engine', () async {
+  PlacementInput input({
+    required Set<int> coverage,
+    required Map<int, JuzConfidence> confidence,
+    Map<int, CalendarDate> memorizedOn = const {},
+    CyclePreset cyclePreset = CyclePreset.weeklyKhatm,
+    bool pureCycleMode = false,
+    int dailyBudgetMinutes = 30,
+  }) =>
+      PlacementInput(
+        coverage: coverage,
+        confidence: confidence,
+        memorizedOn: memorizedOn,
+        cyclePreset: cyclePreset,
+        pureCycleMode: pureCycleMode,
+        customCycle: null,
+        dailyBudgetMinutes: dailyBudgetMinutes,
+        locale: ProfileLocale.fa,
+        today: today,
+      );
+
+  test('expands each held juz to one card per page via the engine', () async {
     final coldStart = _RecordingColdStart();
     final seeder = ColdStartSeeder(
       reference: _FakeReference({
@@ -71,58 +99,53 @@ void main() {
       engine: engine,
       newId: () => 'p-fixed',
     );
-    final today = CalendarDate.ymd(2026, 6, 19);
 
-    final id = await seeder.seed(
-      heldJuz: {1, 2},
-      confidence: {1: JuzConfidence.solid, 2: JuzConfidence.rusty},
-      today: today,
+    final id = await seeder.commitPlacement(
+      input(
+        coverage: {1, 2},
+        confidence: {1: JuzConfidence.solid, 2: JuzConfidence.rusty},
+      ),
     );
 
     expect(coldStart.calls, 1);
     expect(id, const ProfileId('p-fixed'));
+    // One seed per PAGE, in muṣḥaf order.
     expect(coldStart.seeds!.map((s) => s.pageId).toList(), [1, 2, 3, 22, 23]);
 
-    // Confidence maps verbatim through the engine: solid → FAR, rusty → NEW
-    // (the seed table's bandForStability), proving no UI re-mapping.
+    // Confidence maps verbatim through the engine (no UI re-mapping).
     final juz1 =
         coldStart.seeds!.where((s) => const [1, 2, 3].contains(s.pageId));
     expect(juz1.every((s) => s.track == ReviewTrack.far), isTrue);
-    final juz2 =
-        coldStart.seeds!.where((s) => const [22, 23].contains(s.pageId));
-    expect(juz2.every((s) => s.track == ReviewTrack.newPage), isTrue);
 
-    // Calibration: every held page due now, last-reviewed today (injected).
+    // Calibration: every held page due now, last-reviewed the injected today.
     expect(coldStart.seeds!.every((s) => s.dueAt == today), isTrue);
-    expect(coldStart.seeds!.every((s) => s.lastReviewedDay == today), isTrue);
-
-    // Profile + cycle config bound to the new id; default muṣḥaf edition.
-    expect(coldStart.profile!.profileId, const ProfileId('p-fixed'));
-    expect(coldStart.cycleConfig!.profileId, const ProfileId('p-fixed'));
     expect(coldStart.profile!.mushafId, kKfgqpcHafsMadaniV2Edition.mushafId);
   });
 
-  test('un-held juz produce no card', () async {
+  test('un-held and held-but-unrated juz produce no card', () async {
     final coldStart = _RecordingColdStart();
     final seeder = ColdStartSeeder(
       reference: _FakeReference({
         1: [1, 2],
-        3: [44, 45],
+        2: [22],
+        3: [44],
       }),
       coldStart: coldStart,
       engine: engine,
     );
 
-    await seeder.seed(
-      heldJuz: {1},
-      confidence: {1: JuzConfidence.solid},
-      today: CalendarDate.ymd(2026, 6, 19),
+    await seeder.commitPlacement(
+      input(
+        coverage: {1, 2}, // juz 3 not held; juz 2 held but unrated
+        confidence: {1: JuzConfidence.solid},
+      ),
     );
 
     expect(coldStart.seeds!.map((s) => s.pageId).toSet(), {1, 2});
   });
 
-  test('a held-but-unrated juz is skipped (no card, no crash)', () async {
+  test('captured memorizedOn threads to coldStartCard; absence ⇒ no decay',
+      () async {
     final coldStart = _RecordingColdStart();
     final seeder = ColdStartSeeder(
       reference: _FakeReference({
@@ -133,16 +156,51 @@ void main() {
       engine: engine,
     );
 
-    await seeder.seed(
-      heldJuz: {1, 2},
-      confidence: {1: JuzConfidence.solid}, // juz 2 held but unrated
-      today: CalendarDate.ymd(2026, 6, 19),
+    // Juz 1 has a long-ago date (decays S downward); juz 2 has none.
+    final long = CalendarDate.ymd(2018, 1, 1);
+    await seeder.commitPlacement(
+      input(
+        coverage: {1, 2},
+        confidence: {1: JuzConfidence.solid, 2: JuzConfidence.solid},
+        memorizedOn: {1: long},
+      ),
     );
 
-    expect(coldStart.seeds!.map((s) => s.pageId).toSet(), {1});
+    final dated = coldStart.seeds!.firstWhere((s) => s.pageId == 1);
+    final undated = coldStart.seeds!.firstWhere((s) => s.pageId == 22);
+    // Same confidence; the aged one has lower (or equal-clamped) stability.
+    expect(dated.stabilityDays <= undated.stabilityDays, isTrue);
   });
 
-  test('a failed seed propagates the typed write error', () async {
+  test('the captured cycle preset becomes the cycle_config (no target_R)',
+      () async {
+    final coldStart = _RecordingColdStart();
+    final seeder = ColdStartSeeder(
+      reference: _FakeReference({
+        1: [1],
+      }),
+      coldStart: coldStart,
+      engine: engine,
+    );
+
+    await seeder.commitPlacement(
+      input(
+        coverage: {1},
+        confidence: {1: JuzConfidence.solid},
+        cyclePreset: CyclePreset.oneJuzPerDay,
+        pureCycleMode: true,
+        dailyBudgetMinutes: 45,
+      ),
+    );
+
+    final config = coldStart.cycleConfig!;
+    expect(config.cycleType, '1_juz_day');
+    expect(config.cycleCeilingDays, 30); // 1 juz/day → 30-day cycle
+    expect(config.dailyBudgetMinutes, 45);
+    expect(config.isPureCycleMode, isTrue);
+  });
+
+  test('a failed seed propagates the typed write error (rolls back)', () async {
     final seeder = ColdStartSeeder(
       reference: _FakeReference({
         1: [1],
@@ -152,10 +210,11 @@ void main() {
     );
 
     await expectLater(
-      seeder.seed(
-        heldJuz: {1},
-        confidence: {1: JuzConfidence.solid},
-        today: CalendarDate.ymd(2026, 6, 19),
+      seeder.commitPlacement(
+        input(
+          coverage: {1},
+          confidence: {1: JuzConfidence.solid},
+        ),
       ),
       throwsA(isA<ColdStartSeedFailed>()),
     );

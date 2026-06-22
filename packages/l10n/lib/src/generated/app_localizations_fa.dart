@@ -322,7 +322,150 @@ class AppLocalizationsFa extends AppLocalizations {
   String get confidenceRusty => 'نیازمند مرور';
 
   @override
+  String get confidenceSolidSemantics => 'راسخ — استوار در یادم است';
+
+  @override
+  String get confidenceShakySemantics => 'متزلزل — به مرورِ منظم نیاز دارد';
+
+  @override
+  String get confidenceRustySemantics => 'نیازمند مرور — دور شده است';
+
+  @override
+  String get confidenceBiasNote =>
+      'هر آنچه از بر دارید را یک‌بار مرور می‌کنیم، سپس بر پایهٔ تلاوتتان تنظیم می‌کنیم.';
+
+  @override
+  String get whenMemorizedOptionalLabel => 'کِی این را حفظ کردید؟ (اختیاری)';
+
+  @override
+  String whenMemorizedSetLabel(String date) {
+    return 'حفظ‌شده: $date';
+  }
+
+  @override
+  String get whenMemorizedClear => 'پاک‌کردن';
+
+  @override
+  String get staleBandThisYear => 'امسال';
+
+  @override
+  String get staleBandOneToTwoYears => 'یک تا دو سال پیش';
+
+  @override
+  String get staleBandThreeToFiveYears => '۳ تا ۵ سال پیش';
+
+  @override
+  String get staleBandMoreThanFiveYears => 'بیش از ۵ سال پیش';
+
+  @override
+  String get onboardingCyclePresetStepTitle => 'دورهٔ مرور';
+
+  @override
+  String get onboardingCyclePresetStepBody =>
+      'آهنگی که معلّم‌تان می‌شناسد — انتخاب یا سفارشی‌سازی کنید.';
+
+  @override
+  String get dailyBudgetLabel => 'زمان مرور روزانه';
+
+  @override
+  String dailyBudgetMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count دقیقه',
+      one: '$count دقیقه',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get customFarCycleDays => 'طول دوره (روز)';
+
+  @override
+  String get customNearWindowJuz => 'پنجرهٔ نزدیک (جزء)';
+
+  @override
+  String get customNewLinesPerDay => 'سطرهای تازه در روز';
+
+  @override
+  String get onboardingPlacementSummary =>
+      'برنامهٔ شما آماده است — هر آنچه از بر دارید را یک‌بار مرور می‌کنیم، سپس بر پایهٔ تلاوتتان تنظیم می‌کنیم.';
+
+  @override
+  String get onboardingPlacementError => 'ذخیرهٔ تنظیمات ممکن نشد.';
+
+  @override
   String get onboardingContinue => 'ادامه';
+
+  @override
+  String get onboardingBack => 'بازگشت';
+
+  @override
+  String get onboardingWelcomeIntent =>
+      'این برنامه هدیه‌ای رایگان است، صدقه‌ای جاری، تا در نگه‌داشتِ آنچه از بر کرده‌اید یاری‌تان کند.';
+
+  @override
+  String get onboardingWelcomePrivacyNoAccount => 'بدون حساب و بدون ورود.';
+
+  @override
+  String get onboardingWelcomePrivacyNoMic =>
+      'صدای شما را ضبط نمی‌کند و میکروفون ندارد.';
+
+  @override
+  String get onboardingWelcomePrivacyOnDevice =>
+      'هیچ‌چیزی دربارهٔ شما این دستگاه را ترک نمی‌کند.';
+
+  @override
+  String get onboardingWelcomePrivacyOfflineAfter =>
+      'بدون اینترنت کار می‌کند؛ می‌توانید آن را در حالت پرواز نگه دارید.';
+
+  @override
+  String get onboardingWelcomeServant =>
+      'یاری‌رسانِ مرورِ شماست و خدمتگزارِ معلّم‌تان، نه جایگزینِ تلقّی و نه فتوا.';
+
+  @override
+  String get onboardingLanguageStepTitle => 'زبان برنامه';
+
+  @override
+  String get onboardingLanguageStepBody =>
+      'بی‌درنگ بر صفحه‌های راه‌اندازی اعمال می‌شود.';
+
+  @override
+  String get languageNameFa => 'فارسی';
+
+  @override
+  String get languageNameCkb => 'کوردیی ناوەندی';
+
+  @override
+  String get languageNameAr => 'العربية';
+
+  @override
+  String get onboardingRiwayahStepTitle => 'مصحف';
+
+  @override
+  String get onboardingRiwayahStepBody =>
+      'این مصحفِ همراهِ برنامه است؛ بعداً از تنظیمات قابلِ تعویض است. زمان‌بندی به متنِ خاصی وابسته نیست.';
+
+  @override
+  String get onboardingCorePreparingTitle => 'آماده‌سازی مصحف';
+
+  @override
+  String get onboardingCorePreparingBody =>
+      'فایل‌های مصحفِ همراه بررسی می‌شوند.';
+
+  @override
+  String get onboardingCoreReadyTitle => 'مصحف آماده است';
+
+  @override
+  String get onboardingCoreReadyBody =>
+      'همه‌چیز اکنون روی دستگاهِ شماست؛ در حالت پرواز کار می‌کند.';
+
+  @override
+  String get onboardingCoreIntegrityFailureTitle => 'تأییدِ مصحف ممکن نشد';
+
+  @override
+  String get onboardingCoreIntegrityFailureBody =>
+      'فایل‌های مصحف مطابقت نداشتند، پس برای حفظِ دقّت، متن نمایش داده نمی‌شود.';
 
   @override
   String get onboardingDone => 'پایان';

@@ -312,9 +312,179 @@
   "@confidenceRusty": {
     "description": "Self-report confidence: the juz has gone rusty / needs reactivation. Maps to JuzConfidence.rusty. Calm, never 'lost'/'failed'. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
   },
+  "confidenceSolidSemantics": "راسخ — أحفظه بثبات",
+  "@confidenceSolidSemantics": {
+    "description": "Screen-reader announcement for the Solid option — the word plus its plain meaning. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "confidenceShakySemantics": "متذبذب — يحتاج مراجعة منتظمة",
+  "@confidenceShakySemantics": {
+    "description": "Screen-reader announcement for the Shaky option — the word plus its plain meaning. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "confidenceRustySemantics": "بحاجة للمراجعة — صار بعيدًا",
+  "@confidenceRustySemantics": {
+    "description": "Screen-reader announcement for the Rusty option — the word plus its plain meaning; calm, never 'lost'/'failed'. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "confidenceBiasNote": "سنراجع كل ما تحفظه مرّة، ثم نضبط حسب تلاوتك.",
+  "@confidenceBiasNote": {
+    "description": "Calm conservative-bias note (C-009) shown at the foot of the confidence step — we revise everything once, then adjust to your recitation. Carries NO readiness number, no seeded D/S/R, no percentage. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "whenMemorizedOptionalLabel": "متى حفظته؟ (اختياري)",
+  "@whenMemorizedOptionalLabel": {
+    "description": "Optional 'when memorized' invitation under a juz confidence row — genuinely skippable, never a required field or a nag (E11-T07). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "whenMemorizedSetLabel": "حُفظ: {date}",
+  "@whenMemorizedSetLabel": {
+    "description": "Shows the chosen 'when memorized' date. {date} arrives ALREADY converted to the user's calendar and digit-remapped + bidi-isolated (CalendarPresenter) — never concatenated/re-formatted here. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "whenMemorizedClear": "مسح",
+  "@whenMemorizedClear": {
+    "description": "Clears the optional 'when memorized' date back to the skipped state. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "staleBandThisYear": "هذا العام",
+  "@staleBandThisYear": {
+    "description": "Coarse 'when memorized' band: within this year. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "staleBandOneToTwoYears": "قبل سنة أو سنتين",
+  "@staleBandOneToTwoYears": {
+    "description": "Coarse 'when memorized' band: about one to two years ago. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "staleBandThreeToFiveYears": "قبل ٣ إلى ٥ سنوات",
+  "@staleBandThreeToFiveYears": {
+    "description": "Coarse 'when memorized' band: about three to five years ago (digits in the locale numeral set). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "staleBandMoreThanFiveYears": "أكثر من ٥ سنوات",
+  "@staleBandMoreThanFiveYears": {
+    "description": "Coarse 'when memorized' band: more than five years ago (digits in the locale numeral set). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingCyclePresetStepTitle": "دورة المراجعة",
+  "@onboardingCyclePresetStepTitle": {
+    "description": "Cycle-preset step heading (calm noun). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingCyclePresetStepBody": "إيقاعٌ يعرفه معلّمك — اختره أو خصّصه.",
+  "@onboardingCyclePresetStepBody": {
+    "description": "Cycle-preset step helper — a named tradition a teacher recognises, not a retention dial; pick a named preset or Custom. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "dailyBudgetLabel": "وقت المراجعة اليومي",
+  "@dailyBudgetLabel": {
+    "description": "Label for the daily revision time-budget stepper. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "dailyBudgetMinutes": "{count, plural, zero{لا دقائق} one{دقيقة واحدة} two{دقيقتان} few{{count} دقائق} many{{count} دقيقة} other{{count} دقيقة}}",
+  "@dailyBudgetMinutes": {
+    "description": "The daily budget rendered as minutes — ICU plural with all six Arabic CLDR categories. {count} is locale-numeral-shaped downstream (intl #197). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "customFarCycleDays": "طول الدورة (أيام)",
+  "@customFarCycleDays": {
+    "description": "Custom-cycle field: far-cycle length in days (the cycle ceiling). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "customNearWindowJuz": "نافذة القريب (أجزاء)",
+  "@customNearWindowJuz": {
+    "description": "Custom-cycle field: near-window size in juz. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "customNewLinesPerDay": "أسطر جديدة يومياً",
+  "@customNewLinesPerDay": {
+    "description": "Custom-cycle field: new lines introduced per day. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingPlacementSummary": "جدولك جاهز — سنراجع كل ما تحفظه مرّة، ثم نضبط حسب تلاوتك.",
+  "@onboardingPlacementSummary": {
+    "description": "The calm placement-commit summary (C-009): the schedule is ready; we revise everything once, then adjust. NOT a celebration — no streak/badge/%/readiness verdict. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingPlacementError": "تعذّر حفظ إعدادك.",
+  "@onboardingPlacementError": {
+    "description": "Calm, non-blaming message when the placement commit fails (nothing was saved); paired with a Retry. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
   "onboardingContinue": "متابعة",
   "@onboardingContinue": {
     "description": "Button advancing from coverage capture to the confidence step. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingBack": "رجوع",
+  "@onboardingBack": {
+    "description": "Onboarding chrome Back affordance — returns to the previous step without losing captured values. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingWelcomeIntent": "هذا التطبيق هديةٌ مجانية، صدقةٌ جارية، ليعينك على حفظ ما حفظت.",
+  "@onboardingWelcomeIntent": {
+    "description": "Welcome step intent line — the app is offered free as ṣadaqah jāriyah; no transactional/upgrade framing. Methodology/religious — PROVISIONAL, needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingWelcomePrivacyNoAccount": "بلا حساب ولا تسجيل دخول.",
+  "@onboardingWelcomePrivacyNoAccount": {
+    "description": "Welcome privacy fact (C-048): no account / no sign-in. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingWelcomePrivacyNoMic": "لا يسجّل صوتك، ولا ميكروفون فيه.",
+  "@onboardingWelcomePrivacyNoMic": {
+    "description": "Welcome privacy fact (C-048): never records audio / no microphone — stated as a protection, not a silent gap. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingWelcomePrivacyOnDevice": "لا شيء عنك يغادر هذا الجهاز.",
+  "@onboardingWelcomePrivacyOnDevice": {
+    "description": "Welcome privacy fact (C-048): nothing about the user leaves the device; no telemetry. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingWelcomePrivacyOfflineAfter": "يعمل بلا إنترنت؛ يمكنك إبقاؤه في وضع الطيران.",
+  "@onboardingWelcomePrivacyOfflineAfter": {
+    "description": "Welcome privacy fact (C-048): works fully offline (the core muṣḥaf is bundled in the app), try airplane mode. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingWelcomeServant": "هو عونٌ لمراجعتك وخادمٌ لمعلّمك، لا بديلٌ عن التلقّي، وليس فتوى.",
+  "@onboardingWelcomeServant": {
+    "description": "Welcome servant-to-the-teacher framing (C-046): an aid to revision and a servant to the teacher, not a replacement for oral correction (talaqqī), not a fatwa. Methodology/religious — PROVISIONAL, needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingLanguageStepTitle": "لغة التطبيق",
+  "@onboardingLanguageStepTitle": {
+    "description": "Language-pick step heading (calm noun, not an imperative). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingLanguageStepBody": "تُطبَّق فورًا على شاشات الإعداد.",
+  "@onboardingLanguageStepBody": {
+    "description": "Language-pick step helper — the choice applies live as a display transform. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "languageNameFa": "فارسی",
+  "@languageNameFa": {
+    "description": "Persian language endonym — the same in every UI locale (a language's own name), shown as the fa option."
+  },
+  "languageNameCkb": "کوردیی ناوەندی",
+  "@languageNameCkb": {
+    "description": "Central Kurdish (Sorani) language endonym — the same in every UI locale, shown as the ckb option. PROVISIONAL — needs native review."
+  },
+  "languageNameAr": "العربية",
+  "@languageNameAr": {
+    "description": "Arabic language endonym — the same in every UI locale, shown as the ar option."
+  },
+  "onboardingRiwayahStepTitle": "المصحف",
+  "@onboardingRiwayahStepTitle": {
+    "description": "Riwāyah/muṣḥaf confirmation step heading (calm noun). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingRiwayahStepBody": "هذا هو المصحف المضمَّن؛ يمكن تبديله لاحقًا من الإعدادات. الجدول لا يتعلّق بنصّ بعينه.",
+  "@onboardingRiwayahStepBody": {
+    "description": "Riwāyah step helper — names the bundled edition as fact, notes it is swappable later in Settings and that the scheduler is text-agnostic; issues no ruling on which riwāyah is correct (R2). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingCorePreparingTitle": "جارٍ تحضير المصحف",
+  "@onboardingCorePreparingTitle": {
+    "description": "Core-preparation step — the bundled muṣḥaf is being verified and prepared (not a network download). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingCorePreparingBody": "نتحقّق من ملفات المصحف المضمَّنة.",
+  "@onboardingCorePreparingBody": {
+    "description": "Core-preparation helper — verifying the bundled muṣḥaf files. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingCoreReadyTitle": "المصحف جاهز",
+  "@onboardingCoreReadyTitle": {
+    "description": "Core-preparation done — quiet confirmation, never a celebration. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingCoreReadyBody": "كلّ شيء على جهازك الآن؛ يعمل في وضع الطيران.",
+  "@onboardingCoreReadyBody": {
+    "description": "Core-ready airplane-mode-after proof (C-048): everything is on the device now; works in airplane mode. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingCoreIntegrityFailureTitle": "تعذّر التحقّق من المصحف",
+  "@onboardingCoreIntegrityFailureTitle": {
+    "description": "Core-preparation fail-closed heading — could not verify the muṣḥaf. Calm, non-blaming, no exclamation. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingCoreIntegrityFailureBody": "لم تتطابق ملفات المصحف، فلا يُعرَض النصّ حفاظًا على دقّته.",
+  "@onboardingCoreIntegrityFailureBody": {
+    "description": "Core-preparation fail-closed body — the files did not match, so the text is not shown to preserve its accuracy (R1, §11.1.1). Honest, never punitive; no skip is offered. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
   },
   "onboardingDone": "تم",
   "@onboardingDone": {

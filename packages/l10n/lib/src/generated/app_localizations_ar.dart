@@ -332,7 +332,151 @@ class AppLocalizationsAr extends AppLocalizations {
   String get confidenceRusty => 'بحاجة للمراجعة';
 
   @override
+  String get confidenceSolidSemantics => 'راسخ — أحفظه بثبات';
+
+  @override
+  String get confidenceShakySemantics => 'متذبذب — يحتاج مراجعة منتظمة';
+
+  @override
+  String get confidenceRustySemantics => 'بحاجة للمراجعة — صار بعيدًا';
+
+  @override
+  String get confidenceBiasNote =>
+      'سنراجع كل ما تحفظه مرّة، ثم نضبط حسب تلاوتك.';
+
+  @override
+  String get whenMemorizedOptionalLabel => 'متى حفظته؟ (اختياري)';
+
+  @override
+  String whenMemorizedSetLabel(String date) {
+    return 'حُفظ: $date';
+  }
+
+  @override
+  String get whenMemorizedClear => 'مسح';
+
+  @override
+  String get staleBandThisYear => 'هذا العام';
+
+  @override
+  String get staleBandOneToTwoYears => 'قبل سنة أو سنتين';
+
+  @override
+  String get staleBandThreeToFiveYears => 'قبل ٣ إلى ٥ سنوات';
+
+  @override
+  String get staleBandMoreThanFiveYears => 'أكثر من ٥ سنوات';
+
+  @override
+  String get onboardingCyclePresetStepTitle => 'دورة المراجعة';
+
+  @override
+  String get onboardingCyclePresetStepBody =>
+      'إيقاعٌ يعرفه معلّمك — اختره أو خصّصه.';
+
+  @override
+  String get dailyBudgetLabel => 'وقت المراجعة اليومي';
+
+  @override
+  String dailyBudgetMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count دقيقة',
+      many: '$count دقيقة',
+      few: '$count دقائق',
+      two: 'دقيقتان',
+      one: 'دقيقة واحدة',
+      zero: 'لا دقائق',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get customFarCycleDays => 'طول الدورة (أيام)';
+
+  @override
+  String get customNearWindowJuz => 'نافذة القريب (أجزاء)';
+
+  @override
+  String get customNewLinesPerDay => 'أسطر جديدة يومياً';
+
+  @override
+  String get onboardingPlacementSummary =>
+      'جدولك جاهز — سنراجع كل ما تحفظه مرّة، ثم نضبط حسب تلاوتك.';
+
+  @override
+  String get onboardingPlacementError => 'تعذّر حفظ إعدادك.';
+
+  @override
   String get onboardingContinue => 'متابعة';
+
+  @override
+  String get onboardingBack => 'رجوع';
+
+  @override
+  String get onboardingWelcomeIntent =>
+      'هذا التطبيق هديةٌ مجانية، صدقةٌ جارية، ليعينك على حفظ ما حفظت.';
+
+  @override
+  String get onboardingWelcomePrivacyNoAccount => 'بلا حساب ولا تسجيل دخول.';
+
+  @override
+  String get onboardingWelcomePrivacyNoMic =>
+      'لا يسجّل صوتك، ولا ميكروفون فيه.';
+
+  @override
+  String get onboardingWelcomePrivacyOnDevice => 'لا شيء عنك يغادر هذا الجهاز.';
+
+  @override
+  String get onboardingWelcomePrivacyOfflineAfter =>
+      'يعمل بلا إنترنت؛ يمكنك إبقاؤه في وضع الطيران.';
+
+  @override
+  String get onboardingWelcomeServant =>
+      'هو عونٌ لمراجعتك وخادمٌ لمعلّمك، لا بديلٌ عن التلقّي، وليس فتوى.';
+
+  @override
+  String get onboardingLanguageStepTitle => 'لغة التطبيق';
+
+  @override
+  String get onboardingLanguageStepBody => 'تُطبَّق فورًا على شاشات الإعداد.';
+
+  @override
+  String get languageNameFa => 'فارسی';
+
+  @override
+  String get languageNameCkb => 'کوردیی ناوەندی';
+
+  @override
+  String get languageNameAr => 'العربية';
+
+  @override
+  String get onboardingRiwayahStepTitle => 'المصحف';
+
+  @override
+  String get onboardingRiwayahStepBody =>
+      'هذا هو المصحف المضمَّن؛ يمكن تبديله لاحقًا من الإعدادات. الجدول لا يتعلّق بنصّ بعينه.';
+
+  @override
+  String get onboardingCorePreparingTitle => 'جارٍ تحضير المصحف';
+
+  @override
+  String get onboardingCorePreparingBody => 'نتحقّق من ملفات المصحف المضمَّنة.';
+
+  @override
+  String get onboardingCoreReadyTitle => 'المصحف جاهز';
+
+  @override
+  String get onboardingCoreReadyBody =>
+      'كلّ شيء على جهازك الآن؛ يعمل في وضع الطيران.';
+
+  @override
+  String get onboardingCoreIntegrityFailureTitle => 'تعذّر التحقّق من المصحف';
+
+  @override
+  String get onboardingCoreIntegrityFailureBody =>
+      'لم تتطابق ملفات المصحف، فلا يُعرَض النصّ حفاظًا على دقّته.';
 
   @override
   String get onboardingDone => 'تم';

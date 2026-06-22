@@ -409,11 +409,251 @@ abstract class AppLocalizations {
   /// **'بحاجة للمراجعة'**
   String get confidenceRusty;
 
+  /// Screen-reader announcement for the Solid option — the word plus its plain meaning. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'راسخ — أحفظه بثبات'**
+  String get confidenceSolidSemantics;
+
+  /// Screen-reader announcement for the Shaky option — the word plus its plain meaning. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'متذبذب — يحتاج مراجعة منتظمة'**
+  String get confidenceShakySemantics;
+
+  /// Screen-reader announcement for the Rusty option — the word plus its plain meaning; calm, never 'lost'/'failed'. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'بحاجة للمراجعة — صار بعيدًا'**
+  String get confidenceRustySemantics;
+
+  /// Calm conservative-bias note (C-009) shown at the foot of the confidence step — we revise everything once, then adjust to your recitation. Carries NO readiness number, no seeded D/S/R, no percentage. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'سنراجع كل ما تحفظه مرّة، ثم نضبط حسب تلاوتك.'**
+  String get confidenceBiasNote;
+
+  /// Optional 'when memorized' invitation under a juz confidence row — genuinely skippable, never a required field or a nag (E11-T07). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'متى حفظته؟ (اختياري)'**
+  String get whenMemorizedOptionalLabel;
+
+  /// Shows the chosen 'when memorized' date. {date} arrives ALREADY converted to the user's calendar and digit-remapped + bidi-isolated (CalendarPresenter) — never concatenated/re-formatted here. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'حُفظ: {date}'**
+  String whenMemorizedSetLabel(String date);
+
+  /// Clears the optional 'when memorized' date back to the skipped state. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'مسح'**
+  String get whenMemorizedClear;
+
+  /// Coarse 'when memorized' band: within this year. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا العام'**
+  String get staleBandThisYear;
+
+  /// Coarse 'when memorized' band: about one to two years ago. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'قبل سنة أو سنتين'**
+  String get staleBandOneToTwoYears;
+
+  /// Coarse 'when memorized' band: about three to five years ago (digits in the locale numeral set). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'قبل ٣ إلى ٥ سنوات'**
+  String get staleBandThreeToFiveYears;
+
+  /// Coarse 'when memorized' band: more than five years ago (digits in the locale numeral set). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'أكثر من ٥ سنوات'**
+  String get staleBandMoreThanFiveYears;
+
+  /// Cycle-preset step heading (calm noun). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'دورة المراجعة'**
+  String get onboardingCyclePresetStepTitle;
+
+  /// Cycle-preset step helper — a named tradition a teacher recognises, not a retention dial; pick a named preset or Custom. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'إيقاعٌ يعرفه معلّمك — اختره أو خصّصه.'**
+  String get onboardingCyclePresetStepBody;
+
+  /// Label for the daily revision time-budget stepper. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'وقت المراجعة اليومي'**
+  String get dailyBudgetLabel;
+
+  /// The daily budget rendered as minutes — ICU plural with all six Arabic CLDR categories. {count} is locale-numeral-shaped downstream (intl #197). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, zero{لا دقائق} one{دقيقة واحدة} two{دقيقتان} few{{count} دقائق} many{{count} دقيقة} other{{count} دقيقة}}'**
+  String dailyBudgetMinutes(int count);
+
+  /// Custom-cycle field: far-cycle length in days (the cycle ceiling). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'طول الدورة (أيام)'**
+  String get customFarCycleDays;
+
+  /// Custom-cycle field: near-window size in juz. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'نافذة القريب (أجزاء)'**
+  String get customNearWindowJuz;
+
+  /// Custom-cycle field: new lines introduced per day. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'أسطر جديدة يومياً'**
+  String get customNewLinesPerDay;
+
+  /// The calm placement-commit summary (C-009): the schedule is ready; we revise everything once, then adjust. NOT a celebration — no streak/badge/%/readiness verdict. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'جدولك جاهز — سنراجع كل ما تحفظه مرّة، ثم نضبط حسب تلاوتك.'**
+  String get onboardingPlacementSummary;
+
+  /// Calm, non-blaming message when the placement commit fails (nothing was saved); paired with a Retry. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذّر حفظ إعدادك.'**
+  String get onboardingPlacementError;
+
   /// Button advancing from coverage capture to the confidence step. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///
   /// In ar, this message translates to:
   /// **'متابعة'**
   String get onboardingContinue;
+
+  /// Onboarding chrome Back affordance — returns to the previous step without losing captured values. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'رجوع'**
+  String get onboardingBack;
+
+  /// Welcome step intent line — the app is offered free as ṣadaqah jāriyah; no transactional/upgrade framing. Methodology/religious — PROVISIONAL, needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا التطبيق هديةٌ مجانية، صدقةٌ جارية، ليعينك على حفظ ما حفظت.'**
+  String get onboardingWelcomeIntent;
+
+  /// Welcome privacy fact (C-048): no account / no sign-in. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'بلا حساب ولا تسجيل دخول.'**
+  String get onboardingWelcomePrivacyNoAccount;
+
+  /// Welcome privacy fact (C-048): never records audio / no microphone — stated as a protection, not a silent gap. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا يسجّل صوتك، ولا ميكروفون فيه.'**
+  String get onboardingWelcomePrivacyNoMic;
+
+  /// Welcome privacy fact (C-048): nothing about the user leaves the device; no telemetry. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا شيء عنك يغادر هذا الجهاز.'**
+  String get onboardingWelcomePrivacyOnDevice;
+
+  /// Welcome privacy fact (C-048): works fully offline (the core muṣḥaf is bundled in the app), try airplane mode. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'يعمل بلا إنترنت؛ يمكنك إبقاؤه في وضع الطيران.'**
+  String get onboardingWelcomePrivacyOfflineAfter;
+
+  /// Welcome servant-to-the-teacher framing (C-046): an aid to revision and a servant to the teacher, not a replacement for oral correction (talaqqī), not a fatwa. Methodology/religious — PROVISIONAL, needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'هو عونٌ لمراجعتك وخادمٌ لمعلّمك، لا بديلٌ عن التلقّي، وليس فتوى.'**
+  String get onboardingWelcomeServant;
+
+  /// Language-pick step heading (calm noun, not an imperative). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'لغة التطبيق'**
+  String get onboardingLanguageStepTitle;
+
+  /// Language-pick step helper — the choice applies live as a display transform. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تُطبَّق فورًا على شاشات الإعداد.'**
+  String get onboardingLanguageStepBody;
+
+  /// Persian language endonym — the same in every UI locale (a language's own name), shown as the fa option.
+  ///
+  /// In ar, this message translates to:
+  /// **'فارسی'**
+  String get languageNameFa;
+
+  /// Central Kurdish (Sorani) language endonym — the same in every UI locale, shown as the ckb option. PROVISIONAL — needs native review.
+  ///
+  /// In ar, this message translates to:
+  /// **'کوردیی ناوەندی'**
+  String get languageNameCkb;
+
+  /// Arabic language endonym — the same in every UI locale, shown as the ar option.
+  ///
+  /// In ar, this message translates to:
+  /// **'العربية'**
+  String get languageNameAr;
+
+  /// Riwāyah/muṣḥaf confirmation step heading (calm noun). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'المصحف'**
+  String get onboardingRiwayahStepTitle;
+
+  /// Riwāyah step helper — names the bundled edition as fact, notes it is swappable later in Settings and that the scheduler is text-agnostic; issues no ruling on which riwāyah is correct (R2). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا هو المصحف المضمَّن؛ يمكن تبديله لاحقًا من الإعدادات. الجدول لا يتعلّق بنصّ بعينه.'**
+  String get onboardingRiwayahStepBody;
+
+  /// Core-preparation step — the bundled muṣḥaf is being verified and prepared (not a network download). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'جارٍ تحضير المصحف'**
+  String get onboardingCorePreparingTitle;
+
+  /// Core-preparation helper — verifying the bundled muṣḥaf files. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'نتحقّق من ملفات المصحف المضمَّنة.'**
+  String get onboardingCorePreparingBody;
+
+  /// Core-preparation done — quiet confirmation, never a celebration. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'المصحف جاهز'**
+  String get onboardingCoreReadyTitle;
+
+  /// Core-ready airplane-mode-after proof (C-048): everything is on the device now; works in airplane mode. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'كلّ شيء على جهازك الآن؛ يعمل في وضع الطيران.'**
+  String get onboardingCoreReadyBody;
+
+  /// Core-preparation fail-closed heading — could not verify the muṣḥaf. Calm, non-blaming, no exclamation. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذّر التحقّق من المصحف'**
+  String get onboardingCoreIntegrityFailureTitle;
+
+  /// Core-preparation fail-closed body — the files did not match, so the text is not shown to preserve its accuracy (R1, §11.1.1). Honest, never punitive; no skip is offered. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم تتطابق ملفات المصحف، فلا يُعرَض النصّ حفاظًا على دقّته.'**
+  String get onboardingCoreIntegrityFailureBody;
 
   /// Button committing the cold-start seed (then the first day is generated). No celebration register. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///

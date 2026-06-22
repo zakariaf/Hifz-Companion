@@ -321,7 +321,154 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get confidenceRusty => 'پێویستی بە پێداچوونەوەیە';
 
   @override
+  String get confidenceSolidSemantics => 'ڕاسخ — بە جێگیری لەبەرمە';
+
+  @override
+  String get confidenceShakySemantics =>
+      'لەرزۆک — پێویستی بە پێداچوونەوەی بەردەوامە';
+
+  @override
+  String get confidenceRustySemantics =>
+      'پێویستی بە پێداچوونەوەیە — دوور کەوتووەتەوە';
+
+  @override
+  String get confidenceBiasNote =>
+      'هەرچی لەبەرتە جارێک پێداچوونەوەی بۆ دەکەین، پاشان بەپێی خوێندنەوەکەت ڕێکی دەخەین.';
+
+  @override
+  String get whenMemorizedOptionalLabel => 'کەی ئەمەت لەبەرکرد؟ (ئیختیاری)';
+
+  @override
+  String whenMemorizedSetLabel(String date) {
+    return 'لەبەرکراوە: $date';
+  }
+
+  @override
+  String get whenMemorizedClear => 'سڕینەوە';
+
+  @override
+  String get staleBandThisYear => 'ئەمساڵ';
+
+  @override
+  String get staleBandOneToTwoYears => 'یەک بۆ دوو ساڵ لەمەوبەر';
+
+  @override
+  String get staleBandThreeToFiveYears => '۳ بۆ ۵ ساڵ لەمەوبەر';
+
+  @override
+  String get staleBandMoreThanFiveYears => 'زیاتر لە ۵ ساڵ';
+
+  @override
+  String get onboardingCyclePresetStepTitle => 'خولی پێداچوونەوە';
+
+  @override
+  String get onboardingCyclePresetStepBody =>
+      'ڕیتمێک کە مامۆستاکەت دەیناسێت — هەڵیبژێرە یان دڵخوازی بکە.';
+
+  @override
+  String get dailyBudgetLabel => 'کاتی پێداچوونەوەی ڕۆژانە';
+
+  @override
+  String dailyBudgetMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count خولەک',
+      one: '$count خولەک',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get customFarCycleDays => 'درێژی خول (ڕۆژ)';
+
+  @override
+  String get customNearWindowJuz => 'پەنجەرەی نزیک (جزء)';
+
+  @override
+  String get customNewLinesPerDay => 'دێڕی نوێ لە ڕۆژدا';
+
+  @override
+  String get onboardingPlacementSummary =>
+      'خشتەکەت ئامادەیە — هەرچی لەبەرتە جارێک پێداچوونەوەی بۆ دەکەین، پاشان بەپێی خوێندنەوەکەت ڕێکی دەخەین.';
+
+  @override
+  String get onboardingPlacementError => 'پاشەکەوتکردنی ڕێکخستنەکەت نەکرا.';
+
+  @override
   String get onboardingContinue => 'بەردەوامبوون';
+
+  @override
+  String get onboardingBack => 'گەڕانەوە';
+
+  @override
+  String get onboardingWelcomeIntent =>
+      'ئەم ئەپە دیارییەکی بەخۆڕاییە، سەدەقەیەکی بەردەوام، بۆ یارمەتیدانت لە پاراستنی ئەوەی لەبەرت کردووە.';
+
+  @override
+  String get onboardingWelcomePrivacyNoAccount =>
+      'بەبێ هەژمار و بەبێ چوونەژوورەوە.';
+
+  @override
+  String get onboardingWelcomePrivacyNoMic =>
+      'دەنگت تۆمار ناکات و مایکرۆفۆنی نییە.';
+
+  @override
+  String get onboardingWelcomePrivacyOnDevice =>
+      'هیچ شتێک دەربارەی تۆ ئەم ئامێرە بەجێناهێڵێت.';
+
+  @override
+  String get onboardingWelcomePrivacyOfflineAfter =>
+      'بەبێ ئینتەرنێت کار دەکات؛ دەتوانیت لە دۆخی فڕیندا بیهێڵیتەوە.';
+
+  @override
+  String get onboardingWelcomeServant =>
+      'یارمەتیدەری پێداچوونەوەتە و خزمەتکاری مامۆستاکەتە، نە جێگرەوەی تەلەقین و نە فەتوا.';
+
+  @override
+  String get onboardingLanguageStepTitle => 'زمانی ئەپ';
+
+  @override
+  String get onboardingLanguageStepBody =>
+      'دەستبەجێ لە شاشەکانی ڕێکخستندا دەردەکەوێت.';
+
+  @override
+  String get languageNameFa => 'فارسی';
+
+  @override
+  String get languageNameCkb => 'کوردیی ناوەندی';
+
+  @override
+  String get languageNameAr => 'العربية';
+
+  @override
+  String get onboardingRiwayahStepTitle => 'موسحەف';
+
+  @override
+  String get onboardingRiwayahStepBody =>
+      'ئەمە موسحەفی پاڵپشتکراوە؛ دواتر لە ڕێکخستنەکان دەگۆڕدرێت. خشتەکە بە دەقێکی دیاریکراوەوە نووساو نییە.';
+
+  @override
+  String get onboardingCorePreparingTitle => 'ئامادەکردنی موسحەف';
+
+  @override
+  String get onboardingCorePreparingBody =>
+      'فایلەکانی موسحەفی پاڵپشتکراو پشکنین دەکرێن.';
+
+  @override
+  String get onboardingCoreReadyTitle => 'موسحەف ئامادەیە';
+
+  @override
+  String get onboardingCoreReadyBody =>
+      'ئێستا هەموو شتێک لەسەر ئامێرەکەتە؛ لە دۆخی فڕیندا کار دەکات.';
+
+  @override
+  String get onboardingCoreIntegrityFailureTitle =>
+      'پشتڕاستکردنەوەی موسحەف نەکرا';
+
+  @override
+  String get onboardingCoreIntegrityFailureBody =>
+      'فایلەکانی موسحەف یەک ناگرنەوە، بۆیە بۆ پاراستنی وردی، دەقەکە پیشان نادرێت.';
 
   @override
   String get onboardingDone => 'تەواو';
