@@ -394,6 +394,14 @@
   "@customNewLinesPerDay": {
     "description": "Custom-cycle field: new lines introduced per day. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
   },
+  "onboardingPlacementSummary": "جدولك جاهز — سنراجع كل ما تحفظه مرّة، ثم نضبط حسب تلاوتك.",
+  "@onboardingPlacementSummary": {
+    "description": "The calm placement-commit summary (C-009): the schedule is ready; we revise everything once, then adjust. NOT a celebration — no streak/badge/%/readiness verdict. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "onboardingPlacementError": "تعذّر حفظ إعدادك.",
+  "@onboardingPlacementError": {
+    "description": "Calm, non-blaming message when the placement commit fails (nothing was saved); paired with a Retry. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
   "onboardingContinue": "متابعة",
   "@onboardingContinue": {
     "description": "Button advancing from coverage capture to the confidence step. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."

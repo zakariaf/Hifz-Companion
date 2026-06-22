@@ -517,6 +517,18 @@ abstract class AppLocalizations {
   /// **'أسطر جديدة يومياً'**
   String get customNewLinesPerDay;
 
+  /// The calm placement-commit summary (C-009): the schedule is ready; we revise everything once, then adjust. NOT a celebration — no streak/badge/%/readiness verdict. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'جدولك جاهز — سنراجع كل ما تحفظه مرّة، ثم نضبط حسب تلاوتك.'**
+  String get onboardingPlacementSummary;
+
+  /// Calm, non-blaming message when the placement commit fails (nothing was saved); paired with a Retry. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذّر حفظ إعدادك.'**
+  String get onboardingPlacementError;
+
   /// Button advancing from coverage capture to the confidence step. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///
   /// In ar, this message translates to:

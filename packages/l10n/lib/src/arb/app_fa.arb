@@ -69,6 +69,8 @@
   "customFarCycleDays": "طول دوره (روز)",
   "customNearWindowJuz": "پنجرهٔ نزدیک (جزء)",
   "customNewLinesPerDay": "سطرهای تازه در روز",
+  "onboardingPlacementSummary": "برنامهٔ شما آماده است — هر آنچه از بر دارید را یک‌بار مرور می‌کنیم، سپس بر پایهٔ تلاوتتان تنظیم می‌کنیم.",
+  "onboardingPlacementError": "ذخیرهٔ تنظیمات ممکن نشد.",
   "onboardingContinue": "ادامه",
   "onboardingBack": "بازگشت",
   "onboardingWelcomeIntent": "این برنامه هدیه‌ای رایگان است، صدقه‌ای جاری، تا در نگه‌داشتِ آنچه از بر کرده‌اید یاری‌تان کند.",

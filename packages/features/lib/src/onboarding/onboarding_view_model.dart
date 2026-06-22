@@ -7,9 +7,11 @@ import 'package:composition/composition.dart';
 import 'package:engine/engine.dart' show CalendarDate, JuzConfidence;
 import 'package:flutter/foundation.dart' show immutable, mapEquals, setEquals;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:models/models.dart' show ProfileId;
+import 'package:models/models.dart' show ProfileId, ProfileLocale;
 
 import '../design_system/pickers/cycle_preset_picker.dart' show CyclePreset;
+import 'cold_start_seeder.dart' show ColdStartSeeder;
+import 'widgets/custom_cycle_editor.dart' show kDefaultDailyBudgetMinutes;
 
 /// The ordered onboarding step sequence (PRD §12.1). The cursor is finite and
 /// capped — there is no dynamic step injection and no open feed.
@@ -62,6 +64,18 @@ enum CoreSetupPhase {
 
   /// A bundled byte failed its SHA-256 — fail-closed; refuse to render text.
   integrityFailure,
+}
+
+/// The state of the final placement commit (E11-T09).
+enum PlacementStatus {
+  /// Still capturing — the commit has not run.
+  capturing,
+
+  /// The seed is committing through the single write path.
+  committing,
+
+  /// The commit failed; the summary offers a calm retry (nothing republished).
+  failed,
 }
 
 /// The four bounded fields a Custom cycle carries (E11-T08). Each maps 1:1 to an
@@ -132,6 +146,7 @@ class OnboardingState {
     this.pureCycleMode = false,
     this.customCycle,
     this.dailyBudgetMinutes,
+    this.placement = PlacementStatus.capturing,
   });
 
   /// The current step.
@@ -168,6 +183,9 @@ class OnboardingState {
   /// The daily revision time budget in minutes, or null until set.
   final int? dailyBudgetMinutes;
 
+  /// The placement-commit status (E11-T09).
+  final PlacementStatus placement;
+
   /// Whether every held juz has a confidence pick (the gate to leave coverage).
   bool get everyHeldJuzRated =>
       coverage.isNotEmpty && coverage.every(confidence.containsKey);
@@ -185,6 +203,7 @@ class OnboardingState {
     bool? pureCycleMode,
     CustomCycleConfig? customCycle,
     int? dailyBudgetMinutes,
+    PlacementStatus? placement,
   }) =>
       OnboardingState(
         cursor: cursor ?? this.cursor,
@@ -198,6 +217,7 @@ class OnboardingState {
         pureCycleMode: pureCycleMode ?? this.pureCycleMode,
         customCycle: customCycle ?? this.customCycle,
         dailyBudgetMinutes: dailyBudgetMinutes ?? this.dailyBudgetMinutes,
+        placement: placement ?? this.placement,
       );
 
   @override
@@ -213,7 +233,8 @@ class OnboardingState {
       other.cyclePreset == cyclePreset &&
       other.pureCycleMode == pureCycleMode &&
       other.customCycle == customCycle &&
-      other.dailyBudgetMinutes == dailyBudgetMinutes;
+      other.dailyBudgetMinutes == dailyBudgetMinutes &&
+      other.placement == placement;
 
   @override
   int get hashCode => Object.hash(
@@ -227,8 +248,59 @@ class OnboardingState {
         Object.hashAllUnordered(memorizedOn.keys),
         Object.hashAllUnordered(memorizedOn.values),
         cyclePreset,
-        Object.hash(pureCycleMode, customCycle, dailyBudgetMinutes),
+        Object.hash(
+          pureCycleMode,
+          customCycle,
+          dailyBudgetMinutes,
+          placement,
+        ),
       );
+}
+
+/// The complete, immutable input to the placement commit (E11-T09), assembled
+/// from the captured [OnboardingState] + the injected `today`. It carries no
+/// `DateTime` and no seeded `(D, S)` — only the user's captured self-report.
+@immutable
+class PlacementInput {
+  /// Creates the placement input.
+  const PlacementInput({
+    required this.coverage,
+    required this.confidence,
+    required this.memorizedOn,
+    required this.cyclePreset,
+    required this.pureCycleMode,
+    required this.customCycle,
+    required this.dailyBudgetMinutes,
+    required this.locale,
+    required this.today,
+  });
+
+  /// The held juz (1–30).
+  final Set<int> coverage;
+
+  /// Per-held-juz confidence.
+  final Map<int, JuzConfidence> confidence;
+
+  /// Optional per-held-juz "when memorized" dates.
+  final Map<int, CalendarDate> memorizedOn;
+
+  /// The named cycle preset.
+  final CyclePreset cyclePreset;
+
+  /// Whether Pure-cycle mode is on.
+  final bool pureCycleMode;
+
+  /// The four bounded Custom fields (used only when [cyclePreset] is custom).
+  final CustomCycleConfig? customCycle;
+
+  /// The daily revision time budget in minutes.
+  final int dailyBudgetMinutes;
+
+  /// The profile's locale (from the captured UI locale).
+  final ProfileLocale locale;
+
+  /// The injected scheduling "today" — every seeded card is due now.
+  final CalendarDate today;
 }
 
 /// The injected one-time core-preparation action (E11-T04). It returns the
@@ -244,6 +316,19 @@ final coreSetupActionProvider = Provider<Future<CoreSetupPhase> Function()>(
     'the live installCorePack adapter (E05) or a test fake.',
   ),
 );
+
+/// The cold-start seed orchestration, wired from the composition seams (the
+/// reference read + the cold-start write path + the pure engine). The placement
+/// commit (E11-T09) routes through it; the capture controller never writes
+/// directly. Tests override it with a recording/fault-injecting fake.
+final coldStartSeederProvider = Provider<ColdStartSeeder>((ref) {
+  final persistence = ref.watch(persistenceProvider);
+  return ColdStartSeeder(
+    reference: persistence.reference,
+    coldStart: persistence.coldStart,
+    engine: ref.watch(engineProvider),
+  );
+});
 
 /// The resume-safe onboarding capture controller (E11-T01).
 ///
@@ -389,6 +474,46 @@ class OnboardingController extends Notifier<OnboardingState> {
     final i = state.cursor.index;
     if (i > 0) state = state.copyWith(cursor: OnboardingStep.values[i - 1]);
   }
+
+  /// The placement commit + first-day handoff (E11-T09): commits the captured
+  /// placement through the single write path and, **only after** the durable
+  /// commit resolves, flips the active profile so the router resolves the first
+  /// generated day (the normal Today stream re-emits over the committed cards).
+  /// Persist strictly precedes republish; a failed commit republishes nothing
+  /// (a calm [PlacementStatus.failed] retry state), and a kill mid-flow leaves
+  /// no half-seeded state (the `seedColdStart` transaction rolls back).
+  Future<void> commitAndBuildFirstDay() async {
+    state = state.copyWith(placement: PlacementStatus.committing);
+    try {
+      final id = await ref
+          .read(coldStartSeederProvider)
+          .commitPlacement(_placementInput());
+      ref.read(activeProfileProvider.notifier).select(id);
+    } on Object {
+      state = state.copyWith(placement: PlacementStatus.failed);
+    }
+  }
+
+  PlacementInput _placementInput() => PlacementInput(
+        coverage: state.coverage,
+        confidence: state.confidence,
+        memorizedOn: state.memorizedOn,
+        // A sensible named default if the user left the preset/budget untouched.
+        cyclePreset: state.cyclePreset ?? CyclePreset.weeklyKhatm,
+        pureCycleMode: state.pureCycleMode,
+        customCycle: state.customCycle,
+        dailyBudgetMinutes:
+            state.dailyBudgetMinutes ?? kDefaultDailyBudgetMinutes,
+        locale: _profileLocaleFor(state.locale),
+        today: today,
+      );
+
+  static ProfileLocale _profileLocaleFor(Locale? locale) =>
+      switch (locale?.languageCode) {
+        'ar' => ProfileLocale.ar,
+        'ckb' => ProfileLocale.ckb,
+        _ => ProfileLocale.fa,
+      };
 
   bool _canLeave(OnboardingStep step) => switch (step) {
         OnboardingStep.welcomePrivacy => true,

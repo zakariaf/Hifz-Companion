@@ -15,6 +15,7 @@ import 'widgets/coverage_capture_grid.dart';
 import 'widgets/cycle_preset_step.dart';
 import 'widgets/language_step.dart';
 import 'widgets/onboarding_chrome.dart';
+import 'widgets/placement_summary_step.dart';
 import 'widgets/riwayah_step.dart';
 import 'widgets/welcome_step.dart';
 
@@ -122,18 +123,9 @@ class OnboardingScreen extends ConsumerWidget {
             onBudgetChanged: controller.setDailyBudget,
             onCustomChanged: controller.setCustomCycle,
           ),
-        OnboardingStep.done => const _StepHost(OnboardingStep.done),
+        OnboardingStep.done => PlacementSummaryStep(
+            status: state.placement,
+            onCommit: controller.commitAndBuildFirstDay,
+          ),
       };
-}
-
-/// A keyed, contentless placeholder for a step whose View is built by a sibling
-/// task (E11-T02…T09). It renders no user-facing literal.
-class _StepHost extends StatelessWidget {
-  const _StepHost(this.step);
-
-  final OnboardingStep step;
-
-  @override
-  Widget build(BuildContext context) =>
-      SizedBox.expand(key: ValueKey<String>('onboarding.step.${step.name}'));
 }

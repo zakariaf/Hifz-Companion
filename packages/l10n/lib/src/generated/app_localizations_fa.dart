@@ -388,6 +388,13 @@ class AppLocalizationsFa extends AppLocalizations {
   String get customNewLinesPerDay => 'سطرهای تازه در روز';
 
   @override
+  String get onboardingPlacementSummary =>
+      'برنامهٔ شما آماده است — هر آنچه از بر دارید را یک‌بار مرور می‌کنیم، سپس بر پایهٔ تلاوتتان تنظیم می‌کنیم.';
+
+  @override
+  String get onboardingPlacementError => 'ذخیرهٔ تنظیمات ممکن نشد.';
+
+  @override
   String get onboardingContinue => 'ادامه';
 
   @override

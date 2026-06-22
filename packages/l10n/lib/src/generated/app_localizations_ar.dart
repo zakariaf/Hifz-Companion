@@ -402,6 +402,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get customNewLinesPerDay => 'أسطر جديدة يومياً';
 
   @override
+  String get onboardingPlacementSummary =>
+      'جدولك جاهز — سنراجع كل ما تحفظه مرّة، ثم نضبط حسب تلاوتك.';
+
+  @override
+  String get onboardingPlacementError => 'تعذّر حفظ إعدادك.';
+
+  @override
   String get onboardingContinue => 'متابعة';
 
   @override

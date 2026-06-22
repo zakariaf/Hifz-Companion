@@ -389,6 +389,13 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get customNewLinesPerDay => 'دێڕی نوێ لە ڕۆژدا';
 
   @override
+  String get onboardingPlacementSummary =>
+      'خشتەکەت ئامادەیە — هەرچی لەبەرتە جارێک پێداچوونەوەی بۆ دەکەین، پاشان بەپێی خوێندنەوەکەت ڕێکی دەخەین.';
+
+  @override
+  String get onboardingPlacementError => 'پاشەکەوتکردنی ڕێکخستنەکەت نەکرا.';
+
+  @override
   String get onboardingContinue => 'بەردەوامبوون';
 
   @override

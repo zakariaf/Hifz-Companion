@@ -1,11 +1,9 @@
 // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import 'package:composition/composition.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:models/models.dart' show ProfileId;
 
-import 'cold_start_seeder.dart';
 import 'onboarding_view_model.dart';
 
 /// The resume-safe onboarding capture controller, keyed by the active
@@ -18,15 +16,3 @@ final onboardingControllerProvider = NotifierProvider.autoDispose
     .family<OnboardingController, OnboardingState, ProfileId?>(
   OnboardingController.new,
 );
-
-/// The cold-start seed orchestration, wired from the composition seams (the
-/// reference read + the cold-start write path + the pure engine). The placement
-/// commit (E11-T09) routes through it; the capture controller never writes.
-final coldStartSeederProvider = Provider<ColdStartSeeder>((ref) {
-  final persistence = ref.watch(persistenceProvider);
-  return ColdStartSeeder(
-    reference: persistence.reference,
-    coldStart: persistence.coldStart,
-    engine: ref.watch(engineProvider),
-  );
-});

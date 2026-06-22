@@ -69,6 +69,8 @@
   "customFarCycleDays": "درێژی خول (ڕۆژ)",
   "customNearWindowJuz": "پەنجەرەی نزیک (جزء)",
   "customNewLinesPerDay": "دێڕی نوێ لە ڕۆژدا",
+  "onboardingPlacementSummary": "خشتەکەت ئامادەیە — هەرچی لەبەرتە جارێک پێداچوونەوەی بۆ دەکەین، پاشان بەپێی خوێندنەوەکەت ڕێکی دەخەین.",
+  "onboardingPlacementError": "پاشەکەوتکردنی ڕێکخستنەکەت نەکرا.",
   "onboardingContinue": "بەردەوامبوون",
   "onboardingBack": "گەڕانەوە",
   "onboardingWelcomeIntent": "ئەم ئەپە دیارییەکی بەخۆڕاییە، سەدەقەیەکی بەردەوام، بۆ یارمەتیدانت لە پاراستنی ئەوەی لەبەرت کردووە.",
