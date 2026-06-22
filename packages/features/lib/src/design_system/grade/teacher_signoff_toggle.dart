@@ -4,8 +4,6 @@
 import 'package:flutter/material.dart';
 import 'package:l10n/l10n.dart';
 
-import '../theme/spacing_tokens.dart';
-
 /// The on-device teacher (talaqqī) sign-off toggle (design-system 07 §7) — a
 /// labelled `Switch.adaptive` ("Teacher present"), **off by default**, with
 /// autonomy-supportive copy ("for your teacher to confirm").
@@ -31,35 +29,20 @@ class TeacherSignoffToggle extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final scheme = Theme.of(context).colorScheme;
-    final space = Theme.of(context).extension<SpacingTokens>()!;
     final text = Theme.of(context).textTheme;
 
-    return MergeSemantics(
-      child: ConstrainedBox(
-        constraints: BoxConstraints(minHeight: space.space8),
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(l10n.teacherSignoffLabel, style: text.titleMedium),
-                  SizedBox(height: space.space1),
-                  Text(
-                    l10n.teacherSignoffSupporting,
-                    style: text.bodySmall
-                        ?.copyWith(color: scheme.onSurfaceVariant),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(width: space.space3),
-            // The Switch is non-directional and never mirrored.
-            Switch.adaptive(value: teacherPresent, onChanged: onChanged),
-          ],
-        ),
+    // A `SwitchListTile` (not a custom Row + `MergeSemantics`) so the WHOLE row
+    // is one ≥48dp tap target with correct merged semantics — a screen-reader
+    // double-tap toggles it (the Switch is non-directional, never mirrored).
+    return SwitchListTile.adaptive(
+      value: teacherPresent,
+      onChanged: onChanged,
+      title: Text(l10n.teacherSignoffLabel, style: text.titleMedium),
+      subtitle: Text(
+        l10n.teacherSignoffSupporting,
+        style: text.bodySmall?.copyWith(color: scheme.onSurfaceVariant),
       ),
+      contentPadding: EdgeInsets.zero,
     );
   }
 }

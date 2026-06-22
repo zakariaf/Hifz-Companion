@@ -87,40 +87,20 @@ class CyclePresetPicker extends StatelessWidget {
           onSelected: onPresetSelected,
         ),
         SizedBox(height: space.space3),
-        // The Pure-cycle fidelity toggle — mirrors the teacher-toggle treatment.
-        MergeSemantics(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: space.space8),
-            child: Padding(
-              padding: EdgeInsetsDirectional.symmetric(
-                horizontal: space.space4,
-                vertical: space.space2,
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(pureCycleLabel, style: text.titleMedium),
-                        SizedBox(height: space.space1),
-                        Text(
-                          pureCycleSubtitle,
-                          style: text.bodySmall
-                              ?.copyWith(color: scheme.onSurfaceVariant),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: space.space3),
-                  Switch.adaptive(
-                    value: pureCycleEnabled,
-                    onChanged: onPureCycleChanged,
-                  ),
-                ],
-              ),
-            ),
+        // The Pure-cycle fidelity toggle — a `SwitchListTile` so the whole row
+        // is one tap target with correct merged semantics (a screen-reader
+        // double-tap toggles it); mirrors the teacher-toggle treatment.
+        SwitchListTile.adaptive(
+          value: pureCycleEnabled,
+          onChanged: onPureCycleChanged,
+          title: Text(pureCycleLabel, style: text.titleMedium),
+          subtitle: Text(
+            pureCycleSubtitle,
+            style: text.bodySmall?.copyWith(color: scheme.onSurfaceVariant),
+          ),
+          contentPadding: EdgeInsetsDirectional.symmetric(
+            horizontal: space.space4,
+            vertical: space.space2,
           ),
         ),
       ],

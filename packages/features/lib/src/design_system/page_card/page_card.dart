@@ -77,6 +77,9 @@ class MihrabPageCard extends StatelessWidget {
 
     return MergeSemantics(
       child: MihrabFocusRing(
+        // Match the card's corner radius so the focus ring aligns with it.
+        borderRadius:
+            BorderRadiusDirectional.all(Radius.circular(space.space3)),
         child: Card(
           elevation: 0,
           color: surface,
