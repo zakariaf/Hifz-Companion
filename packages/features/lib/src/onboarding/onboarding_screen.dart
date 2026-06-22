@@ -9,7 +9,7 @@ import '../design_system/theme/spacing_tokens.dart';
 import 'onboarding_providers.dart';
 import 'onboarding_view_model.dart';
 import 'widgets/core_setup_step.dart';
-import 'widgets/coverage_grid.dart';
+import 'widgets/coverage_capture_grid.dart';
 import 'widgets/juz_confidence_rater.dart';
 import 'widgets/language_step.dart';
 import 'widgets/onboarding_chrome.dart';
@@ -95,7 +95,7 @@ class OnboardingScreen extends ConsumerWidget {
             phase: state.coreSetupPhase,
             onRun: controller.runCoreSetup,
           ),
-        OnboardingStep.coverage => CoverageGrid(
+        OnboardingStep.coverage => CoverageCaptureGrid(
             heldJuz: state.coverage,
             onToggle: controller.toggleJuz,
           ),

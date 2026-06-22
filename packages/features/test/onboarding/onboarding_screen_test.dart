@@ -7,7 +7,7 @@
 // so any data read would throw the un-overridden placeholder).
 
 import 'package:features/features.dart';
-import 'package:features/src/onboarding/widgets/coverage_grid.dart';
+import 'package:features/src/onboarding/widgets/coverage_capture_grid.dart';
 import 'package:features/src/onboarding/widgets/language_step.dart';
 import 'package:features/src/onboarding/widgets/welcome_step.dart';
 import 'package:flutter/material.dart';
@@ -85,14 +85,14 @@ void main() {
       ..setCoreSetupPhase(CoreSetupPhase.ready)
       ..next();
     await t.pumpAndSettle();
-    expect(find.byType(CoverageGrid), findsOneWidget);
+    expect(find.byType(CoverageCaptureGrid), findsOneWidget);
     expect(continueEnabled(t, l10n.onboardingContinue), isFalse);
 
     // Tapping a cell drives the controller (no local copy) and enables Continue.
     await t.tap(
       find
           .descendant(
-            of: find.byType(CoverageGrid),
+            of: find.byType(CoverageCaptureGrid),
             matching: find.byType(InkWell),
           )
           .first,
