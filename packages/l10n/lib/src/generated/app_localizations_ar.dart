@@ -345,6 +345,29 @@ class AppLocalizationsAr extends AppLocalizations {
       'سنراجع كل ما تحفظه مرّة، ثم نضبط حسب تلاوتك.';
 
   @override
+  String get whenMemorizedOptionalLabel => 'متى حفظته؟ (اختياري)';
+
+  @override
+  String whenMemorizedSetLabel(String date) {
+    return 'حُفظ: $date';
+  }
+
+  @override
+  String get whenMemorizedClear => 'مسح';
+
+  @override
+  String get staleBandThisYear => 'هذا العام';
+
+  @override
+  String get staleBandOneToTwoYears => 'قبل سنة أو سنتين';
+
+  @override
+  String get staleBandThreeToFiveYears => 'قبل ٣ إلى ٥ سنوات';
+
+  @override
+  String get staleBandMoreThanFiveYears => 'أكثر من ٥ سنوات';
+
+  @override
   String get onboardingContinue => 'متابعة';
 
   @override

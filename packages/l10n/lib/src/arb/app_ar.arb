@@ -328,6 +328,39 @@
   "@confidenceBiasNote": {
     "description": "Calm conservative-bias note (C-009) shown at the foot of the confidence step — we revise everything once, then adjust to your recitation. Carries NO readiness number, no seeded D/S/R, no percentage. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
   },
+  "whenMemorizedOptionalLabel": "متى حفظته؟ (اختياري)",
+  "@whenMemorizedOptionalLabel": {
+    "description": "Optional 'when memorized' invitation under a juz confidence row — genuinely skippable, never a required field or a nag (E11-T07). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "whenMemorizedSetLabel": "حُفظ: {date}",
+  "@whenMemorizedSetLabel": {
+    "description": "Shows the chosen 'when memorized' date. {date} arrives ALREADY converted to the user's calendar and digit-remapped + bidi-isolated (CalendarPresenter) — never concatenated/re-formatted here. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "whenMemorizedClear": "مسح",
+  "@whenMemorizedClear": {
+    "description": "Clears the optional 'when memorized' date back to the skipped state. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "staleBandThisYear": "هذا العام",
+  "@staleBandThisYear": {
+    "description": "Coarse 'when memorized' band: within this year. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "staleBandOneToTwoYears": "قبل سنة أو سنتين",
+  "@staleBandOneToTwoYears": {
+    "description": "Coarse 'when memorized' band: about one to two years ago. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "staleBandThreeToFiveYears": "قبل ٣ إلى ٥ سنوات",
+  "@staleBandThreeToFiveYears": {
+    "description": "Coarse 'when memorized' band: about three to five years ago (digits in the locale numeral set). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "staleBandMoreThanFiveYears": "أكثر من ٥ سنوات",
+  "@staleBandMoreThanFiveYears": {
+    "description": "Coarse 'when memorized' band: more than five years ago (digits in the locale numeral set). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
   "onboardingContinue": "متابعة",
   "@onboardingContinue": {
     "description": "Button advancing from coverage capture to the confidence step. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."

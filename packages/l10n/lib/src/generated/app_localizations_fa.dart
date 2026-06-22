@@ -335,6 +335,29 @@ class AppLocalizationsFa extends AppLocalizations {
       'هر آنچه از بر دارید را یک‌بار مرور می‌کنیم، سپس بر پایهٔ تلاوتتان تنظیم می‌کنیم.';
 
   @override
+  String get whenMemorizedOptionalLabel => 'کِی این را حفظ کردید؟ (اختیاری)';
+
+  @override
+  String whenMemorizedSetLabel(String date) {
+    return 'حفظ‌شده: $date';
+  }
+
+  @override
+  String get whenMemorizedClear => 'پاک‌کردن';
+
+  @override
+  String get staleBandThisYear => 'امسال';
+
+  @override
+  String get staleBandOneToTwoYears => 'یک تا دو سال پیش';
+
+  @override
+  String get staleBandThreeToFiveYears => '۳ تا ۵ سال پیش';
+
+  @override
+  String get staleBandMoreThanFiveYears => 'بیش از ۵ سال پیش';
+
+  @override
   String get onboardingContinue => 'ادامه';
 
   @override

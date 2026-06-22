@@ -1,11 +1,12 @@
 // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import 'package:engine/engine.dart' show JuzConfidence;
+import 'package:engine/engine.dart' show CalendarDate, JuzConfidence;
 import 'package:flutter/material.dart';
 import 'package:l10n/l10n.dart';
 
 import '../../design_system/theme/spacing_tokens.dart';
+import 'when_memorized_input.dart';
 
 /// The per-juz confidence rater (E11-T06): for each **held** juz (in muṣḥaf
 /// order), one mutually-exclusive Solid / Shaky / Rusty self-report pick. The
@@ -25,6 +26,11 @@ class ConfidenceStep extends StatelessWidget {
     required this.heldJuz,
     required this.confidence,
     required this.onPick,
+    required this.memorizedOn,
+    required this.today,
+    required this.calendarSystem,
+    required this.onSetMemorized,
+    required this.onClearMemorized,
     super.key,
   });
 
@@ -36,6 +42,21 @@ class ConfidenceStep extends StatelessWidget {
 
   /// Called when a juz's confidence is picked.
   final void Function(int juz, JuzConfidence confidence) onPick;
+
+  /// The optional per-juz "when memorized" dates (E11-T07).
+  final Map<int, CalendarDate> memorizedOn;
+
+  /// The injected "today" used to resolve a coarse "when memorized" band.
+  final CalendarDate today;
+
+  /// The explicit calendar the stored "when memorized" date is displayed in.
+  final CalendarSystem calendarSystem;
+
+  /// Called with the resolved "when memorized" date for a juz.
+  final void Function(int juz, CalendarDate date) onSetMemorized;
+
+  /// Called to clear a juz's "when memorized" date back to skipped.
+  final void Function(int juz) onClearMemorized;
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +126,15 @@ class ConfidenceStep extends StatelessWidget {
               onSelectionChanged: (selection) {
                 if (selection.isNotEmpty) onPick(juz, selection.first);
               },
+            ),
+            // The optional "when memorized" date sits beneath the rater (E11-T07).
+            WhenMemorizedInput(
+              juz: juz,
+              value: memorizedOn[juz],
+              today: today,
+              calendarSystem: calendarSystem,
+              onSet: onSetMemorized,
+              onClear: onClearMemorized,
             ),
           ],
         );

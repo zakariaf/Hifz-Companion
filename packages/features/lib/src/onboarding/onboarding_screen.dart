@@ -4,6 +4,7 @@
 import 'package:composition/composition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:l10n/l10n.dart' show kDefaultCalendarSystem;
 
 import '../design_system/theme/spacing_tokens.dart';
 import 'onboarding_providers.dart';
@@ -103,6 +104,11 @@ class OnboardingScreen extends ConsumerWidget {
             heldJuz: state.coverage,
             confidence: state.confidence,
             onPick: controller.setJuzConfidence,
+            memorizedOn: state.memorizedOn,
+            today: controller.today,
+            calendarSystem: kDefaultCalendarSystem,
+            onSetMemorized: controller.setMemorizedOn,
+            onClearMemorized: controller.clearMemorizedOn,
           ),
         OnboardingStep.cyclePreset =>
           const _StepHost(OnboardingStep.cyclePreset),

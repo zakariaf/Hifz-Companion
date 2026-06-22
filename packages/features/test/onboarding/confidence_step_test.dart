@@ -6,7 +6,7 @@
 // is load-bearing: no D/S/R, no interval, no readiness % ever renders; the View
 // passes JuzConfidence only and seeds nothing.
 
-import 'package:engine/engine.dart' show JuzConfidence;
+import 'package:engine/engine.dart' show CalendarDate, JuzConfidence;
 import 'package:features/features.dart';
 import 'package:features/src/onboarding/widgets/confidence_step.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +38,11 @@ void main() {
             heldJuz: held,
             confidence: confidence,
             onPick: onPick ?? (_, __) {},
+            memorizedOn: const {},
+            today: CalendarDate.ymd(2026, 6, 22),
+            calendarSystem: kDefaultCalendarSystem,
+            onSetMemorized: (_, __) {},
+            onClearMemorized: (_) {},
           ),
         ),
       ),

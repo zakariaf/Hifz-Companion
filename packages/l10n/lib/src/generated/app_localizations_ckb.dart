@@ -336,6 +336,29 @@ class AppLocalizationsCkb extends AppLocalizations {
       'هەرچی لەبەرتە جارێک پێداچوونەوەی بۆ دەکەین، پاشان بەپێی خوێندنەوەکەت ڕێکی دەخەین.';
 
   @override
+  String get whenMemorizedOptionalLabel => 'کەی ئەمەت لەبەرکرد؟ (ئیختیاری)';
+
+  @override
+  String whenMemorizedSetLabel(String date) {
+    return 'لەبەرکراوە: $date';
+  }
+
+  @override
+  String get whenMemorizedClear => 'سڕینەوە';
+
+  @override
+  String get staleBandThisYear => 'ئەمساڵ';
+
+  @override
+  String get staleBandOneToTwoYears => 'یەک بۆ دوو ساڵ لەمەوبەر';
+
+  @override
+  String get staleBandThreeToFiveYears => '۳ بۆ ۵ ساڵ لەمەوبەر';
+
+  @override
+  String get staleBandMoreThanFiveYears => 'زیاتر لە ۵ ساڵ';
+
+  @override
   String get onboardingContinue => 'بەردەوامبوون';
 
   @override

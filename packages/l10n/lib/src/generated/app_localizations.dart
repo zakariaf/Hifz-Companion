@@ -433,6 +433,48 @@ abstract class AppLocalizations {
   /// **'سنراجع كل ما تحفظه مرّة، ثم نضبط حسب تلاوتك.'**
   String get confidenceBiasNote;
 
+  /// Optional 'when memorized' invitation under a juz confidence row — genuinely skippable, never a required field or a nag (E11-T07). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'متى حفظته؟ (اختياري)'**
+  String get whenMemorizedOptionalLabel;
+
+  /// Shows the chosen 'when memorized' date. {date} arrives ALREADY converted to the user's calendar and digit-remapped + bidi-isolated (CalendarPresenter) — never concatenated/re-formatted here. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'حُفظ: {date}'**
+  String whenMemorizedSetLabel(String date);
+
+  /// Clears the optional 'when memorized' date back to the skipped state. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'مسح'**
+  String get whenMemorizedClear;
+
+  /// Coarse 'when memorized' band: within this year. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا العام'**
+  String get staleBandThisYear;
+
+  /// Coarse 'when memorized' band: about one to two years ago. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'قبل سنة أو سنتين'**
+  String get staleBandOneToTwoYears;
+
+  /// Coarse 'when memorized' band: about three to five years ago (digits in the locale numeral set). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'قبل ٣ إلى ٥ سنوات'**
+  String get staleBandThreeToFiveYears;
+
+  /// Coarse 'when memorized' band: more than five years ago (digits in the locale numeral set). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'أكثر من ٥ سنوات'**
+  String get staleBandMoreThanFiveYears;
+
   /// Button advancing from coverage capture to the confidence step. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///
   /// In ar, this message translates to:
