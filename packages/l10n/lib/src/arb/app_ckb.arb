@@ -100,5 +100,18 @@
   "catchUpDefer": "دواتر",
   "emptyFirstRunBody": "دوای دەستپێکردن، پێداچوونەوەکەت لێرە دەردەکەوێت",
   "emptyFirstRunAction": "دەستپێبکە",
-  "emptyAllDone": "پێداچوونەوەی ئەمڕۆ تەواوبوو"
+  "emptyAllDone": "پێداچوونەوەی ئەمڕۆ تەواوبوو",
+  "reminderToggleLabel": "بیرخستنەوەی ڕۆژانە",
+  "reminderTimeLabel": "کاتی بیرخستنەوە",
+  "reminderCatchUpNoteLabel": "تێبینییەکی هێمن کاتێک چەند ڕۆژێک تێدەپەڕێت",
+  "reminderHonestLine": "بیرخستنەوەیەکی بێلایەن لە کاتێکدا کە خۆت هەڵیدەبژێریت؛ هەر کاتێک بتەوێت بێدەنگی بکە — هیچ نانێردرێت",
+  "destructiveKeepData": "داتاکانم بهێڵەرەوە",
+  "destructiveEraseAllConsequence": "ئەمە هەموو تۆمارەکانی حیفز بۆ هەموو پرۆفایلەکان لەسەر ئەم ئامێرە بۆ هەمیشە دەسڕێتەوە؛ ناگەڕێتەوە، و چونکە هیچ ڕاژەیەک نییە لە هیچ شوێنێکی تردا ناگەڕێتەوە.",
+  "destructiveEraseAllConfirm": "بەردەوامبوون لە سڕینەوە",
+  "destructiveEraseAllSecondConsequence": "دڵنیاکردنەوەی کۆتایی: ئێستا هەموو شتێک بۆ هەمیشە دەسڕێتەوە.",
+  "destructiveEraseAllSecondConfirm": "هەموو شتێک بۆ هەمیشە بسڕەوە",
+  "destructiveWipeProfileConsequence": "ئەمە تۆمارەکانی ئەم پرۆفایلە لەسەر ئەم ئامێرە بۆ هەمیشە دەسڕێتەوە؛ ناگەڕێتەوە.",
+  "destructiveWipeProfileConfirm": "ئەم پرۆفایلە بسڕەوە",
+  "destructiveAbortConsequence": "ئەمە ڕەشنووسی ئێستا فڕێدەدات؛ ناگەڕێتەوە.",
+  "destructiveAbortConfirm": "ڕەشنووس فڕێبدە"
 }

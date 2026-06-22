@@ -708,6 +708,84 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'اكتملت مراجعة اليوم'**
   String get emptyAllDone;
+
+  /// Reminder-row toggle label — a single daily reminder, OFF by default, one tap to opt in / silence (privacy 10 §9–§10). Consumed by E16/E18. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تذكير يومي'**
+  String get reminderToggleLabel;
+
+  /// Reminder-row time-picker label, shown only when the reminder is enabled; the time renders in the user's calendar + locale numerals (T01). Consumed by E16/E18. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'وقت التذكير'**
+  String get reminderTimeLabel;
+
+  /// Reminder-row optional catch-up-note toggle — framed as HELP, never blame ('N days lost'), never a streak (C-042, C-043). Fully optional and silenceable. Consumed by E16/E18. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تنبيه لطيف عند تراكم بضعة أيام'**
+  String get reminderCatchUpNoteLabel;
+
+  /// The one honest local-only line under the reminder row — a neutral reminder, silenceable anytime, nothing sent (no server/push, C-043). Calm, no guilt/fear/loss, no exclamation. Consumed by E16/E18. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تذكير محايد في وقت تختاره؛ يمكنك إسكاته في أي وقت — لا يُرسَل شيء'**
+  String get reminderHonestLine;
+
+  /// The SAFE primary action of the destructive-confirm gate — Cancel / Keep my data (the visually-primary, default-focused button; privacy 10 §9, §11). Never buried. Consumed by E16/E17. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'احتفظ ببياناتي'**
+  String get destructiveKeepData;
+
+  /// Erase-all concrete, irreversible consequence (privacy 10 §8) — what is erased, permanent, nothing recoverable elsewhere (no server). Never a bare 'Are you sure?', never 'you'll lose your hifz' fear-framing. Consumed by E16/E17. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'سيمحو هذا نهائياً جميع سجلات الحفظ لكل الملفات على هذا الجهاز؛ لا يمكن التراجع، ولأنه لا يوجد خادم فلا شيء قابل للاسترجاع في مكان آخر.'**
+  String get destructiveEraseAllConsequence;
+
+  /// Erase-all step-1 destructive trigger (advances to the second deliberate confirm). A plainer secondary affordance in the hard-to-reach top-start corner, never the bright/default button. Consumed by E16/E17. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'متابعة المحو'**
+  String get destructiveEraseAllConfirm;
+
+  /// Erase-all step-2 final consequence — the second deliberate gesture sized to the whole-device blast radius (privacy 10 §11). Consumed by E16/E17. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تأكيد أخير: سيُمحى كل شيء الآن نهائياً.'**
+  String get destructiveEraseAllSecondConsequence;
+
+  /// Erase-all step-2 destructive trigger — fires the confirmed intent only after the second deliberate gesture. Consumed by E16/E17. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'امحُ كل شيء نهائياً'**
+  String get destructiveEraseAllSecondConfirm;
+
+  /// Wipe-single-profile concrete, irreversible consequence (privacy 10 §8). Consumed by E16. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'سيمحو هذا نهائياً سجلات هذا الملف على هذا الجهاز؛ لا يمكن التراجع.'**
+  String get destructiveWipeProfileConsequence;
+
+  /// Wipe-single-profile destructive trigger (one consequence step — minimum gesture for its blast radius). Consumed by E16. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'امحُ هذا الملف'**
+  String get destructiveWipeProfileConfirm;
+
+  /// Abort-and-discard concrete, irreversible consequence (privacy 10 §8). Consumed by E11/E16. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'سيتجاهل هذا المسودة الحالية؛ لا يمكن التراجع.'**
+  String get destructiveAbortConsequence;
+
+  /// Abort-and-discard destructive trigger (one consequence step). Consumed by E11/E16. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تجاهل المسودة'**
+  String get destructiveAbortConfirm;
 }
 
 class _AppLocalizationsDelegate

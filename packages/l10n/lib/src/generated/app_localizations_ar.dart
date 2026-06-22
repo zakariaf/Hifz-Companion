@@ -508,4 +508,48 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get emptyAllDone => 'اكتملت مراجعة اليوم';
+
+  @override
+  String get reminderToggleLabel => 'تذكير يومي';
+
+  @override
+  String get reminderTimeLabel => 'وقت التذكير';
+
+  @override
+  String get reminderCatchUpNoteLabel => 'تنبيه لطيف عند تراكم بضعة أيام';
+
+  @override
+  String get reminderHonestLine =>
+      'تذكير محايد في وقت تختاره؛ يمكنك إسكاته في أي وقت — لا يُرسَل شيء';
+
+  @override
+  String get destructiveKeepData => 'احتفظ ببياناتي';
+
+  @override
+  String get destructiveEraseAllConsequence =>
+      'سيمحو هذا نهائياً جميع سجلات الحفظ لكل الملفات على هذا الجهاز؛ لا يمكن التراجع، ولأنه لا يوجد خادم فلا شيء قابل للاسترجاع في مكان آخر.';
+
+  @override
+  String get destructiveEraseAllConfirm => 'متابعة المحو';
+
+  @override
+  String get destructiveEraseAllSecondConsequence =>
+      'تأكيد أخير: سيُمحى كل شيء الآن نهائياً.';
+
+  @override
+  String get destructiveEraseAllSecondConfirm => 'امحُ كل شيء نهائياً';
+
+  @override
+  String get destructiveWipeProfileConsequence =>
+      'سيمحو هذا نهائياً سجلات هذا الملف على هذا الجهاز؛ لا يمكن التراجع.';
+
+  @override
+  String get destructiveWipeProfileConfirm => 'امحُ هذا الملف';
+
+  @override
+  String get destructiveAbortConsequence =>
+      'سيتجاهل هذا المسودة الحالية؛ لا يمكن التراجع.';
+
+  @override
+  String get destructiveAbortConfirm => 'تجاهل المسودة';
 }

@@ -492,4 +492,49 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get emptyAllDone => 'پێداچوونەوەی ئەمڕۆ تەواوبوو';
+
+  @override
+  String get reminderToggleLabel => 'بیرخستنەوەی ڕۆژانە';
+
+  @override
+  String get reminderTimeLabel => 'کاتی بیرخستنەوە';
+
+  @override
+  String get reminderCatchUpNoteLabel =>
+      'تێبینییەکی هێمن کاتێک چەند ڕۆژێک تێدەپەڕێت';
+
+  @override
+  String get reminderHonestLine =>
+      'بیرخستنەوەیەکی بێلایەن لە کاتێکدا کە خۆت هەڵیدەبژێریت؛ هەر کاتێک بتەوێت بێدەنگی بکە — هیچ نانێردرێت';
+
+  @override
+  String get destructiveKeepData => 'داتاکانم بهێڵەرەوە';
+
+  @override
+  String get destructiveEraseAllConsequence =>
+      'ئەمە هەموو تۆمارەکانی حیفز بۆ هەموو پرۆفایلەکان لەسەر ئەم ئامێرە بۆ هەمیشە دەسڕێتەوە؛ ناگەڕێتەوە، و چونکە هیچ ڕاژەیەک نییە لە هیچ شوێنێکی تردا ناگەڕێتەوە.';
+
+  @override
+  String get destructiveEraseAllConfirm => 'بەردەوامبوون لە سڕینەوە';
+
+  @override
+  String get destructiveEraseAllSecondConsequence =>
+      'دڵنیاکردنەوەی کۆتایی: ئێستا هەموو شتێک بۆ هەمیشە دەسڕێتەوە.';
+
+  @override
+  String get destructiveEraseAllSecondConfirm => 'هەموو شتێک بۆ هەمیشە بسڕەوە';
+
+  @override
+  String get destructiveWipeProfileConsequence =>
+      'ئەمە تۆمارەکانی ئەم پرۆفایلە لەسەر ئەم ئامێرە بۆ هەمیشە دەسڕێتەوە؛ ناگەڕێتەوە.';
+
+  @override
+  String get destructiveWipeProfileConfirm => 'ئەم پرۆفایلە بسڕەوە';
+
+  @override
+  String get destructiveAbortConsequence =>
+      'ئەمە ڕەشنووسی ئێستا فڕێدەدات؛ ناگەڕێتەوە.';
+
+  @override
+  String get destructiveAbortConfirm => 'ڕەشنووس فڕێبدە';
 }

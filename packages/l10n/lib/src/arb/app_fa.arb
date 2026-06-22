@@ -100,5 +100,18 @@
   "catchUpDefer": "بعداً",
   "emptyFirstRunBody": "پس از آغاز، مرور شما اینجا نمایان می‌شود",
   "emptyFirstRunAction": "آغاز",
-  "emptyAllDone": "مرور امروز کامل شد"
+  "emptyAllDone": "مرور امروز کامل شد",
+  "reminderToggleLabel": "یادآوری روزانه",
+  "reminderTimeLabel": "زمان یادآوری",
+  "reminderCatchUpNoteLabel": "یادداشتی آرام وقتی چند روز جمع شود",
+  "reminderHonestLine": "یادآوری بی‌طرف در زمانی که خودت انتخاب می‌کنی؛ هر وقت خواستی خاموشش کن — چیزی ارسال نمی‌شود",
+  "destructiveKeepData": "داده‌هایم را نگه دار",
+  "destructiveEraseAllConsequence": "این کار همهٔ سوابق حفظِ همهٔ نمایه‌ها را روی این دستگاه برای همیشه پاک می‌کند؛ قابل بازگشت نیست و چون سروری وجود ندارد، جایی دیگر قابل بازیابی نیست.",
+  "destructiveEraseAllConfirm": "ادامهٔ پاک‌سازی",
+  "destructiveEraseAllSecondConsequence": "تأیید نهایی: اکنون همه‌چیز برای همیشه پاک می‌شود.",
+  "destructiveEraseAllSecondConfirm": "همه‌چیز را برای همیشه پاک کن",
+  "destructiveWipeProfileConsequence": "این کار سوابق این نمایه را روی این دستگاه برای همیشه پاک می‌کند؛ قابل بازگشت نیست.",
+  "destructiveWipeProfileConfirm": "این نمایه را پاک کن",
+  "destructiveAbortConsequence": "این کار پیش‌نویس فعلی را دور می‌ریزد؛ قابل بازگشت نیست.",
+  "destructiveAbortConfirm": "دور ریختن پیش‌نویس"
 }

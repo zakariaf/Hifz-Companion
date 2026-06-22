@@ -490,4 +490,48 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get emptyAllDone => 'مرور امروز کامل شد';
+
+  @override
+  String get reminderToggleLabel => 'یادآوری روزانه';
+
+  @override
+  String get reminderTimeLabel => 'زمان یادآوری';
+
+  @override
+  String get reminderCatchUpNoteLabel => 'یادداشتی آرام وقتی چند روز جمع شود';
+
+  @override
+  String get reminderHonestLine =>
+      'یادآوری بی‌طرف در زمانی که خودت انتخاب می‌کنی؛ هر وقت خواستی خاموشش کن — چیزی ارسال نمی‌شود';
+
+  @override
+  String get destructiveKeepData => 'داده‌هایم را نگه دار';
+
+  @override
+  String get destructiveEraseAllConsequence =>
+      'این کار همهٔ سوابق حفظِ همهٔ نمایه‌ها را روی این دستگاه برای همیشه پاک می‌کند؛ قابل بازگشت نیست و چون سروری وجود ندارد، جایی دیگر قابل بازیابی نیست.';
+
+  @override
+  String get destructiveEraseAllConfirm => 'ادامهٔ پاک‌سازی';
+
+  @override
+  String get destructiveEraseAllSecondConsequence =>
+      'تأیید نهایی: اکنون همه‌چیز برای همیشه پاک می‌شود.';
+
+  @override
+  String get destructiveEraseAllSecondConfirm => 'همه‌چیز را برای همیشه پاک کن';
+
+  @override
+  String get destructiveWipeProfileConsequence =>
+      'این کار سوابق این نمایه را روی این دستگاه برای همیشه پاک می‌کند؛ قابل بازگشت نیست.';
+
+  @override
+  String get destructiveWipeProfileConfirm => 'این نمایه را پاک کن';
+
+  @override
+  String get destructiveAbortConsequence =>
+      'این کار پیش‌نویس فعلی را دور می‌ریزد؛ قابل بازگشت نیست.';
+
+  @override
+  String get destructiveAbortConfirm => 'دور ریختن پیش‌نویس';
 }
