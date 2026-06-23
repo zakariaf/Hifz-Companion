@@ -2,16 +2,21 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 // The redirect guard is R1 in code: a fresh device cannot reach the shell
-// (→ onboarding), and the glyph-rendering reader route resolves only once the
-// core pack is verified AND a profile exists. The Muṣḥaf *tab* is an inert
-// placeholder, so it is reachable on a profile alone. The gate inputs are faked
-// via overrideWith — no live DB, no asset IO. Run under the throwing HttpOverrides.
+// (→ onboarding), and the Muṣḥaf reader (the whole `/mushaf` subtree now renders
+// glyphs, E13) resolves only once the core pack is verified AND a profile
+// exists. The gate inputs are faked via overrideWith — no live DB, no asset IO.
+// Run under the throwing HttpOverrides.
 
 import 'package:app/composition/router.dart';
 import 'package:composition/composition.dart';
 import 'package:data/testing.dart';
 import 'package:features/features.dart'
-    show MihrabAppearance, OnboardingScreen, TodayScreen, mihrabThemeFor;
+    show
+        MihrabAppearance,
+        MushafReaderScreen,
+        OnboardingScreen,
+        TodayScreen,
+        mihrabThemeFor;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -72,10 +77,10 @@ void main() {
 
     testWidgets('a fresh device cannot reach the Quran reader (R1)', (t) async {
       final (router, _) = await pumpRouter(t);
-      router.go('/mushaf/page/5');
+      router.go('/mushaf?page=5');
       await t.pumpAndSettle();
       expect(location(router), '/onboarding');
-      expect(find.byKey(const ValueKey('mushaf-page-5')), findsNothing);
+      expect(find.byType(MushafReaderScreen), findsNothing);
     });
   });
 
@@ -87,37 +92,39 @@ void main() {
     });
 
     testWidgets(
-        'the Muṣḥaf tab placeholder is reachable (it renders no glyphs)',
+        'the Muṣḥaf reader is gated on the verified core (→ /today)',
         (t) async {
+      // The Muṣḥaf tab now renders glyphs, so a profiled-but-unverified device
+      // is sent back to the calm /today home — never the muṣḥaf (R1).
       final (router, _) = await pumpRouter(t, profile: const ProfileId('p1'));
       router.go('/mushaf');
       await t.pumpAndSettle();
-      expect(location(router), '/mushaf');
-      expect(find.byKey(const ValueKey('screen.mushaf')), findsOneWidget);
+      expect(location(router), '/today');
+      expect(find.byType(MushafReaderScreen), findsNothing);
     });
 
-    testWidgets('an unverified core keeps the reader out of reach (→ /today)',
+    testWidgets('an unverified core keeps a deep link out of reach (→ /today)',
         (t) async {
       final (router, _) = await pumpRouter(t, profile: const ProfileId('p1'));
-      router.go('/mushaf/page/5');
+      router.go('/mushaf?page=5');
       await t.pumpAndSettle();
       expect(location(router), '/today');
-      expect(find.byKey(const ValueKey('mushaf-page-5')), findsNothing);
+      expect(find.byType(MushafReaderScreen), findsNothing);
     });
   });
 
   group('a verified, profiled device (appReady) renders the reader route', () {
-    testWidgets('a Quran deep link resolves only once appReady is true',
+    testWidgets('the Muṣḥaf reader resolves only once appReady is true',
         (t) async {
       final (router, _) = await pumpRouter(
         t,
         profile: const ProfileId('p1'),
         verified: true,
       );
-      router.go('/mushaf/page/3');
+      router.go('/mushaf');
       await t.pumpAndSettle();
-      expect(location(router), '/mushaf/page/3');
-      expect(find.byKey(const ValueKey('mushaf-page-3')), findsOneWidget);
+      expect(location(router), '/mushaf');
+      expect(find.byType(MushafReaderScreen), findsOneWidget);
     });
 
     testWidgets('a ready device on /onboarding is moved to /today', (t) async {
@@ -132,29 +139,32 @@ void main() {
     });
   });
 
-  group('typed deep-link param', () {
-    testWidgets('page/:pageId is parsed to an int and passed typed', (t) async {
+  group('typed deep-link query param', () {
+    testWidgets('a page deep link opens the reader', (t) async {
       final (router, _) = await pumpRouter(
         t,
         profile: const ProfileId('p1'),
         verified: true,
       );
-      router.go('/mushaf/page/12');
+      router.go('/mushaf?page=12');
       await t.pumpAndSettle();
-      expect(find.byKey(const ValueKey('mushaf-page-12')), findsOneWidget);
+      expect(location(router), '/mushaf?page=12');
+      expect(find.byType(MushafReaderScreen), findsOneWidget);
     });
 
-    testWidgets('a non-int pageId fails closed (not-found), never throws',
+    testWidgets('an unparseable page param fails closed, never throws',
         (t) async {
+      // A bad query param is dropped to the safe default page — the reader still
+      // opens (no not-found, no exception in the render tree).
       final (router, _) = await pumpRouter(
         t,
         profile: const ProfileId('p1'),
         verified: true,
       );
-      router.go('/mushaf/page/x');
+      router.go('/mushaf?page=x');
       await t.pumpAndSettle();
       expect(t.takeException(), isNull);
-      expect(find.byKey(const ValueKey('not-found-stub')), findsOneWidget);
+      expect(find.byType(MushafReaderScreen), findsOneWidget);
     });
   });
 

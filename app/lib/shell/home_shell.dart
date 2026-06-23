@@ -44,8 +44,8 @@ class HomeShell extends StatelessWidget {
     );
   }
 
-  /// The tab whose path is the longest prefix of [location] (so `/mushaf/page/3`
-  /// keeps the Muṣḥaf tab selected); defaults to Today.
+  /// The tab whose path is the longest prefix of [location] (so a sub-path under
+  /// a tab keeps that tab selected); defaults to Today.
   int _selectedIndex(String location) {
     var selected = 0;
     var longest = -1;

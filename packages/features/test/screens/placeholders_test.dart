@@ -15,10 +15,9 @@ import '../test_setup.dart';
 void main() {
   useOfflineTestPolicy();
 
-  // Today is the real queue View from E07-T07; only the four non-Today tabs are
-  // inert placeholders.
+  // Today is the real queue View (E07-T07) and Muṣḥaf is the real reader (E13);
+  // the remaining non-Today tabs are still inert placeholders.
   const screens = <String, Widget>{
-    'screen.mushaf': MushafScreen(),
     'screen.mutashabihat': MutashabihatScreen(),
     'screen.progress': ProgressScreen(),
     'screen.settings': SettingsScreen(),

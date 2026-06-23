@@ -3,14 +3,15 @@
 
 import 'package:features/features.dart'
     show
-        MushafScreen,
+        MushafReaderScreen,
         MutashabihatScreen,
         OnboardingScreen,
         ProgressScreen,
         ReciteGradeScreen,
         SettingsScreen,
         TodayScreen,
-        kRecitePathPrefix;
+        kRecitePathPrefix,
+        mushafReaderRouteFromUri;
 import 'package:composition/composition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,9 +24,10 @@ import '../shell/home_shell.dart';
 /// it observes no connectivity, fetches no route, and opens no socket.
 ///
 /// Route table: one top-level `/onboarding` outside the shell, then one
-/// `ShellRoute` hosting the five tabs in RTL order — `/today`, `/mushaf` (with
-/// the typed deep-link `page/:pageId`), `/mutashabihat`, `/progress`,
-/// `/settings`. `initialLocation` is `/today`.
+/// `ShellRoute` hosting the five tabs in RTL order — `/today`, `/mushaf` (the
+/// reader, with optional range-validated `page`/`juz`/`hizb`/`surah` query
+/// deep-links), `/mutashabihat`, `/progress`, `/settings`. `initialLocation` is
+/// `/today`.
 ///
 /// Redirect guard (R1 in code): the shell needs a profile, so a fresh device is
 /// routed to `/onboarding` first; a Quran-rendering route (`/mushaf…`) resolves
@@ -55,10 +57,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       final appReady = ref.read(appReadyProvider); // profile AND core-verified
       final location = state.matchedLocation;
       final onOnboarding = location.startsWith('/onboarding');
-      // The glyph-rendering route is the page reader; the Muṣḥaf *tab* is an
-      // inert placeholder in E07 (no glyphs), so only the reader is gated on the
-      // verified core. E13 tightens this when /mushaf itself renders text.
-      final isQuranReader = location.startsWith('/mushaf/page');
+      // The Muṣḥaf tab now *is* the glyph-rendering reader (E13), so the whole
+      // `/mushaf` subtree is gated on the verified core — not just a nested
+      // reader path. The reader renders only behind this gate (R1).
+      final isQuranReader = location.startsWith('/mushaf');
 
       // The shell needs a profile; a fresh device sets one up first (PRD R1).
       if (!hasProfile) return onOnboarding ? null : '/onboarding';
@@ -84,20 +86,19 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/mushaf',
-            builder: (context, state) => const MushafScreen(),
-            routes: <RouteBase>[
-              GoRoute(
-                path: 'page/:pageId',
-                builder: (context, state) {
-                  // Typed deep-link param: parse to int, never pass the raw
-                  // String downstream; a malformed id fails closed to a calm
-                  // not-found, never an exception in the render tree.
-                  final pageId = int.tryParse(state.pathParameters['pageId']!);
-                  if (pageId == null) return const _RouteStub('not-found-stub');
-                  return _ReaderStub(pageId);
-                },
-              ),
-            ],
+            builder: (context, state) {
+              // Optional, range-validated query deep-links (page/juz/ḥizb/sūrah):
+              // an unparseable or out-of-range value is dropped to a safe
+              // default page, never thrown and never landed on a wrong sacred
+              // boundary (E13-T01; the juz/ḥizb/sūrah → page resolution is T04).
+              final route = mushafReaderRouteFromUri(state.uri);
+              return MushafReaderScreen(
+                initialPage: route.page,
+                initialJuz: route.juz,
+                initialHizb: route.hizb,
+                initialSurah: route.surah,
+              );
+            },
           ),
           GoRoute(
             // The recite/grade route, opened from a Today page-card tap
@@ -140,22 +141,5 @@ class _RouteStub extends StatelessWidget {
   Widget build(BuildContext context) => Center(
         key: ValueKey<String>(id),
         child: Text(id),
-      );
-}
-
-/// The Quran-reader destination stub carrying the parsed [pageId] (a Quran
-/// route, reachable only once `appReady` is true). The real immutable page
-/// renderer arrives in E13.
-class _ReaderStub extends StatelessWidget {
-  const _ReaderStub(this.pageId);
-
-  final int pageId;
-
-  @override
-  Widget build(BuildContext context) => Center(
-        // The parsed pageId rides in the key (no user-facing string in this
-        // throwaway stub); the real immutable page renderer is E13.
-        key: ValueKey<String>('mushaf-page-$pageId'),
-        child: const SizedBox.shrink(),
       );
 }
