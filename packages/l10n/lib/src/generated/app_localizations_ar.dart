@@ -502,6 +502,41 @@ class AppLocalizationsAr extends AppLocalizations {
   String get todaySemanticTitle => 'مراجعة اليوم';
 
   @override
+  String sectionFarManzil(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'levant': 'المنزل',
+        'subcontinent': 'الدور',
+        'other': 'المنزل',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sectionNearSabqi(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'السبقي',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sectionNewSabaq(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'السبق',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get commonRetry => 'إعادة المحاولة';
 
   @override
@@ -535,6 +570,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get decaySteady => 'ثابت';
+
+  @override
+  String get decayHolding => 'مستقرّ';
 
   @override
   String get a11yAnnounceCatchUpReady => 'خطة المراجعة جاهزة.';

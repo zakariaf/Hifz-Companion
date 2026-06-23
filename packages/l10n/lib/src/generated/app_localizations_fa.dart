@@ -491,6 +491,41 @@ class AppLocalizationsFa extends AppLocalizations {
   String get todaySemanticTitle => 'مرور امروز';
 
   @override
+  String sectionFarManzil(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'levant': 'منزل',
+        'subcontinent': 'دور',
+        'other': 'منزل',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sectionNearSabqi(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'سبقی',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sectionNewSabaq(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'سبق',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get commonRetry => 'تلاش دوباره';
 
   @override
@@ -524,6 +559,9 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get decaySteady => 'پایدار';
+
+  @override
+  String get decayHolding => 'روبه‌راه';
 
   @override
   String get a11yAnnounceCatchUpReady => 'برنامهٔ مرور آماده است.';

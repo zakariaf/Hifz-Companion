@@ -14,6 +14,7 @@ import 'package:features/features.dart'
         TodayScreen,
         TodaySession,
         mihrabThemeFor,
+        pageJuzProvider,
         todaySessionProvider;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -40,6 +41,7 @@ void main() {
             initialActiveProfileProvider.overrideWithValue(kTestProfile),
           todayProvider.overrideWithValue(kToday),
           todaySessionProvider.overrideWith((ref) => sessions),
+          pageJuzProvider.overrideWith((ref) async => const <int, int>{}),
         ],
         child: MaterialApp(
           locale: const Locale('ar'),

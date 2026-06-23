@@ -697,6 +697,24 @@ abstract class AppLocalizations {
   /// **'مراجعة اليوم'**
   String get todaySemanticTitle;
 
+  /// The Far section header on the Today list — the far/manzil revision group, recited first. TERM-SET vocabulary (scholar-reviewed, swappable by region); distinct from the per-row track chip. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, levant{المنزل} subcontinent{الدور} other{المنزل}}'**
+  String sectionFarManzil(String region);
+
+  /// The Near section header on the Today list — the near/sabqi revision group. TERM-SET vocabulary. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{السبقي}}'**
+  String sectionNearSabqi(String region);
+
+  /// The New section header on the Today list — today's new sabaq lesson group, recited last. TERM-SET vocabulary. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{السبق}}'**
+  String sectionNewSabaq(String region);
+
   /// Generic calm retry action for a failed local read (e.g. the Today queue) — never a guilt/error-shame message. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///
   /// In ar, this message translates to:
@@ -762,6 +780,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'ثابت'**
   String get decaySteady;
+
+  /// The calm middle decay band on a Today row — a page that is holding (between solid/steady and needs-revision), neither alarming nor 'safe to drop'. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'مستقرّ'**
+  String get decayHolding;
 
   /// Screen-reader announcement (SemanticsService.announce, RTL) when the missed-day catch-up plan is ready on Today. Calm, supportive, located-revisit framing — never 'you are behind'/overdue/shame, never a celebration. Consumed by E11/E12; the key + announce path exist now. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///

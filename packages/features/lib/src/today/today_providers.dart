@@ -33,6 +33,21 @@ final todaySessionProvider = StreamProvider<TodaySession>((ref) {
       .map((cards) => buildTodaySession(cards, today, engine));
 });
 
+/// The page → juz lookup, built once from the bundled QUL reference (the inverse
+/// of `pageIdsForJuz`). Reference metadata (never glyph codes); used only to
+/// label a Today row "Page N · Juz M". Offline — the reference is bundled-core.
+/// Tests inject a fixed lookup into the list directly rather than seed this.
+final pageJuzProvider = FutureProvider<Map<int, int>>((ref) async {
+  final reference = ref.watch(persistenceProvider).reference;
+  final map = <int, int>{};
+  for (var juz = 1; juz <= 30; juz++) {
+    for (final page in await reference.pageIdsForJuz(juz)) {
+      map[page] = juz;
+    }
+  }
+  return map;
+});
+
 /// The 1:1 Today view-model provider — the single thing the dumb [TodayScreen]
 /// reads (04 §1.3). App-scope (never `autoDispose`): Today is the persistent
 /// home tab and the controller holds no per-screen state. It publishes the

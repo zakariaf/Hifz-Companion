@@ -522,6 +522,21 @@
   "@todaySemanticTitle": {
     "description": "The screen-reader container label for the Today list ('Revise today') — names the daily revision surface; calm, never a scoreboard or count. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
   },
+  "sectionFarManzil": "{region, select, levant{المنزل} subcontinent{الدور} other{المنزل}}",
+  "@sectionFarManzil": {
+    "description": "The Far section header on the Today list — the far/manzil revision group, recited first. TERM-SET vocabulary (scholar-reviewed, swappable by region); distinct from the per-row track chip. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.",
+    "placeholders": {"region": {"type": "String"}}
+  },
+  "sectionNearSabqi": "{region, select, other{السبقي}}",
+  "@sectionNearSabqi": {
+    "description": "The Near section header on the Today list — the near/sabqi revision group. TERM-SET vocabulary. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.",
+    "placeholders": {"region": {"type": "String"}}
+  },
+  "sectionNewSabaq": "{region, select, other{السبق}}",
+  "@sectionNewSabaq": {
+    "description": "The New section header on the Today list — today's new sabaq lesson group, recited last. TERM-SET vocabulary. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.",
+    "placeholders": {"region": {"type": "String"}}
+  },
   "commonRetry": "إعادة المحاولة",
   "@commonRetry": {
     "description": "Generic calm retry action for a failed local read (e.g. the Today queue) — never a guilt/error-shame message. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
@@ -566,6 +581,10 @@
     "description": "Calm decay indicator label for a weak page — needs revision, never 'failing'/'lost'/alarm. Paired with a distinct glyph (not colour alone). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
   },
   "decaySteady": "ثابت",
+  "decayHolding": "مستقرّ",
+  "@decayHolding": {
+    "description": "The calm middle decay band on a Today row — a page that is holding (between solid/steady and needs-revision), neither alarming nor 'safe to drop'. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
   "@decaySteady": {
     "description": "Calm decay indicator label for a steady page. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
   },

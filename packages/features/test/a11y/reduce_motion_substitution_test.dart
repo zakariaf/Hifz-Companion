@@ -17,6 +17,7 @@ import 'package:features/features.dart'
         TodayScreen,
         TodaySession,
         mihrabThemeFor,
+        pageJuzProvider,
         todaySessionProvider;
 import 'package:flutter/material.dart' hide Card;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -160,6 +161,7 @@ void main() {
         overrides: [
           todaySessionProvider
               .overrideWith((ref) => Stream.value(TodaySession(far: [card]))),
+          pageJuzProvider.overrideWith((ref) async => const <int, int>{}),
         ],
         child: MaterialApp(
           locale: const Locale('ar'),

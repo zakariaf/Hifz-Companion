@@ -3,11 +3,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:l10n/l10n.dart';
 
 import '../a11y/reduce_motion_substitution.dart';
 import '../design_system/banners/empty_state.dart';
+import '../recite/recite_route.dart';
 import 'today_providers.dart';
+import 'today_session.dart';
+import 'widgets/daily_session_list.dart';
 import 'widgets/session_skeleton.dart';
 import 'widgets/today_retry_view.dart';
 
@@ -44,7 +48,10 @@ class TodayScreen extends ConsumerWidget {
                 body: l10n.emptyAllDone,
               ),
             )
-          : const _TodayDayPlaceholder(key: ValueKey<String>('today.populated')),
+          : _TodayDay(
+              key: const ValueKey<String>('today.populated'),
+              session: data,
+            ),
     );
 
     return Semantics(
@@ -57,18 +64,29 @@ class TodayScreen extends ConsumerWidget {
   }
 }
 
-/// The populated-day slot. E12-T03 replaces this placeholder with the finite,
-/// budget-capped Far → Near → New session list assembling the E10 page cards.
-class _TodayDayPlaceholder extends StatelessWidget {
-  const _TodayDayPlaceholder({super.key});
+/// The populated-day slot: the finite, budget-capped Far → Near → New session
+/// list (E12-T03). Resolves each row's juz from the bundled reference and opens
+/// the recite route on a row tap. The budget-feedback line (E12-T04) and the
+/// catch-up banner (E12-T05) fill their slots here in later tasks.
+class _TodayDay extends ConsumerWidget {
+  const _TodayDay({required this.session, super.key});
+
+  final TodaySession session;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    return Center(
-      child: Text(
-        l10n.todaySemanticTitle,
-        style: Theme.of(context).textTheme.titleMedium,
+    final juz = ref.watch(pageJuzProvider);
+    return juz.when(
+      loading: () => const SessionSkeleton(),
+      error: (_, __) => TodayRetryView(
+        message: l10n.commonRetry,
+        onRetry: () => ref.invalidate(pageJuzProvider),
+      ),
+      data: (juzMap) => DailySessionList(
+        session: session,
+        juzOf: (pageId) => juzMap[pageId] ?? 0,
+        onOpen: (pageId) => context.push(reciteLocation(pageId)),
       ),
     );
   }

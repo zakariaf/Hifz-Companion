@@ -494,6 +494,41 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get todaySemanticTitle => 'پێداچوونەوەی ئەمڕۆ';
 
   @override
+  String sectionFarManzil(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'levant': 'مەنزیل',
+        'subcontinent': 'دەور',
+        'other': 'مەنزیل',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sectionNearSabqi(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'سەبقی',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sectionNewSabaq(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'سەبەق',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get commonRetry => 'هەوڵدانەوە';
 
   @override
@@ -527,6 +562,9 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get decaySteady => 'جێگیر';
+
+  @override
+  String get decayHolding => 'هێشتا باشە';
 
   @override
   String get a11yAnnounceCatchUpReady => 'خشتەی پێداچوونەوە ئامادەیە.';
