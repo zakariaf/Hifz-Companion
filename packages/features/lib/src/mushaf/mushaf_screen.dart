@@ -76,8 +76,9 @@ class MushafReaderScreen extends ConsumerWidget {
 }
 
 /// The reader scaffold: the always-named riwāyah chrome (R2 — never "the Quran"
-/// absolutely) and the jump-to entry above the RTL paged navigator. RTL is the
-/// ambient locale direction; the reader sets no hardcoded `Directionality`.
+/// absolutely), the overlay toggles, and the jump-to entry above the RTL paged
+/// navigator. RTL is the ambient locale direction; the reader sets no hardcoded
+/// `Directionality`.
 class _ReaderScaffold extends StatelessWidget {
   const _ReaderScaffold({required this.state, required this.page});
 
@@ -109,8 +110,10 @@ class _ReaderScaffold extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              // Jump-to (juz/ḥizb/sūrah/page); T08 folds it into the auto-hiding
-              // edge chrome.
+              // Weak-line + mutashābihāt overlays — diagnostic, opt-in, default
+              // off (T05); T08 folds these into the auto-hiding edge chrome.
+              _OverlayToggles(entryPage: page),
+              // Jump-to (juz/ḥizb/sūrah/page); T08 folds it into the edge chrome.
               IconButton(
                 onPressed: () => showMushafJumpPicker(context, entryPage: page),
                 tooltip: l10n.mushafJumpTitle,
@@ -123,6 +126,42 @@ class _ReaderScaffold extends StatelessWidget {
         // is a pure pageNumber/geometry rebuild, never re-typeset. The store is
         // seeded at this entry page (T02) and the pager binds to it.
         Expanded(child: MushafPager(entryPage: page)),
+      ],
+    );
+  }
+}
+
+/// The two diagnostic overlay toggles (weak-line, mutashābihāt). Both default
+/// **off** — a clean page first; diagnostics are opt-in, never forced on the
+/// sacred surface. Flipping a toggle is display-only (T02): it mutates no card,
+/// writes no `review_log`, and shows no badge/count/celebration.
+class _OverlayToggles extends ConsumerWidget {
+  const _OverlayToggles({required this.entryPage});
+
+  final int entryPage;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final state = ref.watch(mushafReaderStateProvider(entryPage));
+    final notifier = ref.read(mushafReaderStateProvider(entryPage).notifier);
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        IconButton(
+          isSelected: state.isWeakLineOverlayVisible,
+          onPressed: notifier.toggleWeakLineOverlay,
+          tooltip: l10n.mushafOverlayWeakLines,
+          icon: const Icon(Icons.subject_outlined),
+          selectedIcon: const Icon(Icons.subject),
+        ),
+        IconButton(
+          isSelected: state.isMutashabihatOverlayVisible,
+          onPressed: notifier.toggleMutashabihatOverlay,
+          tooltip: l10n.mushafOverlayMutashabihat,
+          icon: const Icon(Icons.compare_arrows_outlined),
+          selectedIcon: const Icon(Icons.compare_arrows),
+        ),
       ],
     );
   }

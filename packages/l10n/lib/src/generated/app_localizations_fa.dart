@@ -760,4 +760,10 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get mushafUnitPage => 'صفحه';
+
+  @override
+  String get mushafOverlayWeakLines => 'خط‌های ضعیف';
+
+  @override
+  String get mushafOverlayMutashabihat => 'متشابهات';
 }

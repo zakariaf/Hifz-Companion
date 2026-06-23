@@ -1,12 +1,31 @@
 // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quran/quran.dart' show MushafPageView;
+import 'package:quran/quran.dart'
+    show
+        ImmutableGlyphPage,
+        MushafOverlayPainter,
+        MushafReaderFrame,
+        OverlayKind,
+        OverlayStyle;
 
+import '../../design_system/theme/mihrab_colors.dart';
+import '../../design_system/theme/spacing_tokens.dart';
 import '../mushaf_page_source.dart';
 import '../mushaf_providers.dart';
+import '../overlay_markers.dart';
+import '../overlay_providers.dart';
+
+/// The identity colour filter — light theme leaves the glyph layer untouched.
+/// E13-T06 maps sepia/dark to their `ColorFilter`s; here every theme is identity.
+const ColorFilter _identityColorFilter = ColorFilter.matrix(<double>[
+  1, 0, 0, 0, 0, //
+  0, 1, 0, 0, 0, //
+  0, 0, 1, 0, 0, //
+  0, 0, 0, 1, 0, //
+]);
 
 /// Pages the reader through the muṣḥaf right-to-left without ever re-shaping a
 /// glyph (PRD §11.2, §12.3). A `PageView.builder` whose `reverse` is derived
@@ -93,26 +112,91 @@ class _MushafPagerState extends ConsumerState<MushafPager> {
           notifier.setPage(page);
         }
       },
-      itemBuilder: (context, index) => _MushafPageSlot(pageNumber: index + 1),
+      itemBuilder: (context, index) =>
+          _MushafPageSlot(pageNumber: index + 1, entryPage: widget.entryPage),
     );
   }
 }
 
 /// One page slot: it watches the verified glyph layout for [pageNumber] and
-/// draws E05's immutable `MushafPageView`. While the (offline) reference read
-/// resolves — and on the bundle-first empty reference — it shows a calm blank
-/// rather than a spinner over the sacred surface; the page is never dressed up.
+/// draws E05's immutable page inside the reader frame. While the (offline)
+/// reference read resolves — and on the bundle-first empty reference — it shows
+/// a calm blank rather than a spinner over the sacred surface; the page is never
+/// dressed up.
 class _MushafPageSlot extends ConsumerWidget {
-  const _MushafPageSlot({required this.pageNumber});
+  const _MushafPageSlot({required this.pageNumber, required this.entryPage});
 
   final int pageNumber;
+  final int entryPage;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final page = ref.watch(mushafPageProvider(pageNumber));
     return page.maybeWhen(
-      data: (glyphPage) => MushafPageView(glyphPage: glyphPage),
+      data: (glyphPage) => _PageFrame(
+        glyphPage: glyphPage,
+        pageNumber: pageNumber,
+        entryPage: entryPage,
+      ),
       orElse: () => const SizedBox.expand(),
     );
   }
+}
+
+/// The reader frame around one page: E05's `MushafReaderFrame` applies the zoom
+/// (the reader's own scale, T02) and the theme colour filter (identity here;
+/// E13-T06 maps sepia/dark) over the glyph layer, with the toggleable weak-line
+/// + mutashābihāt overlay painted by E05 from coordinate refs only (E13-T05).
+class _PageFrame extends ConsumerWidget {
+  const _PageFrame({
+    required this.glyphPage,
+    required this.pageNumber,
+    required this.entryPage,
+  });
+
+  final ImmutableGlyphPage glyphPage;
+  final int pageNumber;
+  final int entryPage;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(mushafReaderStateProvider(entryPage));
+    final geometry = ref.watch(mushafPageGeometryProvider(pageNumber));
+    final markers = overlayMarkers(
+      pageNumber: pageNumber,
+      weakLineVisible: state.isWeakLineOverlayVisible,
+      mutashabihVisible: state.isMutashabihatOverlayVisible,
+      weakLines: ref.watch(profileWeakLinesProvider(pageNumber)),
+      confusables: ref.watch(pageConfusablesProvider(pageNumber)),
+      geometry: geometry,
+    );
+    return MushafReaderFrame(
+      glyphPage: glyphPage,
+      zoom: state.zoom,
+      colorFilter: _identityColorFilter,
+      overlay: markers.isEmpty
+          ? null
+          : MushafOverlayPainter(
+              markers: markers,
+              geometry: geometry,
+              style: _overlayStyle(context),
+            ),
+    );
+  }
+}
+
+/// The calm, diagnostic look of the overlay markers — token colours by name
+/// (a low-alpha warning fill for a weak line, a low-alpha gold for an anchor),
+/// never a red shame mark, glow, or ornament over an āyah (adab §3).
+OverlayStyle _overlayStyle(BuildContext context) {
+  final theme = Theme.of(context);
+  final colors = theme.extension<MihrabColors>()!;
+  final space = theme.extension<SpacingTokens>()!;
+  return OverlayStyle(
+    fillColors: {
+      OverlayKind.weakLine: colors.semanticWarning.withValues(alpha: 0.18),
+      OverlayKind.mutashabihAnchor: colors.accentGold.withValues(alpha: 0.18),
+    },
+    cornerRadius: space.space1,
+  );
 }

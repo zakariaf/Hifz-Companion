@@ -778,4 +778,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get mushafUnitPage => 'صفحة';
+
+  @override
+  String get mushafOverlayWeakLines => 'الأسطر الضعيفة';
+
+  @override
+  String get mushafOverlayMutashabihat => 'المتشابهات';
 }

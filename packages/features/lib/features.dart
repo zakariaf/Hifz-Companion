@@ -15,6 +15,8 @@ export 'src/design_system/design_system.dart';
 export 'src/l10n/term_set.dart';
 export 'src/mushaf/mushaf_page_source.dart';
 export 'src/mushaf/mushaf_providers.dart';
+export 'src/mushaf/overlay_markers.dart';
+export 'src/mushaf/overlay_providers.dart';
 export 'src/mushaf/mushaf_reader_state.dart';
 export 'src/mushaf/mushaf_route.dart';
 export 'src/mushaf/mushaf_screen.dart';

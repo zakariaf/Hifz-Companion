@@ -1134,6 +1134,18 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'صفحة'**
   String get mushafUnitPage;
+
+  /// Reader toggle: show the weak-line diagnostic overlay. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأسطر الضعيفة'**
+  String get mushafOverlayWeakLines;
+
+  /// Reader toggle: show the mutashābihāt-anchor overlay. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'المتشابهات'**
+  String get mushafOverlayMutashabihat;
 }
 
 class _AppLocalizationsDelegate

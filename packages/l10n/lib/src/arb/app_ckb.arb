@@ -171,5 +171,7 @@
   "mushafUnitJuz": "جزء",
   "mushafUnitHizb": "حیزب",
   "mushafUnitSurah": "سورەت",
-  "mushafUnitPage": "لاپەڕە"
+  "mushafUnitPage": "لاپەڕە",
+  "mushafOverlayWeakLines": "دێڕە لاوازەکان",
+  "mushafOverlayMutashabihat": "هاوشێوەکان"
 }

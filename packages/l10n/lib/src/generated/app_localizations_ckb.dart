@@ -767,4 +767,10 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get mushafUnitPage => 'لاپەڕە';
+
+  @override
+  String get mushafOverlayWeakLines => 'دێڕە لاوازەکان';
+
+  @override
+  String get mushafOverlayMutashabihat => 'هاوشێوەکان';
 }
