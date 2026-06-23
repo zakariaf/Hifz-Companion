@@ -94,10 +94,16 @@ class _ConfusionHotspotRow extends ConsumerWidget {
 
   Future<void> _openDrill(BuildContext context, WidgetRef ref) async {
     // Resolve the pair to its drillable group; bundle-first there is none yet,
-    // so the row stays informational (never navigates to a guessed group).
-    final groupId = await ref.read(hotspotGroupIdProvider(edge.ayahA).future);
-    if (groupId != null && context.mounted) {
-      context.go(mutashabihatDrillLocation(groupId));
+    // so the row stays informational (never navigates to a guessed group). A
+    // failed lookup keeps the row informational rather than crashing the tap
+    // (Gemini E14 #3) — the swap log itself is untouched.
+    try {
+      final groupId = await ref.read(hotspotGroupIdProvider(edge.ayahA).future);
+      if (groupId != null && context.mounted) {
+        context.go(mutashabihatDrillLocation(groupId));
+      }
+    } on Exception {
+      // The hotspots row stays informational; nothing to surface.
     }
   }
 

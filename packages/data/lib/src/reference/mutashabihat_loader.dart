@@ -357,10 +357,20 @@ Future<void> loadMutashabihatInto(
           for (final member in group.members) member.ayahId,
       };
       if (referenced.isNotEmpty) {
-        final existingRows = await (db.select(db.ayat)
-              ..where((a) => a.ayahId.isIn(referenced)))
-            .get();
-        final existing = {for (final row in existingRows) row.ayahId};
+        // Chunk the `IN (...)` lookup: a full-muṣḥaf dataset can reference more
+        // distinct āyāt than SQLite's ~999 bound variables (Gemini E14 #1).
+        const chunkSize = 500;
+        final referencedList = referenced.toList();
+        final existing = <String>{};
+        for (var i = 0; i < referencedList.length; i += chunkSize) {
+          final end = i + chunkSize < referencedList.length
+              ? i + chunkSize
+              : referencedList.length;
+          final rows = await (db.select(db.ayat)
+                ..where((a) => a.ayahId.isIn(referencedList.sublist(i, end))))
+              .get();
+          existing.addAll(rows.map((row) => row.ayahId));
+        }
         for (final group in data.groups) {
           for (final member in group.members) {
             if (!existing.contains(member.ayahId)) {

@@ -131,9 +131,15 @@ final routerProvider = Provider<GoRouter>((ref) {
               if (groupId == null || groupId.isEmpty) {
                 return const _RouteStub('not-found-stub');
               }
-              return DiscriminationDrillScreen(
-                groupId: Uri.decodeComponent(groupId),
-              );
+              // A malformed percent-encoding in a deep link fails closed to a
+              // calm not-found, never an uncaught ArgumentError (Gemini E14 #2).
+              try {
+                return DiscriminationDrillScreen(
+                  groupId: Uri.decodeComponent(groupId),
+                );
+              } on ArgumentError {
+                return const _RouteStub('not-found-stub');
+              }
             },
           ),
           GoRoute(
