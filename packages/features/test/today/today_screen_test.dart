@@ -3,15 +3,19 @@
 
 // The dumb Today View renders the controller's calm states — loading skeleton,
 // error retry, calm all-done close, and the populated-day slot — driven by
-// overriding the upstream todayQueueProvider (never the notifier). No DB/engine.
+// overriding the upstream todaySessionProvider (never the notifier). No DB/engine.
 
 import 'dart:async';
 
 import 'package:composition/composition.dart';
-import 'package:engine/engine.dart' show Card;
 import 'package:features/features.dart'
-    show MihrabAppearance, TodayScreen, mihrabThemeFor, todayQueueProvider;
-import 'package:flutter/material.dart' hide Card;
+    show
+        MihrabAppearance,
+        TodayScreen,
+        TodaySession,
+        mihrabThemeFor,
+        todaySessionProvider;
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:l10n/l10n.dart';
@@ -22,11 +26,11 @@ import 'today_fixtures.dart';
 void main() {
   useOfflineTestPolicy();
 
-  // Drives the controller via the upstream queue; [withProfile] gates the
-  // active-profile branch (false ⇒ activeProfileProvider stays null).
+  // Drives the controller via the upstream session stream; [withProfile] gates
+  // the active-profile branch (false ⇒ activeProfileProvider stays null).
   Future<void> pump(
     WidgetTester tester,
-    Stream<List<Card>> queue, {
+    Stream<TodaySession> sessions, {
     bool withProfile = true,
   }) async {
     await tester.pumpWidget(
@@ -35,7 +39,7 @@ void main() {
           if (withProfile)
             initialActiveProfileProvider.overrideWithValue(kTestProfile),
           todayProvider.overrideWithValue(kToday),
-          todayQueueProvider.overrideWith((ref) => queue),
+          todaySessionProvider.overrideWith((ref) => sessions),
         ],
         child: MaterialApp(
           locale: const Locale('ar'),
@@ -50,7 +54,7 @@ void main() {
 
   testWidgets('loading shows the calm skeleton, not a spinner-of-shame',
       (t) async {
-    final controller = StreamController<List<Card>>();
+    final controller = StreamController<TodaySession>();
     addTearDown(controller.close);
     await pump(t, controller.stream);
     await t.pump();
@@ -59,7 +63,7 @@ void main() {
   });
 
   testWidgets('error shows the calm retry view', (t) async {
-    final controller = StreamController<List<Card>>();
+    final controller = StreamController<TodaySession>();
     addTearDown(controller.close);
     await pump(t, controller.stream);
     await t.pump();
@@ -73,7 +77,7 @@ void main() {
   });
 
   testWidgets('empty day shows the calm all-done close', (t) async {
-    await pump(t, Stream<List<Card>>.value(const <Card>[]));
+    await pump(t, Stream<TodaySession>.value(const TodaySession.empty()));
     await t.pumpAndSettle();
     expect(find.byKey(const ValueKey<String>('today.allDone')), findsOneWidget);
     final l10n = await AppLocalizations.delegate.load(const Locale('ar'));
@@ -81,7 +85,12 @@ void main() {
   });
 
   testWidgets('a non-empty day reaches the populated slot', (t) async {
-    await pump(t, Stream<List<Card>>.value([dueFar(3), dueNear(4), dueNew(5)]));
+    await pump(
+      t,
+      Stream<TodaySession>.value(
+        TodaySession(far: [dueFar(3)], near: [dueNear(4)]),
+      ),
+    );
     await t.pumpAndSettle();
     expect(
       find.byKey(const ValueKey<String>('today.populated')),
@@ -90,14 +99,18 @@ void main() {
   });
 
   testWidgets('exposes the "Revise today" Semantics container', (t) async {
-    await pump(t, Stream<List<Card>>.value(const <Card>[]));
+    await pump(t, Stream<TodaySession>.value(const TodaySession.empty()));
     await t.pumpAndSettle();
     final l10n = await AppLocalizations.delegate.load(const Locale('ar'));
     expect(find.bySemanticsLabel(l10n.todaySemanticTitle), findsWidgets);
   });
 
   testWidgets('no active profile resolves to the all-done close', (t) async {
-    await pump(t, Stream<List<Card>>.value(const <Card>[]), withProfile: false);
+    await pump(
+      t,
+      Stream<TodaySession>.value(const TodaySession.empty()),
+      withProfile: false,
+    );
     await t.pumpAndSettle();
     expect(find.byKey(const ValueKey<String>('today.allDone')), findsOneWidget);
   });

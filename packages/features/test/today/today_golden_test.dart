@@ -13,13 +13,17 @@ library;
 
 import 'dart:async';
 
-import 'package:engine/engine.dart' show Card;
+import 'package:composition/composition.dart';
 import 'package:features/features.dart'
-    show MihrabAppearance, TodayScreen, mihrabThemeFor, todayQueueProvider;
-import 'package:flutter/material.dart' hide Card;
+    show
+        MihrabAppearance,
+        TodayScreen,
+        TodaySession,
+        mihrabThemeFor,
+        todaySessionProvider;
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:composition/composition.dart';
 import 'package:l10n/l10n.dart';
 
 import '../a11y/_a11y_test_bootstrap.dart' show a11yLocales, loadRealUiFonts;
@@ -33,7 +37,7 @@ void main() {
   Future<void> pump(
     WidgetTester tester,
     Locale locale,
-    Stream<List<Card>> queue,
+    Stream<TodaySession> sessions,
   ) async {
     tester.view.devicePixelRatio = 2.0;
     tester.view.physicalSize = const Size(420, 1000) * 2.0;
@@ -45,7 +49,7 @@ void main() {
         overrides: [
           initialActiveProfileProvider.overrideWithValue(kTestProfile),
           todayProvider.overrideWithValue(kToday),
-          todayQueueProvider.overrideWith((ref) => queue),
+          todaySessionProvider.overrideWith((ref) => sessions),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -63,7 +67,7 @@ void main() {
     final code = locale.languageCode;
 
     testWidgets('today loading shell ($code)', (tester) async {
-      final controller = StreamController<List<Card>>();
+      final controller = StreamController<TodaySession>();
       addTearDown(controller.close);
       await pump(tester, locale, controller.stream);
       await tester.pump();
@@ -74,7 +78,11 @@ void main() {
     });
 
     testWidgets('today all-done shell ($code)', (tester) async {
-      await pump(tester, locale, Stream<List<Card>>.value(const <Card>[]));
+      await pump(
+        tester,
+        locale,
+        Stream<TodaySession>.value(const TodaySession.empty()),
+      );
       await tester.pumpAndSettle();
       await expectLater(
         find.byType(TodayScreen),
