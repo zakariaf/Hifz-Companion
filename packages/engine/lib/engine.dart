@@ -57,6 +57,7 @@ export 'src/engine_config.dart' show EngineConfig;
 export 'src/grading/recitation_grading.dart' show RecitationGrading;
 export 'src/juz_confidence.dart' show JuzConfidence;
 export 'src/load_balance.dart' show LoadBalance, estMinutes;
+export 'src/mutashabih_groups.dart' show MutashabihGroups, confusionSiblingsFor;
 export 'src/phases.dart'
     show bandForStability, phaseOf, targetR, trackStrength, updateGraduation;
 export 'src/review_input.dart' show ReviewInput;
