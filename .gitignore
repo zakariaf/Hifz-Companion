@@ -26,3 +26,9 @@ assets-src/
 
 # Flutter golden-test failure output (regenerable diff PNGs; never committed)
 **/failures/
+
+# Bundled core muṣḥaf assets — kept OUT of the code repo (sacred third-party
+# assets under their own upstream licenses; KFGQPC redistribution unverified).
+# Placed locally for the build; the canonical path is the one-time asset-pack
+# download (CLAUDE.md §8), not committing them here.
+app/assets/quran/
