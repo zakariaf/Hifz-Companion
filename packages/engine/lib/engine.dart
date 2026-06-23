@@ -21,8 +21,10 @@ library;
 
 export 'package:models/models.dart'
     show CalendarDate, Card, CardSeed, GradeSource, ReviewGrade, ReviewTrack;
+export 'src/confusion_bump.dart' show applyConfusionBump;
 export 'src/constants.dart'
     show
+        kConfusionDifficultyBump,
         kCriticalTargetR,
         kDefaultWeights45,
         kFarMinS,
