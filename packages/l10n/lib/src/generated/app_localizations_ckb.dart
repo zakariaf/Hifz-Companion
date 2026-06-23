@@ -773,4 +773,19 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get mushafOverlayMutashabihat => 'هاوشێوەکان';
+
+  @override
+  String get mushafZoomIn => 'گەورەکردن';
+
+  @override
+  String get mushafZoomOut => 'بچووککردنەوە';
+
+  @override
+  String get mushafThemeLight => 'ڕووناک';
+
+  @override
+  String get mushafThemeSepia => 'قاوەیی';
+
+  @override
+  String get mushafThemeDark => 'تاریک';
 }

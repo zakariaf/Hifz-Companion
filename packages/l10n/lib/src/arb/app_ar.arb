@@ -828,5 +828,25 @@
   "mushafOverlayMutashabihat": "المتشابهات",
   "@mushafOverlayMutashabihat": {
     "description": "Reader toggle: show the mutashābihāt-anchor overlay. PROVISIONAL — best-effort fa/ckb, review in T09."
+  },
+  "mushafZoomIn": "تكبير",
+  "@mushafZoomIn": {
+    "description": "Reader zoom-in (+) control. PROVISIONAL — best-effort fa/ckb, review in T09."
+  },
+  "mushafZoomOut": "تصغير",
+  "@mushafZoomOut": {
+    "description": "Reader zoom-out (−) control. PROVISIONAL — best-effort fa/ckb, review in T09."
+  },
+  "mushafThemeLight": "فاتح",
+  "@mushafThemeLight": {
+    "description": "Reader theme: light. PROVISIONAL — best-effort fa/ckb, review in T09."
+  },
+  "mushafThemeSepia": "بنّي",
+  "@mushafThemeSepia": {
+    "description": "Reader theme: sepia. PROVISIONAL — best-effort fa/ckb, review in T09."
+  },
+  "mushafThemeDark": "داكن",
+  "@mushafThemeDark": {
+    "description": "Reader theme: dark. PROVISIONAL — best-effort fa/ckb, review in T09."
   }
 }

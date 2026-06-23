@@ -766,4 +766,19 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get mushafOverlayMutashabihat => 'متشابهات';
+
+  @override
+  String get mushafZoomIn => 'بزرگ‌نمایی';
+
+  @override
+  String get mushafZoomOut => 'کوچک‌نمایی';
+
+  @override
+  String get mushafThemeLight => 'روشن';
+
+  @override
+  String get mushafThemeSepia => 'سپیا';
+
+  @override
+  String get mushafThemeDark => 'تیره';
 }

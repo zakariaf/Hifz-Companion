@@ -17,15 +17,7 @@ import '../mushaf_page_source.dart';
 import '../mushaf_providers.dart';
 import '../overlay_markers.dart';
 import '../overlay_providers.dart';
-
-/// The identity colour filter — light theme leaves the glyph layer untouched.
-/// E13-T06 maps sepia/dark to their `ColorFilter`s; here every theme is identity.
-const ColorFilter _identityColorFilter = ColorFilter.matrix(<double>[
-  1, 0, 0, 0, 0, //
-  0, 1, 0, 0, 0, //
-  0, 0, 1, 0, 0, //
-  0, 0, 0, 1, 0, //
-]);
+import '../reader_color_filter.dart';
 
 /// Pages the reader through the muṣḥaf right-to-left without ever re-shaping a
 /// glyph (PRD §11.2, §12.3). A `PageView.builder` whose `reverse` is derived
@@ -172,8 +164,11 @@ class _PageFrame extends ConsumerWidget {
     );
     return MushafReaderFrame(
       glyphPage: glyphPage,
+      // The reader's own zoom (T02), independent of OS chrome text-scale, and
+      // the theme's single ColorFilter (T06) — both layer transforms in E05's
+      // frame; one font per page, no re-flow.
       zoom: state.zoom,
-      colorFilter: _identityColorFilter,
+      colorFilter: colorFilterForReaderTheme(state.theme),
       overlay: markers.isEmpty
           ? null
           : MushafOverlayPainter(

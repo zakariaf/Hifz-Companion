@@ -784,4 +784,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get mushafOverlayMutashabihat => 'المتشابهات';
+
+  @override
+  String get mushafZoomIn => 'تكبير';
+
+  @override
+  String get mushafZoomOut => 'تصغير';
+
+  @override
+  String get mushafThemeLight => 'فاتح';
+
+  @override
+  String get mushafThemeSepia => 'بنّي';
+
+  @override
+  String get mushafThemeDark => 'داكن';
 }

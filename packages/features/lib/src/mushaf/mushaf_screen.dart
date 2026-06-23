@@ -11,6 +11,8 @@ import 'mushaf_providers.dart';
 import 'mushaf_view_model.dart';
 import 'widgets/jump_picker.dart';
 import 'widgets/mushaf_pager.dart';
+import 'widgets/reader_theme_control.dart';
+import 'widgets/reader_zoom_control.dart';
 
 /// The Muṣḥaf reader tab — the dumb View over E05's immutable page renderer
 /// (PRD §11.2, §12.3). It re-shapes, re-typesets, re-flows, and re-derives
@@ -110,15 +112,29 @@ class _ReaderScaffold extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              // Weak-line + mutashābihāt overlays — diagnostic, opt-in, default
-              // off (T05); T08 folds these into the auto-hiding edge chrome.
-              _OverlayToggles(entryPage: page),
               // Jump-to (juz/ḥizb/sūrah/page); T08 folds it into the edge chrome.
               IconButton(
                 onPressed: () => showMushafJumpPicker(context, entryPage: page),
                 tooltip: l10n.mushafJumpTitle,
                 icon: const Icon(Icons.menu_book_outlined),
               ),
+            ],
+          ),
+        ),
+        // The reader controls — theme, zoom, and the diagnostic overlay toggles
+        // (default off). All display-only layer transforms; T08 folds them into
+        // the auto-hiding edge chrome.
+        Padding(
+          padding: EdgeInsetsDirectional.symmetric(horizontal: space.space3),
+          child: Wrap(
+            alignment: WrapAlignment.center,
+            spacing: space.space2,
+            runSpacing: space.space2,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              ReaderThemeControl(entryPage: page),
+              ReaderZoomControl(entryPage: page),
+              _OverlayToggles(entryPage: page),
             ],
           ),
         ),

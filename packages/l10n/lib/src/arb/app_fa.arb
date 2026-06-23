@@ -173,5 +173,10 @@
   "mushafUnitSurah": "سوره",
   "mushafUnitPage": "صفحه",
   "mushafOverlayWeakLines": "خط‌های ضعیف",
-  "mushafOverlayMutashabihat": "متشابهات"
+  "mushafOverlayMutashabihat": "متشابهات",
+  "mushafZoomIn": "بزرگ‌نمایی",
+  "mushafZoomOut": "کوچک‌نمایی",
+  "mushafThemeLight": "روشن",
+  "mushafThemeSepia": "سپیا",
+  "mushafThemeDark": "تیره"
 }

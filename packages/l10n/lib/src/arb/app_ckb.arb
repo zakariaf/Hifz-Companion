@@ -173,5 +173,10 @@
   "mushafUnitSurah": "سورەت",
   "mushafUnitPage": "لاپەڕە",
   "mushafOverlayWeakLines": "دێڕە لاوازەکان",
-  "mushafOverlayMutashabihat": "هاوشێوەکان"
+  "mushafOverlayMutashabihat": "هاوشێوەکان",
+  "mushafZoomIn": "گەورەکردن",
+  "mushafZoomOut": "بچووککردنەوە",
+  "mushafThemeLight": "ڕووناک",
+  "mushafThemeSepia": "قاوەیی",
+  "mushafThemeDark": "تاریک"
 }

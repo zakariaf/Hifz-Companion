@@ -1146,6 +1146,36 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'المتشابهات'**
   String get mushafOverlayMutashabihat;
+
+  /// Reader zoom-in (+) control. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'تكبير'**
+  String get mushafZoomIn;
+
+  /// Reader zoom-out (−) control. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'تصغير'**
+  String get mushafZoomOut;
+
+  /// Reader theme: light. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'فاتح'**
+  String get mushafThemeLight;
+
+  /// Reader theme: sepia. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'بنّي'**
+  String get mushafThemeSepia;
+
+  /// Reader theme: dark. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'داكن'**
+  String get mushafThemeDark;
 }
 
 class _AppLocalizationsDelegate
