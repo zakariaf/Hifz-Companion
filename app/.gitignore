@@ -33,6 +33,9 @@ migrate_working_dir/
 /build/
 /coverage/
 
+# On-device integration screenshots (generated render previews)
+/screenshots/
+
 # Symbolication related
 app.*.symbols
 
