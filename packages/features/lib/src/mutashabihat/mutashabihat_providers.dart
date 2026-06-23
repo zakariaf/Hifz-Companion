@@ -13,7 +13,13 @@ import 'package:models/models.dart'
         MutashabihMemberView,
         ProfileId;
 import 'package:quran/quran.dart'
-    show LineType, MushafLineRef, PageGeometry, WordRef;
+    show
+        AnchorResolved,
+        LineType,
+        MushafLineRef,
+        PageGeometry,
+        WordRef,
+        anchorWordRefs;
 
 /// The read models the Mutashābihāt trainer binds to (E14-T06): two read-only
 /// projections of the local store, reached through the injected repositories on
@@ -85,13 +91,24 @@ final drillPageGeometryProvider =
 );
 
 /// Resolves a confusable member's `distinguishing_word_index_json` into the
-/// [WordRef]s the anchor overlay highlights (E14-T09 supplies the real mapping).
+/// page-relative [WordRef]s the anchor overlay highlights (E14-T09).
 ///
-/// Bundle-first default: no words, so the anchor seam is wired but draws nothing
-/// until E14-T09 lands the index→`WordRef` resolution over the bundled layout.
+/// It runs the pure `quran` resolver over the **same** page geometry the glyphs
+/// use — never reading or reconstructing verse text. A missing/out-of-range
+/// mapping resolves to no words (the drill shows no anchor), never a guessed box.
+/// Bundle-first: the geometry has no per-word boxes yet, so this draws nothing
+/// until the real layout ships with the asset pack.
 final drillAnchorWordsProvider =
     Provider<List<WordRef> Function(MutashabihMemberView)>(
-  (ref) => (_) => const <WordRef>[],
+  (ref) => (member) {
+    final geometry = ref.read(drillPageGeometryProvider(member.pageNumber));
+    final resolution = anchorWordRefs(
+      member.ayahId,
+      member.distinguishingWordIndices,
+      geometry,
+    );
+    return resolution is AnchorResolved ? resolution.words : const <WordRef>[];
+  },
 );
 
 /// Maps the persisted reference `LineType` to the render `LineType` (placement

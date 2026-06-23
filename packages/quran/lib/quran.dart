@@ -14,6 +14,13 @@ export 'src/fonts/asset_vault.dart'
     show AssetVault, FontLoaderRegistrar, PageFontRegistrar;
 export 'src/fonts/register_verified_page_fonts.dart'
     show registerVerifiedPageFonts;
+export 'src/mutashabihat/anchor_resolver.dart'
+    show
+        AnchorResolution,
+        AnchorResolved,
+        AnchorUnavailable,
+        anchorMarker,
+        anchorWordRefs;
 export 'src/page_geometry.dart';
 export 'src/page_reference.dart' show PageReference, SurahAyahRange;
 export 'src/quran_page_placeholder.dart';
