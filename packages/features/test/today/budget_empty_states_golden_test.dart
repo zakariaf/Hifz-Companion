@@ -61,7 +61,9 @@ void main() {
         await pump(tester, locale, entry.value);
         await expectLater(
           find.byType(Scaffold),
-          matchesGoldenFile('goldens/today_${entry.key}__$code.png'),
+          // `today_es_*` (empty-states) — distinct from today_golden_test's
+          // `today_all_done`/`today_loading` (same dir) to avoid a master clash.
+          matchesGoldenFile('goldens/today_es_${entry.key}__$code.png'),
         );
       });
     }

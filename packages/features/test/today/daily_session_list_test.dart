@@ -83,18 +83,28 @@ void main() {
   });
 
   test('the list widgets call no engine schedule method and read no clock', () {
-    for (final path in const <String>[
-      'lib/src/today/widgets/daily_session_list.dart',
-      'lib/src/today/widgets/session_section.dart',
-    ]) {
+    for (final lib in const <String>['daily_session_list', 'session_section']) {
       // Strip line/doc comments — the guard checks code, not prose.
-      final code = File(path)
+      final code = _featuresLib('today/widgets/$lib.dart')
           .readAsLinesSync()
           .map((l) => l.contains('//') ? l.substring(0, l.indexOf('//')) : l)
           .join('\n');
-      expect(code.contains('buildToday'), isFalse, reason: '$path calls buildToday');
-      expect(code.contains('loadBalance'), isFalse, reason: '$path calls loadBalance');
-      expect(code.contains('DateTime.now'), isFalse, reason: '$path reads DateTime.now');
+      expect(code.contains('buildToday'), isFalse, reason: '$lib calls buildToday');
+      expect(code.contains('loadBalance'), isFalse, reason: '$lib loadBalance');
+      expect(code.contains('DateTime.now'), isFalse, reason: '$lib DateTime.now');
     }
   });
+}
+
+/// Resolves a `features` lib source file regardless of the test's CWD (the fast
+/// lane may run from the package dir or the repo root).
+File _featuresLib(String relFromSrc) {
+  for (final base in <String>[
+    'lib/src/$relFromSrc',
+    'packages/features/lib/src/$relFromSrc',
+  ]) {
+    final f = File(base);
+    if (f.existsSync()) return f;
+  }
+  throw StateError('source not found: $relFromSrc (cwd ${Directory.current.path})');
 }

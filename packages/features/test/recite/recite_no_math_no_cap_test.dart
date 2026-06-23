@@ -18,7 +18,16 @@ void main() {
   useOfflineTestPolicy();
 
   test('no engine schedule / cap symbol in the recite source', () {
-    final dir = Directory('lib/src/recite');
+    // Resolve the recite dir regardless of the test's CWD (the fast lane may run
+    // from the package dir or the repo root).
+    final dir = <String>['lib/src/recite', 'packages/features/lib/src/recite']
+        .map(Directory.new)
+        .firstWhere(
+          (d) => d.existsSync(),
+          orElse: () => throw StateError(
+            'recite dir not found (cwd ${Directory.current.path})',
+          ),
+        );
     final banned = <String>[
       'onReview',
       'buildToday',
