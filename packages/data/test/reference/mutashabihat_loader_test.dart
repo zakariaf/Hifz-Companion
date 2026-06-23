@@ -146,10 +146,12 @@ void main() {
       await count(db.mutashabihGroups) == 0 &&
       await count(db.mutashabihMembers) == 0;
 
+  Future<void> load(String json) =>
+      loadMutashabihatInto(db, parseMutashabihatDataset(json));
+
   group('happy-path load', () {
     test('populates exactly the fixture groups and members', () async {
-      await loadMutashabihatInto(
-          db, parseMutashabihatDataset(_validDatasetJson));
+      await load(_validDatasetJson);
 
       expect(await count(db.mutashabihGroups), 2);
       expect(await count(db.mutashabihMembers), 4);
@@ -202,7 +204,7 @@ void main() {
   {"ayahId":"2:1"},{"ayahId":"9:9"}]}]}
 ''';
       await expectLater(
-        () => loadMutashabihatInto(db, parseMutashabihatDataset(dangling)),
+        () => load(dangling),
         throwsA(
           isA<MutashabihatDatasetException>().having(
             (e) => e.toString(),
@@ -239,8 +241,7 @@ void main() {
     });
 
     test('a valid index list round-trips byte-equal', () async {
-      await loadMutashabihatInto(
-          db, parseMutashabihatDataset(_validDatasetJson));
+      await load(_validDatasetJson);
       final members = await dao.mutashabihMembersForGroup('g1');
       final m21 = members.firstWhere((m) => m.ayahId == '2:1');
       expect(m21.distinguishingWordIndexJson, '[0,2]');
@@ -275,7 +276,7 @@ void main() {
   {"ayahId":"2:1","translation":"In the name...","indices":[0]},
   {"ayahId":"2:2"}]}]}
 ''';
-      await loadMutashabihatInto(db, parseMutashabihatDataset(withGloss));
+      await load(withGloss);
       // The member row carries only ayah_id + index json — there is no text
       // column to hold the ignored "translation" field.
       final members = await dao.mutashabihMembersForGroup('g1');
@@ -296,8 +297,7 @@ void main() {
     // one-shot reference-build step; there is no runtime re-write path.
     test('re-loading the same dataset throws on the PK (no silent re-write)',
         () async {
-      await loadMutashabihatInto(
-          db, parseMutashabihatDataset(_validDatasetJson));
+      await load(_validDatasetJson);
       await expectLater(
         () => loadMutashabihatInto(
           db,
@@ -311,8 +311,7 @@ void main() {
   group('determinism', () {
     test('the same fixture yields byte-identical rows across two builds',
         () async {
-      await loadMutashabihatInto(
-          db, parseMutashabihatDataset(_validDatasetJson));
+      await load(_validDatasetJson);
       final groupsA = await dao.mutashabihMembersForGroup('g1');
 
       final db2 = openTestDatabase();

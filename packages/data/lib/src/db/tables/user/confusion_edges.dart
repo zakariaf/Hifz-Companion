@@ -11,7 +11,8 @@ import 'profiles.dart';
 ///
 /// Bookkeeping, not ML. The canonical `CHECK (ayah_a < ayah_b)` keeps exactly
 /// one row per unordered pair and forbids a self-loop. `last_confused_at` is a
-/// UTC instant (TEXT). `STRICT`.
+/// `CalendarDate` serial **day** (INTEGER) — a swap belongs to the civil day it
+/// happened on, never a wall-clock instant (07 §1; PRD §10.2). `STRICT`.
 @DataClassName('ConfusionEdgeRow')
 class ConfusionEdges extends Table {
   @override
@@ -32,8 +33,8 @@ class ConfusionEdges extends Table {
   /// How strongly this profile confuses the pair — a running count, default 0.
   RealColumn get weight => real().withDefault(const Constant(0))();
 
-  /// When last confused — UTC instant TEXT, or null.
-  TextColumn get lastConfusedAt => text().nullable()();
+  /// The civil day last confused — a `CalendarDate` serial-day INTEGER, or null.
+  IntColumn get lastConfusedAt => integer().nullable()();
 
   @override
   Set<Column<Object>> get primaryKey => {profileId, ayahA, ayahB};

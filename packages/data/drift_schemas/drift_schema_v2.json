@@ -1,0 +1,1932 @@
+{
+  "_meta": {
+    "description": "This file contains a serialized version of schema entities for drift.",
+    "version": "1.3.0"
+  },
+  "options": {
+    "store_date_time_values_as_text": false
+  },
+  "entities": [
+    {
+      "id": 0,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "mushaf",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "mushaf_id",
+            "getter_name": "mushafId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "riwayah",
+            "getter_name": "riwayah",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "name",
+            "getter_name": "name",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "line_count",
+            "getter_name": "lineCount",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "page_count",
+            "getter_name": "pageCount",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "font_family",
+            "getter_name": "fontFamily",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "checksum_sha256",
+            "getter_name": "checksumSha256",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [],
+        "strict": true,
+        "explicit_pk": [
+          "mushaf_id"
+        ]
+      }
+    },
+    {
+      "id": 1,
+      "references": [
+        0
+      ],
+      "type": "table",
+      "data": {
+        "name": "profile",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "profile_id",
+            "getter_name": "profileId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "display_name",
+            "getter_name": "displayName",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "role",
+            "getter_name": "role",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "locale",
+            "getter_name": "locale",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "mushaf_id",
+            "getter_name": "mushafId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES mushaf (mushaf_id)",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES mushaf (mushaf_id)"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "mushaf",
+                    "column": "mushaf_id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "settings_json",
+            "getter_name": "settingsJson",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (role IN ('self', 'student', 'child'))",
+          "CHECK (locale IN ('ar', 'fa', 'ckb'))"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "profile_id"
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "surah",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "surah_id",
+            "getter_name": "surahId",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "name_ar",
+            "getter_name": "nameAr",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "revelation",
+            "getter_name": "revelation",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "ayah_count",
+            "getter_name": "ayahCount",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "bismillah_pre",
+            "getter_name": "bismillahPre",
+            "moor_type": "bool",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "CHECK (\"bismillah_pre\" IN (0, 1))",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "CHECK (\"bismillah_pre\" IN (0, 1))"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (surah_id BETWEEN 1 AND 114)",
+          "CHECK (revelation IN ('meccan', 'medinan'))",
+          "CHECK (ayah_count > 0)"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "surah_id"
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "references": [
+        2
+      ],
+      "type": "table",
+      "data": {
+        "name": "page",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "page_id",
+            "getter_name": "pageId",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "juz",
+            "getter_name": "juz",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "hizb",
+            "getter_name": "hizb",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "rub",
+            "getter_name": "rub",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "surah_start",
+            "getter_name": "surahStart",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES surah (surah_id)",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES surah (surah_id)"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "surah",
+                    "column": "surah_id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "ayah_start",
+            "getter_name": "ayahStart",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "surah_end",
+            "getter_name": "surahEnd",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES surah (surah_id)",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES surah (surah_id)"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "surah",
+                    "column": "surah_id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "ayah_end",
+            "getter_name": "ayahEnd",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "line_count",
+            "getter_name": "lineCount",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "qpc_font_name",
+            "getter_name": "qpcFontName",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (page_id BETWEEN 1 AND 604)",
+          "CHECK (juz BETWEEN 1 AND 30)",
+          "CHECK (hizb BETWEEN 1 AND 60)",
+          "CHECK (rub BETWEEN 1 AND 240)"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "page_id"
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "references": [
+        1,
+        3
+      ],
+      "type": "table",
+      "data": {
+        "name": "card",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "profile_id",
+            "getter_name": "profileId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES profile (profile_id) ON DELETE CASCADE",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES profile (profile_id) ON DELETE CASCADE"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "profile",
+                    "column": "profile_id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "cascade"
+                }
+              }
+            ]
+          },
+          {
+            "name": "page_id",
+            "getter_name": "pageId",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES page (page_id)",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES page (page_id)"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "page",
+                    "column": "page_id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "track",
+            "getter_name": "track",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "d",
+            "getter_name": "difficulty",
+            "moor_type": "double",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "s",
+            "getter_name": "stabilityDays",
+            "moor_type": "double",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "last_review_at",
+            "getter_name": "lastReviewAt",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "due_at",
+            "getter_name": "dueAt",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "reps",
+            "getter_name": "reps",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('0')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "lapses",
+            "getter_name": "lapses",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('0')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "weak_flag",
+            "getter_name": "weakFlag",
+            "moor_type": "bool",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "CHECK (\"weak_flag\" IN (0, 1))",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "CHECK (\"weak_flag\" IN (0, 1))"
+            },
+            "default_dart": "const CustomExpression('0')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "signoffs",
+            "getter_name": "signoffs",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('0')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "manual_lock",
+            "getter_name": "manualLock",
+            "moor_type": "bool",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "CHECK (\"manual_lock\" IN (0, 1))",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "CHECK (\"manual_lock\" IN (0, 1))"
+            },
+            "default_dart": "const CustomExpression('0')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "prayer_critical",
+            "getter_name": "prayerCritical",
+            "moor_type": "bool",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "CHECK (\"prayer_critical\" IN (0, 1))",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "CHECK (\"prayer_critical\" IN (0, 1))"
+            },
+            "default_dart": "const CustomExpression('0')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "enabled",
+            "getter_name": "enabled",
+            "moor_type": "bool",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "CHECK (\"enabled\" IN (0, 1))",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "CHECK (\"enabled\" IN (0, 1))"
+            },
+            "default_dart": "const CustomExpression('1')",
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (track IN ('NEW', 'NEAR', 'FAR', 'UNMEMORIZED'))",
+          "CHECK (d BETWEEN 1 AND 10)",
+          "CHECK (s >= 0)",
+          "CHECK (reps >= 0)",
+          "CHECK (lapses >= 0)",
+          "CHECK (signoffs >= 0)",
+          "CHECK (track = 'UNMEMORIZED' OR due_at IS NOT NULL)"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "profile_id",
+          "page_id"
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "references": [
+        1,
+        3
+      ],
+      "type": "table",
+      "data": {
+        "name": "line_block",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "block_id",
+            "getter_name": "blockId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "profile_id",
+            "getter_name": "profileId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES profile (profile_id) ON DELETE CASCADE",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES profile (profile_id) ON DELETE CASCADE"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "profile",
+                    "column": "profile_id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "cascade"
+                }
+              }
+            ]
+          },
+          {
+            "name": "page_id",
+            "getter_name": "pageId",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES page (page_id)",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES page (page_id)"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "page",
+                    "column": "page_id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "line_start",
+            "getter_name": "lineStart",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "line_end",
+            "getter_name": "lineEnd",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "error_count",
+            "getter_name": "errorCount",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('0')",
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (line_start BETWEEN 1 AND 15)",
+          "CHECK (line_end BETWEEN line_start AND 15)",
+          "CHECK (error_count >= 0)"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "block_id"
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "references": [
+        1,
+        3
+      ],
+      "type": "table",
+      "data": {
+        "name": "review_log",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "log_id",
+            "getter_name": "logId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "profile_id",
+            "getter_name": "profileId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES profile (profile_id) ON DELETE CASCADE",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES profile (profile_id) ON DELETE CASCADE"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "profile",
+                    "column": "profile_id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "cascade"
+                }
+              }
+            ]
+          },
+          {
+            "name": "page_id",
+            "getter_name": "pageId",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES page (page_id)",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES page (page_id)"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "page",
+                    "column": "page_id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "reviewed_at",
+            "getter_name": "reviewedAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "track_at_review",
+            "getter_name": "trackAtReview",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "grade",
+            "getter_name": "grade",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "error_lines_json",
+            "getter_name": "errorLinesJson",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "elapsed_days",
+            "getter_name": "elapsedDays",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "r_predicted",
+            "getter_name": "rPredicted",
+            "moor_type": "double",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "s_before",
+            "getter_name": "sBefore",
+            "moor_type": "double",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "s_after",
+            "getter_name": "sAfter",
+            "moor_type": "double",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "d_before",
+            "getter_name": "dBefore",
+            "moor_type": "double",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "d_after",
+            "getter_name": "dAfter",
+            "moor_type": "double",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "source",
+            "getter_name": "source",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "teacher_label",
+            "getter_name": "teacherLabel",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (track_at_review IN ('NEW', 'NEAR', 'FAR', 'UNMEMORIZED'))",
+          "CHECK (grade IN ('again', 'hard', 'good', 'easy'))",
+          "CHECK (source IN ('self', 'teacher'))"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "log_id"
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "references": [
+        2,
+        3
+      ],
+      "type": "table",
+      "data": {
+        "name": "ayah",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "ayah_id",
+            "getter_name": "ayahId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "surah",
+            "getter_name": "surah",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES surah (surah_id)",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES surah (surah_id)"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "surah",
+                    "column": "surah_id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "ayah",
+            "getter_name": "ayah",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "page_id",
+            "getter_name": "pageId",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES page (page_id)",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES page (page_id)"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "page",
+                    "column": "page_id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "line_refs_json",
+            "getter_name": "lineRefsJson",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "sajda",
+            "getter_name": "sajda",
+            "moor_type": "bool",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "CHECK (\"sajda\" IN (0, 1))",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "CHECK (\"sajda\" IN (0, 1))"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [],
+        "strict": true,
+        "explicit_pk": [
+          "ayah_id"
+        ]
+      }
+    },
+    {
+      "id": 8,
+      "references": [
+        1,
+        7
+      ],
+      "type": "table",
+      "data": {
+        "name": "confusion_edge",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "profile_id",
+            "getter_name": "profileId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES profile (profile_id) ON DELETE CASCADE",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES profile (profile_id) ON DELETE CASCADE"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "profile",
+                    "column": "profile_id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "cascade"
+                }
+              }
+            ]
+          },
+          {
+            "name": "ayah_a",
+            "getter_name": "ayahA",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES ayah (ayah_id)",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES ayah (ayah_id)"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "ayah",
+                    "column": "ayah_id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "ayah_b",
+            "getter_name": "ayahB",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES ayah (ayah_id)",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES ayah (ayah_id)"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "ayah",
+                    "column": "ayah_id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "weight",
+            "getter_name": "weight",
+            "moor_type": "double",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('0.0')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "last_confused_at",
+            "getter_name": "lastConfusedAt",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (ayah_a < ayah_b)"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "profile_id",
+          "ayah_a",
+          "ayah_b"
+        ]
+      }
+    },
+    {
+      "id": 9,
+      "references": [
+        1
+      ],
+      "type": "table",
+      "data": {
+        "name": "cycle_config",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "profile_id",
+            "getter_name": "profileId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES profile (profile_id) ON DELETE CASCADE",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES profile (profile_id) ON DELETE CASCADE"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "profile",
+                    "column": "profile_id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": "cascade"
+                }
+              }
+            ]
+          },
+          {
+            "name": "cycle_type",
+            "getter_name": "cycleType",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "new_lines_per_day",
+            "getter_name": "newLinesPerDay",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('0')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "near_window_juz",
+            "getter_name": "nearWindowJuz",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "far_target_per_day",
+            "getter_name": "farTargetPerDay",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "far_cycle_days",
+            "getter_name": "farCycleDays",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "daily_budget_minutes",
+            "getter_name": "dailyBudgetMinutes",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "pure_cycle_mode",
+            "getter_name": "pureCycleMode",
+            "moor_type": "bool",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "CHECK (\"pure_cycle_mode\" IN (0, 1))",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "CHECK (\"pure_cycle_mode\" IN (0, 1))"
+            },
+            "default_dart": "const CustomExpression('0')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "term_label_set",
+            "getter_name": "termLabelSet",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "region_preset",
+            "getter_name": "regionPreset",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (new_lines_per_day >= 0)",
+          "CHECK (near_window_juz >= 0)",
+          "CHECK (far_target_per_day >= 0)",
+          "CHECK (far_cycle_days > 0)",
+          "CHECK (daily_budget_minutes > 0)"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "profile_id"
+        ]
+      }
+    },
+    {
+      "id": 10,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "app_meta",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "key",
+            "getter_name": "key",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "value",
+            "getter_name": "value",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [],
+        "strict": true,
+        "explicit_pk": [
+          "key"
+        ]
+      }
+    },
+    {
+      "id": 11,
+      "references": [
+        3
+      ],
+      "type": "table",
+      "data": {
+        "name": "line",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "line_id",
+            "getter_name": "lineId",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "page_id",
+            "getter_name": "pageId",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES page (page_id)",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES page (page_id)"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "page",
+                    "column": "page_id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "line_no",
+            "getter_name": "lineNo",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "line_type",
+            "getter_name": "lineType",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "ayah_refs_json",
+            "getter_name": "ayahRefsJson",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "text_glyph_ref",
+            "getter_name": "textGlyphRef",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (line_no BETWEEN 1 AND 15)",
+          "CHECK (line_type IN ('ayah', 'surah_header', 'basmala'))"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "line_id"
+        ]
+      }
+    },
+    {
+      "id": 12,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "mutashabih_group",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "group_id",
+            "getter_name": "groupId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "type",
+            "getter_name": "type",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "note_key",
+            "getter_name": "noteKey",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (type IN ('identical', 'near_identical', 'structural'))"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "group_id"
+        ]
+      }
+    },
+    {
+      "id": 13,
+      "references": [
+        12,
+        7
+      ],
+      "type": "table",
+      "data": {
+        "name": "mutashabih_member",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "group_id",
+            "getter_name": "groupId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES mutashabih_group (group_id)",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES mutashabih_group (group_id)"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "mutashabih_group",
+                    "column": "group_id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "ayah_id",
+            "getter_name": "ayahId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "REFERENCES ayah (ayah_id)",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "REFERENCES ayah (ayah_id)"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              {
+                "foreign_key": {
+                  "to": {
+                    "table": "ayah",
+                    "column": "ayah_id"
+                  },
+                  "initially_deferred": false,
+                  "on_update": null,
+                  "on_delete": null
+                }
+              }
+            ]
+          },
+          {
+            "name": "distinguishing_word_index_json",
+            "getter_name": "distinguishingWordIndexJson",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [],
+        "strict": true,
+        "explicit_pk": [
+          "group_id",
+          "ayah_id"
+        ]
+      }
+    },
+    {
+      "id": 14,
+      "references": [
+        4
+      ],
+      "type": "index",
+      "data": {
+        "on": 4,
+        "name": "card_due",
+        "sql": null,
+        "unique": false,
+        "columns": [
+          {
+            "column": "profile_id",
+            "order_by": null
+          },
+          {
+            "column": "track",
+            "order_by": null
+          },
+          {
+            "column": "due_at",
+            "order_by": null
+          }
+        ]
+      }
+    },
+    {
+      "id": 15,
+      "references": [
+        5
+      ],
+      "type": "index",
+      "data": {
+        "on": 5,
+        "name": "line_block_by_card",
+        "sql": null,
+        "unique": false,
+        "columns": [
+          {
+            "column": "profile_id",
+            "order_by": null
+          },
+          {
+            "column": "page_id",
+            "order_by": null
+          }
+        ]
+      }
+    },
+    {
+      "id": 16,
+      "references": [
+        6
+      ],
+      "type": "index",
+      "data": {
+        "on": 6,
+        "name": "review_log_by_card",
+        "sql": null,
+        "unique": false,
+        "columns": [
+          {
+            "column": "profile_id",
+            "order_by": null
+          },
+          {
+            "column": "page_id",
+            "order_by": null
+          },
+          {
+            "column": "reviewed_at",
+            "order_by": null
+          }
+        ]
+      }
+    },
+    {
+      "id": 17,
+      "references": [
+        11
+      ],
+      "type": "index",
+      "data": {
+        "on": 11,
+        "name": "line_by_page",
+        "sql": null,
+        "unique": false,
+        "columns": [
+          {
+            "column": "page_id",
+            "order_by": null
+          },
+          {
+            "column": "line_no",
+            "order_by": null
+          }
+        ]
+      }
+    },
+    {
+      "id": 18,
+      "references": [
+        7
+      ],
+      "type": "index",
+      "data": {
+        "on": 7,
+        "name": "ayah_by_page",
+        "sql": null,
+        "unique": false,
+        "columns": [
+          {
+            "column": "page_id",
+            "order_by": null
+          }
+        ]
+      }
+    }
+  ],
+  "fixed_sql": [
+    {
+      "name": "mushaf",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"mushaf\" (\"mushaf_id\" TEXT NOT NULL, \"riwayah\" TEXT NOT NULL, \"name\" TEXT NOT NULL, \"line_count\" INTEGER NOT NULL, \"page_count\" INTEGER NOT NULL, \"font_family\" TEXT NOT NULL, \"checksum_sha256\" TEXT NOT NULL, PRIMARY KEY (\"mushaf_id\")) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "profile",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"profile\" (\"profile_id\" TEXT NOT NULL, \"display_name\" TEXT NOT NULL, \"role\" TEXT NOT NULL, \"locale\" TEXT NOT NULL, \"mushaf_id\" TEXT NOT NULL REFERENCES mushaf (mushaf_id), \"created_at\" TEXT NOT NULL, \"settings_json\" TEXT NULL, PRIMARY KEY (\"profile_id\"), CHECK (role IN ('self', 'student', 'child')), CHECK (locale IN ('ar', 'fa', 'ckb'))) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "surah",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"surah\" (\"surah_id\" INTEGER NOT NULL, \"name_ar\" TEXT NOT NULL, \"revelation\" TEXT NOT NULL, \"ayah_count\" INTEGER NOT NULL, \"bismillah_pre\" INTEGER NOT NULL CHECK (\"bismillah_pre\" IN (0, 1)), PRIMARY KEY (\"surah_id\"), CHECK (surah_id BETWEEN 1 AND 114), CHECK (revelation IN ('meccan', 'medinan')), CHECK (ayah_count > 0)) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "page",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"page\" (\"page_id\" INTEGER NOT NULL, \"juz\" INTEGER NOT NULL, \"hizb\" INTEGER NOT NULL, \"rub\" INTEGER NOT NULL, \"surah_start\" INTEGER NOT NULL REFERENCES surah (surah_id), \"ayah_start\" INTEGER NOT NULL, \"surah_end\" INTEGER NOT NULL REFERENCES surah (surah_id), \"ayah_end\" INTEGER NOT NULL, \"line_count\" INTEGER NOT NULL, \"qpc_font_name\" TEXT NOT NULL, PRIMARY KEY (\"page_id\"), CHECK (page_id BETWEEN 1 AND 604), CHECK (juz BETWEEN 1 AND 30), CHECK (hizb BETWEEN 1 AND 60), CHECK (rub BETWEEN 1 AND 240)) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "card",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"card\" (\"profile_id\" TEXT NOT NULL REFERENCES profile (profile_id) ON DELETE CASCADE, \"page_id\" INTEGER NOT NULL REFERENCES page (page_id), \"track\" TEXT NOT NULL, \"d\" REAL NOT NULL, \"s\" REAL NOT NULL, \"last_review_at\" INTEGER NULL, \"due_at\" INTEGER NULL, \"reps\" INTEGER NOT NULL DEFAULT 0, \"lapses\" INTEGER NOT NULL DEFAULT 0, \"weak_flag\" INTEGER NOT NULL DEFAULT 0 CHECK (\"weak_flag\" IN (0, 1)), \"signoffs\" INTEGER NOT NULL DEFAULT 0, \"manual_lock\" INTEGER NOT NULL DEFAULT 0 CHECK (\"manual_lock\" IN (0, 1)), \"prayer_critical\" INTEGER NOT NULL DEFAULT 0 CHECK (\"prayer_critical\" IN (0, 1)), \"enabled\" INTEGER NOT NULL DEFAULT 1 CHECK (\"enabled\" IN (0, 1)), PRIMARY KEY (\"profile_id\", \"page_id\"), CHECK (track IN ('NEW', 'NEAR', 'FAR', 'UNMEMORIZED')), CHECK (d BETWEEN 1 AND 10), CHECK (s >= 0), CHECK (reps >= 0), CHECK (lapses >= 0), CHECK (signoffs >= 0), CHECK (track = 'UNMEMORIZED' OR due_at IS NOT NULL)) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "line_block",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"line_block\" (\"block_id\" TEXT NOT NULL, \"profile_id\" TEXT NOT NULL REFERENCES profile (profile_id) ON DELETE CASCADE, \"page_id\" INTEGER NOT NULL REFERENCES page (page_id), \"line_start\" INTEGER NOT NULL, \"line_end\" INTEGER NOT NULL, \"error_count\" INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (\"block_id\"), CHECK (line_start BETWEEN 1 AND 15), CHECK (line_end BETWEEN line_start AND 15), CHECK (error_count >= 0)) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "review_log",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"review_log\" (\"log_id\" TEXT NOT NULL, \"profile_id\" TEXT NOT NULL REFERENCES profile (profile_id) ON DELETE CASCADE, \"page_id\" INTEGER NOT NULL REFERENCES page (page_id), \"reviewed_at\" TEXT NOT NULL, \"track_at_review\" TEXT NOT NULL, \"grade\" TEXT NOT NULL, \"error_lines_json\" TEXT NULL, \"elapsed_days\" INTEGER NOT NULL, \"r_predicted\" REAL NULL, \"s_before\" REAL NULL, \"s_after\" REAL NULL, \"d_before\" REAL NULL, \"d_after\" REAL NULL, \"source\" TEXT NOT NULL, \"teacher_label\" TEXT NULL, PRIMARY KEY (\"log_id\"), CHECK (track_at_review IN ('NEW', 'NEAR', 'FAR', 'UNMEMORIZED')), CHECK (grade IN ('again', 'hard', 'good', 'easy')), CHECK (source IN ('self', 'teacher'))) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "ayah",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"ayah\" (\"ayah_id\" TEXT NOT NULL, \"surah\" INTEGER NOT NULL REFERENCES surah (surah_id), \"ayah\" INTEGER NOT NULL, \"page_id\" INTEGER NOT NULL REFERENCES page (page_id), \"line_refs_json\" TEXT NOT NULL, \"sajda\" INTEGER NOT NULL CHECK (\"sajda\" IN (0, 1)), PRIMARY KEY (\"ayah_id\")) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "confusion_edge",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"confusion_edge\" (\"profile_id\" TEXT NOT NULL REFERENCES profile (profile_id) ON DELETE CASCADE, \"ayah_a\" TEXT NOT NULL REFERENCES ayah (ayah_id), \"ayah_b\" TEXT NOT NULL REFERENCES ayah (ayah_id), \"weight\" REAL NOT NULL DEFAULT 0.0, \"last_confused_at\" INTEGER NULL, PRIMARY KEY (\"profile_id\", \"ayah_a\", \"ayah_b\"), CHECK (ayah_a < ayah_b)) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "cycle_config",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"cycle_config\" (\"profile_id\" TEXT NOT NULL REFERENCES profile (profile_id) ON DELETE CASCADE, \"cycle_type\" TEXT NOT NULL, \"new_lines_per_day\" INTEGER NOT NULL DEFAULT 0, \"near_window_juz\" INTEGER NOT NULL, \"far_target_per_day\" INTEGER NOT NULL, \"far_cycle_days\" INTEGER NOT NULL, \"daily_budget_minutes\" INTEGER NOT NULL, \"pure_cycle_mode\" INTEGER NOT NULL DEFAULT 0 CHECK (\"pure_cycle_mode\" IN (0, 1)), \"term_label_set\" TEXT NOT NULL, \"region_preset\" TEXT NULL, PRIMARY KEY (\"profile_id\"), CHECK (new_lines_per_day >= 0), CHECK (near_window_juz >= 0), CHECK (far_target_per_day >= 0), CHECK (far_cycle_days > 0), CHECK (daily_budget_minutes > 0)) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "app_meta",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"app_meta\" (\"key\" TEXT NOT NULL, \"value\" TEXT NOT NULL, PRIMARY KEY (\"key\")) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "line",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"line\" (\"line_id\" INTEGER NOT NULL, \"page_id\" INTEGER NOT NULL REFERENCES page (page_id), \"line_no\" INTEGER NOT NULL, \"line_type\" TEXT NOT NULL, \"ayah_refs_json\" TEXT NOT NULL, \"text_glyph_ref\" TEXT NOT NULL, PRIMARY KEY (\"line_id\"), CHECK (line_no BETWEEN 1 AND 15), CHECK (line_type IN ('ayah', 'surah_header', 'basmala'))) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "mutashabih_group",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"mutashabih_group\" (\"group_id\" TEXT NOT NULL, \"type\" TEXT NOT NULL, \"note_key\" TEXT NULL, PRIMARY KEY (\"group_id\"), CHECK (type IN ('identical', 'near_identical', 'structural'))) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "mutashabih_member",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"mutashabih_member\" (\"group_id\" TEXT NOT NULL REFERENCES mutashabih_group (group_id), \"ayah_id\" TEXT NOT NULL REFERENCES ayah (ayah_id), \"distinguishing_word_index_json\" TEXT NULL, PRIMARY KEY (\"group_id\", \"ayah_id\")) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "card_due",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX card_due ON card (profile_id, track, due_at)"
+        }
+      ]
+    },
+    {
+      "name": "line_block_by_card",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX line_block_by_card ON line_block (profile_id, page_id)"
+        }
+      ]
+    },
+    {
+      "name": "review_log_by_card",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX review_log_by_card ON review_log (profile_id, page_id, reviewed_at)"
+        }
+      ]
+    },
+    {
+      "name": "line_by_page",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX line_by_page ON line (page_id, line_no)"
+        }
+      ]
+    },
+    {
+      "name": "ayah_by_page",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX ayah_by_page ON ayah (page_id)"
+        }
+      ]
+    }
+  ]
+}

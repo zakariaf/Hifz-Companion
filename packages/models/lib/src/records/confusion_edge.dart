@@ -3,6 +3,7 @@
 
 import 'package:meta/meta.dart';
 
+import '../dates/calendar_date.dart';
 import 'ids.dart';
 
 /// One profile's personal confusion edge between two near-identical āyāt — the
@@ -36,8 +37,13 @@ class ConfusionEdge {
   /// How strongly this profile confuses the pair — a running count, default 0.
   final double weight;
 
-  /// When the pair was last confused, stored **UTC**, or null if never.
-  final DateTime? lastConfusedAtInstant;
+  /// The civil **day** the pair was last confused — a [CalendarDate] serial day
+  /// stamped from the injected `today` (E14-T03), or null if never.
+  ///
+  /// A swap belongs to the calendar day it happened on, not a wall-clock
+  /// instant: stored as a serial-day integer, never a `DateTime` (the DST
+  /// off-by-one class the engine's date discipline forbids — 07 §1; PRD §10.2).
+  final CalendarDate? lastConfusedAt;
 
   /// Creates an edge whose [ayahA] is already canonically less than [ayahB].
   ///
@@ -49,7 +55,7 @@ class ConfusionEdge {
     required this.ayahA,
     required this.ayahB,
     this.weight = 0,
-    this.lastConfusedAtInstant,
+    this.lastConfusedAt,
   });
 
   /// Builds a canonically-ordered edge from an unordered pair, swapping the two
@@ -64,7 +70,7 @@ class ConfusionEdge {
     String ayahOne,
     String ayahTwo, {
     double weight = 0,
-    DateTime? lastConfusedAtInstant,
+    CalendarDate? lastConfusedAt,
   }) {
     final inOrder = ayahOne.compareTo(ayahTwo) <= 0;
     return ConfusionEdge(
@@ -72,7 +78,7 @@ class ConfusionEdge {
       ayahA: inOrder ? ayahOne : ayahTwo,
       ayahB: inOrder ? ayahTwo : ayahOne,
       weight: weight,
-      lastConfusedAtInstant: lastConfusedAtInstant,
+      lastConfusedAt: lastConfusedAt,
     );
   }
 
@@ -83,15 +89,14 @@ class ConfusionEdge {
     String? ayahA,
     String? ayahB,
     double? weight,
-    DateTime? lastConfusedAtInstant,
+    CalendarDate? lastConfusedAt,
   }) {
     return ConfusionEdge(
       profileId: profileId ?? this.profileId,
       ayahA: ayahA ?? this.ayahA,
       ayahB: ayahB ?? this.ayahB,
       weight: weight ?? this.weight,
-      lastConfusedAtInstant:
-          lastConfusedAtInstant ?? this.lastConfusedAtInstant,
+      lastConfusedAt: lastConfusedAt ?? this.lastConfusedAt,
     );
   }
 
@@ -102,7 +107,7 @@ class ConfusionEdge {
       other.ayahA == ayahA &&
       other.ayahB == ayahB &&
       other.weight == weight &&
-      other.lastConfusedAtInstant == lastConfusedAtInstant;
+      other.lastConfusedAt == lastConfusedAt;
 
   @override
   int get hashCode => Object.hash(
@@ -110,6 +115,6 @@ class ConfusionEdge {
         ayahA,
         ayahB,
         weight,
-        lastConfusedAtInstant,
+        lastConfusedAt,
       );
 }

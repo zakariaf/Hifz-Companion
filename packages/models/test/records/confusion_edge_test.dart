@@ -31,19 +31,31 @@ void main() {
   });
 
   group('ConfusionEdge fields', () {
-    test('lastConfusedAtInstant is a nullable DateTime', () {
+    test('lastConfusedAt is a nullable CalendarDate (a day, not an instant)',
+        () {
       final never = ConfusionEdge.between(profileId, '2:1', '2:2');
-      expect(never.lastConfusedAtInstant, isNull);
+      expect(never.lastConfusedAt, isNull);
       final once = ConfusionEdge.between(
         profileId,
         '2:1',
         '2:2',
         weight: 4,
-        lastConfusedAtInstant: DateTime.utc(2026, 6, 17),
+        lastConfusedAt: CalendarDate.ymd(2026, 6, 17),
       );
-      final DateTime? instant = once.lastConfusedAtInstant;
-      expect(instant?.isUtc, isTrue);
+      // Static-type pin: a future `DateTime lastConfusedAt` fails to compile.
+      final CalendarDate? day = once.lastConfusedAt;
+      expect(day, CalendarDate.ymd(2026, 6, 17));
+      expect(once.weight, isA<double>());
       expect(once.weight, 4);
+    });
+
+    test('no streak/score/health field on the public surface', () {
+      final edge = ConfusionEdge.between(profileId, '2:1', '2:2', weight: 2);
+      // The only stored authority is `weight` (a neutral bookkeeping count) and
+      // the canonical pair — never a derived "cured"/"safe to drop" flag.
+      expect(edge.weight, 2);
+      expect(edge.ayahA, '2:1');
+      expect(edge.ayahB, '2:2');
     });
 
     test('copyWith() with no args preserves every field', () {
@@ -52,9 +64,24 @@ void main() {
         '2:1',
         '2:2',
         weight: 4,
-        lastConfusedAtInstant: DateTime.utc(2026, 6, 17),
+        lastConfusedAt: CalendarDate.ymd(2026, 6, 17),
       );
       expect(edge.copyWith(), edge);
+    });
+
+    test('copyWith(weight:) changes only weight', () {
+      final edge = ConfusionEdge.between(
+        profileId,
+        '2:1',
+        '2:2',
+        weight: 4,
+        lastConfusedAt: CalendarDate.ymd(2026, 6, 17),
+      );
+      final bumped = edge.copyWith(weight: 5);
+      expect(bumped.weight, 5);
+      expect(bumped.ayahA, edge.ayahA);
+      expect(bumped.ayahB, edge.ayahB);
+      expect(bumped.lastConfusedAt, edge.lastConfusedAt);
     });
   });
 }

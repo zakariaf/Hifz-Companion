@@ -42,14 +42,14 @@ void main() {
     expect(read.settings, {'reminderHour': 20, 'theme': 'sepia'});
   });
 
-  test('ConfusionEdge round-trips the canonical ordering and nullable instant',
+  test('ConfusionEdge round-trips the canonical ordering and serial-day stamp',
       () async {
     final edge = ConfusionEdge.between(
       const ProfileId('p'),
       '2:1',
       '2:2',
       weight: 4.5,
-      lastConfusedAtInstant: DateTime.utc(2026, 6, 17),
+      lastConfusedAt: CalendarDate.ymd(2026, 6, 17),
     );
     await db.confusionEdgeDao.upsert(edge);
 
@@ -58,8 +58,15 @@ void main() {
     expect(read.ayahA, '2:1');
     expect(read.ayahB, '2:2');
     expect(read.weight, closeTo(4.5, 1e-6));
-    expect(read.lastConfusedAtInstant, DateTime.utc(2026, 6, 17));
-    expect(read.lastConfusedAtInstant?.isUtc, isTrue);
+    expect(read.lastConfusedAt, CalendarDate.ymd(2026, 6, 17));
+
+    // edgeFor resolves the same row from either direction (canonical ordering).
+    final viaForward = await db.confusionEdgeDao
+        .edgeFor(profileId: const ProfileId('p'), ayahOne: '2:1', ayahTwo: '2:2');
+    final viaReversed = await db.confusionEdgeDao
+        .edgeFor(profileId: const ProfileId('p'), ayahOne: '2:2', ayahTwo: '2:1');
+    expect(viaForward, isNotNull);
+    expect(viaReversed, viaForward);
   });
 
   test('CycleConfig round-trips unit-named ints and the pure-cycle flag',
