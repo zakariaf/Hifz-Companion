@@ -4,7 +4,7 @@
 import 'package:features/features.dart'
     show
         MushafReaderScreen,
-        MutashabihatScreen,
+        MutashabihatTrainerScreen,
         OnboardingScreen,
         ProgressScreen,
         ReciteGradeScreen,
@@ -113,7 +113,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/mutashabihat',
-            builder: (context, state) => const MutashabihatScreen(),
+            builder: (context, state) => const MutashabihatTrainerScreen(),
           ),
           GoRoute(
             path: '/progress',

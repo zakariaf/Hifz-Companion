@@ -279,6 +279,10 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get navMutashabihat => 'هاوشێوەکان';
 
   @override
+  String get mutashabihatTrainerIntro =>
+      'درّب على المواضع المتشابهة جنبًا إلى جنب ليقلّ الخلط بينها.';
+
+  @override
   String get navProgress => 'پێشکەوتن';
 
   @override

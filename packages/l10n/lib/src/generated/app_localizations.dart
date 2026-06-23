@@ -325,6 +325,12 @@ abstract class AppLocalizations {
   /// **'المتشابهات'**
   String get navMutashabihat;
 
+  /// Calm landing line on the Mutashābihāt trainer: drilling similar passages side by side REDUCES confusing them — an aid to revision, never a claim of being 'cured'/'resolved'/'safe to drop', no number, no fiqh ruling. NEEDS scholarly + native fa/ckb review (E14-T11); ckb falls back to this until then.
+  ///
+  /// In ar, this message translates to:
+  /// **'درّب على المواضع المتشابهة جنبًا إلى جنب ليقلّ الخلط بينها.'**
+  String get mutashabihatTrainerIntro;
+
   /// Bottom-nav label for the Progress tab. Best-effort fa/ckb pending E09.
   ///
   /// In ar, this message translates to:

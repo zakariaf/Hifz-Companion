@@ -37,7 +37,13 @@ export 'src/mutashabihat/mutashabihat_providers.dart'
         confusionHotspotsProvider,
         mutashabihGroupProvider,
         mutashabihGroupsProvider;
-export 'src/mutashabihat/mutashabihat_screen.dart';
+export 'src/mutashabihat/mutashabihat_trainer_screen.dart'
+    show MutashabihatTrainerScreen;
+export 'src/mutashabihat/mutashabihat_trainer_view_model.dart'
+    show
+        MutashabihatTrainerController,
+        MutashabihatTrainerState,
+        mutashabihatTrainerControllerProvider;
 export 'src/onboarding/cold_start_seeder.dart';
 export 'src/onboarding/onboarding_providers.dart';
 export 'src/onboarding/onboarding_screen.dart';

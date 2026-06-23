@@ -279,6 +279,10 @@ class AppLocalizationsFa extends AppLocalizations {
   String get navMutashabihat => 'متشابهات';
 
   @override
+  String get mutashabihatTrainerIntro =>
+      'موارد متشابه را کنار هم تمرین کنید تا اشتباه میانشان کمتر شود.';
+
+  @override
   String get navProgress => 'پیشرفت';
 
   @override

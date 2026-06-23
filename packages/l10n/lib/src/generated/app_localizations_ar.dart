@@ -290,6 +290,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get navMutashabihat => 'المتشابهات';
 
   @override
+  String get mutashabihatTrainerIntro =>
+      'درّب على المواضع المتشابهة جنبًا إلى جنب ليقلّ الخلط بينها.';
+
+  @override
   String get navProgress => 'التقدّم';
 
   @override
