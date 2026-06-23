@@ -9,6 +9,7 @@ import '../../design_system/page_card/page_card.dart';
 import '../../design_system/theme/spacing_tokens.dart';
 import '../../l10n/term_set.dart';
 import 'page_card_data.dart';
+import 'teacher_sourced_marker.dart';
 
 /// One section of the daily-session list — a quiet localized term-set header in
 /// `type.title` and its E10 page-card rows (07-components §1). The feature layer
@@ -81,15 +82,23 @@ class SessionSection extends StatelessWidget {
               padding: EdgeInsetsDirectional.symmetric(
                 horizontal: space.space4,
               ),
-              child: MihrabPageCard(
-                data: todayPageCardData(
-                  card: card,
-                  track: track,
-                  juz: juzOf(card.pageId),
-                  l10n: l10n,
-                  region: region,
-                ),
-                onOpen: () => onOpen(card.pageId),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  MihrabPageCard(
+                    data: todayPageCardData(
+                      card: card,
+                      track: track,
+                      juz: juzOf(card.pageId),
+                      l10n: l10n,
+                      region: region,
+                    ),
+                    onOpen: () => onOpen(card.pageId),
+                  ),
+                  // A teacher (talaqqī) sign-off is marked by shape + label,
+                  // never color alone, so self/teacher are never conflated.
+                  if (card.signoffs > 0) const TeacherSourcedMarker(),
+                ],
               ),
             );
           },

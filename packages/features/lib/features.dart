@@ -42,3 +42,4 @@ export 'src/today/widgets/session_section.dart';
 export 'src/today/widgets/today_all_done.dart';
 export 'src/today/widgets/today_catch_up_banner.dart';
 export 'src/today/widgets/today_silent_resume.dart';
+export 'src/today/widgets/teacher_sourced_marker.dart';
