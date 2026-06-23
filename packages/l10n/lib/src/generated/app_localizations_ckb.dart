@@ -280,42 +280,42 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get mutashabihatTrainerIntro =>
-      'درّب على المواضع المتشابهة جنبًا إلى جنب ليقلّ الخلط بينها.';
+      'شوێنە هاوشێوەکان پێکەوە مەشق بکە تا تێکەڵبوونیان کەمتر بێتەوە.';
 
   @override
-  String get commonBack => 'رجوع';
+  String get commonBack => 'گەڕانەوە';
 
   @override
-  String get mutashabihatDrillReveal => 'اكشف الصفحة';
+  String get mutashabihatDrillReveal => 'پیشاندانی لاپەڕە';
 
   @override
   String mutashabihatDrillProgress(String position, String total) {
-    return '$position من $total';
+    return '$position لە $total';
   }
 
   @override
-  String get mutashabihatDrillNext => 'التالي';
+  String get mutashabihatDrillNext => 'دواتر';
 
   @override
-  String get mutashabihatDrillComplete => 'أتممتَ هذه المجموعة.';
+  String get mutashabihatDrillComplete => 'ئەم کۆمەڵەت تەواو کرد.';
 
   @override
-  String get mutashabihTypeIdentical => 'متطابقة';
+  String get mutashabihTypeIdentical => 'وەک یەک';
 
   @override
-  String get mutashabihTypeNearIdentical => 'شبه متطابقة';
+  String get mutashabihTypeNearIdentical => 'نزیک لە یەک';
 
   @override
-  String get mutashabihTypeStructural => 'متوازية البنية';
+  String get mutashabihTypeStructural => 'هاوپێکهاتە';
 
   @override
   String ayahRefLabel(String surah, String ayah) {
-    return 'سورة $surah · آية $ayah';
+    return 'سورەت $surah · ئایەت $ayah';
   }
 
   @override
   String mutashabihatHotspotSemantic(String first, String second) {
-    return 'كثيرًا ما تخلط بين $first و$second — انقر للتمرين';
+    return 'زۆرجار $first و $second تێکەڵ دەکەیت — بۆ مەشق دەستی لێبدە';
   }
 
   @override
