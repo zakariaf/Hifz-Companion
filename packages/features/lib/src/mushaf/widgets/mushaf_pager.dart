@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quran/quran.dart'
     show
-        ImmutableGlyphPage,
+        MushafLineRef,
         MushafOverlayPainter,
-        MushafReaderFrame,
+        MushafReaderPage,
         OverlayKind,
         OverlayStyle;
 
@@ -125,8 +125,8 @@ class _MushafPageSlot extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final page = ref.watch(mushafPageProvider(pageNumber));
     return page.maybeWhen(
-      data: (glyphPage) => _PageFrame(
-        glyphPage: glyphPage,
+      data: (lines) => _PageFrame(
+        lines: lines,
         pageNumber: pageNumber,
         entryPage: entryPage,
       ),
@@ -135,18 +135,19 @@ class _MushafPageSlot extends ConsumerWidget {
   }
 }
 
-/// The reader frame around one page: E05's `MushafReaderFrame` applies the zoom
-/// (the reader's own scale, T02) and the theme colour filter (identity here;
-/// E13-T06 maps sepia/dark) over the glyph layer, with the toggleable weak-line
-/// + mutashābihāt overlay painted by E05 from coordinate refs only (E13-T05).
+/// The reader frame around one page: E05's `MushafReaderPage` assembles the
+/// immutable glyph layer (inside the `quran` package — the feature never names
+/// the glyph surface) and applies the zoom (the reader's own scale, T02) and the
+/// theme colour filter (T06), with the toggleable weak-line + mutashābihāt
+/// overlay painted by E05 from coordinate refs only (E13-T05).
 class _PageFrame extends ConsumerWidget {
   const _PageFrame({
-    required this.glyphPage,
+    required this.lines,
     required this.pageNumber,
     required this.entryPage,
   });
 
-  final ImmutableGlyphPage glyphPage;
+  final List<MushafLineRef> lines;
   final int pageNumber;
   final int entryPage;
 
@@ -162,8 +163,9 @@ class _PageFrame extends ConsumerWidget {
       confusables: ref.watch(pageConfusablesProvider(pageNumber)),
       geometry: geometry,
     );
-    return MushafReaderFrame(
-      glyphPage: glyphPage,
+    return MushafReaderPage(
+      pageNumber: pageNumber,
+      lines: lines,
       // The reader's own zoom (T02), independent of OS chrome text-scale, and
       // the theme's single ColorFilter (T06) — both layer transforms in E05's
       // frame; one font per page, no re-flow.

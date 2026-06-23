@@ -20,10 +20,12 @@ export 'src/quran_page_placeholder.dart';
 export 'src/render/assemble_page.dart' show MushafLayout, assemblePage;
 export 'src/render/glyph_line.dart'
     show GlyphLine, ImmutableGlyphPage, LayoutWord, LineType, qpcFontFamily;
+export 'src/render/mushaf_line_ref.dart' show MushafLineRef;
 export 'src/render/mushaf_overlay_painter.dart'
     show MushafOverlayPainter, OverlayStyle;
 export 'src/render/mushaf_page_navigator.dart' show MushafPageNavigator;
 export 'src/render/mushaf_page_view.dart' show MushafPageView;
 export 'src/render/mushaf_reader_frame.dart' show MushafReaderFrame;
+export 'src/render/mushaf_reader_page.dart' show MushafReaderPage;
 export 'src/render/overlay_marker.dart'
     show OverlayKind, OverlayMarker, WordRef;

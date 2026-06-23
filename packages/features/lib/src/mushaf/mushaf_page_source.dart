@@ -4,37 +4,34 @@
 import 'package:composition/composition.dart' show persistenceProvider;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:models/models.dart' as models;
-import 'package:quran/quran.dart' show GlyphLine, ImmutableGlyphPage, LineType;
+import 'package:quran/quran.dart' show LineType, MushafLineRef;
 
-/// The verified per-page glyph layout for the muṣḥaf reader: it reads the
-/// fixed reference `line` rows for [pageNumber] and assembles them into E05's
-/// immutable [ImmutableGlyphPage] (the input to `MushafPageView`).
+/// The verified per-page line refs for the muṣḥaf reader: it reads the fixed
+/// reference `line` rows for [pageNumber] and projects them into wall-safe
+/// [MushafLineRef]s (line number + type + opaque `textGlyphRef`). The assembly
+/// into the immutable glyph layer happens **inside the `quran` package**
+/// (`MushafReaderPage`), so the feature layer never names the glyph surface —
+/// the "two pipelines, one rule" wall stays intact (design-system 04 §1).
 ///
 /// **Read-only and offline.** It opens no socket; it reads only the
 /// checksum-verified reference structure E05 loaded into the local store (R1).
-/// `Line.textGlyphRef` is carried **opaque** straight into the glyph layer —
-/// never parsed, normalised, split, or logged as Arabic text. Bundle-first:
-/// until the core reference pack is installed the reference is empty, so a page
-/// assembles to zero lines (a blank page) — the render path is E05's and is
-/// never relaxed here.
+/// `textGlyphRef` is carried **opaque** — never parsed or logged as Arabic text.
+/// Bundle-first: until the core reference pack is installed the reference is
+/// empty, so a page projects to zero lines (a blank page) today.
 final mushafPageProvider =
-    FutureProvider.autoDispose.family<ImmutableGlyphPage, int>(
+    FutureProvider.autoDispose.family<List<MushafLineRef>, int>(
   (ref, pageNumber) async {
     final reference = ref.watch(persistenceProvider).reference;
     final lines = await reference.linesForPage(pageNumber);
-    return ImmutableGlyphPage(
-      pageNumber: pageNumber,
-      lines: [
-        for (final line in lines)
-          GlyphLine(
-            pageNumber: pageNumber,
-            lineNumber: line.lineNumber,
-            type: _toRenderLineType(line.lineType),
-            // Opaque pre-shaped glyph codes — drawn straight, never as text.
-            glyphCodes: line.textGlyphRef,
-          ),
-      ],
-    );
+    return [
+      for (final line in lines)
+        MushafLineRef(
+          lineNumber: line.lineNumber,
+          lineType: _toRenderLineType(line.lineType),
+          // Opaque pre-shaped glyph codes — drawn straight, never as text.
+          textGlyphRef: line.textGlyphRef,
+        ),
+    ];
   },
 );
 
