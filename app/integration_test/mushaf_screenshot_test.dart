@@ -43,20 +43,17 @@ Future<void> main() async {
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           backgroundColor: const Color(0xFFFBF7EE),
+          // Full-bleed bounded area (like the reader viewport) so the frame's
+          // page-filling FittedBox scales the page to fill it, not natural size.
           body: SafeArea(
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: MushafReaderPage(
-                    pageNumber: 1,
-                    lines: refs,
-                    zoom: 1,
-                    colorFilter:
-                        const ColorFilter.mode(Color(0x00000000), BlendMode.dst),
-                  ),
-                ),
+            child: Directionality(
+              textDirection: TextDirection.rtl,
+              child: MushafReaderPage(
+                pageNumber: 1,
+                lines: refs,
+                zoom: 1,
+                colorFilter:
+                    const ColorFilter.mode(Color(0x00000000), BlendMode.dst),
               ),
             ),
           ),

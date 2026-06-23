@@ -39,9 +39,16 @@ class _GlyphLayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Lines render at their natural glyph-advance width (every QPC page line is
+    // justified to the same width by the font; a surah's last line is naturally
+    // shorter and sits centred). The frame scales the whole column uniformly to
+    // fill the page — so `center`, not `stretch`, which would force an infinite
+    // width inside that fit and break the uniform page scale.
     return Column(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      // Default cross-axis is `center` (a surah's short last line sits centred);
+      // NOT `stretch`, which would force an infinite width inside the frame's
+      // page-filling FittedBox and break the uniform scale.
       children: [
         for (final line in glyphPage.lines) buildGlyphLine(line),
       ],
