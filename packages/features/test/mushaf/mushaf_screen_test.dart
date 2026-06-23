@@ -75,7 +75,10 @@ void main() {
 
     final pager = tester.widget<MushafPager>(find.byType(MushafPager));
     expect(pager.entryPage, 255);
-    expect(find.text('Test Riwāyah — Test muṣḥaf'), findsOneWidget);
+    expect(
+      find.textContaining('Test Riwāyah — Test muṣḥaf'),
+      findsOneWidget,
+    );
     // The page renderer is E05's, mounted inside the pager (empty page on the
     // bundle-first reference) — the reader adds no fallback font, no width-wrap.
     expect(find.byType(MushafPageView), findsWidgets);

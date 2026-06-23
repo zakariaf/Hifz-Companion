@@ -4,11 +4,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:l10n/l10n.dart';
 import 'package:models/models.dart' show MushafEdition;
 
 import '../../design_system/theme/motion_tokens.dart';
 import '../../design_system/theme/spacing_tokens.dart';
+import '../mushaf_providers.dart';
 import 'jump_picker.dart';
 import 'mushaf_pager.dart';
 import 'reader_overlay_toggles.dart';
@@ -77,11 +79,29 @@ class _MushafChromeState extends State<MushafChrome> {
     return Stack(
       children: [
         // The page is the base, fill layer — a tap on it toggles the controls.
+        // It carries the localized "page N" Semantics so the screen reader names
+        // the current page (it can never read the glyph layer itself, R1).
         Positioned.fill(
           child: GestureDetector(
             behavior: HitTestBehavior.translucent,
             onTap: _toggleControls,
-            child: MushafPager(entryPage: widget.page),
+            child: Consumer(
+              builder: (context, ref, child) {
+                final l10n = AppLocalizations.of(context);
+                final locale = Localizations.localeOf(context);
+                final pageNumber = ref.watch(
+                  mushafReaderStateProvider(widget.page)
+                      .select((state) => state.pageNumber),
+                );
+                return Semantics(
+                  label: l10n.pageNumber(
+                    isolateLtr(formatLocaleNumber(locale, pageNumber)),
+                  ),
+                  child: child,
+                );
+              },
+              child: MushafPager(entryPage: widget.page),
+            ),
           ),
         ),
         // Top edge band: the always-present riwāyah/edition label (R2). It may

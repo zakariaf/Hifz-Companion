@@ -81,8 +81,11 @@ void main() {
   testWidgets('the riwāyah is always named; no dashboard widget on the page',
       (tester) async {
     await pumpChrome(tester);
-    // R2: the named edition is on screen.
-    expect(find.text('Ḥafṣ ʿan ʿĀṣim — Madani muṣḥaf'), findsOneWidget);
+    // R2: the named edition is on screen (the label is FSI/PDI-isolated).
+    expect(
+      find.textContaining('Ḥafṣ ʿan ʿĀṣim — Madani muṣḥaf'),
+      findsOneWidget,
+    );
 
     // No gamification / status-display surface anywhere on the reader.
     for (final widget in tester.allWidgets) {

@@ -34,7 +34,9 @@ class RiwayahChromeLabel extends StatelessWidget {
       children: [
         Flexible(
           child: Text(
-            edition.displayName,
+            // The displayName is a mixed Latin/Arabic run — FSI/PDI-isolate it
+            // so it reads correctly inside the RTL chrome (engineering 12 §4).
+            isolate(edition.displayName),
             style: theme.textTheme.titleSmall
                 ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
             textAlign: TextAlign.center,

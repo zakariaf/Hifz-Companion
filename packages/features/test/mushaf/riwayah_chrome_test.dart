@@ -50,7 +50,11 @@ void main() {
   group('riwāyah label', () {
     testWidgets('always names the active edition displayName', (tester) async {
       await pump(tester, RiwayahChromeLabel(edition: edition()));
-      expect(find.text('Ḥafṣ ʿan ʿĀṣim — Madani muṣḥaf'), findsOneWidget);
+      // The label is FSI/PDI-isolated (mixed Latin/Arabic run).
+      expect(
+        find.textContaining('Ḥafṣ ʿan ʿĀṣim — Madani muṣḥaf'),
+        findsOneWidget,
+      );
     });
 
     testWidgets('re-renders for a different edition (reads it, not a hardcode)',
@@ -59,14 +63,14 @@ void main() {
         tester,
         RiwayahChromeLabel(edition: edition(displayName: 'Warsh — Maghribī')),
       );
-      expect(find.text('Warsh — Maghribī'), findsOneWidget);
+      expect(find.textContaining('Warsh — Maghribī'), findsOneWidget);
     });
 
     testWidgets('is chrome, not scripture — never the QPC page font',
         (tester) async {
       await pump(tester, RiwayahChromeLabel(edition: edition()));
       final label = tester.widget<Text>(
-        find.text('Ḥafṣ ʿan ʿĀṣim — Madani muṣḥaf'),
+        find.textContaining('Ḥafṣ ʿan ʿĀṣim — Madani muṣḥaf'),
       );
       // The resolved family is the bundled UI ramp (titleSmall), never QPC_P###.
       expect(label.style?.fontFamily, isNot(startsWith('QPC_P')));
