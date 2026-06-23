@@ -28,6 +28,12 @@ dependencies:
     path: ../data
   assets:
     path: ../assets
+  # The bundled-core install seam registers the per-page glyph fonts through
+  # quran's public registrar (the QPC_P### family stays inside quran; this layer
+  # only orchestrates). composition is outside the pipeline-wall scan, so it may
+  # name the font-registration entry — never the glyph/font tokens themselves.
+  quran:
+    path: ../quran
 
 dev_dependencies:
   flutter_test:

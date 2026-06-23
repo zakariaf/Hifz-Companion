@@ -14,35 +14,38 @@ void main() {
   final core = EmbeddedManifest.core;
 
   group('core manifest coverage', () {
-    test('enumerates text + layout + mutashābihāt + 604 fonts = 607 files', () {
-      expect(core.files.length, 607);
+    test('enumerates exactly the three co-versioned data files', () {
+      // The 604 per-page fonts are NOT installer-manifest entries — they are
+      // pinned in EmbeddedManifest.pageFontSha256 and verified one-at-a-time at
+      // registration, so the installer never accumulates 200 MB of font bytes.
+      expect(core.files.length, 3);
     });
 
-    test('includes the text, layout, and mutashābihāt entries by name', () {
+    test('includes the text, layout, and word-glyph entries by name', () {
       final names = core.files.map((e) => e.name).toSet();
       expect(
         names,
-        containsAll(<String>{
-          'quran-uthmani.db',
-          'layout-qul.json',
-          'mutashabihat.json',
-        }),
+        <String>{
+          'quran-data.xml',
+          'qpc-v2-15-lines.db',
+          'qpc-v2.db',
+        },
       );
     });
 
-    test('covers fonts QCF_P001.ttf … QCF_P604.ttf with no gaps or dupes', () {
-      final fontNames = core.files
-          .map((e) => e.name)
-          .where((n) => n.startsWith('QCF_P'))
-          .toList();
-      expect(fontNames.length, 604);
-      expect(fontNames.toSet().length, 604, reason: 'no duplicates');
-      expect(fontNames.first, 'QCF_P001.ttf');
-      expect(fontNames.last, 'QCF_P604.ttf');
-      // No gaps: every page 1..604 is present exactly once.
+    test('pins every page font QCF_P001 … QCF_P604 with no gaps', () {
+      expect(EmbeddedManifest.pageFontSha256.length, 604);
       for (var page = 1; page <= 604; page++) {
-        final expected = 'QCF_P${page.toString().padLeft(3, '0')}.ttf';
-        expect(fontNames, contains(expected));
+        expect(
+          EmbeddedManifest.pageFontSha256[page],
+          isNotEmpty,
+          reason: 'page $page font must be pinned',
+        );
+        // The sanctioned font file name for that page's verification.
+        expect(
+          EmbeddedManifest.fontFileName(page),
+          'QCF_P${page.toString().padLeft(3, '0')}.ttf',
+        );
       }
     });
   });
@@ -55,12 +58,12 @@ void main() {
       }
     });
 
-    test('text/layout/font sources are the authoritative upstreams', () {
+    test('text/layout sources are the authoritative upstreams', () {
       ManifestEntry byName(String name) =>
           core.files.firstWhere((e) => e.name == name);
-      expect(byName('quran-uthmani.db').source, 'tanzil.net');
-      expect(byName('layout-qul.json').source, 'qul.tarteel.ai');
-      expect(byName('QCF_P001.ttf').source, 'kfgqpc');
+      expect(byName('quran-data.xml').source, 'tanzil.net');
+      expect(byName('qpc-v2-15-lines.db').source, 'qul.tarteel.ai');
+      expect(byName('qpc-v2.db').source, 'qul.tarteel.ai');
     });
   });
 
@@ -73,8 +76,7 @@ void main() {
       expect(core.tag, PackCoordinates.pinnedTag);
     });
 
-    test('buildCoreManifest tracks the edition pageCount (no hardcoded 604)',
-        () {
+    test('buildCoreManifest binds the edition mushafId', () {
       final small = MushafEdition(
         mushafId: 'tiny',
         riwayah: 'r',
@@ -86,13 +88,9 @@ void main() {
         fontSha256: const {1: '', 2: ''},
       );
       final manifest = buildCoreManifest(small);
-      // text + layout + mutashābihāt + 2 fonts.
-      expect(manifest.files.length, 5);
+      // The three data files are edition-independent; only the id binds.
+      expect(manifest.files.length, 3);
       expect(manifest.mushafId, 'tiny');
-      expect(
-        manifest.files.where((e) => e.name.startsWith('QCF_P')).length,
-        2,
-      );
     });
   });
 
