@@ -77,7 +77,7 @@ class HifzDatabase extends _$HifzDatabase {
   HifzDatabase(super.executor);
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   // There is no destructive `eraseDatabaseOnSchemaChange` to gate: drift never
   // wipes on a version mismatch — it runs the guided `stepByStep` migrations
@@ -106,12 +106,23 @@ class HifzDatabase extends _$HifzDatabase {
           // The schema_version singleton is written at create-time so a future
           // forward-mapping restore (E17) can read what shape this store holds.
           await into(appMeta).insert(
-            AppMetaCompanion.insert(key: 'schema_version', value: '1'),
+            AppMetaCompanion.insert(key: 'schema_version', value: '2'),
           );
         },
-        // Empty-but-typed skeleton: no version bumps yet. The next bump appends
-        // its typed callback to the generated `stepByStep` (see workflow above).
-        onUpgrade: stepByStep(),
+        // v1 → v2 (E14-T02): confusion_edge.last_confused_at moves from a
+        // UTC-instant TEXT column to a CalendarDate serial-day INTEGER (the
+        // date discipline — a swap belongs to a civil day, not a wall-clock
+        // instant; 07 §1, PRD §10.2). A column TYPE change cannot be done in
+        // place; pre-release there is no shipped v1 store, and confusion_edge is
+        // the user's own regenerable swap bookkeeping (NOT the append-only
+        // review_log sanad), so the step recreates it on the v2 shape. The
+        // protected tables (profile/card/review_log/cycle_config) are untouched.
+        onUpgrade: stepByStep(
+          from1To2: (m, schema) async {
+            await m.deleteTable('confusion_edge');
+            await m.createTable(schema.confusionEdge);
+          },
+        ),
         // Pragmas are per-connection and NOT persisted in the file, so the FK
         // pragma is re-issued on every open (05 §1). `setup` (connection.dart)
         // sets it on the raw handle; this covers drift's own re-open and the

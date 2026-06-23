@@ -325,6 +325,72 @@ abstract class AppLocalizations {
   /// **'المتشابهات'**
   String get navMutashabihat;
 
+  /// Calm landing line on the Mutashābihāt trainer: drilling similar passages side by side REDUCES confusing them — an aid to revision, never a claim of being 'cured'/'resolved'/'safe to drop', no number, no fiqh ruling. NEEDS scholarly + native fa/ckb review (E14-T11); ckb falls back to this until then.
+  ///
+  /// In ar, this message translates to:
+  /// **'درّب على المواضع المتشابهة جنبًا إلى جنب ليقلّ الخلط بينها.'**
+  String get mutashabihatTrainerIntro;
+
+  /// Generic back / return affordance label.
+  ///
+  /// In ar, this message translates to:
+  /// **'رجوع'**
+  String get commonBack;
+
+  /// Reveal affordance + Semantics label on a hidden drill branch: tap to reveal the muṣḥaf page AFTER reciting the continuation from memory (retrieval practice). NEEDS native fa/ckb review (E14-T11); ckb falls back to ar.
+  ///
+  /// In ar, this message translates to:
+  /// **'اكشف الصفحة'**
+  String get mutashabihatDrillReveal;
+
+  /// Calm group position 'branch {position} of {total}'. Both are pre-formatted locale-numeral, bidi-isolated String tokens — never raw ints, never concatenated. No score/streak.
+  ///
+  /// In ar, this message translates to:
+  /// **'{position} من {total}'**
+  String mutashabihatDrillProgress(String position, String total);
+
+  /// Quiet advance to the next sibling in the same drill session (back-to-back, no interstitial). NEEDS native fa/ckb review (E14-T11).
+  ///
+  /// In ar, this message translates to:
+  /// **'التالي'**
+  String get mutashabihatDrillNext;
+
+  /// Calm terminal line after the last sibling — never a celebration, never 'cured'/'safe to drop'/'safe to stop'. NEEDS scholarly + native fa/ckb review (E14-T11).
+  ///
+  /// In ar, this message translates to:
+  /// **'أتممتَ هذه المجموعة.'**
+  String get mutashabihatDrillComplete;
+
+  /// Objective-wording label for a mutashābihāt group of word-for-word identical passages. NEEDS native fa/ckb review (E14-T11).
+  ///
+  /// In ar, this message translates to:
+  /// **'متطابقة'**
+  String get mutashabihTypeIdentical;
+
+  /// Objective-wording label for a near-identical mutashābihāt group (differ in a few words). NEEDS native fa/ckb review (E14-T11).
+  ///
+  /// In ar, this message translates to:
+  /// **'شبه متطابقة'**
+  String get mutashabihTypeNearIdentical;
+
+  /// Objective-wording label for a structurally-parallel mutashābihāt group. NEEDS native fa/ckb review (E14-T11).
+  ///
+  /// In ar, this message translates to:
+  /// **'متوازية البنية'**
+  String get mutashabihTypeStructural;
+
+  /// An āyah identity 'Surah S · Ayah A'. surah/ayah are pre-formatted locale-numeral, bidi-isolated String tokens — never raw ints. (Page+juz lands when reference data ships; bundle-first the hotspot row names the pair by āyah identity.) NEEDS native fa/ckb review (E14-T11).
+  ///
+  /// In ar, this message translates to:
+  /// **'سورة {surah} · آية {ayah}'**
+  String ayahRefLabel(String surah, String ayah);
+
+  /// Screen-reader phrase for a confusion-hotspot row naming the pair + the drill action. first/second are āyah identities. Calm, never a score/guilt. NEEDS native fa/ckb review (E14-T11).
+  ///
+  /// In ar, this message translates to:
+  /// **'كثيرًا ما تخلط بين {first} و{second} — انقر للتمرين'**
+  String mutashabihatHotspotSemantic(String first, String second);
+
   /// Bottom-nav label for the Progress tab. Best-effort fa/ckb pending E09.
   ///
   /// In ar, this message translates to:

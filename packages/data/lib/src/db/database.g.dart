@@ -3940,9 +3940,9 @@ class $ConfusionEdgesTable extends ConfusionEdges
   static const VerificationMeta _lastConfusedAtMeta =
       const VerificationMeta('lastConfusedAt');
   @override
-  late final GeneratedColumn<String> lastConfusedAt = GeneratedColumn<String>(
+  late final GeneratedColumn<int> lastConfusedAt = GeneratedColumn<int>(
       'last_confused_at', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+      type: DriftSqlType.int, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns =>
       [profileId, ayahA, ayahB, weight, lastConfusedAt];
@@ -4001,8 +4001,8 @@ class $ConfusionEdgesTable extends ConfusionEdges
           .read(DriftSqlType.string, data['${effectivePrefix}ayah_b'])!,
       weight: attachedDatabase.typeMapping
           .read(DriftSqlType.double, data['${effectivePrefix}weight'])!,
-      lastConfusedAt: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}last_confused_at']),
+      lastConfusedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}last_confused_at']),
     );
   }
 
@@ -4029,8 +4029,8 @@ class ConfusionEdgeRow extends DataClass
   /// How strongly this profile confuses the pair — a running count, default 0.
   final double weight;
 
-  /// When last confused — UTC instant TEXT, or null.
-  final String? lastConfusedAt;
+  /// The civil day last confused — a `CalendarDate` serial-day INTEGER, or null.
+  final int? lastConfusedAt;
   const ConfusionEdgeRow(
       {required this.profileId,
       required this.ayahA,
@@ -4045,7 +4045,7 @@ class ConfusionEdgeRow extends DataClass
     map['ayah_b'] = Variable<String>(ayahB);
     map['weight'] = Variable<double>(weight);
     if (!nullToAbsent || lastConfusedAt != null) {
-      map['last_confused_at'] = Variable<String>(lastConfusedAt);
+      map['last_confused_at'] = Variable<int>(lastConfusedAt);
     }
     return map;
   }
@@ -4070,7 +4070,7 @@ class ConfusionEdgeRow extends DataClass
       ayahA: serializer.fromJson<String>(json['ayahA']),
       ayahB: serializer.fromJson<String>(json['ayahB']),
       weight: serializer.fromJson<double>(json['weight']),
-      lastConfusedAt: serializer.fromJson<String?>(json['lastConfusedAt']),
+      lastConfusedAt: serializer.fromJson<int?>(json['lastConfusedAt']),
     );
   }
   @override
@@ -4081,7 +4081,7 @@ class ConfusionEdgeRow extends DataClass
       'ayahA': serializer.toJson<String>(ayahA),
       'ayahB': serializer.toJson<String>(ayahB),
       'weight': serializer.toJson<double>(weight),
-      'lastConfusedAt': serializer.toJson<String?>(lastConfusedAt),
+      'lastConfusedAt': serializer.toJson<int?>(lastConfusedAt),
     };
   }
 
@@ -4090,7 +4090,7 @@ class ConfusionEdgeRow extends DataClass
           String? ayahA,
           String? ayahB,
           double? weight,
-          Value<String?> lastConfusedAt = const Value.absent()}) =>
+          Value<int?> lastConfusedAt = const Value.absent()}) =>
       ConfusionEdgeRow(
         profileId: profileId ?? this.profileId,
         ayahA: ayahA ?? this.ayahA,
@@ -4142,7 +4142,7 @@ class ConfusionEdgesCompanion extends UpdateCompanion<ConfusionEdgeRow> {
   final Value<String> ayahA;
   final Value<String> ayahB;
   final Value<double> weight;
-  final Value<String?> lastConfusedAt;
+  final Value<int?> lastConfusedAt;
   final Value<int> rowid;
   const ConfusionEdgesCompanion({
     this.profileId = const Value.absent(),
@@ -4167,7 +4167,7 @@ class ConfusionEdgesCompanion extends UpdateCompanion<ConfusionEdgeRow> {
     Expression<String>? ayahA,
     Expression<String>? ayahB,
     Expression<double>? weight,
-    Expression<String>? lastConfusedAt,
+    Expression<int>? lastConfusedAt,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -4185,7 +4185,7 @@ class ConfusionEdgesCompanion extends UpdateCompanion<ConfusionEdgeRow> {
       Value<String>? ayahA,
       Value<String>? ayahB,
       Value<double>? weight,
-      Value<String?>? lastConfusedAt,
+      Value<int?>? lastConfusedAt,
       Value<int>? rowid}) {
     return ConfusionEdgesCompanion(
       profileId: profileId ?? this.profileId,
@@ -4213,7 +4213,7 @@ class ConfusionEdgesCompanion extends UpdateCompanion<ConfusionEdgeRow> {
       map['weight'] = Variable<double>(weight.value);
     }
     if (lastConfusedAt.present) {
-      map['last_confused_at'] = Variable<String>(lastConfusedAt.value);
+      map['last_confused_at'] = Variable<int>(lastConfusedAt.value);
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -10066,7 +10066,7 @@ typedef $$ConfusionEdgesTableCreateCompanionBuilder = ConfusionEdgesCompanion
   required String ayahA,
   required String ayahB,
   Value<double> weight,
-  Value<String?> lastConfusedAt,
+  Value<int?> lastConfusedAt,
   Value<int> rowid,
 });
 typedef $$ConfusionEdgesTableUpdateCompanionBuilder = ConfusionEdgesCompanion
@@ -10075,7 +10075,7 @@ typedef $$ConfusionEdgesTableUpdateCompanionBuilder = ConfusionEdgesCompanion
   Value<String> ayahA,
   Value<String> ayahB,
   Value<double> weight,
-  Value<String?> lastConfusedAt,
+  Value<int?> lastConfusedAt,
   Value<int> rowid,
 });
 
@@ -10140,7 +10140,7 @@ class $$ConfusionEdgesTableFilterComposer
   ColumnFilters<double> get weight => $composableBuilder(
       column: $table.weight, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get lastConfusedAt => $composableBuilder(
+  ColumnFilters<int> get lastConfusedAt => $composableBuilder(
       column: $table.lastConfusedAt,
       builder: (column) => ColumnFilters(column));
 
@@ -10217,7 +10217,7 @@ class $$ConfusionEdgesTableOrderingComposer
   ColumnOrderings<double> get weight => $composableBuilder(
       column: $table.weight, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get lastConfusedAt => $composableBuilder(
+  ColumnOrderings<int> get lastConfusedAt => $composableBuilder(
       column: $table.lastConfusedAt,
       builder: (column) => ColumnOrderings(column));
 
@@ -10294,7 +10294,7 @@ class $$ConfusionEdgesTableAnnotationComposer
   GeneratedColumn<double> get weight =>
       $composableBuilder(column: $table.weight, builder: (column) => column);
 
-  GeneratedColumn<String> get lastConfusedAt => $composableBuilder(
+  GeneratedColumn<int> get lastConfusedAt => $composableBuilder(
       column: $table.lastConfusedAt, builder: (column) => column);
 
   $$ProfilesTableAnnotationComposer get profileId {
@@ -10386,7 +10386,7 @@ class $$ConfusionEdgesTableTableManager extends RootTableManager<
             Value<String> ayahA = const Value.absent(),
             Value<String> ayahB = const Value.absent(),
             Value<double> weight = const Value.absent(),
-            Value<String?> lastConfusedAt = const Value.absent(),
+            Value<int?> lastConfusedAt = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               ConfusionEdgesCompanion(
@@ -10402,7 +10402,7 @@ class $$ConfusionEdgesTableTableManager extends RootTableManager<
             required String ayahA,
             required String ayahB,
             Value<double> weight = const Value.absent(),
-            Value<String?> lastConfusedAt = const Value.absent(),
+            Value<int?> lastConfusedAt = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               ConfusionEdgesCompanion.insert(

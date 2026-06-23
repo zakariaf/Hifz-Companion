@@ -31,12 +31,13 @@ void main() {
     expect(await declaredType('card', 'due_at'), 'INTEGER');
     expect(await declaredType('card', 'last_review_at'), 'INTEGER');
     expect(await declaredType('review_log', 'elapsed_days'), 'INTEGER');
+    // A swap belongs to the civil day it happened on (E14-T02).
+    expect(await declaredType('confusion_edge', 'last_confused_at'), 'INTEGER');
   });
 
   test('true-instant columns are TEXT (UTC ISO-8601)', () async {
     expect(await declaredType('review_log', 'reviewed_at'), 'TEXT');
     expect(await declaredType('profile', 'created_at'), 'TEXT');
-    expect(await declaredType('confusion_edge', 'last_confused_at'), 'TEXT');
   });
 
   test('a serial day round-trips through due_at unchanged', () async {

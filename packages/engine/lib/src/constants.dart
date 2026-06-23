@@ -51,6 +51,19 @@ const double kLapseDifficultyBump = 1.0;
 /// with no parallel scheduler (06 §4).
 const double kWeakLineFactor = 0.15;
 
+/// Difficulty contribution per unit of logged `confusion_edge.weight`, into `D`
+/// on **every** member of a confusable group when a wrong-branch swap is logged
+/// (PRD §9.2; science 05 §4; CLAIMS C-029).
+///
+/// A swap bumps `D` on the whole group through the **same** `D` channel as the
+/// weak-line factor, so the `(11−D)` term in `stabilityOnSuccess` turns the
+/// higher `D` into a shorter interval at each member's next review — no bespoke
+/// frequency override, no parallel scheduler. The bump is `D += this × weight`,
+/// clamped to `[1, 10]`, so a heavily-confused pair cannot push `D` out of
+/// range. Tunable code constant, **never** a user-facing slider; flagged for
+/// scholarly/owner confirmation.
+const double kConfusionDifficultyBump = 0.5;
+
 /// Load-balance deferral floor: a Near page whose predicted `R` is **above**
 /// this may slip a day; a page at or below it is promoted to mandatory.
 /// Manzil/FAR is never deferred (PRD §7.9; 06 §7).

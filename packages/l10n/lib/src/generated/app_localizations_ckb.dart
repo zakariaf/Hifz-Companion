@@ -279,6 +279,46 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get navMutashabihat => 'هاوشێوەکان';
 
   @override
+  String get mutashabihatTrainerIntro =>
+      'شوێنە هاوشێوەکان پێکەوە مەشق بکە تا تێکەڵبوونیان کەمتر بێتەوە.';
+
+  @override
+  String get commonBack => 'گەڕانەوە';
+
+  @override
+  String get mutashabihatDrillReveal => 'پیشاندانی لاپەڕە';
+
+  @override
+  String mutashabihatDrillProgress(String position, String total) {
+    return '$position لە $total';
+  }
+
+  @override
+  String get mutashabihatDrillNext => 'دواتر';
+
+  @override
+  String get mutashabihatDrillComplete => 'ئەم کۆمەڵەت تەواو کرد.';
+
+  @override
+  String get mutashabihTypeIdentical => 'وەک یەک';
+
+  @override
+  String get mutashabihTypeNearIdentical => 'نزیک لە یەک';
+
+  @override
+  String get mutashabihTypeStructural => 'هاوپێکهاتە';
+
+  @override
+  String ayahRefLabel(String surah, String ayah) {
+    return 'سورەت $surah · ئایەت $ayah';
+  }
+
+  @override
+  String mutashabihatHotspotSemantic(String first, String second) {
+    return 'زۆرجار $first و $second تێکەڵ دەکەیت — بۆ مەشق دەستی لێبدە';
+  }
+
+  @override
   String get navProgress => 'پێشکەوتن';
 
   @override

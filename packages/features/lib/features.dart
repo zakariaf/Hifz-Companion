@@ -32,7 +32,37 @@ export 'src/mushaf/widgets/reader_theme_control.dart';
 export 'src/mushaf/widgets/reader_zoom_control.dart';
 export 'src/mushaf/widgets/reader_zoom_steps.dart';
 export 'src/mushaf/widgets/riwayah_chrome_label.dart';
-export 'src/mutashabihat/mutashabihat_screen.dart';
+export 'src/mutashabihat/discrimination_drill_route.dart'
+    show kMutashabihatDrillPathPrefix, mutashabihatDrillLocation;
+export 'src/mutashabihat/discrimination_drill_screen.dart'
+    show DiscriminationDrillScreen;
+export 'src/mutashabihat/widgets/drill_branch_view.dart' show DrillBranchView;
+export 'src/mutashabihat/widgets/drill_progress_strip.dart'
+    show DrillProgressStrip;
+export 'src/mutashabihat/discrimination_drill_view_model.dart'
+    show
+        BranchPhase,
+        DiscriminationDrillController,
+        DiscriminationDrillState,
+        discriminationDrillControllerProvider;
+export 'src/mutashabihat/mutashabihat_providers.dart'
+    show
+        confusionHotspotsProvider,
+        drillAnchorWordsProvider,
+        drillPageGeometryProvider,
+        drillPageLinesProvider,
+        hotspotGroupIdProvider,
+        mutashabihGroupProvider,
+        mutashabihGroupsProvider;
+export 'src/mutashabihat/widgets/confusion_hotspots_view.dart'
+    show ConfusionHotspotsView;
+export 'src/mutashabihat/mutashabihat_trainer_screen.dart'
+    show MutashabihatTrainerScreen;
+export 'src/mutashabihat/mutashabihat_trainer_view_model.dart'
+    show
+        MutashabihatTrainerController,
+        MutashabihatTrainerState,
+        mutashabihatTrainerControllerProvider;
 export 'src/onboarding/cold_start_seeder.dart';
 export 'src/onboarding/onboarding_providers.dart';
 export 'src/onboarding/onboarding_screen.dart';

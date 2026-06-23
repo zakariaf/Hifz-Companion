@@ -3,13 +3,15 @@
 
 import 'package:features/features.dart'
     show
+        DiscriminationDrillScreen,
         MushafReaderScreen,
-        MutashabihatScreen,
+        MutashabihatTrainerScreen,
         OnboardingScreen,
         ProgressScreen,
         ReciteGradeScreen,
         SettingsScreen,
         TodayScreen,
+        kMutashabihatDrillPathPrefix,
         kRecitePathPrefix,
         mushafReaderRouteFromUri;
 import 'package:composition/composition.dart';
@@ -59,8 +61,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       final onOnboarding = location.startsWith('/onboarding');
       // The Muṣḥaf tab now *is* the glyph-rendering reader (E13), so the whole
       // `/mushaf` subtree is gated on the verified core — not just a nested
-      // reader path. The reader renders only behind this gate (R1).
-      final isQuranReader = location.startsWith('/mushaf');
+      // reader path. The mutashābihāt discrimination drill (E14) also composes
+      // the immutable glyph page, so its subtree is gated identically. The
+      // reader renders only behind this gate (R1).
+      final isQuranReader = location.startsWith('/mushaf') ||
+          location.startsWith(kMutashabihatDrillPathPrefix);
 
       // The shell needs a profile; a fresh device sets one up first (PRD R1).
       if (!hasProfile) return onOnboarding ? null : '/onboarding';
@@ -113,7 +118,29 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/mutashabihat',
-            builder: (context, state) => const MutashabihatScreen(),
+            builder: (context, state) => const MutashabihatTrainerScreen(),
+          ),
+          GoRoute(
+            // The discrimination-drill route, opened from a trainer group tap
+            // (E14-T08). It composes the immutable glyph page (gated on the
+            // verified core above); a missing group id fails closed to a calm
+            // not-found, never an exception.
+            path: '$kMutashabihatDrillPathPrefix/:groupId',
+            builder: (context, state) {
+              final groupId = state.pathParameters['groupId'];
+              if (groupId == null || groupId.isEmpty) {
+                return const _RouteStub('not-found-stub');
+              }
+              // A malformed percent-encoding in a deep link fails closed to a
+              // calm not-found, never an uncaught ArgumentError (Gemini E14 #2).
+              try {
+                return DiscriminationDrillScreen(
+                  groupId: Uri.decodeComponent(groupId),
+                );
+              } on ArgumentError {
+                return const _RouteStub('not-found-stub');
+              }
+            },
           ),
           GoRoute(
             path: '/progress',

@@ -279,6 +279,46 @@ class AppLocalizationsFa extends AppLocalizations {
   String get navMutashabihat => 'متشابهات';
 
   @override
+  String get mutashabihatTrainerIntro =>
+      'موارد متشابه را کنار هم تمرین کنید تا اشتباه میانشان کمتر شود.';
+
+  @override
+  String get commonBack => 'بازگشت';
+
+  @override
+  String get mutashabihatDrillReveal => 'نمایش صفحه';
+
+  @override
+  String mutashabihatDrillProgress(String position, String total) {
+    return '$position از $total';
+  }
+
+  @override
+  String get mutashabihatDrillNext => 'بعدی';
+
+  @override
+  String get mutashabihatDrillComplete => 'این گروه را تمام کردید.';
+
+  @override
+  String get mutashabihTypeIdentical => 'یکسان';
+
+  @override
+  String get mutashabihTypeNearIdentical => 'تقریباً یکسان';
+
+  @override
+  String get mutashabihTypeStructural => 'هم‌ساختار';
+
+  @override
+  String ayahRefLabel(String surah, String ayah) {
+    return 'سوره $surah · آیه $ayah';
+  }
+
+  @override
+  String mutashabihatHotspotSemantic(String first, String second) {
+    return 'اغلب $first و $second را اشتباه می‌گیرید — برای تمرین لمس کنید';
+  }
+
+  @override
   String get navProgress => 'پیشرفت';
 
   @override

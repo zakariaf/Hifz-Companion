@@ -15,10 +15,10 @@ import '../test_setup.dart';
 void main() {
   useOfflineTestPolicy();
 
-  // Today is the real queue View (E07-T07) and Muṣḥaf is the real reader (E13);
-  // the remaining non-Today tabs are still inert placeholders.
+  // Today is the real queue View (E07-T07), Muṣḥaf is the real reader (E13), and
+  // Mutashābihāt is the real trainer (E14); the remaining non-Today tabs are
+  // still inert placeholders.
   const screens = <String, Widget>{
-    'screen.mutashabihat': MutashabihatScreen(),
     'screen.progress': ProgressScreen(),
     'screen.settings': SettingsScreen(),
   };

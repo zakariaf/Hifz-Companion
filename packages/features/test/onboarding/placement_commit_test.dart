@@ -22,7 +22,14 @@ import 'package:features/features.dart'
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:models/models.dart'
-    show CycleConfig, JumpTarget, Line, Profile, ProfileId;
+    show
+        CycleConfig,
+        JumpTarget,
+        Line,
+        MutashabihGroup,
+        MutashabihGroupView,
+        Profile,
+        ProfileId;
 
 import '../test_setup.dart';
 
@@ -35,6 +42,15 @@ class _FakeReference implements ReferenceRepository {
 
   @override
   Future<int?> firstPageOf(JumpTarget target) async => null;
+
+  @override
+  Future<List<MutashabihGroup>> allMutashabihGroups() async => const [];
+
+  @override
+  Future<MutashabihGroupView?> mutashabihGroupView(String groupId) async => null;
+
+  @override
+  Future<String?> mutashabihGroupIdForAyah(String ayahId) async => null;
 }
 
 class _GatedColdStart implements ColdStartRepository {
