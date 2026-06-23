@@ -1176,6 +1176,42 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'داكن'**
   String get mushafThemeDark;
+
+  /// Reader About/Credits entry + sheet title. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'حول هذا المصحف'**
+  String get mushafAboutTitle;
+
+  /// About/Credits: Tanzil text attribution. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'النص العثماني: تنزيل (tanzil.net) — منسوخ حرفياً ومنسوب، CC BY 3.0.'**
+  String get mushafAboutTanzil;
+
+  /// About/Credits: QUL page-layout attribution. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'تخطيط الصفحات: QUL.'**
+  String get mushafAboutQul;
+
+  /// About/Credits: KFGQPC fonts attribution. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخطوط: مجمع الملك فهد (KFGQPC) — مُعاد توزيعها دون تعديل.'**
+  String get mushafAboutFonts;
+
+  /// About/Credits: byte-for-byte SHA-256 checksum guarantee. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'يُتحقَّق من النص ومن خط كل صفحة ببصمة SHA-256 مثبَّتة قبل عرضها؛ وأي ملف غير مُتحقَّق منه يُرفَض.'**
+  String get mushafAboutChecksum;
+
+  /// About/Credits: offline + no-microphone covenant (C-048). PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'يعمل التطبيق دون اتصال بالكامل بعد التنزيل الأول المُتحقَّق منه، ولا يسجّل صوتك.'**
+  String get mushafAboutOffline;
 }
 
 class _AppLocalizationsDelegate

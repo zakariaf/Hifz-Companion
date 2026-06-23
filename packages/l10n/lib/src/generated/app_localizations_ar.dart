@@ -799,4 +799,26 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get mushafThemeDark => 'داكن';
+
+  @override
+  String get mushafAboutTitle => 'حول هذا المصحف';
+
+  @override
+  String get mushafAboutTanzil =>
+      'النص العثماني: تنزيل (tanzil.net) — منسوخ حرفياً ومنسوب، CC BY 3.0.';
+
+  @override
+  String get mushafAboutQul => 'تخطيط الصفحات: QUL.';
+
+  @override
+  String get mushafAboutFonts =>
+      'الخطوط: مجمع الملك فهد (KFGQPC) — مُعاد توزيعها دون تعديل.';
+
+  @override
+  String get mushafAboutChecksum =>
+      'يُتحقَّق من النص ومن خط كل صفحة ببصمة SHA-256 مثبَّتة قبل عرضها؛ وأي ملف غير مُتحقَّق منه يُرفَض.';
+
+  @override
+  String get mushafAboutOffline =>
+      'يعمل التطبيق دون اتصال بالكامل بعد التنزيل الأول المُتحقَّق منه، ولا يسجّل صوتك.';
 }

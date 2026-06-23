@@ -13,6 +13,7 @@ import 'widgets/jump_picker.dart';
 import 'widgets/mushaf_pager.dart';
 import 'widgets/reader_theme_control.dart';
 import 'widgets/reader_zoom_control.dart';
+import 'widgets/riwayah_chrome_label.dart';
 
 /// The Muṣḥaf reader tab — the dumb View over E05's immutable page renderer
 /// (PRD §11.2, §12.3). It re-shapes, re-typesets, re-flows, and re-derives
@@ -103,15 +104,9 @@ class _ReaderScaffold extends StatelessWidget {
           padding: EdgeInsetsDirectional.all(space.space3),
           child: Row(
             children: [
-              // The named riwāyah/edition — verbatim domain data (R2); T07 builds
-              // the full localized chrome + About/Credits attribution.
-              Expanded(
-                child: Text(
-                  state.edition.displayName,
-                  style: theme.textTheme.titleSmall,
-                  textAlign: TextAlign.center,
-                ),
-              ),
+              // The always-named riwāyah/edition + the About/Credits entry (R2 —
+              // never "the Quran" absolutely); chrome, kept apart from the page.
+              Expanded(child: RiwayahChromeLabel(edition: state.edition)),
               // Jump-to (juz/ḥizb/sūrah/page); T08 folds it into the edge chrome.
               IconButton(
                 onPressed: () => showMushafJumpPicker(context, entryPage: page),

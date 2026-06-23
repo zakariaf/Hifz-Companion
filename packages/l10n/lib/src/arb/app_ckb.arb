@@ -178,5 +178,11 @@
   "mushafZoomOut": "بچووککردنەوە",
   "mushafThemeLight": "ڕووناک",
   "mushafThemeSepia": "قاوەیی",
-  "mushafThemeDark": "تاریک"
+  "mushafThemeDark": "تاریک",
+  "mushafAboutTitle": "دەربارەی ئەم موسحەفە",
+  "mushafAboutTanzil": "دەقی عوسمانی: تەنزیل (tanzil.net) — وشە بە وشە و ناوهێنراو، CC BY 3.0.",
+  "mushafAboutQul": "ڕێکخستنی لاپەڕە: QUL.",
+  "mushafAboutFonts": "فۆنتەکان: KFGQPC — بەبێ گۆڕانکاری دووبارە بڵاوکراونەتەوە.",
+  "mushafAboutChecksum": "دەق و فۆنتی هەر لاپەڕەیەک پێش پیشاندان بە واژووی SHA-256 پشتڕاست دەکرێنەوە؛ هەر پەڕگەیەکی پشتڕاستنەکراو ڕەت دەکرێتەوە.",
+  "mushafAboutOffline": "ئەپەکە دوای یەکەم داگرتنی پشتڕاستکراو بە تەواوی بێ ئینتەرنێت کار دەکات و دەنگت تۆمار ناکات."
 }

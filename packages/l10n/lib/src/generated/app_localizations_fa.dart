@@ -781,4 +781,26 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get mushafThemeDark => 'تیره';
+
+  @override
+  String get mushafAboutTitle => 'درباره این مصحف';
+
+  @override
+  String get mushafAboutTanzil =>
+      'متن عثمانی: تنزیل (tanzil.net) — حرف‌به‌حرف و دارای انتساب، CC BY 3.0.';
+
+  @override
+  String get mushafAboutQul => 'چیدمان صفحه‌ها: QUL.';
+
+  @override
+  String get mushafAboutFonts =>
+      'قلم‌ها: مجتمع چاپ قرآن ملک فهد (KFGQPC) — بازتوزیع‌شده بدون تغییر.';
+
+  @override
+  String get mushafAboutChecksum =>
+      'متن و قلم هر صفحه پیش از نمایش با اثر انگشت SHA-256 ثبت‌شده راستی‌آزمایی می‌شود؛ هر فایل راستی‌آزمایی‌نشده رد می‌شود.';
+
+  @override
+  String get mushafAboutOffline =>
+      'برنامه پس از نخستین دانلودِ راستی‌آزمایی‌شده کاملاً برون‌خط کار می‌کند و صدای شما را ضبط نمی‌کند.';
 }
