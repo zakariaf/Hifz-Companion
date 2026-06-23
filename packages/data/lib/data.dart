@@ -16,6 +16,7 @@ library;
 export 'src/app_meta_keys.dart' show kAppMetaKeyTextChecksumVerifiedAt;
 export 'src/dates/today_for.dart' show todayFor;
 export 'src/live_persistence_handle.dart' show openLivePersistence;
+export 'src/reference/edition_bootstrap.dart' show registerBundledEdition;
 export 'src/encryption/secret_key_store.dart'
     show FlutterSecureKeyStore, SecretKeyStore;
 export 'src/persistence_exception.dart'

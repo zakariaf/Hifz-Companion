@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import 'package:drift/drift.dart';
+import 'package:models/models.dart' show MushafEdition;
 import 'package:sqlite3/common.dart' show SqliteException;
 
 import '../db/database.dart';
@@ -244,4 +245,32 @@ Future<void> loadCoreReference(HifzDatabase db, CoreReferenceData data) async {
       detail: e.message,
     );
   }
+}
+
+/// Registers ONLY the bundled muṣḥaf **edition metadata** row (riwāyah / name /
+/// counts) so a profile's `mushaf_id` foreign key resolves before the full
+/// checksum-verified reference install (E05) lands. It writes **no** Quran text,
+/// glyph, page, line, or āyah — those stay gated behind the verified-text stamp
+/// (R1). This is the dev/bootstrap slice the composition root uses in a **debug**
+/// build where the bundled asset pack is not present, so the app is runnable on
+/// a simulator; a release build never calls it and stays fully fail-closed.
+/// Idempotent (insert-or-ignore). Lives in the single sanctioned reference-write
+/// path so the read-only gate stays intact — it is reached only through the thin
+/// [registerBundledEdition] wrapper, never as an exported write surface.
+Future<void> registerBundledEditionMetadata(
+  HifzDatabase db,
+  MushafEdition edition,
+) async {
+  await db.into(db.mushafs).insert(
+        MushafsCompanion.insert(
+          mushafId: edition.mushafId,
+          riwayah: edition.riwayah,
+          name: edition.displayName,
+          lineCount: edition.lineCount,
+          pageCount: edition.pageCount,
+          fontFamily: 'QCF',
+          checksumSha256: 'dev-unverified',
+        ),
+        mode: InsertMode.insertOrIgnore,
+      );
 }
