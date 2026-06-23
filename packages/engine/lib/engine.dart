@@ -52,6 +52,7 @@ export 'src/day_math.dart'
     show catchUpWindow, dueWithCeiling, elapsedDays, nextDue;
 export 'src/day_plan.dart' show DayPlan;
 export 'src/engine_config.dart' show EngineConfig;
+export 'src/grading/recitation_grading.dart' show RecitationGrading;
 export 'src/juz_confidence.dart' show JuzConfidence;
 export 'src/load_balance.dart' show LoadBalance, estMinutes;
 export 'src/phases.dart'

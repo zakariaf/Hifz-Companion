@@ -7,6 +7,7 @@ import 'package:engine/engine.dart'
         CalendarDate,
         Card,
         GradeSource,
+        RecitationGrading,
         ReviewGrade,
         ReviewInput,
         ReviewUpdate,
@@ -59,19 +60,29 @@ class ReviewRecorder {
     required CalendarDate today,
     List<int> errorLines = const <int>[],
     GradeSource source = GradeSource.self,
+    bool missedOrAlteredWord = false,
   }) async {
     final card = await _cards.byId(profile, pageId);
     if (card == null) {
       throw StateError('recordReview: no card for $profile page $pageId');
     }
-    final review = ReviewInput(
+    // The normalizer applies the sacred-text cap BEFORE the input is emitted
+    // (R1): a dropped/altered word is never Good/Easy (E12-T06). The capped
+    // grade is what the engine consumes and what the review_log records.
+    final review = RecitationGrading.normalize(
       grade: grade,
       source: source,
       errorLines: errorLines,
+      missedOrAlteredWord: missedOrAlteredWord,
     );
-    // The engine produces the new (D, S, dueAt) via the trust clamp; the spine
-    // reads no line_block rows yet, so the weak-line channel is 0 (E12 wires it).
-    final updated = _engine.onReview(card, review, today, weakLineCount: 0);
+    // The engine produces the new (D, S, dueAt) via the trust clamp; the marked
+    // stumble lines are the weak-line channel.
+    final updated = _engine.onReview(
+      card,
+      review,
+      today,
+      weakLineCount: review.errorLines.length,
+    );
     final outcome = ReviewOutcome(
       logRow: _logRow(card, updated, review, today),
       cardUpdate: updated,
