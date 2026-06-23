@@ -19,13 +19,16 @@ class MotionTokens extends ThemeExtension<MotionTokens> {
     required this.durationShort,
     required this.durationMedium,
     required this.curveStandard,
+    required this.dwellAutoHide,
   });
 
-  /// The audited Mihrab motion set (06 §1): 150ms / 250ms / `fastOutSlowIn`.
+  /// The audited Mihrab motion set (06 §1): 150ms / 250ms / `fastOutSlowIn`,
+  /// with a calm 3s dwell before edge chrome recedes.
   const MotionTokens.standard()
       : durationShort = const Duration(milliseconds: 150),
         durationMedium = const Duration(milliseconds: 250),
-        curveStandard = Curves.fastOutSlowIn;
+        curveStandard = Curves.fastOutSlowIn,
+        dwellAutoHide = const Duration(seconds: 3);
 
   /// 150ms — small state changes (selection, a chip toggle).
   final Duration durationShort;
@@ -36,16 +39,23 @@ class MotionTokens extends ThemeExtension<MotionTokens> {
   /// The standard easing curve for routine transitions.
   final Curve curveStandard;
 
+  /// How long shown-on-demand edge chrome rests before it calmly recedes (the
+  /// muṣḥaf reader's auto-hide, E13-T08). A **dwell/idle timeout**, not an
+  /// animation rung — there is still no celebrate/long animation tier (06 §2).
+  final Duration dwellAutoHide;
+
   @override
   MotionTokens copyWith({
     Duration? durationShort,
     Duration? durationMedium,
     Curve? curveStandard,
+    Duration? dwellAutoHide,
   }) {
     return MotionTokens(
       durationShort: durationShort ?? this.durationShort,
       durationMedium: durationMedium ?? this.durationMedium,
       curveStandard: curveStandard ?? this.curveStandard,
+      dwellAutoHide: dwellAutoHide ?? this.dwellAutoHide,
     );
   }
 
@@ -58,6 +68,7 @@ class MotionTokens extends ThemeExtension<MotionTokens> {
       // A Curve does not meaningfully interpolate; threshold-switch at the
       // midpoint so the transition still ends on the target curve.
       curveStandard: t < 0.5 ? curveStandard : other.curveStandard,
+      dwellAutoHide: _lerpDuration(dwellAutoHide, other.dwellAutoHide, t),
     );
   }
 

@@ -6,14 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:l10n/l10n.dart';
 
-import '../design_system/theme/spacing_tokens.dart';
 import 'mushaf_providers.dart';
 import 'mushaf_view_model.dart';
-import 'widgets/jump_picker.dart';
-import 'widgets/mushaf_pager.dart';
-import 'widgets/reader_theme_control.dart';
-import 'widgets/reader_zoom_control.dart';
-import 'widgets/riwayah_chrome_label.dart';
+import 'widgets/mushaf_chrome.dart';
 
 /// The Muṣḥaf reader tab — the dumb View over E05's immutable page renderer
 /// (PRD §11.2, §12.3). It re-shapes, re-typesets, re-flows, and re-derives
@@ -78,10 +73,10 @@ class MushafReaderScreen extends ConsumerWidget {
   }
 }
 
-/// The reader scaffold: the always-named riwāyah chrome (R2 — never "the Quran"
-/// absolutely), the overlay toggles, and the jump-to entry above the RTL paged
-/// navigator. RTL is the ambient locale direction; the reader sets no hardcoded
-/// `Directionality`.
+/// The reader scaffold: E13-T08's no-dashboard chrome — the page dominates and
+/// the controls recede to auto-hiding edge bands, with the riwāyah/edition label
+/// always named (R2). RTL is the ambient locale direction; the reader sets no
+/// hardcoded `Directionality`.
 class _ReaderScaffold extends StatelessWidget {
   const _ReaderScaffold({required this.state, required this.page});
 
@@ -90,90 +85,13 @@ class _ReaderScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final space = theme.extension<SpacingTokens>()!;
     // RTL is locale-derived (the app-wide Directionality is RTL for fa/ckb/ar);
     // the glyph layer forces its own RTL inside E05's MushafPageView and the
     // pager derives its paging direction from context — the reader sets no
     // hardcoded Directionality of its own.
-    final l10n = AppLocalizations.of(context);
-    return Column(
+    return KeyedSubtree(
       key: const ValueKey<String>('screen.mushaf'),
-      children: [
-        Padding(
-          padding: EdgeInsetsDirectional.all(space.space3),
-          child: Row(
-            children: [
-              // The always-named riwāyah/edition + the About/Credits entry (R2 —
-              // never "the Quran" absolutely); chrome, kept apart from the page.
-              Expanded(child: RiwayahChromeLabel(edition: state.edition)),
-              // Jump-to (juz/ḥizb/sūrah/page); T08 folds it into the edge chrome.
-              IconButton(
-                onPressed: () => showMushafJumpPicker(context, entryPage: page),
-                tooltip: l10n.mushafJumpTitle,
-                icon: const Icon(Icons.menu_book_outlined),
-              ),
-            ],
-          ),
-        ),
-        // The reader controls — theme, zoom, and the diagnostic overlay toggles
-        // (default off). All display-only layer transforms; T08 folds them into
-        // the auto-hiding edge chrome.
-        Padding(
-          padding: EdgeInsetsDirectional.symmetric(horizontal: space.space3),
-          child: Wrap(
-            alignment: WrapAlignment.center,
-            spacing: space.space2,
-            runSpacing: space.space2,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            children: [
-              ReaderThemeControl(entryPage: page),
-              ReaderZoomControl(entryPage: page),
-              _OverlayToggles(entryPage: page),
-            ],
-          ),
-        ),
-        // The RTL paged navigator over E05's immutable page renderer; each page
-        // is a pure pageNumber/geometry rebuild, never re-typeset. The store is
-        // seeded at this entry page (T02) and the pager binds to it.
-        Expanded(child: MushafPager(entryPage: page)),
-      ],
-    );
-  }
-}
-
-/// The two diagnostic overlay toggles (weak-line, mutashābihāt). Both default
-/// **off** — a clean page first; diagnostics are opt-in, never forced on the
-/// sacred surface. Flipping a toggle is display-only (T02): it mutates no card,
-/// writes no `review_log`, and shows no badge/count/celebration.
-class _OverlayToggles extends ConsumerWidget {
-  const _OverlayToggles({required this.entryPage});
-
-  final int entryPage;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context);
-    final state = ref.watch(mushafReaderStateProvider(entryPage));
-    final notifier = ref.read(mushafReaderStateProvider(entryPage).notifier);
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        IconButton(
-          isSelected: state.isWeakLineOverlayVisible,
-          onPressed: notifier.toggleWeakLineOverlay,
-          tooltip: l10n.mushafOverlayWeakLines,
-          icon: const Icon(Icons.subject_outlined),
-          selectedIcon: const Icon(Icons.subject),
-        ),
-        IconButton(
-          isSelected: state.isMutashabihatOverlayVisible,
-          onPressed: notifier.toggleMutashabihatOverlay,
-          tooltip: l10n.mushafOverlayMutashabihat,
-          icon: const Icon(Icons.compare_arrows_outlined),
-          selectedIcon: const Icon(Icons.compare_arrows),
-        ),
-      ],
+      child: MushafChrome(edition: state.edition, page: page),
     );
   }
 }
