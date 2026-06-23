@@ -715,6 +715,30 @@ abstract class AppLocalizations {
   /// **'{region, select, other{السبق}}'**
   String sectionNewSabaq(String region);
 
+  /// One calm informational line on Today when the chosen scope exceeds the daily time budget — states the fact and invites a choice; never an alarm, never guilt, never silently dropping pages (FAR/manzil is always kept). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'اليوم أوسع من وقتك المتاح. لك أن تختار:'**
+  String get budgetOverflowLine;
+
+  /// An autonomy-supportive choice on the budget-feedback line: raise the daily time budget. A quiet option, not a command. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'زيادة وقت المراجعة اليومي'**
+  String get budgetRaiseBudget;
+
+  /// An autonomy-supportive choice on the budget-feedback line: lengthen the revision cycle — a wider cycle is less daily work for the same lasting result, not laziness (CLAIMS C-008). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'إطالة مدّة الدورة'**
+  String get budgetLengthenCycle;
+
+  /// An autonomy-supportive choice on the budget-feedback line: defer today's new sabaq so revision fits — a deferred new lesson, never a dropped revision page. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تأجيل السبق الجديد'**
+  String get budgetPauseNewSabaq;
+
   /// Generic calm retry action for a failed local read (e.g. the Today queue) — never a guilt/error-shame message. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///
   /// In ar, this message translates to:

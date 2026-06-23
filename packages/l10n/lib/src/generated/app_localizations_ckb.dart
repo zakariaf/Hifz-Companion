@@ -529,6 +529,19 @@ class AppLocalizationsCkb extends AppLocalizations {
   }
 
   @override
+  String get budgetOverflowLine =>
+      'ئەمڕۆ لە کاتی بەردەستت فراوانترە. دەتوانیت هەڵبژێریت:';
+
+  @override
+  String get budgetRaiseBudget => 'زیادکردنی کاتی ڕۆژانەی پێداچوونەوە';
+
+  @override
+  String get budgetLengthenCycle => 'درێژکردنەوەی ماوەی خولەکە';
+
+  @override
+  String get budgetPauseNewSabaq => 'دواخستنی سەبەقی نوێ';
+
+  @override
   String get commonRetry => 'هەوڵدانەوە';
 
   @override

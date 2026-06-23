@@ -537,6 +537,18 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get budgetOverflowLine => 'اليوم أوسع من وقتك المتاح. لك أن تختار:';
+
+  @override
+  String get budgetRaiseBudget => 'زيادة وقت المراجعة اليومي';
+
+  @override
+  String get budgetLengthenCycle => 'إطالة مدّة الدورة';
+
+  @override
+  String get budgetPauseNewSabaq => 'تأجيل السبق الجديد';
+
+  @override
   String get commonRetry => 'إعادة المحاولة';
 
   @override

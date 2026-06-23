@@ -526,6 +526,19 @@ class AppLocalizationsFa extends AppLocalizations {
   }
 
   @override
+  String get budgetOverflowLine =>
+      'امروز فراتر از زمان در دسترس شماست. می‌توانید انتخاب کنید:';
+
+  @override
+  String get budgetRaiseBudget => 'افزایش زمان روزانهٔ مرور';
+
+  @override
+  String get budgetLengthenCycle => 'طولانی‌تر کردن دورهٔ مرور';
+
+  @override
+  String get budgetPauseNewSabaq => 'به تعویق انداختن سبق تازه';
+
+  @override
   String get commonRetry => 'تلاش دوباره';
 
   @override

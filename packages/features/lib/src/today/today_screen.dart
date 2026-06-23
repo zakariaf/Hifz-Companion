@@ -7,12 +7,13 @@ import 'package:go_router/go_router.dart';
 import 'package:l10n/l10n.dart';
 
 import '../a11y/reduce_motion_substitution.dart';
-import '../design_system/banners/empty_state.dart';
 import '../recite/recite_route.dart';
 import 'today_providers.dart';
 import 'today_session.dart';
+import 'widgets/budget_feedback_line.dart';
 import 'widgets/daily_session_list.dart';
 import 'widgets/session_skeleton.dart';
+import 'widgets/today_all_done.dart';
 import 'widgets/today_retry_view.dart';
 
 /// The Today tab: a **dumb** View over the 1:1 [todayControllerProvider]
@@ -41,13 +42,7 @@ class TodayScreen extends ConsumerWidget {
         onRetry: () => ref.invalidate(todayControllerProvider),
       ),
       data: (data) => data.isEmpty
-          ? EmptyState(
-              key: const ValueKey<String>('today.allDone'),
-              model: EmptyStateModel(
-                kind: EmptyStateKind.allDone,
-                body: l10n.emptyAllDone,
-              ),
-            )
+          ? const TodayAllDone(key: ValueKey<String>('today.allDone'))
           : _TodayDay(
               key: const ValueKey<String>('today.populated'),
               session: data,
@@ -83,11 +78,28 @@ class _TodayDay extends ConsumerWidget {
         message: l10n.commonRetry,
         onRetry: () => ref.invalidate(pageJuzProvider),
       ),
-      data: (juzMap) => DailySessionList(
-        session: session,
-        juzOf: (pageId) => juzMap[pageId] ?? 0,
-        onOpen: (pageId) => context.push(reciteLocation(pageId)),
-      ),
+      data: (juzMap) {
+        final list = DailySessionList(
+          session: session,
+          juzOf: (pageId) => juzMap[pageId] ?? 0,
+          onOpen: (pageId) => context.push(reciteLocation(pageId)),
+        );
+        // The honest budget-feedback line sits above the still-complete day —
+        // FAR/manzil is never dropped to fit (E12-T04). The choices deep-link to
+        // the E16-owned settings (a single settings surface until E16 splits it).
+        if (!session.budgetOverflow) return list;
+        void toSettings() => context.push('/settings');
+        return Column(
+          children: <Widget>[
+            BudgetFeedbackLine(
+              onRaiseBudget: toSettings,
+              onLengthenCycle: toSettings,
+              onPauseNewSabaq: toSettings,
+            ),
+            Expanded(child: list),
+          ],
+        );
+      },
     );
   }
 }
