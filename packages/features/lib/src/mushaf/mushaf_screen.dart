@@ -9,18 +9,20 @@ import 'package:l10n/l10n.dart';
 import '../design_system/theme/spacing_tokens.dart';
 import 'mushaf_providers.dart';
 import 'mushaf_view_model.dart';
+import 'widgets/jump_picker.dart';
 import 'widgets/mushaf_pager.dart';
 
 /// The Muṣḥaf reader tab — the dumb View over E05's immutable page renderer
 /// (PRD §11.2, §12.3). It re-shapes, re-typesets, re-flows, and re-derives
 /// **nothing**: it reads one controller, names the active riwāyah in chrome, and
-/// embeds [MushafPageView] for the current page under an RTL `Directionality`.
+/// hosts the RTL paged navigator (T03) and the jump-to picker (T04).
 ///
-/// This task lands the navigable scaffold and the riwāyah chrome only. The RTL
-/// paged navigator (T03), the jump-to surface (T04), the overlay toggles (T05),
-/// and the zoom/theme controls (T06) fill the body in. Reader state is
-/// display-only — the View mutates no card, appends no `review_log`, opens no
-/// socket, and surfaces no "done"/score/streak.
+/// RTL is locale-derived — the reader forces no `Directionality` of its own; the
+/// glyph layer forces its own RTL inside E05's `MushafPageView`. The overlay
+/// toggles (T05), zoom/theme controls (T06), and the full riwāyah chrome +
+/// attribution (T07) fill the rest in. Reader state is display-only — the View
+/// mutates no card, appends no `review_log`, opens no socket, and surfaces no
+/// "done"/score/streak.
 class MushafReaderScreen extends ConsumerWidget {
   /// Creates the reader, optionally deep-linked to a [initialPage] / [initialJuz]
   /// / [initialHizb] / [initialSurah] (the juz/ḥizb/sūrah → page resolution is
@@ -74,8 +76,8 @@ class MushafReaderScreen extends ConsumerWidget {
 }
 
 /// The reader scaffold: the always-named riwāyah chrome (R2 — never "the Quran"
-/// absolutely) above E05's immutable [MushafPageView], under an RTL
-/// `Directionality`. T03 swaps the single page for the RTL paged navigator.
+/// absolutely) and the jump-to entry above the RTL paged navigator. RTL is the
+/// ambient locale direction; the reader sets no hardcoded `Directionality`.
 class _ReaderScaffold extends StatelessWidget {
   const _ReaderScaffold({required this.state, required this.page});
 
@@ -86,27 +88,42 @@ class _ReaderScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final space = theme.extension<SpacingTokens>()!;
-    return Directionality(
+    // RTL is locale-derived (the app-wide Directionality is RTL for fa/ckb/ar);
+    // the glyph layer forces its own RTL inside E05's MushafPageView and the
+    // pager derives its paging direction from context — the reader sets no
+    // hardcoded Directionality of its own.
+    final l10n = AppLocalizations.of(context);
+    return Column(
       key: const ValueKey<String>('screen.mushaf'),
-      textDirection: TextDirection.rtl,
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsetsDirectional.all(space.space3),
-            // The named riwāyah/edition — verbatim domain data (R2); T07 builds
-            // the full localized chrome + About/Credits attribution.
-            child: Text(
-              state.edition.displayName,
-              style: theme.textTheme.titleSmall,
-              textAlign: TextAlign.center,
-            ),
+      children: [
+        Padding(
+          padding: EdgeInsetsDirectional.all(space.space3),
+          child: Row(
+            children: [
+              // The named riwāyah/edition — verbatim domain data (R2); T07 builds
+              // the full localized chrome + About/Credits attribution.
+              Expanded(
+                child: Text(
+                  state.edition.displayName,
+                  style: theme.textTheme.titleSmall,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              // Jump-to (juz/ḥizb/sūrah/page); T08 folds it into the auto-hiding
+              // edge chrome.
+              IconButton(
+                onPressed: () => showMushafJumpPicker(context, entryPage: page),
+                tooltip: l10n.mushafJumpTitle,
+                icon: const Icon(Icons.menu_book_outlined),
+              ),
+            ],
           ),
-          // The RTL paged navigator over E05's immutable page renderer; each
-          // page is a pure pageNumber/geometry rebuild, never re-typeset. The
-          // store is seeded at this entry page (T02) and the pager binds to it.
-          Expanded(child: MushafPager(entryPage: page)),
-        ],
-      ),
+        ),
+        // The RTL paged navigator over E05's immutable page renderer; each page
+        // is a pure pageNumber/geometry rebuild, never re-typeset. The store is
+        // seeded at this entry page (T02) and the pager binds to it.
+        Expanded(child: MushafPager(entryPage: page)),
+      ],
     );
   }
 }

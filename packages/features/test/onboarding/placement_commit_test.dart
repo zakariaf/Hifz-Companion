@@ -21,7 +21,8 @@ import 'package:features/features.dart'
         onboardingControllerProvider;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:models/models.dart' show CycleConfig, Line, Profile, ProfileId;
+import 'package:models/models.dart'
+    show CycleConfig, JumpTarget, Line, Profile, ProfileId;
 
 import '../test_setup.dart';
 
@@ -31,6 +32,9 @@ class _FakeReference implements ReferenceRepository {
 
   @override
   Future<List<Line>> linesForPage(int pageNumber) async => const [];
+
+  @override
+  Future<int?> firstPageOf(JumpTarget target) async => null;
 }
 
 class _GatedColdStart implements ColdStartRepository {

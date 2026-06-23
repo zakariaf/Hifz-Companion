@@ -752,4 +752,19 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get destructiveAbortConfirm => 'ڕەشنووس فڕێبدە';
+
+  @override
+  String get mushafJumpTitle => 'بڕۆ بۆ';
+
+  @override
+  String get mushafUnitJuz => 'جزء';
+
+  @override
+  String get mushafUnitHizb => 'حیزب';
+
+  @override
+  String get mushafUnitSurah => 'سورەت';
+
+  @override
+  String get mushafUnitPage => 'لاپەڕە';
 }

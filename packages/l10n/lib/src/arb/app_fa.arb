@@ -166,5 +166,10 @@
   "destructiveWipeProfileConsequence": "این کار سوابق این نمایه را روی این دستگاه برای همیشه پاک می‌کند؛ قابل بازگشت نیست.",
   "destructiveWipeProfileConfirm": "این نمایه را پاک کن",
   "destructiveAbortConsequence": "این کار پیش‌نویس فعلی را دور می‌ریزد؛ قابل بازگشت نیست.",
-  "destructiveAbortConfirm": "دور ریختن پیش‌نویس"
+  "destructiveAbortConfirm": "دور ریختن پیش‌نویس",
+  "mushafJumpTitle": "رفتن به",
+  "mushafUnitJuz": "جزء",
+  "mushafUnitHizb": "حزب",
+  "mushafUnitSurah": "سوره",
+  "mushafUnitPage": "صفحه"
 }

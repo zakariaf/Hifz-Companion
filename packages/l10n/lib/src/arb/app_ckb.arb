@@ -166,5 +166,10 @@
   "destructiveWipeProfileConsequence": "ئەمە تۆمارەکانی ئەم پرۆفایلە لەسەر ئەم ئامێرە بۆ هەمیشە دەسڕێتەوە؛ ناگەڕێتەوە.",
   "destructiveWipeProfileConfirm": "ئەم پرۆفایلە بسڕەوە",
   "destructiveAbortConsequence": "ئەمە ڕەشنووسی ئێستا فڕێدەدات؛ ناگەڕێتەوە.",
-  "destructiveAbortConfirm": "ڕەشنووس فڕێبدە"
+  "destructiveAbortConfirm": "ڕەشنووس فڕێبدە",
+  "mushafJumpTitle": "بڕۆ بۆ",
+  "mushafUnitJuz": "جزء",
+  "mushafUnitHizb": "حیزب",
+  "mushafUnitSurah": "سورەت",
+  "mushafUnitPage": "لاپەڕە"
 }

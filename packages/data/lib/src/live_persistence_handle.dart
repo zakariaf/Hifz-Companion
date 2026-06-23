@@ -90,6 +90,19 @@ final class LivePersistenceHandle
   Future<List<Line>> linesForPage(int pageNumber) =>
       _database.referenceReadDao.linesForPage(pageNumber);
 
+  @override
+  Future<int?> firstPageOf(JumpTarget target) async {
+    if (!target.isInRange) return null;
+    final dao = _database.referenceReadDao;
+    return switch (target.unit) {
+      // A page resolves to itself (works before the reference is loaded).
+      JumpUnit.page => target.index,
+      JumpUnit.juz => dao.firstPageInJuz(target.index),
+      JumpUnit.hizb => dao.firstPageInHizb(target.index),
+      JumpUnit.surah => dao.firstPageOfSurah(target.index),
+    };
+  }
+
   // --- AppMetaRepository reads ---
 
   @override

@@ -50,6 +50,29 @@ class ReferenceReadDao extends DatabaseAccessor<HifzDatabase>
     return [for (final row in rows) row.pageId];
   }
 
+  /// The lowest `page_id` in [juz] (the page that juz starts on), or null if the
+  /// reference is not loaded — **read** from the `page` table, never computed
+  /// (engineering 08 §3; a wrong start page is a sacred off-by-one).
+  Future<int?> firstPageInJuz(int juz) =>
+      _firstPageWhere(pages.juz.equals(juz));
+
+  /// The lowest `page_id` in [hizb] (the page that ḥizb starts on), or null —
+  /// read from the `page` table, never computed.
+  Future<int?> firstPageInHizb(int hizb) =>
+      _firstPageWhere(pages.hizb.equals(hizb));
+
+  /// The lowest `page_id` whose `surah_start` is [surah] (the page that sūrah's
+  /// first āyah falls on), or null — read from the `page` table, never computed.
+  Future<int?> firstPageOfSurah(int surah) =>
+      _firstPageWhere(pages.surahStart.equals(surah));
+
+  Future<int?> _firstPageWhere(Expression<bool> filter) async {
+    final query = selectOnly(pages)
+      ..addColumns([pages.pageId.min()])
+      ..where(filter);
+    return query.getSingle().then((row) => row.read(pages.pageId.min()));
+  }
+
   /// The page descriptor for [pageNumber], or null.
   Future<Page?> pageByNumber(int pageNumber) async {
     final query = select(pages)..where((p) => p.pageId.equals(pageNumber));

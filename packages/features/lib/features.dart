@@ -20,6 +20,7 @@ export 'src/mushaf/mushaf_route.dart';
 export 'src/mushaf/mushaf_screen.dart';
 export 'src/mushaf/mushaf_view_model.dart';
 export 'src/mushaf/reader_theme.dart';
+export 'src/mushaf/widgets/jump_picker.dart';
 export 'src/mushaf/widgets/mushaf_pager.dart';
 export 'src/mutashabihat/mutashabihat_screen.dart';
 export 'src/onboarding/cold_start_seeder.dart';

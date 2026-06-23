@@ -745,4 +745,19 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get destructiveAbortConfirm => 'دور ریختن پیش‌نویس';
+
+  @override
+  String get mushafJumpTitle => 'رفتن به';
+
+  @override
+  String get mushafUnitJuz => 'جزء';
+
+  @override
+  String get mushafUnitHizb => 'حزب';
+
+  @override
+  String get mushafUnitSurah => 'سوره';
+
+  @override
+  String get mushafUnitPage => 'صفحه';
 }

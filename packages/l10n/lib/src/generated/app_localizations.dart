@@ -1104,6 +1104,36 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تجاهل المسودة'**
   String get destructiveAbortConfirm;
+
+  /// Title of the muṣḥaf reader's jump-to picker (E13-T04). PROVISIONAL — best-effort fa/ckb, native + scholarly review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'الانتقال إلى'**
+  String get mushafJumpTitle;
+
+  /// Jump-to unit label: juz. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'جزء'**
+  String get mushafUnitJuz;
+
+  /// Jump-to unit label: ḥizb. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'حزب'**
+  String get mushafUnitHizb;
+
+  /// Jump-to unit label: sūrah. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'سورة'**
+  String get mushafUnitSurah;
+
+  /// Jump-to unit label: page. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'صفحة'**
+  String get mushafUnitPage;
 }
 
 class _AppLocalizationsDelegate

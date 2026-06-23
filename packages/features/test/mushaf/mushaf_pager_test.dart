@@ -19,8 +19,9 @@ import 'package:models/models.dart' show MushafEdition;
 import '../test_setup.dart';
 
 int pageViewItemCount(WidgetTester tester) {
-  final delegate = tester.widget<PageView>(find.byType(PageView)).childrenDelegate
-      as SliverChildBuilderDelegate;
+  final delegate = tester
+      .widget<PageView>(find.byType(PageView))
+      .childrenDelegate as SliverChildBuilderDelegate;
   return delegate.childCount!;
 }
 
@@ -90,7 +91,8 @@ void main() {
   });
 
   group('bounds come from the edition, never a hardcoded 604', () {
-    testWidgets('itemCount is the edition pageCount; one full page per viewport',
+    testWidgets(
+        'itemCount is the edition pageCount; one full page per viewport',
         (tester) async {
       await pumpPager(tester, entryPage: 10);
       expect(pageViewItemCount(tester), 604);

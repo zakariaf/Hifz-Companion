@@ -763,4 +763,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get destructiveAbortConfirm => 'تجاهل المسودة';
+
+  @override
+  String get mushafJumpTitle => 'الانتقال إلى';
+
+  @override
+  String get mushafUnitJuz => 'جزء';
+
+  @override
+  String get mushafUnitHizb => 'حزب';
+
+  @override
+  String get mushafUnitSurah => 'سورة';
+
+  @override
+  String get mushafUnitPage => 'صفحة';
 }

@@ -30,7 +30,10 @@ class MushafReaderScaffoldState {
   final int initialPage;
 
   /// Returns a copy with the given fields replaced; omitted fields preserved.
-  MushafReaderScaffoldState copyWith({MushafEdition? edition, int? initialPage}) =>
+  MushafReaderScaffoldState copyWith({
+    MushafEdition? edition,
+    int? initialPage,
+  }) =>
       MushafReaderScaffoldState(
         edition: edition ?? this.edition,
         initialPage: initialPage ?? this.initialPage,

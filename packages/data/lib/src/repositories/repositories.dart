@@ -61,6 +61,15 @@ abstract interface class ReferenceRepository {
   /// is carried **opaque** — never parsed or logged as text (R1). Empty until
   /// the core reference pack is loaded.
   Future<List<Line>> linesForPage(int pageNumber);
+
+  /// The page a jump [target] resolves to (the muṣḥaf reader's jump-to, E13).
+  ///
+  /// juz/ḥizb/sūrah are **read** from the `page` reference table (`MIN(page_id)`
+  /// over the matching column) — never computed (engineering 08 §3); a `page`
+  /// target resolves to itself. Returns null for an out-of-range index, and for
+  /// juz/ḥizb/sūrah when the reference is not yet loaded (bundle-first) — the
+  /// caller stays on the current page rather than guess a sacred boundary.
+  Future<int?> firstPageOf(JumpTarget target);
 }
 
 /// Reads the app-level `(key, value)` singleton store — a generic `String?`
