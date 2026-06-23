@@ -16,9 +16,9 @@ import 'mushaf_route.dart';
 /// The live current-page / zoom / theme / overlay-toggle state is owned by
 /// E13-T02's reader-state store and read alongside this — the seam is kept.
 @immutable
-class MushafReaderState {
+class MushafReaderScaffoldState {
   /// Creates the reader-scaffold state.
-  const MushafReaderState({
+  const MushafReaderScaffoldState({
     required this.edition,
     this.initialPage = kDefaultReaderPage,
   });
@@ -30,15 +30,15 @@ class MushafReaderState {
   final int initialPage;
 
   /// Returns a copy with the given fields replaced; omitted fields preserved.
-  MushafReaderState copyWith({MushafEdition? edition, int? initialPage}) =>
-      MushafReaderState(
+  MushafReaderScaffoldState copyWith({MushafEdition? edition, int? initialPage}) =>
+      MushafReaderScaffoldState(
         edition: edition ?? this.edition,
         initialPage: initialPage ?? this.initialPage,
       );
 
   @override
   bool operator ==(Object other) =>
-      other is MushafReaderState &&
+      other is MushafReaderScaffoldState &&
       other.edition == edition &&
       other.initialPage == initialPage;
 
@@ -50,13 +50,13 @@ class MushafReaderState {
 /// weak-line overlay refs key on in T05), `autoDispose` (the heavy reader does
 /// not outlive its screen on low-end Android). It reads the active
 /// [MushafEdition] through an injected provider (E16 owns the swap; here it
-/// reads whichever is active) and exposes one immutable [MushafReaderState].
+/// reads whichever is active) and exposes one immutable [MushafReaderScaffoldState].
 ///
 /// It reaches **no** DAO, calls **no** engine math, contains **no**
 /// `DateTime.now()`, and mutates no persisted state (no `review_log` append, no
 /// `due_at` re-derivation). The Quran route renders only behind the router's
 /// verified-core redirect guard (R1) — this model opens no socket.
-class MushafReaderViewModel extends AsyncNotifier<MushafReaderState> {
+class MushafReaderViewModel extends AsyncNotifier<MushafReaderScaffoldState> {
   /// Creates the view-model for the active [profile] (the family key).
   MushafReaderViewModel(this.profile);
 
@@ -64,8 +64,8 @@ class MushafReaderViewModel extends AsyncNotifier<MushafReaderState> {
   final ProfileId profile;
 
   @override
-  Future<MushafReaderState> build() async {
+  Future<MushafReaderScaffoldState> build() async {
     final edition = ref.watch(activeEditionProvider);
-    return MushafReaderState(edition: edition);
+    return MushafReaderScaffoldState(edition: edition);
   }
 }

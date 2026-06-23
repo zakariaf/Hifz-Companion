@@ -79,7 +79,7 @@ class MushafReaderScreen extends ConsumerWidget {
 class _ReaderScaffold extends StatelessWidget {
   const _ReaderScaffold({required this.state, required this.page});
 
-  final MushafReaderState state;
+  final MushafReaderScaffoldState state;
   final int page;
 
   @override
