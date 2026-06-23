@@ -159,6 +159,42 @@ void main() {
     );
   });
 
+  test('the sacred-text cap rides the write path: Good + missed word → Hard',
+      () async {
+    final reviews = _RecordingReviews();
+    final today = CalendarDate.ymd(2026, 6, 19);
+    await recorder(_StubCards(farCard()), reviews).recordReview(
+      profile: profile,
+      pageId: 42,
+      grade: ReviewGrade.good,
+      today: today,
+      errorLines: const [3],
+      missedOrAlteredWord: true,
+    );
+
+    // The persisted review_log row carries the CAPPED grade — never Good (R1).
+    expect(reviews.committed!.logRow.grade, ReviewGrade.hard);
+    expect(reviews.committed!.logRow.errorLineIndices, [3]);
+
+    // The card update reflects the engine applied to the capped input + the
+    // marked weak line — not the uncapped Good.
+    final expected = engine.onReview(
+      farCard(),
+      ReviewInput(
+        grade: ReviewGrade.hard,
+        source: GradeSource.self,
+        errorLines: const [3],
+        missedOrAlteredWord: true,
+      ),
+      today,
+      weakLineCount: 1,
+    );
+    expect(
+      reviews.committed!.cardUpdate.stabilityDays,
+      closeTo(expected.stabilityDays, 1e-9),
+    );
+  });
+
   test('teacher source round-trips through the outcome', () async {
     final reviews = _RecordingReviews();
     await recorder(_StubCards(farCard()), reviews).recordReview(

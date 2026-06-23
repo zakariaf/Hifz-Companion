@@ -2,29 +2,66 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import 'package:composition/composition.dart';
-import 'package:engine/engine.dart' show BuildDay, Card;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'review_recorder.dart';
+import 'today_session.dart';
+import 'today_session_builder.dart';
+import 'today_view_model.dart';
 
-/// The reactive Today queue: the engine-selected due pages for the active
-/// profile in recitation order (Far → Near → New), recomputed on every committed
-/// card write (04 §3 — derived read models are `StreamProvider`s over Drift).
+/// The reactive Today read model: the immutable [TodaySession] for the active
+/// profile — the engine's pre-built day grouped Far → Near → New, the budget
+/// flag, and the coexisting catch-up plan — recomputed on every committed card
+/// write (04 §3 — derived read models are `StreamProvider`s over Drift).
 ///
-/// `R` and ordering are computed on read by `buildToday`, never stored. Empty
-/// when no profile is active. Because it watches the committed card stream, a
-/// graded page re-emits the queue only after the review is durably on disk
-/// (persist-before-republish) — there is no second place to update.
-final todayQueueProvider = StreamProvider<List<Card>>((ref) {
+/// The engine's schedule methods are reached **only** inside [buildTodaySession]
+/// here, never in the controller or View. Ordering/`R` are computed on read,
+/// never stored. Empty when no profile is active. Because it watches the
+/// committed card stream, a graded page re-emits only after the review is
+/// durably on disk (persist-before-republish) — there is no second place to
+/// update, no manual republish.
+final todaySessionProvider = StreamProvider<TodaySession>((ref) {
   final profileId = ref.watch(activeProfileProvider);
-  if (profileId == null) return Stream<List<Card>>.value(const <Card>[]);
+  if (profileId == null) {
+    return Stream<TodaySession>.value(const TodaySession.empty());
+  }
   final engine = ref.watch(engineProvider);
   final today = ref.watch(todayProvider);
   return ref
       .watch(cardRepositoryProvider)
       .watchForProfile(profileId)
-      .map((cards) => engine.buildToday(cards, today).items);
+      .map((cards) => buildTodaySession(cards, today, engine));
 });
+
+/// The page → juz lookup, built once from the bundled QUL reference (the inverse
+/// of `pageIdsForJuz`). Reference metadata (never glyph codes); used only to
+/// label a Today row "Page N · Juz M". Offline — the reference is bundled-core.
+/// Tests inject a fixed lookup into the list directly rather than seed this.
+final pageJuzProvider = FutureProvider<Map<int, int>>((ref) async {
+  final reference = ref.watch(persistenceProvider).reference;
+  // Load the 30 juz page lists concurrently (they are independent reads).
+  final perJuz = await Future.wait(
+    List.generate(
+      30,
+      (i) async => MapEntry(i + 1, await reference.pageIdsForJuz(i + 1)),
+    ),
+  );
+  final map = <int, int>{};
+  for (final entry in perJuz) {
+    for (final page in entry.value) {
+      map[page] = entry.key;
+    }
+  }
+  return map;
+});
+
+/// The 1:1 Today view-model provider — the single thing the dumb [TodayScreen]
+/// reads (04 §1.3). App-scope (never `autoDispose`): Today is the persistent
+/// home tab and the controller holds no per-screen state. It publishes the
+/// immutable [TodaySession]; tests drive its states by overriding the upstream
+/// [todaySessionProvider], never the notifier.
+final todayControllerProvider =
+    AsyncNotifierProvider<TodayController, TodaySession>(TodayController.new);
 
 /// The grade-one-page command, wired from the composition seams (the persistence
 /// handle's read seam + single write path, and the pure engine).

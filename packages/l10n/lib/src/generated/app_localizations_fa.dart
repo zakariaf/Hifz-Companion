@@ -488,6 +488,57 @@ class AppLocalizationsFa extends AppLocalizations {
   String get todayEmpty => 'در حال حاضر صفحه‌ای برای مرور نیست.';
 
   @override
+  String get todaySemanticTitle => 'مرور امروز';
+
+  @override
+  String sectionFarManzil(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'levant': 'منزل',
+        'subcontinent': 'دور',
+        'other': 'منزل',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sectionNearSabqi(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'سبقی',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sectionNewSabaq(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'سبق',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get budgetOverflowLine =>
+      'امروز فراتر از زمان در دسترس شماست. می‌توانید انتخاب کنید:';
+
+  @override
+  String get budgetRaiseBudget => 'افزایش زمان روزانهٔ مرور';
+
+  @override
+  String get budgetLengthenCycle => 'طولانی‌تر کردن دورهٔ مرور';
+
+  @override
+  String get budgetPauseNewSabaq => 'به تعویق انداختن سبق تازه';
+
+  @override
   String get commonRetry => 'تلاش دوباره';
 
   @override
@@ -521,6 +572,9 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get decaySteady => 'پایدار';
+
+  @override
+  String get decayHolding => 'روبه‌راه';
 
   @override
   String get a11yAnnounceCatchUpReady => 'برنامهٔ مرور آماده است.';
@@ -557,6 +611,20 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get gradeEasySemantics => 'بی‌زحمت — با فاصلهٔ بیشتر';
+
+  @override
+  String get reciteExit => 'بستن';
+
+  @override
+  String get reciteRevealHint => 'سطر بعد را آشکار کنید';
+
+  @override
+  String reciteStumbleLineLabel(String line) {
+    return 'سطر $line';
+  }
+
+  @override
+  String get reciteUndo => 'بازگردانی';
 
   @override
   String get gradeBandWaitingHint => 'برای ارزیابی، صفحه را آشکار کنید';

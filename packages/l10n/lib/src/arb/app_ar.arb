@@ -518,6 +518,41 @@
   "@todayEmpty": {
     "description": "Calm Today empty state when no page is due right now — neutral, never 'done'/'safe to stop'/'all caught up' celebration (nothing is ever safe to drop). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
   },
+  "todaySemanticTitle": "مراجعة اليوم",
+  "@todaySemanticTitle": {
+    "description": "The screen-reader container label for the Today list ('Revise today') — names the daily revision surface; calm, never a scoreboard or count. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "sectionFarManzil": "{region, select, levant{المنزل} subcontinent{الدور} other{المنزل}}",
+  "@sectionFarManzil": {
+    "description": "The Far section header on the Today list — the far/manzil revision group, recited first. TERM-SET vocabulary (scholar-reviewed, swappable by region); distinct from the per-row track chip. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.",
+    "placeholders": {"region": {"type": "String"}}
+  },
+  "sectionNearSabqi": "{region, select, other{السبقي}}",
+  "@sectionNearSabqi": {
+    "description": "The Near section header on the Today list — the near/sabqi revision group. TERM-SET vocabulary. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.",
+    "placeholders": {"region": {"type": "String"}}
+  },
+  "sectionNewSabaq": "{region, select, other{السبق}}",
+  "@sectionNewSabaq": {
+    "description": "The New section header on the Today list — today's new sabaq lesson group, recited last. TERM-SET vocabulary. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.",
+    "placeholders": {"region": {"type": "String"}}
+  },
+  "budgetOverflowLine": "اليوم أوسع من وقتك المتاح. لك أن تختار:",
+  "@budgetOverflowLine": {
+    "description": "One calm informational line on Today when the chosen scope exceeds the daily time budget — states the fact and invites a choice; never an alarm, never guilt, never silently dropping pages (FAR/manzil is always kept). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "budgetRaiseBudget": "زيادة وقت المراجعة اليومي",
+  "@budgetRaiseBudget": {
+    "description": "An autonomy-supportive choice on the budget-feedback line: raise the daily time budget. A quiet option, not a command. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "budgetLengthenCycle": "إطالة مدّة الدورة",
+  "@budgetLengthenCycle": {
+    "description": "An autonomy-supportive choice on the budget-feedback line: lengthen the revision cycle — a wider cycle is less daily work for the same lasting result, not laziness (CLAIMS C-008). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "budgetPauseNewSabaq": "تأجيل السبق الجديد",
+  "@budgetPauseNewSabaq": {
+    "description": "An autonomy-supportive choice on the budget-feedback line: defer today's new sabaq so revision fits — a deferred new lesson, never a dropped revision page. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
   "commonRetry": "إعادة المحاولة",
   "@commonRetry": {
     "description": "Generic calm retry action for a failed local read (e.g. the Today queue) — never a guilt/error-shame message. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
@@ -562,6 +597,10 @@
     "description": "Calm decay indicator label for a weak page — needs revision, never 'failing'/'lost'/alarm. Paired with a distinct glyph (not colour alone). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
   },
   "decaySteady": "ثابت",
+  "decayHolding": "مستقرّ",
+  "@decayHolding": {
+    "description": "The calm middle decay band on a Today row — a page that is holding (between solid/steady and needs-revision), neither alarming nor 'safe to drop'. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
   "@decaySteady": {
     "description": "Calm decay indicator label for a steady page. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
   },
@@ -612,6 +651,23 @@
   "gradeEasySemantics": "بلا تكلّف — بمباعدة أطول",
   "@gradeEasySemantics": {
     "description": "Screen-reader phrase for the EASY grade — verdict + calm consequence (revision spaces out). NEVER 'mastered'/'safe to drop' (C-019). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "reciteExit": "إغلاق",
+  "@reciteExit": {
+    "description": "The calm exit/abort on the recite screen's leading (start) edge — leaves the recite flow without grading. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "reciteRevealHint": "اكشف السطر التالي",
+  "@reciteRevealHint": {
+    "description": "The tap-to-reveal affordance on a masked line — reveal happens only AFTER the recall attempt (no teleprompter). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "reciteStumbleLineLabel": "السطر {line}",
+  "@reciteStumbleLineLabel": {
+    "description": "The screen-reader label for a revealed line's stumble-mark toggle. {line} is the 1-based line number pre-formatted in locale numerals. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.",
+    "placeholders": {"line": {"type": "String"}}
+  },
+  "reciteUndo": "تراجع",
+  "@reciteUndo": {
+    "description": "Undo a just-committed grade — a fat-fingered sacred-text grade is recoverable; reverses through the single write path. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
   },
   "gradeBandWaitingHint": "اكشف الصفحة لتقييمها",
   "@gradeBandWaitingHint": {

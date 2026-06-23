@@ -499,6 +499,56 @@ class AppLocalizationsAr extends AppLocalizations {
   String get todayEmpty => 'لا توجد صفحات مستحقة الآن.';
 
   @override
+  String get todaySemanticTitle => 'مراجعة اليوم';
+
+  @override
+  String sectionFarManzil(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'levant': 'المنزل',
+        'subcontinent': 'الدور',
+        'other': 'المنزل',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sectionNearSabqi(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'السبقي',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sectionNewSabaq(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'السبق',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get budgetOverflowLine => 'اليوم أوسع من وقتك المتاح. لك أن تختار:';
+
+  @override
+  String get budgetRaiseBudget => 'زيادة وقت المراجعة اليومي';
+
+  @override
+  String get budgetLengthenCycle => 'إطالة مدّة الدورة';
+
+  @override
+  String get budgetPauseNewSabaq => 'تأجيل السبق الجديد';
+
+  @override
   String get commonRetry => 'إعادة المحاولة';
 
   @override
@@ -532,6 +582,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get decaySteady => 'ثابت';
+
+  @override
+  String get decayHolding => 'مستقرّ';
 
   @override
   String get a11yAnnounceCatchUpReady => 'خطة المراجعة جاهزة.';
@@ -568,6 +621,20 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get gradeEasySemantics => 'بلا تكلّف — بمباعدة أطول';
+
+  @override
+  String get reciteExit => 'إغلاق';
+
+  @override
+  String get reciteRevealHint => 'اكشف السطر التالي';
+
+  @override
+  String reciteStumbleLineLabel(String line) {
+    return 'السطر $line';
+  }
+
+  @override
+  String get reciteUndo => 'تراجع';
 
   @override
   String get gradeBandWaitingHint => 'اكشف الصفحة لتقييمها';

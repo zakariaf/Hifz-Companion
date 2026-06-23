@@ -691,6 +691,54 @@ abstract class AppLocalizations {
   /// **'لا توجد صفحات مستحقة الآن.'**
   String get todayEmpty;
 
+  /// The screen-reader container label for the Today list ('Revise today') — names the daily revision surface; calm, never a scoreboard or count. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'مراجعة اليوم'**
+  String get todaySemanticTitle;
+
+  /// The Far section header on the Today list — the far/manzil revision group, recited first. TERM-SET vocabulary (scholar-reviewed, swappable by region); distinct from the per-row track chip. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, levant{المنزل} subcontinent{الدور} other{المنزل}}'**
+  String sectionFarManzil(String region);
+
+  /// The Near section header on the Today list — the near/sabqi revision group. TERM-SET vocabulary. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{السبقي}}'**
+  String sectionNearSabqi(String region);
+
+  /// The New section header on the Today list — today's new sabaq lesson group, recited last. TERM-SET vocabulary. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'{region, select, other{السبق}}'**
+  String sectionNewSabaq(String region);
+
+  /// One calm informational line on Today when the chosen scope exceeds the daily time budget — states the fact and invites a choice; never an alarm, never guilt, never silently dropping pages (FAR/manzil is always kept). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'اليوم أوسع من وقتك المتاح. لك أن تختار:'**
+  String get budgetOverflowLine;
+
+  /// An autonomy-supportive choice on the budget-feedback line: raise the daily time budget. A quiet option, not a command. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'زيادة وقت المراجعة اليومي'**
+  String get budgetRaiseBudget;
+
+  /// An autonomy-supportive choice on the budget-feedback line: lengthen the revision cycle — a wider cycle is less daily work for the same lasting result, not laziness (CLAIMS C-008). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'إطالة مدّة الدورة'**
+  String get budgetLengthenCycle;
+
+  /// An autonomy-supportive choice on the budget-feedback line: defer today's new sabaq so revision fits — a deferred new lesson, never a dropped revision page. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تأجيل السبق الجديد'**
+  String get budgetPauseNewSabaq;
+
   /// Generic calm retry action for a failed local read (e.g. the Today queue) — never a guilt/error-shame message. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///
   /// In ar, this message translates to:
@@ -756,6 +804,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'ثابت'**
   String get decaySteady;
+
+  /// The calm middle decay band on a Today row — a page that is holding (between solid/steady and needs-revision), neither alarming nor 'safe to drop'. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'مستقرّ'**
+  String get decayHolding;
 
   /// Screen-reader announcement (SemanticsService.announce, RTL) when the missed-day catch-up plan is ready on Today. Calm, supportive, located-revisit framing — never 'you are behind'/overdue/shame, never a celebration. Consumed by E11/E12; the key + announce path exist now. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///
@@ -828,6 +882,30 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'بلا تكلّف — بمباعدة أطول'**
   String get gradeEasySemantics;
+
+  /// The calm exit/abort on the recite screen's leading (start) edge — leaves the recite flow without grading. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'إغلاق'**
+  String get reciteExit;
+
+  /// The tap-to-reveal affordance on a masked line — reveal happens only AFTER the recall attempt (no teleprompter). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'اكشف السطر التالي'**
+  String get reciteRevealHint;
+
+  /// The screen-reader label for a revealed line's stumble-mark toggle. {line} is the 1-based line number pre-formatted in locale numerals. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'السطر {line}'**
+  String reciteStumbleLineLabel(String line);
+
+  /// Undo a just-committed grade — a fat-fingered sacred-text grade is recoverable; reverses through the single write path. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تراجع'**
+  String get reciteUndo;
 
   /// Calm hint shown when the grade band is disabled before the page is revealed (reveal-on-tap, E12) — styled as WAITING, not an error or a dead button (design 07 §6). 'Reveal the page to grade it.' PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///

@@ -1,23 +1,30 @@
 // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import 'package:composition/composition.dart';
-import 'package:engine/engine.dart' show Card, ReviewGrade;
-import 'package:flutter/material.dart' hide Card;
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:l10n/l10n.dart';
 
-import '../a11y/announce.dart';
 import '../a11y/reduce_motion_substitution.dart';
-import '../design_system/theme/spacing_tokens.dart';
+import '../recite/recite_route.dart';
 import 'today_providers.dart';
-import 'widgets/page_card.dart';
+import 'today_session.dart';
+import 'widgets/budget_feedback_line.dart';
+import 'widgets/daily_session_list.dart';
+import 'widgets/session_skeleton.dart';
+import 'widgets/today_all_done.dart';
+import 'widgets/today_catch_up_banner.dart';
+import 'widgets/today_retry_view.dart';
 
-/// The Today tab: the engine-selected due pages (Far → Near → New) for the
-/// active profile, a dumb View over the reactive [todayQueueProvider]. A graded
-/// page routes through the single write path ([ReviewRecorder]); the committed
-/// review re-emits the stream and the page leaves the list — there is no manual
-/// refresh.
+/// The Today tab: a **dumb** View over the 1:1 [todayControllerProvider]
+/// (04 §1.3). It reads exactly one controller and renders its four calm states —
+/// `loading` skeleton, `error` retry, the calm all-done close, and the populated
+/// day — never calling the engine, never sorting/capping/load-balancing, never
+/// reading `DateTime.now()`. The grouped Far → Near → New list (E12-T03), the
+/// budget-feedback line (E12-T04), and the catch-up banner (E12-T05) fill the
+/// `populated` / catch-up slots this scaffold lays out.
 class TodayScreen extends ConsumerWidget {
   /// Creates the Today screen.
   const TodayScreen({super.key});
@@ -25,119 +32,135 @@ class TodayScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final queue = ref.watch(todayQueueProvider);
+    final session = ref.watch(todayControllerProvider);
 
-    Future<void> grade(Card card, ReviewGrade reviewGrade) async {
-      final profile = ref.read(activeProfileProvider);
-      if (profile == null) return;
-      try {
-        await ref.read(reviewRecorderProvider).recordReview(
-              profile: profile,
-              pageId: card.pageId,
-              grade: reviewGrade,
-              today: ref.read(todayProvider),
-            );
-        // Calm, once-per-commit screen-reader receipt (RTL); the visual motion
-        // is suppressed under reduce-motion, the announce is not (E08-T02/T05).
-        if (context.mounted) {
-          await announceState(context, l10n.a11yAnnouncePageGraded);
-        }
-      } on Exception {
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(l10n.commonRetry)),
-          );
-        }
-      }
-    }
-
-    // The content reveal is a non-essential motion surface: a calm cross-fade
-    // when the queue resolves, collapsing to an instant cut under the OS Reduce
-    // Motion flag (E08-T05). Each state carries a distinct key so the reveal is
-    // detected.
-    final content = queue.when(
-      loading: () => const Center(
-        key: ValueKey<String>('today.loading'),
-        child: CircularProgressIndicator(),
-      ),
-      error: (error, _) => _RetryView(
+    // Each state carries a distinct key so the calm content cross-fade (instant
+    // under the OS Reduce Motion flag, E08-T05) is detected on transition.
+    final content = session.when(
+      loading: () => const SessionSkeleton(key: ValueKey<String>('today.loading')),
+      error: (error, _) => TodayRetryView(
         key: const ValueKey<String>('today.error'),
         message: l10n.commonRetry,
-        onRetry: () => ref.invalidate(todayQueueProvider),
+        onRetry: () => ref.invalidate(todayControllerProvider),
       ),
-      data: (cards) => cards.isEmpty
-          ? _EmptyToday(
-              key: const ValueKey<String>('today.empty'),
-              message: l10n.todayEmpty,
-            )
-          : _TodayList(
-              key: const ValueKey<String>('today.list'),
-              cards: cards,
-              onGrade: grade,
-            ),
+      data: (data) {
+        if (data.catchUp != null) {
+          return _CatchUpView(
+            key: const ValueKey<String>('today.catchUp'),
+            session: data,
+          );
+        }
+        return data.isEmpty
+            ? const TodayAllDone(key: ValueKey<String>('today.allDone'))
+            : _TodayDay(
+                key: const ValueKey<String>('today.populated'),
+                session: data,
+              );
+      },
     );
 
     return Semantics(
       identifier: 'screen.today',
+      container: true,
+      label: l10n.todaySemanticTitle,
       explicitChildNodes: true,
       child: SafeArea(child: ReduceMotionSwitcher(child: content)),
     );
   }
 }
 
-class _TodayList extends StatelessWidget {
-  const _TodayList({required this.cards, required this.onGrade, super.key});
+/// The populated-day slot: the finite, budget-capped Far → Near → New session
+/// list (E12-T03). Resolves each row's juz from the bundled reference and opens
+/// the recite route on a row tap. The budget-feedback line (E12-T04) and the
+/// catch-up banner (E12-T05) fill their slots here in later tasks.
+class _TodayDay extends ConsumerWidget {
+  const _TodayDay({required this.session, super.key});
 
-  final List<Card> cards;
-  final Future<void> Function(Card card, ReviewGrade grade) onGrade;
+  final TodaySession session;
 
   @override
-  Widget build(BuildContext context) {
-    final space = Theme.of(context).extension<SpacingTokens>()!;
-    return ListView.builder(
-      padding: EdgeInsetsDirectional.all(space.space3),
-      itemCount: cards.length,
-      itemBuilder: (context, index) {
-        final card = cards[index];
-        return PageCard(
-          key: ValueKey<int>(card.pageId),
-          card: card,
-          onGrade: (grade) => onGrade(card, grade),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final juz = ref.watch(pageJuzProvider);
+    return juz.when(
+      loading: () => const SessionSkeleton(),
+      error: (_, __) => TodayRetryView(
+        message: l10n.commonRetry,
+        onRetry: () => ref.invalidate(pageJuzProvider),
+      ),
+      data: (juzMap) {
+        final list = DailySessionList(
+          session: session,
+          juzOf: (pageId) => juzMap[pageId] ?? 0,
+          onOpen: (pageId) => context.push(reciteLocation(pageId)),
+        );
+        // The honest budget-feedback line sits above the still-complete day —
+        // FAR/manzil is never dropped to fit (E12-T04). The choices deep-link to
+        // the E16-owned settings (a single settings surface until E16 splits it).
+        if (!session.budgetOverflow) return list;
+        void toSettings() => context.push('/settings');
+        return Column(
+          children: <Widget>[
+            BudgetFeedbackLine(
+              onRaiseBudget: toSettings,
+              onLengthenCycle: toSettings,
+              onPauseNewSabaq: toSettings,
+            ),
+            Expanded(child: list),
+          ],
         );
       },
     );
   }
 }
 
-class _EmptyToday extends StatelessWidget {
-  const _EmptyToday({required this.message, super.key});
+/// The catch-up state: the calm re-spread banner after a gap. Accepting or
+/// deferring the plan resumes into the ordinary day for this slice (the
+/// persisted accept-state lands with E16/E04 wiring); accept fires only the calm
+/// `haptic.confirm`, never a celebration. Adjust deep-links to settings.
+class _CatchUpView extends ConsumerStatefulWidget {
+  const _CatchUpView({required this.session, super.key});
 
-  final String message;
+  final TodaySession session;
 
   @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(message, style: Theme.of(context).textTheme.bodyMedium),
-    );
-  }
+  ConsumerState<_CatchUpView> createState() => _CatchUpViewState();
 }
 
-class _RetryView extends StatelessWidget {
-  const _RetryView({required this.message, required this.onRetry, super.key});
+class _CatchUpViewState extends ConsumerState<_CatchUpView> {
+  bool _dismissed = false;
 
-  final String message;
-  final VoidCallback onRetry;
+  Widget _ordinaryDay() {
+    final session = widget.session;
+    return session.isEmpty
+        ? const TodayAllDone(key: ValueKey<String>('today.allDone'))
+        : _TodayDay(
+            key: const ValueKey<String>('today.populated'),
+            session: session,
+          );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final space = Theme.of(context).extension<SpacingTokens>()!;
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        spacing: space.space3,
-        children: [
-          FilledButton(onPressed: onRetry, child: Text(message)),
-        ],
+    if (_dismissed) return _ordinaryDay();
+    final l10n = AppLocalizations.of(context);
+    final juz = ref.watch(pageJuzProvider);
+    return juz.when(
+      loading: () => const SessionSkeleton(),
+      error: (_, __) => TodayRetryView(
+        message: l10n.commonRetry,
+        onRetry: () => ref.invalidate(pageJuzProvider),
+      ),
+      data: (juzMap) => TodayCatchUpBanner(
+        catchUp: widget.session.catchUp!,
+        juzOf: (pageId) => juzMap[pageId] ?? 0,
+        onStart: () {
+          // A calm confirm — never a celebration on accepting the plan.
+          HapticFeedback.lightImpact();
+          setState(() => _dismissed = true);
+        },
+        onAdjust: () => context.push('/settings'),
+        onDefer: () => setState(() => _dismissed = true),
       ),
     );
   }

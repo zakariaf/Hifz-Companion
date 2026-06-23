@@ -491,6 +491,57 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get todayEmpty => 'لە ئێستادا هیچ پەڕەیەک نییە بۆ پێداچوونەوە.';
 
   @override
+  String get todaySemanticTitle => 'پێداچوونەوەی ئەمڕۆ';
+
+  @override
+  String sectionFarManzil(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'levant': 'مەنزیل',
+        'subcontinent': 'دەور',
+        'other': 'مەنزیل',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sectionNearSabqi(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'سەبقی',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sectionNewSabaq(String region) {
+    String _temp0 = intl.Intl.selectLogic(
+      region,
+      {
+        'other': 'سەبەق',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get budgetOverflowLine =>
+      'ئەمڕۆ لە کاتی بەردەستت فراوانترە. دەتوانیت هەڵبژێریت:';
+
+  @override
+  String get budgetRaiseBudget => 'زیادکردنی کاتی ڕۆژانەی پێداچوونەوە';
+
+  @override
+  String get budgetLengthenCycle => 'درێژکردنەوەی ماوەی خولەکە';
+
+  @override
+  String get budgetPauseNewSabaq => 'دواخستنی سەبەقی نوێ';
+
+  @override
   String get commonRetry => 'هەوڵدانەوە';
 
   @override
@@ -524,6 +575,9 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get decaySteady => 'جێگیر';
+
+  @override
+  String get decayHolding => 'هێشتا باشە';
 
   @override
   String get a11yAnnounceCatchUpReady => 'خشتەی پێداچوونەوە ئامادەیە.';
@@ -561,6 +615,20 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get gradeEasySemantics => 'بێ ماندووبوون — بە ماوەیەکی درێژتر';
+
+  @override
+  String get reciteExit => 'داخستن';
+
+  @override
+  String get reciteRevealHint => 'هێڵی دواتر دەربخە';
+
+  @override
+  String reciteStumbleLineLabel(String line) {
+    return 'هێڵی $line';
+  }
+
+  @override
+  String get reciteUndo => 'گەڕاندنەوە';
 
   @override
   String get gradeBandWaitingHint => 'بۆ هەڵسەنگاندن، پەڕەکە دەربخە';

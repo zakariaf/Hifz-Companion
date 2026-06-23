@@ -15,8 +15,10 @@ import 'package:features/features.dart'
         MihrabAppearance,
         ReduceMotionSwitcher,
         TodayScreen,
+        TodaySession,
         mihrabThemeFor,
-        todayQueueProvider;
+        pageJuzProvider,
+        todaySessionProvider;
 import 'package:flutter/material.dart' hide Card;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -157,7 +159,9 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          todayQueueProvider.overrideWith((ref) => Stream.value([card])),
+          todaySessionProvider
+              .overrideWith((ref) => Stream.value(TodaySession(far: [card]))),
+          pageJuzProvider.overrideWith((ref) async => const <int, int>{}),
         ],
         child: MaterialApp(
           locale: const Locale('ar'),
@@ -176,7 +180,10 @@ void main() {
     await tester.pump(); // resolve the stream
     await tester.pump(const Duration(milliseconds: 1));
 
-    expect(find.byKey(const ValueKey<int>(3)), findsOneWidget);
+    expect(
+      find.byKey(const ValueKey<String>('today.populated')),
+      findsOneWidget,
+    );
     // No fade is built on the reveal when motion is reduced.
     expect(_fadesInSwitcher(), findsNothing);
   });
