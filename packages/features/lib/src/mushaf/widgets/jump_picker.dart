@@ -102,7 +102,8 @@ class _MushafJumpPickerState extends ConsumerState<MushafJumpPicker> {
             ),
             Flexible(
               child: GridView.builder(
-                shrinkWrap: true,
+                // Flexible already bounds the height; shrinkWrap would force the
+                // grid to measure all 604 children and defeat lazy building.
                 gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 72,
                   mainAxisSpacing: 4,

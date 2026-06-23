@@ -91,7 +91,14 @@ class _ReaderScaffold extends StatelessWidget {
     // hardcoded Directionality of its own.
     return KeyedSubtree(
       key: const ValueKey<String>('screen.mushaf'),
-      child: MushafChrome(edition: state.edition, page: page),
+      // Key the chrome by the entry page so a new deep-link (e.g. /mushaf?page=1
+      // → /mushaf?page=300) recreates the pager — its PageController is seeded
+      // once in initState, so a static key would strand it on the first page.
+      child: MushafChrome(
+        key: ValueKey<int>(page),
+        edition: state.edition,
+        page: page,
+      ),
     );
   }
 }
