@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import 'repositories/cold_start_repository.dart';
+import 'repositories/confusion_repository.dart';
 import 'repositories/repositories.dart';
 import 'repositories/review_repository.dart';
 
@@ -31,6 +32,10 @@ abstract interface class PersistenceHandle {
   /// The cold-start provisioning write path (one all-or-nothing outer
   /// transaction).
   ColdStartRepository get coldStart;
+
+  /// The single write path for a standalone wrong-branch swap (strengthens one
+  /// `confusion_edge` in one transaction, persist before republish).
+  ConfusionRepository get confusion;
 
   /// The read-only Quran reference structure (the juz→page span the cold-start
   /// seeder expands).

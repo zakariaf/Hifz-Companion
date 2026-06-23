@@ -94,6 +94,38 @@ final class ColdStartConstraintViolated extends ColdStartWriteException {
       : super('a cold-start seed row violated a storage constraint');
 }
 
+/// The swap-logging write path (`logSwap`, E14-T03) could not durably commit a
+/// `confusion_edge` strengthen — a swap is a durable bookkeeping act, never a
+/// best-effort "save later", so this surfaces to the feature layer to handle
+/// exhaustively (a calm retry, never a guilt message). A subtree of the one
+/// sealed [PersistenceException], not a parallel error type.
+sealed class ConfusionWriteException extends PersistenceException {
+  /// Creates a confusion-write exception with a developer-facing [message].
+  const ConfusionWriteException(super.message);
+}
+
+/// The swap transaction failed and was rolled back; the edge is unchanged.
+final class ConfusionTransactionFailed extends ConfusionWriteException {
+  /// Creates the transaction-failed write exception.
+  const ConfusionTransactionFailed()
+      : super('the swap-logging transaction failed and was rolled back');
+}
+
+/// Even the rollback failed — the store is left needing recovery.
+final class ConfusionRollbackFailed extends ConfusionWriteException {
+  /// Creates the rollback-failed write exception.
+  const ConfusionRollbackFailed()
+      : super('the swap-logging rollback failed; the store needs recovery');
+}
+
+/// The swap violated a storage `CHECK`/FK (e.g. an unknown āyah, or a self-pair)
+/// and was rejected whole — the edge is left exactly as before.
+final class ConfusionConstraintViolated extends ConfusionWriteException {
+  /// Creates the constraint-violated write exception.
+  const ConfusionConstraintViolated()
+      : super('the swap violated a storage constraint and was rejected');
+}
+
 /// The encryption flavor is active but the cipher is **not live** — `PRAGMA
 /// cipher;` returned no rows, so `sqlite3mc` fell back to stock SQLite and
 /// `PRAGMA key` was a no-op (a build defect). The store is refused at open so a

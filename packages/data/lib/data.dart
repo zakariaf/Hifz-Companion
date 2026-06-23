@@ -25,6 +25,10 @@ export 'src/persistence_exception.dart'
         ColdStartRollbackFailed,
         ColdStartSeedFailed,
         ColdStartWriteException,
+        ConfusionConstraintViolated,
+        ConfusionRollbackFailed,
+        ConfusionTransactionFailed,
+        ConfusionWriteException,
         EncryptionNotLiveException,
         MappingException,
         PersistenceException,
@@ -35,6 +39,7 @@ export 'src/persistence_exception.dart'
         WrongDatabaseKeyException;
 export 'src/persistence_handle.dart' show PersistenceHandle;
 export 'src/repositories/cold_start_repository.dart' show ColdStartRepository;
+export 'src/repositories/confusion_repository.dart' show ConfusionRepository;
 export 'src/repositories/repositories.dart'
     show
         AppMetaRepository,

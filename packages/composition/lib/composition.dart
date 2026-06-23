@@ -17,6 +17,7 @@ export 'src/active_profile_provider.dart';
 export 'src/app_ready_provider.dart';
 export 'src/asset_downloader_provider.dart';
 export 'src/card_repository_provider.dart';
+export 'src/confusion_repository_provider.dart';
 export 'src/engine_provider.dart';
 export 'src/persistence_provider.dart';
 export 'src/secret_key_store_provider.dart';
