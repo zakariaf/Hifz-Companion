@@ -51,8 +51,11 @@ export 'src/mutashabihat/mutashabihat_providers.dart'
         drillAnchorWordsProvider,
         drillPageGeometryProvider,
         drillPageLinesProvider,
+        hotspotGroupIdProvider,
         mutashabihGroupProvider,
         mutashabihGroupsProvider;
+export 'src/mutashabihat/widgets/confusion_hotspots_view.dart'
+    show ConfusionHotspotsView;
 export 'src/mutashabihat/mutashabihat_trainer_screen.dart'
     show MutashabihatTrainerScreen;
 export 'src/mutashabihat/mutashabihat_trainer_view_model.dart'

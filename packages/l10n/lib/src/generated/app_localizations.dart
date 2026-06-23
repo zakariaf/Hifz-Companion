@@ -379,6 +379,18 @@ abstract class AppLocalizations {
   /// **'متوازية البنية'**
   String get mutashabihTypeStructural;
 
+  /// An āyah identity 'Surah S · Ayah A'. surah/ayah are pre-formatted locale-numeral, bidi-isolated String tokens — never raw ints. (Page+juz lands when reference data ships; bundle-first the hotspot row names the pair by āyah identity.) NEEDS native fa/ckb review (E14-T11).
+  ///
+  /// In ar, this message translates to:
+  /// **'سورة {surah} · آية {ayah}'**
+  String ayahRefLabel(String surah, String ayah);
+
+  /// Screen-reader phrase for a confusion-hotspot row naming the pair + the drill action. first/second are āyah identities. Calm, never a score/guilt. NEEDS native fa/ckb review (E14-T11).
+  ///
+  /// In ar, this message translates to:
+  /// **'كثيرًا ما تخلط بين {first} و{second} — انقر للتمرين'**
+  String mutashabihatHotspotSemantic(String first, String second);
+
   /// Bottom-nav label for the Progress tab. Best-effort fa/ckb pending E09.
   ///
   /// In ar, this message translates to:

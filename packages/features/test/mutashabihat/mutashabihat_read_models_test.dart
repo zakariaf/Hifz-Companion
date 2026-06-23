@@ -36,6 +36,9 @@ class _FakeReferenceRepository implements ReferenceRepository {
       views[groupId];
 
   @override
+  Future<String?> mutashabihGroupIdForAyah(String ayahId) async => null;
+
+  @override
   Future<List<int>> pageIdsForJuz(int juz) => throw UnimplementedError();
   @override
   Future<List<Line>> linesForPage(int pageNumber) => throw UnimplementedError();

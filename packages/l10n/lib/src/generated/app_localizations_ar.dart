@@ -320,6 +320,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get mutashabihTypeStructural => 'متوازية البنية';
 
   @override
+  String ayahRefLabel(String surah, String ayah) {
+    return 'سورة $surah · آية $ayah';
+  }
+
+  @override
+  String mutashabihatHotspotSemantic(String first, String second) {
+    return 'كثيرًا ما تخلط بين $first و$second — انقر للتمرين';
+  }
+
+  @override
   String get navProgress => 'التقدّم';
 
   @override

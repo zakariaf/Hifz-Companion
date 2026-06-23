@@ -3,13 +3,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:l10n/l10n.dart';
-import 'package:models/models.dart' show MutashabihGroup, MutashabihType;
 
-import '../design_system/banners/empty_state.dart';
-import 'discrimination_drill_route.dart';
 import 'mutashabihat_trainer_view_model.dart';
+import 'widgets/confusion_hotspots_view.dart';
 
 /// The Mutashābihāt (similar-verses) trainer tab — the dumb View over the
 /// E14-T06 read models (PRD §9.3, §12.4). It reads exactly one controller and
@@ -41,51 +38,12 @@ class MutashabihatTrainerScreen extends ConsumerWidget {
               child: Text(l10n.commonRetry),
             ),
           ),
-          // Until the reviewed dataset and the user's own logged swaps populate
-          // it, a single calm aid-to-revision line — no streak, no score,
-          // nothing "cured"/"safe to drop". When groups exist, a calm browse
-          // list, each tapping into its whole-group discrimination drill
-          // (E14-T08). The hotspots list lands with E14-T10.
-          data: (state) => state.isEmpty
-              ? EmptyState(
-                  model: EmptyStateModel(
-                    kind: EmptyStateKind.firstRun,
-                    body: l10n.mutashabihatTrainerIntro,
-                  ),
-                )
-              : _GroupBrowseList(groups: state.groups),
+          // The personal confusion hotspots ("you keep swapping these two"),
+          // each row tapping into its whole-group drill (E14-T10). It carries
+          // its own calm empty/loading states.
+          data: (_) => const ConfusionHotspotsView(),
         ),
       ),
     );
   }
 }
-
-/// The calm browse list of confusable groups; each row taps into its whole-group
-/// discrimination drill (E14-T08). Informational, never a score/streak.
-class _GroupBrowseList extends StatelessWidget {
-  const _GroupBrowseList({required this.groups});
-
-  final List<MutashabihGroup> groups;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    return ListView.builder(
-      itemCount: groups.length,
-      itemBuilder: (context, index) {
-        final group = groups[index];
-        return ListTile(
-          title: Text(_typeLabel(l10n, group.type)),
-          onTap: () => context.go(mutashabihatDrillLocation(group.groupId)),
-        );
-      },
-    );
-  }
-}
-
-/// The localized objective-wording label for a group [type] (no interpretation).
-String _typeLabel(AppLocalizations l10n, MutashabihType type) => switch (type) {
-      MutashabihType.identical => l10n.mutashabihTypeIdentical,
-      MutashabihType.nearIdentical => l10n.mutashabihTypeNearIdentical,
-      MutashabihType.structural => l10n.mutashabihTypeStructural,
-    };

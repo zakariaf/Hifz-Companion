@@ -137,6 +137,19 @@ class ReferenceReadDao extends DatabaseAccessor<HifzDatabase>
     return rows.map(_groupToModel).toList();
   }
 
+  /// The id of a mutashābihāt group that contains āyah [ayahId], or null if the
+  /// āyah is in no group (E14-T10 resolves a confusion pair to its drillable
+  /// group). If the āyah is in more than one group, the lowest group id wins
+  /// (deterministic); empty until the dataset loads (bundle-first).
+  Future<String?> mutashabihGroupIdForAyah(String ayahId) async {
+    final query = selectOnly(mutashabihMembers)
+      ..addColumns([mutashabihMembers.groupId.min()])
+      ..where(mutashabihMembers.ayahId.equals(ayahId));
+    return query
+        .getSingle()
+        .then((row) => row.read(mutashabihMembers.groupId.min()));
+  }
+
   /// The assembled read-model view of group [groupId] — its type/note key plus
   /// every member with its muṣḥaf **page** (joined from `ayah`) and validated
   /// distinguishing-word indices — or null if the group is absent (E14-T06).

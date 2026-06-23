@@ -47,6 +47,9 @@ class _FakeReference implements ReferenceRepository {
 
   @override
   Future<MutashabihGroupView?> mutashabihGroupView(String groupId) async => null;
+
+  @override
+  Future<String?> mutashabihGroupIdForAyah(String ayahId) async => null;
 }
 
 class _RecordingColdStart implements ColdStartRepository {

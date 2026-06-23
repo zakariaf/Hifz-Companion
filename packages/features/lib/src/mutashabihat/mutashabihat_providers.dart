@@ -60,6 +60,16 @@ final confusionHotspotsProvider =
       ref.watch(confusionRepositoryProvider).watchEdgesForProfile(profileId),
 );
 
+/// Resolves the drillable group id for a confusion-hotspot pair (E14-T10) — the
+/// group containing the pair's first āyah, or null if the pair is in no dataset
+/// group (then the hotspot row is informational, not a drill entry). Empty until
+/// the dataset loads (bundle-first).
+final hotspotGroupIdProvider =
+    FutureProvider.autoDispose.family<String?, String>(
+  (ref, ayahId) =>
+      ref.watch(referenceRepositoryProvider).mutashabihGroupIdForAyah(ayahId),
+);
+
 /// The verified per-page line refs the discrimination drill composes into an
 /// immutable page (E14-T08). Reads only the checksum-verified reference `line`
 /// rows for [pageNumber] and projects them into wall-safe [MushafLineRef]s; the

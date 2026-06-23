@@ -81,6 +81,10 @@ abstract interface class ReferenceRepository {
   /// absent (the discrimination drill, E14-T08/T09). Carries page + indices
   /// only, never reconstructed verse text (R1).
   Future<MutashabihGroupView?> mutashabihGroupView(String groupId);
+
+  /// The id of a mutashābihāt group containing āyah [ayahId], or null if none —
+  /// resolves a confusion-hotspot pair to its drillable group (E14-T10).
+  Future<String?> mutashabihGroupIdForAyah(String ayahId);
 }
 
 /// Reads the app-level `(key, value)` singleton store — a generic `String?`

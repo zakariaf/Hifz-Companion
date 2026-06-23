@@ -296,6 +296,22 @@
   "@mutashabihTypeStructural": {
     "description": "Objective-wording label for a structurally-parallel mutashābihāt group. NEEDS native fa/ckb review (E14-T11)."
   },
+  "ayahRefLabel": "سورة {surah} · آية {ayah}",
+  "@ayahRefLabel": {
+    "description": "An āyah identity 'Surah S · Ayah A'. surah/ayah are pre-formatted locale-numeral, bidi-isolated String tokens — never raw ints. (Page+juz lands when reference data ships; bundle-first the hotspot row names the pair by āyah identity.) NEEDS native fa/ckb review (E14-T11).",
+    "placeholders": {
+      "surah": { "type": "String" },
+      "ayah": { "type": "String" }
+    }
+  },
+  "mutashabihatHotspotSemantic": "كثيرًا ما تخلط بين {first} و{second} — انقر للتمرين",
+  "@mutashabihatHotspotSemantic": {
+    "description": "Screen-reader phrase for a confusion-hotspot row naming the pair + the drill action. first/second are āyah identities. Calm, never a score/guilt. NEEDS native fa/ckb review (E14-T11).",
+    "placeholders": {
+      "first": { "type": "String" },
+      "second": { "type": "String" }
+    }
+  },
   "navProgress": "التقدّم",
   "@navProgress": {
     "description": "Bottom-nav label for the Progress tab. Best-effort fa/ckb pending E09."

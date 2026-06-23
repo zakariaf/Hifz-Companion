@@ -116,6 +116,10 @@ final class LivePersistenceHandle
   Future<MutashabihGroupView?> mutashabihGroupView(String groupId) =>
       _database.referenceReadDao.mutashabihGroupView(groupId);
 
+  @override
+  Future<String?> mutashabihGroupIdForAyah(String ayahId) =>
+      _database.referenceReadDao.mutashabihGroupIdForAyah(ayahId);
+
   // --- AppMetaRepository reads ---
 
   @override
