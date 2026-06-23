@@ -331,6 +331,54 @@ abstract class AppLocalizations {
   /// **'درّب على المواضع المتشابهة جنبًا إلى جنب ليقلّ الخلط بينها.'**
   String get mutashabihatTrainerIntro;
 
+  /// Generic back / return affordance label.
+  ///
+  /// In ar, this message translates to:
+  /// **'رجوع'**
+  String get commonBack;
+
+  /// Reveal affordance + Semantics label on a hidden drill branch: tap to reveal the muṣḥaf page AFTER reciting the continuation from memory (retrieval practice). NEEDS native fa/ckb review (E14-T11); ckb falls back to ar.
+  ///
+  /// In ar, this message translates to:
+  /// **'اكشف الصفحة'**
+  String get mutashabihatDrillReveal;
+
+  /// Calm group position 'branch {position} of {total}'. Both are pre-formatted locale-numeral, bidi-isolated String tokens — never raw ints, never concatenated. No score/streak.
+  ///
+  /// In ar, this message translates to:
+  /// **'{position} من {total}'**
+  String mutashabihatDrillProgress(String position, String total);
+
+  /// Quiet advance to the next sibling in the same drill session (back-to-back, no interstitial). NEEDS native fa/ckb review (E14-T11).
+  ///
+  /// In ar, this message translates to:
+  /// **'التالي'**
+  String get mutashabihatDrillNext;
+
+  /// Calm terminal line after the last sibling — never a celebration, never 'cured'/'safe to drop'/'safe to stop'. NEEDS scholarly + native fa/ckb review (E14-T11).
+  ///
+  /// In ar, this message translates to:
+  /// **'أتممتَ هذه المجموعة.'**
+  String get mutashabihatDrillComplete;
+
+  /// Objective-wording label for a mutashābihāt group of word-for-word identical passages. NEEDS native fa/ckb review (E14-T11).
+  ///
+  /// In ar, this message translates to:
+  /// **'متطابقة'**
+  String get mutashabihTypeIdentical;
+
+  /// Objective-wording label for a near-identical mutashābihāt group (differ in a few words). NEEDS native fa/ckb review (E14-T11).
+  ///
+  /// In ar, this message translates to:
+  /// **'شبه متطابقة'**
+  String get mutashabihTypeNearIdentical;
+
+  /// Objective-wording label for a structurally-parallel mutashābihāt group. NEEDS native fa/ckb review (E14-T11).
+  ///
+  /// In ar, this message translates to:
+  /// **'متوازية البنية'**
+  String get mutashabihTypeStructural;
+
   /// Bottom-nav label for the Progress tab. Best-effort fa/ckb pending E09.
   ///
   /// In ar, this message translates to:

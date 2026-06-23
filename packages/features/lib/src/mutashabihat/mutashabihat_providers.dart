@@ -4,8 +4,16 @@
 import 'package:composition/composition.dart'
     show confusionRepositoryProvider, referenceRepositoryProvider;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:models/models.dart' as models;
 import 'package:models/models.dart'
-    show ConfusionEdge, MutashabihGroup, MutashabihGroupView, ProfileId;
+    show
+        ConfusionEdge,
+        MutashabihGroup,
+        MutashabihGroupView,
+        MutashabihMemberView,
+        ProfileId;
+import 'package:quran/quran.dart'
+    show LineType, MushafLineRef, PageGeometry, WordRef;
 
 /// The read models the Mutashābihāt trainer binds to (E14-T06): two read-only
 /// projections of the local store, reached through the injected repositories on
@@ -45,3 +53,51 @@ final confusionHotspotsProvider =
   (ref, profileId) =>
       ref.watch(confusionRepositoryProvider).watchEdgesForProfile(profileId),
 );
+
+/// The verified per-page line refs the discrimination drill composes into an
+/// immutable page (E14-T08). Reads only the checksum-verified reference `line`
+/// rows for [pageNumber] and projects them into wall-safe [MushafLineRef]s; the
+/// glyph assembly happens inside the `quran` package, so the feature never names
+/// the glyph surface. Bundle-first: an empty reference projects to a blank page.
+final drillPageLinesProvider =
+    FutureProvider.autoDispose.family<List<MushafLineRef>, int>(
+  (ref, pageNumber) async {
+    final lines =
+        await ref.watch(referenceRepositoryProvider).linesForPage(pageNumber);
+    return [
+      for (final line in lines)
+        MushafLineRef(
+          lineNumber: line.lineNumber,
+          lineType: _toRenderLineType(line.lineType),
+          textGlyphRef:
+              line.textGlyphRef, // opaque — drawn straight, never text
+        ),
+    ];
+  },
+);
+
+/// The per-page word geometry the anchor overlay resolves `WordRef`s into device
+/// `Rect`s against (E14-T09). Bundle-first: an empty [PageGeometry] (so the
+/// overlay draws nothing until the real per-word boxes ship with the asset pack).
+final drillPageGeometryProvider =
+    Provider.autoDispose.family<PageGeometry, int>(
+  (ref, pageNumber) => PageGeometry(pageNumber: pageNumber),
+);
+
+/// Resolves a confusable member's `distinguishing_word_index_json` into the
+/// [WordRef]s the anchor overlay highlights (E14-T09 supplies the real mapping).
+///
+/// Bundle-first default: no words, so the anchor seam is wired but draws nothing
+/// until E14-T09 lands the index→`WordRef` resolution over the bundled layout.
+final drillAnchorWordsProvider =
+    Provider<List<WordRef> Function(MutashabihMemberView)>(
+  (ref) => (_) => const <WordRef>[],
+);
+
+/// Maps the persisted reference `LineType` to the render `LineType` (placement
+/// only — never the glyphs); mirrors the muṣḥaf reader's projection.
+LineType _toRenderLineType(models.LineType type) => switch (type) {
+      models.LineType.ayah => LineType.ayah,
+      models.LineType.surahHeader => LineType.surahName,
+      models.LineType.basmala => LineType.basmala,
+    };

@@ -260,6 +260,42 @@
   "@mutashabihatTrainerIntro": {
     "description": "Calm landing line on the Mutashābihāt trainer: drilling similar passages side by side REDUCES confusing them — an aid to revision, never a claim of being 'cured'/'resolved'/'safe to drop', no number, no fiqh ruling. NEEDS scholarly + native fa/ckb review (E14-T11); ckb falls back to this until then."
   },
+  "commonBack": "رجوع",
+  "@commonBack": {
+    "description": "Generic back / return affordance label."
+  },
+  "mutashabihatDrillReveal": "اكشف الصفحة",
+  "@mutashabihatDrillReveal": {
+    "description": "Reveal affordance + Semantics label on a hidden drill branch: tap to reveal the muṣḥaf page AFTER reciting the continuation from memory (retrieval practice). NEEDS native fa/ckb review (E14-T11); ckb falls back to ar."
+  },
+  "mutashabihatDrillProgress": "{position} من {total}",
+  "@mutashabihatDrillProgress": {
+    "description": "Calm group position 'branch {position} of {total}'. Both are pre-formatted locale-numeral, bidi-isolated String tokens — never raw ints, never concatenated. No score/streak.",
+    "placeholders": {
+      "position": { "type": "String" },
+      "total": { "type": "String" }
+    }
+  },
+  "mutashabihatDrillNext": "التالي",
+  "@mutashabihatDrillNext": {
+    "description": "Quiet advance to the next sibling in the same drill session (back-to-back, no interstitial). NEEDS native fa/ckb review (E14-T11)."
+  },
+  "mutashabihatDrillComplete": "أتممتَ هذه المجموعة.",
+  "@mutashabihatDrillComplete": {
+    "description": "Calm terminal line after the last sibling — never a celebration, never 'cured'/'safe to drop'/'safe to stop'. NEEDS scholarly + native fa/ckb review (E14-T11)."
+  },
+  "mutashabihTypeIdentical": "متطابقة",
+  "@mutashabihTypeIdentical": {
+    "description": "Objective-wording label for a mutashābihāt group of word-for-word identical passages. NEEDS native fa/ckb review (E14-T11)."
+  },
+  "mutashabihTypeNearIdentical": "شبه متطابقة",
+  "@mutashabihTypeNearIdentical": {
+    "description": "Objective-wording label for a near-identical mutashābihāt group (differ in a few words). NEEDS native fa/ckb review (E14-T11)."
+  },
+  "mutashabihTypeStructural": "متوازية البنية",
+  "@mutashabihTypeStructural": {
+    "description": "Objective-wording label for a structurally-parallel mutashābihāt group. NEEDS native fa/ckb review (E14-T11)."
+  },
   "navProgress": "التقدّم",
   "@navProgress": {
     "description": "Bottom-nav label for the Progress tab. Best-effort fa/ckb pending E09."

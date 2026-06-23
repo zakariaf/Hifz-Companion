@@ -283,6 +283,32 @@ class AppLocalizationsFa extends AppLocalizations {
       'موارد متشابه را کنار هم تمرین کنید تا اشتباه میانشان کمتر شود.';
 
   @override
+  String get commonBack => 'بازگشت';
+
+  @override
+  String get mutashabihatDrillReveal => 'نمایش صفحه';
+
+  @override
+  String mutashabihatDrillProgress(String position, String total) {
+    return '$position از $total';
+  }
+
+  @override
+  String get mutashabihatDrillNext => 'بعدی';
+
+  @override
+  String get mutashabihatDrillComplete => 'این گروه را تمام کردید.';
+
+  @override
+  String get mutashabihTypeIdentical => 'یکسان';
+
+  @override
+  String get mutashabihTypeNearIdentical => 'تقریباً یکسان';
+
+  @override
+  String get mutashabihTypeStructural => 'هم‌ساختار';
+
+  @override
   String get navProgress => 'پیشرفت';
 
   @override

@@ -294,6 +294,32 @@ class AppLocalizationsAr extends AppLocalizations {
       'درّب على المواضع المتشابهة جنبًا إلى جنب ليقلّ الخلط بينها.';
 
   @override
+  String get commonBack => 'رجوع';
+
+  @override
+  String get mutashabihatDrillReveal => 'اكشف الصفحة';
+
+  @override
+  String mutashabihatDrillProgress(String position, String total) {
+    return '$position من $total';
+  }
+
+  @override
+  String get mutashabihatDrillNext => 'التالي';
+
+  @override
+  String get mutashabihatDrillComplete => 'أتممتَ هذه المجموعة.';
+
+  @override
+  String get mutashabihTypeIdentical => 'متطابقة';
+
+  @override
+  String get mutashabihTypeNearIdentical => 'شبه متطابقة';
+
+  @override
+  String get mutashabihTypeStructural => 'متوازية البنية';
+
+  @override
   String get navProgress => 'التقدّم';
 
   @override
