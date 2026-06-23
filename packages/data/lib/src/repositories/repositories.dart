@@ -47,12 +47,29 @@ abstract interface class ProfileRepository {
   Future<List<Profile>> all();
 }
 
-/// Read-only access to the fixed Quran reference structure (the juz→page span).
-/// Never writes — the muṣḥaf is unwritable at runtime by construction (R1).
+/// Read-only access to the fixed Quran reference structure (the juz→page span,
+/// per-page line geometry). Never writes — the muṣḥaf is unwritable at runtime
+/// by construction (R1); the checksum-verified asset loader (E05) is the only
+/// writer.
 abstract interface class ReferenceRepository {
   /// The muṣḥaf page ids in [juz] (1–30), ascending. Empty until the core
   /// reference pack is loaded (E11); a held juz expands to these page cards.
   Future<List<int>> pageIdsForJuz(int juz);
+
+  /// The lines on [pageNumber], in line order — the per-page glyph geometry the
+  /// muṣḥaf reader assembles into an immutable page (E13). `Line.textGlyphRef`
+  /// is carried **opaque** — never parsed or logged as text (R1). Empty until
+  /// the core reference pack is loaded.
+  Future<List<Line>> linesForPage(int pageNumber);
+
+  /// The page a jump [target] resolves to (the muṣḥaf reader's jump-to, E13).
+  ///
+  /// juz/ḥizb/sūrah are **read** from the `page` reference table (`MIN(page_id)`
+  /// over the matching column) — never computed (engineering 08 §3); a `page`
+  /// target resolves to itself. Returns null for an out-of-range index, and for
+  /// juz/ḥizb/sūrah when the reference is not yet loaded (bundle-first) — the
+  /// caller stays on the current page rather than guess a sacred boundary.
+  Future<int?> firstPageOf(JumpTarget target);
 }
 
 /// Reads the app-level `(key, value)` singleton store — a generic `String?`

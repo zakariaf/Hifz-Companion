@@ -17,6 +17,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:models/models.dart'
     show
         CycleConfig,
+        JumpTarget,
+        Line,
         Profile,
         ProfileId,
         ProfileLocale,
@@ -31,6 +33,12 @@ class _FakeReference implements ReferenceRepository {
   @override
   Future<List<int>> pageIdsForJuz(int juz) async =>
       _pagesByJuz[juz] ?? const <int>[];
+
+  @override
+  Future<List<Line>> linesForPage(int pageNumber) async => const [];
+
+  @override
+  Future<int?> firstPageOf(JumpTarget target) async => null;
 }
 
 class _RecordingColdStart implements ColdStartRepository {

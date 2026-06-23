@@ -1104,6 +1104,114 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تجاهل المسودة'**
   String get destructiveAbortConfirm;
+
+  /// Title of the muṣḥaf reader's jump-to picker (E13-T04). PROVISIONAL — best-effort fa/ckb, native + scholarly review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'الانتقال إلى'**
+  String get mushafJumpTitle;
+
+  /// Jump-to unit label: juz. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'جزء'**
+  String get mushafUnitJuz;
+
+  /// Jump-to unit label: ḥizb. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'حزب'**
+  String get mushafUnitHizb;
+
+  /// Jump-to unit label: sūrah. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'سورة'**
+  String get mushafUnitSurah;
+
+  /// Jump-to unit label: page. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'صفحة'**
+  String get mushafUnitPage;
+
+  /// Reader toggle: show the weak-line diagnostic overlay. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأسطر الضعيفة'**
+  String get mushafOverlayWeakLines;
+
+  /// Reader toggle: show the mutashābihāt-anchor overlay. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'المتشابهات'**
+  String get mushafOverlayMutashabihat;
+
+  /// Reader zoom-in (+) control. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'تكبير'**
+  String get mushafZoomIn;
+
+  /// Reader zoom-out (−) control. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'تصغير'**
+  String get mushafZoomOut;
+
+  /// Reader theme: light. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'فاتح'**
+  String get mushafThemeLight;
+
+  /// Reader theme: sepia. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'بنّي'**
+  String get mushafThemeSepia;
+
+  /// Reader theme: dark. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'داكن'**
+  String get mushafThemeDark;
+
+  /// Reader About/Credits entry + sheet title. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'حول هذا المصحف'**
+  String get mushafAboutTitle;
+
+  /// About/Credits: Tanzil text attribution. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'النص العثماني: تنزيل (tanzil.net) — منسوخ حرفياً ومنسوب، CC BY 3.0.'**
+  String get mushafAboutTanzil;
+
+  /// About/Credits: QUL page-layout attribution. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'تخطيط الصفحات: QUL.'**
+  String get mushafAboutQul;
+
+  /// About/Credits: KFGQPC fonts attribution. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخطوط: مجمع الملك فهد (KFGQPC) — مُعاد توزيعها دون تعديل.'**
+  String get mushafAboutFonts;
+
+  /// About/Credits: byte-for-byte SHA-256 checksum guarantee. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'يُتحقَّق من النص ومن خط كل صفحة ببصمة SHA-256 مثبَّتة قبل عرضها؛ وأي ملف غير مُتحقَّق منه يُرفَض.'**
+  String get mushafAboutChecksum;
+
+  /// About/Credits: offline + no-microphone covenant (C-048). PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'يعمل التطبيق دون اتصال بالكامل بعد التنزيل الأول المُتحقَّق منه، ولا يسجّل صوتك.'**
+  String get mushafAboutOffline;
 }
 
 class _AppLocalizationsDelegate

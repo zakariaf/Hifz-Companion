@@ -800,5 +800,77 @@
   "destructiveAbortConfirm": "تجاهل المسودة",
   "@destructiveAbortConfirm": {
     "description": "Abort-and-discard destructive trigger (one consequence step). Consumed by E11/E16. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "mushafJumpTitle": "الانتقال إلى",
+  "@mushafJumpTitle": {
+    "description": "Title of the muṣḥaf reader's jump-to picker (E13-T04). PROVISIONAL — best-effort fa/ckb, native + scholarly review in T09."
+  },
+  "mushafUnitJuz": "جزء",
+  "@mushafUnitJuz": {
+    "description": "Jump-to unit label: juz. PROVISIONAL — best-effort fa/ckb, review in T09."
+  },
+  "mushafUnitHizb": "حزب",
+  "@mushafUnitHizb": {
+    "description": "Jump-to unit label: ḥizb. PROVISIONAL — best-effort fa/ckb, review in T09."
+  },
+  "mushafUnitSurah": "سورة",
+  "@mushafUnitSurah": {
+    "description": "Jump-to unit label: sūrah. PROVISIONAL — best-effort fa/ckb, review in T09."
+  },
+  "mushafUnitPage": "صفحة",
+  "@mushafUnitPage": {
+    "description": "Jump-to unit label: page. PROVISIONAL — best-effort fa/ckb, review in T09."
+  },
+  "mushafOverlayWeakLines": "الأسطر الضعيفة",
+  "@mushafOverlayWeakLines": {
+    "description": "Reader toggle: show the weak-line diagnostic overlay. PROVISIONAL — best-effort fa/ckb, review in T09."
+  },
+  "mushafOverlayMutashabihat": "المتشابهات",
+  "@mushafOverlayMutashabihat": {
+    "description": "Reader toggle: show the mutashābihāt-anchor overlay. PROVISIONAL — best-effort fa/ckb, review in T09."
+  },
+  "mushafZoomIn": "تكبير",
+  "@mushafZoomIn": {
+    "description": "Reader zoom-in (+) control. PROVISIONAL — best-effort fa/ckb, review in T09."
+  },
+  "mushafZoomOut": "تصغير",
+  "@mushafZoomOut": {
+    "description": "Reader zoom-out (−) control. PROVISIONAL — best-effort fa/ckb, review in T09."
+  },
+  "mushafThemeLight": "فاتح",
+  "@mushafThemeLight": {
+    "description": "Reader theme: light. PROVISIONAL — best-effort fa/ckb, review in T09."
+  },
+  "mushafThemeSepia": "بنّي",
+  "@mushafThemeSepia": {
+    "description": "Reader theme: sepia. PROVISIONAL — best-effort fa/ckb, review in T09."
+  },
+  "mushafThemeDark": "داكن",
+  "@mushafThemeDark": {
+    "description": "Reader theme: dark. PROVISIONAL — best-effort fa/ckb, review in T09."
+  },
+  "mushafAboutTitle": "حول هذا المصحف",
+  "@mushafAboutTitle": {
+    "description": "Reader About/Credits entry + sheet title. PROVISIONAL — best-effort fa/ckb, review in T09."
+  },
+  "mushafAboutTanzil": "النص العثماني: تنزيل (tanzil.net) — منسوخ حرفياً ومنسوب، CC BY 3.0.",
+  "@mushafAboutTanzil": {
+    "description": "About/Credits: Tanzil text attribution. PROVISIONAL — best-effort fa/ckb, review in T09."
+  },
+  "mushafAboutQul": "تخطيط الصفحات: QUL.",
+  "@mushafAboutQul": {
+    "description": "About/Credits: QUL page-layout attribution. PROVISIONAL — best-effort fa/ckb, review in T09."
+  },
+  "mushafAboutFonts": "الخطوط: مجمع الملك فهد (KFGQPC) — مُعاد توزيعها دون تعديل.",
+  "@mushafAboutFonts": {
+    "description": "About/Credits: KFGQPC fonts attribution. PROVISIONAL — best-effort fa/ckb, review in T09."
+  },
+  "mushafAboutChecksum": "يُتحقَّق من النص ومن خط كل صفحة ببصمة SHA-256 مثبَّتة قبل عرضها؛ وأي ملف غير مُتحقَّق منه يُرفَض.",
+  "@mushafAboutChecksum": {
+    "description": "About/Credits: byte-for-byte SHA-256 checksum guarantee. PROVISIONAL — best-effort fa/ckb, review in T09."
+  },
+  "mushafAboutOffline": "يعمل التطبيق دون اتصال بالكامل بعد التنزيل الأول المُتحقَّق منه، ولا يسجّل صوتك.",
+  "@mushafAboutOffline": {
+    "description": "About/Credits: offline + no-microphone covenant (C-048). PROVISIONAL — best-effort fa/ckb, review in T09."
   }
 }

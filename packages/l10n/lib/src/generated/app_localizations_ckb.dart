@@ -752,4 +752,62 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get destructiveAbortConfirm => 'ڕەشنووس فڕێبدە';
+
+  @override
+  String get mushafJumpTitle => 'بڕۆ بۆ';
+
+  @override
+  String get mushafUnitJuz => 'جزء';
+
+  @override
+  String get mushafUnitHizb => 'حیزب';
+
+  @override
+  String get mushafUnitSurah => 'سورەت';
+
+  @override
+  String get mushafUnitPage => 'لاپەڕە';
+
+  @override
+  String get mushafOverlayWeakLines => 'دێڕە لاوازەکان';
+
+  @override
+  String get mushafOverlayMutashabihat => 'هاوشێوەکان';
+
+  @override
+  String get mushafZoomIn => 'گەورەکردن';
+
+  @override
+  String get mushafZoomOut => 'بچووککردنەوە';
+
+  @override
+  String get mushafThemeLight => 'ڕووناک';
+
+  @override
+  String get mushafThemeSepia => 'قاوەیی';
+
+  @override
+  String get mushafThemeDark => 'تاریک';
+
+  @override
+  String get mushafAboutTitle => 'دەربارەی ئەم موسحەفە';
+
+  @override
+  String get mushafAboutTanzil =>
+      'دەقی عوسمانی: تەنزیل (tanzil.net) — وشە بە وشە و ناوهێنراو، CC BY 3.0.';
+
+  @override
+  String get mushafAboutQul => 'ڕێکخستنی لاپەڕە: QUL.';
+
+  @override
+  String get mushafAboutFonts =>
+      'فۆنتەکان: KFGQPC — بەبێ گۆڕانکاری دووبارە بڵاوکراونەتەوە.';
+
+  @override
+  String get mushafAboutChecksum =>
+      'دەق و فۆنتی هەر لاپەڕەیەک پێش پیشاندان بە واژووی SHA-256 پشتڕاست دەکرێنەوە؛ هەر پەڕگەیەکی پشتڕاستنەکراو ڕەت دەکرێتەوە.';
+
+  @override
+  String get mushafAboutOffline =>
+      'ئەپەکە دوای یەکەم داگرتنی پشتڕاستکراو بە تەواوی بێ ئینتەرنێت کار دەکات و دەنگت تۆمار ناکات.';
 }
