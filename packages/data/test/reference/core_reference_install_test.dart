@@ -17,8 +17,10 @@ import '../test_setup.dart';
 
 /// Resolves the bundled-core asset dir relative to wherever the test runner's
 /// CWD is (package root under `flutter test`, repo root under some CI configs).
-/// Returns null when the LFS assets are not checked out, so this integration
-/// test skips cleanly instead of failing a lean CI checkout.
+/// Returns null when the LFS assets are not really present — either absent, or a
+/// Git-LFS pointer stub (CI checks out without LFS), in which case the file is a
+/// ~130-byte text pointer, not the 77 KB Tanzil XML. Either way the integration
+/// test skips cleanly instead of trying to parse a pointer.
 Directory? _coreAssetsDir() {
   const candidates = <String>[
     'app/assets/quran',
@@ -26,8 +28,9 @@ Directory? _coreAssetsDir() {
     '../../../app/assets/quran',
   ];
   for (final path in candidates) {
-    final dir = Directory(path);
-    if (File('${dir.path}/quran-data.xml').existsSync()) return dir;
+    final file = File('$path/quran-data.xml');
+    // A real Tanzil metadata file is ~77 KB; an LFS pointer is ~130 bytes.
+    if (file.existsSync() && file.lengthSync() > 4096) return Directory(path);
   }
   return null;
 }

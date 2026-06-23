@@ -10,10 +10,23 @@
 import 'package:composition/composition.dart' show installAndPrepareCore;
 import 'package:data/testing.dart' show inMemoryPersistenceHandle;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:models/models.dart' as models;
 import 'package:quran/quran.dart' show LineType, MushafLineRef, MushafReaderPage;
+
+/// Whether the bundled core is really present, or just a Git-LFS pointer stub
+/// (CI checks out without LFS). A real Tanzil metadata file is ~77 KB; a pointer
+/// is ~130 bytes — so this test skips on a lean CI checkout instead of failing.
+Future<bool> _bundledCorePresent() async {
+  try {
+    final data = await rootBundle.load('assets/quran/quran-data.xml');
+    return data.lengthInBytes > 4096;
+  } on Object {
+    return false;
+  }
+}
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -21,6 +34,10 @@ void main() {
   testWidgets(
     'verified bundled core installs and page 1 renders real glyph lines',
     (tester) async {
+      if (!await _bundledCorePresent()) {
+        markTestSkipped('bundled core assets not present (Git LFS not pulled)');
+        return;
+      }
       final handle = inMemoryPersistenceHandle();
       addTearDown(handle.close);
 
