@@ -613,6 +613,20 @@ class AppLocalizationsFa extends AppLocalizations {
   String get gradeEasySemantics => 'بی‌زحمت — با فاصلهٔ بیشتر';
 
   @override
+  String get reciteExit => 'بستن';
+
+  @override
+  String get reciteRevealHint => 'سطر بعد را آشکار کنید';
+
+  @override
+  String reciteStumbleLineLabel(String line) {
+    return 'سطر $line';
+  }
+
+  @override
+  String get reciteUndo => 'بازگردانی';
+
+  @override
   String get gradeBandWaitingHint => 'برای ارزیابی، صفحه را آشکار کنید';
 
   @override

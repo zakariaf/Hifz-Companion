@@ -617,6 +617,20 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get gradeEasySemantics => 'بێ ماندووبوون — بە ماوەیەکی درێژتر';
 
   @override
+  String get reciteExit => 'داخستن';
+
+  @override
+  String get reciteRevealHint => 'هێڵی دواتر دەربخە';
+
+  @override
+  String reciteStumbleLineLabel(String line) {
+    return 'هێڵی $line';
+  }
+
+  @override
+  String get reciteUndo => 'گەڕاندنەوە';
+
+  @override
   String get gradeBandWaitingHint => 'بۆ هەڵسەنگاندن، پەڕەکە دەربخە';
 
   @override

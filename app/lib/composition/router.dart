@@ -7,8 +7,10 @@ import 'package:features/features.dart'
         MutashabihatScreen,
         OnboardingScreen,
         ProgressScreen,
+        ReciteGradeScreen,
         SettingsScreen,
-        TodayScreen;
+        TodayScreen,
+        kRecitePathPrefix;
 import 'package:composition/composition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -96,6 +98,17 @@ final routerProvider = Provider<GoRouter>((ref) {
                 },
               ),
             ],
+          ),
+          GoRoute(
+            // The recite/grade route, opened from a Today page-card tap
+            // (E12-T07). It masks the (E13) reader surface; a malformed id
+            // fails closed to a calm not-found, never an exception.
+            path: '$kRecitePathPrefix/:pageId',
+            builder: (context, state) {
+              final pageId = int.tryParse(state.pathParameters['pageId']!);
+              if (pageId == null) return const _RouteStub('not-found-stub');
+              return ReciteGradeScreen(pageId: pageId);
+            },
           ),
           GoRoute(
             path: '/mutashabihat',

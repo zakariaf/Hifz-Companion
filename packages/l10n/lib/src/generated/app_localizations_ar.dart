@@ -623,6 +623,20 @@ class AppLocalizationsAr extends AppLocalizations {
   String get gradeEasySemantics => 'بلا تكلّف — بمباعدة أطول';
 
   @override
+  String get reciteExit => 'إغلاق';
+
+  @override
+  String get reciteRevealHint => 'اكشف السطر التالي';
+
+  @override
+  String reciteStumbleLineLabel(String line) {
+    return 'السطر $line';
+  }
+
+  @override
+  String get reciteUndo => 'تراجع';
+
+  @override
   String get gradeBandWaitingHint => 'اكشف الصفحة لتقييمها';
 
   @override

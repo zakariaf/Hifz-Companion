@@ -92,6 +92,27 @@ class ReviewRecorder {
     await _reviews.commitReview(outcome);
   }
 
+  /// Reverses a just-committed grade (E12-T07 undo): it restores [restoredCard]
+  /// (the pre-commit snapshot) and **appends** a corrective `review_log` row
+  /// documenting the undo — it never mutates a prior row (append-only). The
+  /// corrective row records [undoneGrade] with a zero S/D delta (before == after
+  /// == the restored state); an engine-precise revert of the intervening review
+  /// is deferred — restoring the snapshot keeps the schedule correct in practice.
+  Future<void> undoReview({
+    required ProfileId profile,
+    required int pageId,
+    required Card restoredCard,
+    required ReviewGrade undoneGrade,
+    required CalendarDate today,
+  }) async {
+    final review = ReviewInput(grade: undoneGrade, source: GradeSource.self);
+    final outcome = ReviewOutcome(
+      logRow: _logRow(restoredCard, restoredCard, review, today),
+      cardUpdate: restoredCard,
+    );
+    await _reviews.commitReview(outcome);
+  }
+
   ReviewLog _logRow(
     Card before,
     Card after,

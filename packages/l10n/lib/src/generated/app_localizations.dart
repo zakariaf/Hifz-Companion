@@ -883,6 +883,30 @@ abstract class AppLocalizations {
   /// **'بلا تكلّف — بمباعدة أطول'**
   String get gradeEasySemantics;
 
+  /// The calm exit/abort on the recite screen's leading (start) edge — leaves the recite flow without grading. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'إغلاق'**
+  String get reciteExit;
+
+  /// The tap-to-reveal affordance on a masked line — reveal happens only AFTER the recall attempt (no teleprompter). PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'اكشف السطر التالي'**
+  String get reciteRevealHint;
+
+  /// The screen-reader label for a revealed line's stumble-mark toggle. {line} is the 1-based line number pre-formatted in locale numerals. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'السطر {line}'**
+  String reciteStumbleLineLabel(String line);
+
+  /// Undo a just-committed grade — a fat-fingered sacred-text grade is recoverable; reverses through the single write path. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تراجع'**
+  String get reciteUndo;
+
   /// Calm hint shown when the grade band is disabled before the page is revealed (reveal-on-tap, E12) — styled as WAITING, not an error or a dead button (design 07 §6). 'Reveal the page to grade it.' PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///
   /// In ar, this message translates to:
