@@ -39,10 +39,17 @@ final todaySessionProvider = StreamProvider<TodaySession>((ref) {
 /// Tests inject a fixed lookup into the list directly rather than seed this.
 final pageJuzProvider = FutureProvider<Map<int, int>>((ref) async {
   final reference = ref.watch(persistenceProvider).reference;
+  // Load the 30 juz page lists concurrently (they are independent reads).
+  final perJuz = await Future.wait(
+    List.generate(
+      30,
+      (i) async => MapEntry(i + 1, await reference.pageIdsForJuz(i + 1)),
+    ),
+  );
   final map = <int, int>{};
-  for (var juz = 1; juz <= 30; juz++) {
-    for (final page in await reference.pageIdsForJuz(juz)) {
-      map[page] = juz;
+  for (final entry in perJuz) {
+    for (final page in entry.value) {
+      map[page] = entry.key;
     }
   }
   return map;

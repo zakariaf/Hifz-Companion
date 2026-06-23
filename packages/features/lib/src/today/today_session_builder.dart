@@ -94,8 +94,11 @@ TodayCatchUp? _catchUpFor(
   // sprawls; the engine then spreads the backlog most-decayed first.
   final backlogMinutes = backlog.fold<int>(0, (sum, c) => sum + estMinutes(c));
   final budget = engine.config.dailyBudgetMinutes;
-  final spreadDays =
-      (backlogMinutes / budget).ceil().clamp(1, kCatchUpMaxSpreadDays);
+  // Guard a zero/negative budget (a division by zero would yield infinity, and
+  // .ceil() on infinity throws): degrade to a single day.
+  final spreadDays = budget > 0
+      ? (backlogMinutes / budget).ceil().clamp(1, kCatchUpMaxSpreadDays)
+      : 1;
 
   double rOf(Card c) => c.lastReviewedDay == null
       ? 1.0

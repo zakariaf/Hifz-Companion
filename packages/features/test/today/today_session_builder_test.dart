@@ -82,6 +82,19 @@ void main() {
     expect(s.catchUp, isNull);
   });
 
+  test('a zero daily budget does not crash the catch-up spread', () {
+    final zeroBudget = SchedulingEngine(
+      const EngineConfig(dailyBudgetMinutes: 0),
+    );
+    final s = buildTodaySession(
+      [overdueFar(1, daysLate: 5), overdueFar(2, daysLate: 5)],
+      kToday,
+      zeroBudget,
+    );
+    expect(s.catchUp, isNotNull);
+    expect(s.catchUp!.planDays, 1); // degrades to a single day, no division crash
+  });
+
   test('catch-up coexists with the populated day (does not hide it)', () {
     final s = build([
       overdueFar(1, daysLate: 6),
