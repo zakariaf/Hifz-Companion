@@ -11,6 +11,7 @@ import 'package:composition/composition.dart';
 import 'package:features/features.dart'
     show
         MihrabAppearance,
+        TodayCatchUp,
         TodayScreen,
         TodaySession,
         mihrabThemeFor,
@@ -115,5 +116,32 @@ void main() {
     );
     await t.pumpAndSettle();
     expect(find.byKey(const ValueKey<String>('today.allDone')), findsOneWidget);
+  });
+
+  testWidgets('a catch-up session shows the banner; defer resumes the day',
+      (t) async {
+    await pump(
+      t,
+      Stream<TodaySession>.value(
+        TodaySession(
+          far: [dueFar(10)],
+          catchUp: TodayCatchUp(
+            missedDays: 3,
+            planDays: 5,
+            items: [dueFar(10)],
+          ),
+        ),
+      ),
+    );
+    await t.pumpAndSettle();
+    expect(find.byKey(const ValueKey<String>('today.catchUp')), findsOneWidget);
+
+    final l10n = await AppLocalizations.delegate.load(const Locale('ar'));
+    await t.tap(find.text(l10n.catchUpDefer));
+    await t.pumpAndSettle();
+    expect(
+      find.byKey(const ValueKey<String>('today.populated')),
+      findsOneWidget,
+    );
   });
 }

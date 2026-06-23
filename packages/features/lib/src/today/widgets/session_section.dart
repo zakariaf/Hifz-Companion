@@ -6,9 +6,9 @@ import 'package:flutter/material.dart' hide Card;
 import 'package:l10n/l10n.dart';
 
 import '../../design_system/page_card/page_card.dart';
-import '../../design_system/page_card/page_card_view_data.dart';
 import '../../design_system/theme/spacing_tokens.dart';
 import '../../l10n/term_set.dart';
+import 'page_card_data.dart';
 
 /// One section of the daily-session list — a quiet localized term-set header in
 /// `type.title` and its E10 page-card rows (07-components §1). The feature layer
@@ -82,45 +82,19 @@ class SessionSection extends StatelessWidget {
                 horizontal: space.space4,
               ),
               child: MihrabPageCard(
-                data: _viewData(card, l10n),
+                data: todayPageCardData(
+                  card: card,
+                  track: track,
+                  juz: juzOf(card.pageId),
+                  l10n: l10n,
+                  region: region,
+                ),
                 onOpen: () => onOpen(card.pageId),
               ),
             );
           },
         ),
       ],
-    );
-  }
-
-  /// Maps a domain [Card] of this section into the domain-blind view data the
-  /// E10 leaf takes. Decay is read from persisted card flags only — never a
-  /// re-computed `R` in the View (PRD §7.12: no D/S/R on a row, never a number).
-  PageCardViewData _viewData(Card card, AppLocalizations l10n) {
-    final family = switch (track) {
-      ReviewTrack.far => TrackFamily.far,
-      ReviewTrack.near => TrackFamily.near,
-      ReviewTrack.newPage => TrackFamily.neww,
-      ReviewTrack.unmemorized => TrackFamily.neww,
-    };
-    final decay = card.isWeak
-        ? DecayLevel.needsRevision
-        : (card.lapses > 0 ? DecayLevel.holding : DecayLevel.solid);
-    final decayLabel = switch (decay) {
-      DecayLevel.needsRevision => l10n.decayNeedsRevision,
-      DecayLevel.holding => l10n.decayHolding,
-      DecayLevel.solid => l10n.decaySteady,
-    };
-    final state = card.hasManualLock
-        ? CardState.locked
-        : (card.isWeak ? CardState.weak : CardState.dueToday);
-    return PageCardViewData(
-      page: card.pageId,
-      juz: juzOf(card.pageId),
-      track: family,
-      trackLabel: trackLabel(l10n, track, region),
-      decay: decay,
-      decayLabel: decayLabel,
-      state: state,
     );
   }
 }

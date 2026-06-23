@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:l10n/l10n.dart';
@@ -14,6 +15,7 @@ import 'widgets/budget_feedback_line.dart';
 import 'widgets/daily_session_list.dart';
 import 'widgets/session_skeleton.dart';
 import 'widgets/today_all_done.dart';
+import 'widgets/today_catch_up_banner.dart';
 import 'widgets/today_retry_view.dart';
 
 /// The Today tab: a **dumb** View over the 1:1 [todayControllerProvider]
@@ -41,12 +43,20 @@ class TodayScreen extends ConsumerWidget {
         message: l10n.commonRetry,
         onRetry: () => ref.invalidate(todayControllerProvider),
       ),
-      data: (data) => data.isEmpty
-          ? const TodayAllDone(key: ValueKey<String>('today.allDone'))
-          : _TodayDay(
-              key: const ValueKey<String>('today.populated'),
-              session: data,
-            ),
+      data: (data) {
+        if (data.catchUp != null) {
+          return _CatchUpView(
+            key: const ValueKey<String>('today.catchUp'),
+            session: data,
+          );
+        }
+        return data.isEmpty
+            ? const TodayAllDone(key: ValueKey<String>('today.allDone'))
+            : _TodayDay(
+                key: const ValueKey<String>('today.populated'),
+                session: data,
+              );
+      },
     );
 
     return Semantics(
@@ -100,6 +110,58 @@ class _TodayDay extends ConsumerWidget {
           ],
         );
       },
+    );
+  }
+}
+
+/// The catch-up state: the calm re-spread banner after a gap. Accepting or
+/// deferring the plan resumes into the ordinary day for this slice (the
+/// persisted accept-state lands with E16/E04 wiring); accept fires only the calm
+/// `haptic.confirm`, never a celebration. Adjust deep-links to settings.
+class _CatchUpView extends ConsumerStatefulWidget {
+  const _CatchUpView({required this.session, super.key});
+
+  final TodaySession session;
+
+  @override
+  ConsumerState<_CatchUpView> createState() => _CatchUpViewState();
+}
+
+class _CatchUpViewState extends ConsumerState<_CatchUpView> {
+  bool _dismissed = false;
+
+  Widget _ordinaryDay() {
+    final session = widget.session;
+    return session.isEmpty
+        ? const TodayAllDone(key: ValueKey<String>('today.allDone'))
+        : _TodayDay(
+            key: const ValueKey<String>('today.populated'),
+            session: session,
+          );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_dismissed) return _ordinaryDay();
+    final l10n = AppLocalizations.of(context);
+    final juz = ref.watch(pageJuzProvider);
+    return juz.when(
+      loading: () => const SessionSkeleton(),
+      error: (_, __) => TodayRetryView(
+        message: l10n.commonRetry,
+        onRetry: () => ref.invalidate(pageJuzProvider),
+      ),
+      data: (juzMap) => TodayCatchUpBanner(
+        catchUp: widget.session.catchUp!,
+        juzOf: (pageId) => juzMap[pageId] ?? 0,
+        onStart: () {
+          // A calm confirm — never a celebration on accepting the plan.
+          HapticFeedback.lightImpact();
+          setState(() => _dismissed = true);
+        },
+        onAdjust: () => context.push('/settings'),
+        onDefer: () => setState(() => _dismissed = true),
+      ),
     );
   }
 }
