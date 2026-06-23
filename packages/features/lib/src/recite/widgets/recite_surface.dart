@@ -89,6 +89,7 @@ class ReciteSurface extends ConsumerWidget {
             button: true,
             label: l10n.reciteRevealHint,
             child: GestureDetector(
+              key: const ValueKey<String>('recite.revealNext'),
               behavior: HitTestBehavior.opaque,
               onTap: () {
                 controller.revealNextLine();
