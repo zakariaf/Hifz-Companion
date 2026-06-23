@@ -86,6 +86,10 @@ final class LivePersistenceHandle
   Future<List<int>> pageIdsForJuz(int juz) =>
       _database.referenceReadDao.pageIdsForJuz(juz);
 
+  @override
+  Future<List<Line>> linesForPage(int pageNumber) =>
+      _database.referenceReadDao.linesForPage(pageNumber);
+
   // --- AppMetaRepository reads ---
 
   @override

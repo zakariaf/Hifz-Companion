@@ -5,11 +5,11 @@ import 'package:composition/composition.dart' show activeProfileProvider;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:l10n/l10n.dart';
-import 'package:quran/quran.dart' show ImmutableGlyphPage, MushafPageView;
 
 import '../design_system/theme/spacing_tokens.dart';
 import 'mushaf_providers.dart';
 import 'mushaf_view_model.dart';
+import 'widgets/mushaf_pager.dart';
 
 /// The Muṣḥaf reader tab — the dumb View over E05's immutable page renderer
 /// (PRD §11.2, §12.3). It re-shapes, re-typesets, re-flows, and re-derives
@@ -101,20 +101,10 @@ class _ReaderScaffold extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          Expanded(
-            child: Center(
-              // Bundle-first: the verified reference DB is empty until the core
-              // pack installs, so the page assembles to zero lines (a blank
-              // page) today; T03 wires the real per-page glyph seam. The render
-              // path is E05's and is never relaxed here.
-              child: MushafPageView(
-                glyphPage: ImmutableGlyphPage(
-                  pageNumber: page,
-                  lines: const [],
-                ),
-              ),
-            ),
-          ),
+          // The RTL paged navigator over E05's immutable page renderer; each
+          // page is a pure pageNumber/geometry rebuild, never re-typeset. The
+          // store is seeded at this entry page (T02) and the pager binds to it.
+          Expanded(child: MushafPager(entryPage: page)),
         ],
       ),
     );

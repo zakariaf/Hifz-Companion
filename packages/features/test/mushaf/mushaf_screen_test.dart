@@ -6,10 +6,13 @@
 // softWrap/fallback-font on the page, no guilt copy. Widget test; the real-font
 // glyph golden matrix is E13-T10 (bundle-first: no committed KFGQPC fonts yet).
 
-import 'package:composition/composition.dart' show initialActiveProfileProvider;
+import 'package:composition/composition.dart'
+    show initialActiveProfileProvider, persistenceProvider;
+import 'package:data/testing.dart' show inMemoryPersistenceHandle;
 import 'package:features/features.dart'
     show
         MihrabAppearance,
+        MushafPager,
         MushafReaderScreen,
         activeEditionProvider,
         mihrabThemeFor;
@@ -38,9 +41,12 @@ Future<void> pumpReader(
   int? initialPage,
   bool editionThrows = false,
 }) async {
+  final handle = inMemoryPersistenceHandle();
+  addTearDown(handle.close);
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
+        persistenceProvider.overrideWithValue(handle),
         initialActiveProfileProvider.overrideWithValue(const ProfileId('p1')),
         if (editionThrows)
           activeEditionProvider
@@ -63,21 +69,23 @@ Future<void> pumpReader(
 void main() {
   useOfflineTestPolicy();
 
-  testWidgets('renders MushafPageView for the page and names the riwāyah',
+  testWidgets('embeds the RTL pager for the page and names the riwāyah',
       (tester) async {
     await pumpReader(tester, initialPage: 255);
 
-    expect(find.byType(MushafPageView), findsOneWidget);
+    final pager = tester.widget<MushafPager>(find.byType(MushafPager));
+    expect(pager.entryPage, 255);
     expect(find.text('Test Riwāyah — Test muṣḥaf'), findsOneWidget);
+    // The page renderer is E05's, mounted inside the pager (empty page on the
+    // bundle-first reference) — the reader adds no fallback font, no width-wrap.
+    expect(find.byType(MushafPageView), findsWidgets);
   });
 
   testWidgets('the reader opens on the default page absent a deep link',
       (tester) async {
     await pumpReader(tester);
-    // The glyph layer is E05's — the reader adds no fallback font and no
-    // width-wrap; absent a deep link it lands on the safe default page.
-    final pageView = tester.widget<MushafPageView>(find.byType(MushafPageView));
-    expect(pageView.glyphPage.pageNumber, 1);
+    final pager = tester.widget<MushafPager>(find.byType(MushafPager));
+    expect(pager.entryPage, 1);
   });
 
   testWidgets('a build error surfaces a calm retry (no guilt copy)',
@@ -88,6 +96,6 @@ void main() {
     expect(tester.takeException(), isNull);
     expect(find.text(l10n.commonRetry), findsOneWidget);
     expect(find.byType(FilledButton), findsOneWidget);
-    expect(find.byType(MushafPageView), findsNothing);
+    expect(find.byType(MushafPager), findsNothing);
   });
 }
