@@ -32,6 +32,11 @@ export 'src/mushaf/widgets/reader_theme_control.dart';
 export 'src/mushaf/widgets/reader_zoom_control.dart';
 export 'src/mushaf/widgets/reader_zoom_steps.dart';
 export 'src/mushaf/widgets/riwayah_chrome_label.dart';
+export 'src/mutashabihat/mutashabihat_providers.dart'
+    show
+        confusionHotspotsProvider,
+        mutashabihGroupProvider,
+        mutashabihGroupsProvider;
 export 'src/mutashabihat/mutashabihat_screen.dart';
 export 'src/onboarding/cold_start_seeder.dart';
 export 'src/onboarding/onboarding_providers.dart';

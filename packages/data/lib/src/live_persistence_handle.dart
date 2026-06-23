@@ -108,6 +108,14 @@ final class LivePersistenceHandle
     };
   }
 
+  @override
+  Future<List<MutashabihGroup>> allMutashabihGroups() =>
+      _database.referenceReadDao.allMutashabihGroups();
+
+  @override
+  Future<MutashabihGroupView?> mutashabihGroupView(String groupId) =>
+      _database.referenceReadDao.mutashabihGroupView(groupId);
+
   // --- AppMetaRepository reads ---
 
   @override

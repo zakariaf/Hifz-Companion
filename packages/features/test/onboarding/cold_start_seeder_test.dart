@@ -19,6 +19,8 @@ import 'package:models/models.dart'
         CycleConfig,
         JumpTarget,
         Line,
+        MutashabihGroup,
+        MutashabihGroupView,
         Profile,
         ProfileId,
         ProfileLocale,
@@ -39,6 +41,12 @@ class _FakeReference implements ReferenceRepository {
 
   @override
   Future<int?> firstPageOf(JumpTarget target) async => null;
+
+  @override
+  Future<List<MutashabihGroup>> allMutashabihGroups() async => const [];
+
+  @override
+  Future<MutashabihGroupView?> mutashabihGroupView(String groupId) async => null;
 }
 
 class _RecordingColdStart implements ColdStartRepository {

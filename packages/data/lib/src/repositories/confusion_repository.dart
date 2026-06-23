@@ -53,6 +53,12 @@ abstract interface class ConfusionRepository {
     required String ayahY,
     required CalendarDate today,
   });
+
+  /// The reactive per-profile confusion-edge stream, ranked most-confused first
+  /// (`weight` DESC, then `last_confused_at` DESC) — the calm hotspots read
+  /// model (E14-T06/T10). It re-emits after every committed [logSwap], so the
+  /// View rebuilds from the durable store, never a second cache.
+  Stream<List<ConfusionEdge>> watchEdgesForProfile(ProfileId profileId);
 }
 
 /// The live [ConfusionRepository] over the Drift [HifzDatabase] (05 §3).
@@ -111,4 +117,8 @@ final class LiveConfusionRepository implements ConfusionRepository {
       throw const ConfusionTransactionFailed();
     }
   }
+
+  @override
+  Stream<List<ConfusionEdge>> watchEdgesForProfile(ProfileId profileId) =>
+      _database.confusionEdgeDao.watchEdgesForProfile(profileId);
 }

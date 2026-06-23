@@ -32,3 +32,5 @@ export 'src/reference/page.dart' show Page;
 export 'src/reference/reference_enums.dart'
     show LineType, MutashabihType, Revelation;
 export 'src/reference/surah.dart' show Surah;
+export 'src/views/mutashabihat_views.dart'
+    show MutashabihGroupView, MutashabihMemberView;

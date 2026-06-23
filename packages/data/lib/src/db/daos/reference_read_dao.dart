@@ -128,6 +128,50 @@ class ReferenceReadDao extends DatabaseAccessor<HifzDatabase>
     return rows.map(_memberToModel).toList();
   }
 
+  /// Every mutashābihāt group (id + type + note key), ordered by id — the calm
+  /// browse list for the trainer (E14-T06/T07). Empty until the dataset loads.
+  Future<List<MutashabihGroup>> allMutashabihGroups() async {
+    final query = select(mutashabihGroups)
+      ..orderBy([(g) => OrderingTerm.asc(g.groupId)]);
+    final rows = await query.get();
+    return rows.map(_groupToModel).toList();
+  }
+
+  /// The assembled read-model view of group [groupId] — its type/note key plus
+  /// every member with its muṣḥaf **page** (joined from `ayah`) and validated
+  /// distinguishing-word indices — or null if the group is absent (E14-T06).
+  ///
+  /// The page lets the drill render each sibling; the indices drive the anchor
+  /// overlay (E14-T09). Members are ordered by `ayah_id` for a stable drill
+  /// sequence. Carries page + indices only — never reconstructed verse text.
+  Future<MutashabihGroupView?> mutashabihGroupView(String groupId) async {
+    final group = await mutashabihGroupById(groupId);
+    if (group == null) return null;
+    final query = select(mutashabihMembers).join([
+      innerJoin(ayat, ayat.ayahId.equalsExp(mutashabihMembers.ayahId)),
+    ])
+      ..where(mutashabihMembers.groupId.equals(groupId))
+      ..orderBy([OrderingTerm.asc(mutashabihMembers.ayahId)]);
+    final rows = await query.get();
+    final members = [
+      for (final row in rows)
+        MutashabihMemberView(
+          ayahId: row.readTable(mutashabihMembers).ayahId,
+          pageNumber: row.readTable(ayat).pageId,
+          distinguishingWordIndices: lineIndicesFromJson(
+                row.readTable(mutashabihMembers).distinguishingWordIndexJson,
+              ) ??
+              const [],
+        ),
+    ];
+    return MutashabihGroupView(
+      groupId: group.groupId,
+      type: group.type,
+      noteKey: group.noteKey,
+      members: members,
+    );
+  }
+
   Page _pageToModel(PageRow row) => Page(
         pageNumber: row.pageId,
         juz: row.juz,

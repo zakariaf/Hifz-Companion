@@ -20,5 +20,6 @@ export 'src/card_repository_provider.dart';
 export 'src/confusion_repository_provider.dart';
 export 'src/engine_provider.dart';
 export 'src/persistence_provider.dart';
+export 'src/reference_repository_provider.dart';
 export 'src/secret_key_store_provider.dart';
 export 'src/today_provider.dart';

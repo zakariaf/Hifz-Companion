@@ -217,6 +217,25 @@ void main() {
     expect(card.read<int>('due_at'), 20620);
   });
 
+  test('watchEdgesForProfile re-emits the re-ranked list after a logSwap '
+      '(single source of truth)', () async {
+    final emissions = <List<ConfusionEdge>>[];
+    final sub = repo.watchEdgesForProfile(profileId).listen(emissions.add);
+
+    await swap('2:1', '2:2'); // first pair
+    await swap('2:1', '2:3'); // second pair
+    await swap('2:1', '2:3'); // strengthen the second pair → ranks first
+
+    await Future<void>.delayed(Duration.zero);
+    await sub.cancel();
+
+    final last = emissions.last;
+    expect(last, hasLength(2));
+    // The strengthened (2:1,2:3) pair ranks first (weight DESC).
+    expect(last.first.ayahB, '2:3');
+    expect(last.first.weight, greaterThan(last.last.weight));
+  });
+
   // Full strength regardless of source: logSwap has NO source/confidence
   // parameter that throttles the weight (compile-time guarantee) — a
   // self-reported swap and a teacher-flagged swap produce an identical weight

@@ -70,6 +70,17 @@ abstract interface class ReferenceRepository {
   /// juz/ḥizb/sūrah when the reference is not yet loaded (bundle-first) — the
   /// caller stays on the current page rather than guess a sacred boundary.
   Future<int?> firstPageOf(JumpTarget target);
+
+  /// Every scholar-reviewed mutashābihāt group (id + type + note key), ordered —
+  /// the calm browse list for the trainer (E14-T06/T07). Empty until the
+  /// read-only dataset is loaded (bundle-first).
+  Future<List<MutashabihGroup>> allMutashabihGroups();
+
+  /// The assembled view of mutashābihāt group [groupId] — its members each with
+  /// their muṣḥaf page and validated distinguishing-word indices — or null if
+  /// absent (the discrimination drill, E14-T08/T09). Carries page + indices
+  /// only, never reconstructed verse text (R1).
+  Future<MutashabihGroupView?> mutashabihGroupView(String groupId);
 }
 
 /// Reads the app-level `(key, value)` singleton store — a generic `String?`
