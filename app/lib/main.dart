@@ -3,7 +3,8 @@
 
 import 'package:assets/assets.dart' show LiveAssetDownloader;
 import 'package:composition/composition.dart';
-import 'package:data/data.dart' show openLivePersistence;
+import 'package:data/data.dart'
+    show kAppMetaKeyTextChecksumVerifiedAt, openLivePersistence;
 import 'package:features/features.dart'
     show
         CoreSetupPhase,
@@ -24,6 +25,17 @@ import 'app.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final handle = await openLivePersistence();
+  // Font registration is in-memory (per process). A returning ḥāfiẓ whose core
+  // was verified on a prior launch skips onboarding, so the 604 per-page KFGQPC
+  // fonts must be re-registered here at startup — otherwise the reader falls back
+  // to the UI font and draws the raw glyph codepoints. The reference data and the
+  // verified stamp persist; only the font registration is volatile. First-run
+  // users register during onboarding's install (CoreReferenceInstaller).
+  final coreVerified =
+      await handle.meta.read(kAppMetaKeyTextChecksumVerifiedAt) != null;
+  if (coreVerified) {
+    await registerBundledCoreFonts();
+  }
   // Read once at the edge: the first existing profile becomes the active one;
   // a fresh install (no profile) resolves to null → the redirect guard routes
   // to onboarding before any Quran screen (PRD R1).

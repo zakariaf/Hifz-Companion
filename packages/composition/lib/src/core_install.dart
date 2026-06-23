@@ -89,6 +89,27 @@ class _LiveCoreVerifiedStamp implements CoreVerifiedStamp {
   Future<void> markVerified() => stampCoreVerified(_handle, _value);
 }
 
+/// Registers all 604 per-page KFGQPC glyph fonts with the engine, each verified
+/// against its pin BEFORE registration (fail-closed). Font registration is
+/// **in-memory and per-process**, so this must run on **every** app launch — not
+/// only at first-run install — or a returning user's reader falls back to the UI
+/// font and renders the raw glyph codepoints instead of the muṣḥaf. Returns
+/// `false` if any font is missing/mismatched (refuse to render). Safe to call at
+/// startup once the core is verified, and reused by [installAndPrepareCore].
+Future<bool> registerBundledCoreFonts() async {
+  try {
+    await registerVerifiedPageFonts(
+      pageCount: kKfgqpcHafsMadaniV2Edition.pageCount,
+      fontSha256: EmbeddedManifest.pageFontSha256,
+      vault: const _RootBundleFontVault(),
+    );
+    return true;
+  } on Object {
+    // A missing/mismatched/unloadable font is an integrity failure, not a throw.
+    return false;
+  }
+}
+
 /// Runs the first-launch bundled-core preparation and returns whether the muṣḥaf
 /// is ready to render — the live adapter the composition root binds into
 /// `coreSetupActionProvider` (E05/E11).
@@ -103,16 +124,7 @@ class _LiveCoreVerifiedStamp implements CoreVerifiedStamp {
 /// successful install is a no-op (the reference load and stamp both short-circuit
 /// when already present). `false` ⇒ the caller maps to an integrity failure.
 Future<bool> installAndPrepareCore(PersistenceHandle handle) async {
-  try {
-    await registerVerifiedPageFonts(
-      pageCount: kKfgqpcHafsMadaniV2Edition.pageCount,
-      fontSha256: EmbeddedManifest.pageFontSha256,
-      vault: const _RootBundleFontVault(),
-    );
-  } on Object {
-    // A missing/mismatched/unloadable font is an integrity failure, not a throw.
-    return false;
-  }
+  if (!await registerBundledCoreFonts()) return false;
 
   final textChecksum = EmbeddedManifest.core.files
       .firstWhere((e) => e.name == EmbeddedManifest.textFileName)
