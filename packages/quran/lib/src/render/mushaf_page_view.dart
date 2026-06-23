@@ -4,6 +4,7 @@
 import 'package:flutter/widgets.dart';
 
 import 'glyph_line.dart';
+import 'mushaf_line_ref.dart';
 
 /// The dumb, immutable renderer of one **already-verified** muṣḥaf page
 /// (engineering 08 §2/§3; PRD R1). It draws each line's opaque glyph codes in
@@ -53,6 +54,36 @@ class _GlyphLayer extends StatelessWidget {
 /// visible tofu instead of being silently re-shaped by a fallback font
 /// (engineering 08 §2). No soft-wrap / `TextPainter` line-breaking on Quran
 /// text. Visible for the E05-T11 golden harness.
+/// Renders a single muṣḥaf line from a plain [MushafLineRef] — the opaque glyph
+/// codes drawn in [pageNumber]'s dedicated KFGQPC family (never the OS shaper,
+/// never re-typeset). Used where the reader composes lines individually (e.g. the
+/// recite flow's reveal-on-tap surface), so the feature layer never names the
+/// glyph surface. Width/zoom fitting is the caller's concern.
+class MushafGlyphLineView extends StatelessWidget {
+  /// Creates the line view for [line] on [pageNumber].
+  const MushafGlyphLineView({
+    required this.pageNumber,
+    required this.line,
+    super.key,
+  });
+
+  /// The 1-based page the line belongs to (selects the per-page glyph font).
+  final int pageNumber;
+
+  /// The line's plain ref (line number, type, opaque glyph string).
+  final MushafLineRef line;
+
+  @override
+  Widget build(BuildContext context) => buildGlyphLine(
+        GlyphLine(
+          pageNumber: pageNumber,
+          lineNumber: line.lineNumber,
+          type: line.lineType,
+          glyphCodes: line.textGlyphRef,
+        ),
+      );
+}
+
 @visibleForTesting
 Widget buildGlyphLine(GlyphLine line) {
   return Text(

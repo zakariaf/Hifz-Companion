@@ -70,6 +70,7 @@ export 'src/onboarding/onboarding_view_model.dart';
 export 'src/placeholder/placeholder_screen.dart';
 export 'src/progress/progress_screen.dart';
 export 'src/recite/reader_surface.dart';
+export 'src/recite/real_reader_surface.dart' show RealReciteReaderSurface;
 export 'src/recite/recite_grade_screen.dart';
 export 'src/recite/recite_providers.dart';
 export 'src/recite/recite_route.dart';

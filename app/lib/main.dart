@@ -5,7 +5,11 @@ import 'package:assets/assets.dart' show LiveAssetDownloader;
 import 'package:composition/composition.dart';
 import 'package:data/data.dart' show openLivePersistence;
 import 'package:features/features.dart'
-    show CoreSetupPhase, coreSetupActionProvider;
+    show
+        CoreSetupPhase,
+        RealReciteReaderSurface,
+        coreSetupActionProvider,
+        reciteReaderSurfaceProvider;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -47,6 +51,10 @@ Future<void> main() async {
                 : CoreSetupPhase.integrityFailure;
           },
         ),
+        // The recite flow's reveal-on-tap surface now renders the real KFGQPC
+        // glyphs (the verified bundled core), not the pre-asset placeholder.
+        reciteReaderSurfaceProvider
+            .overrideWithValue(const RealReciteReaderSurface()),
       ],
       child: const HifzApp(),
     ),
