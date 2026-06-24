@@ -60,6 +60,8 @@ export 'src/load_balance.dart' show LoadBalance, estMinutes;
 export 'src/mutashabih_groups.dart' show MutashabihGroups, confusionSiblingsFor;
 export 'src/phases.dart'
     show bandForStability, phaseOf, targetR, trackStrength, updateGraduation;
+export 'src/retention_band.dart'
+    show RetentionBand, minLeaningBand, retentionBand, sourceConfidenceOf;
 export 'src/review_input.dart' show ReviewInput;
 export 'src/review_update.dart'
     show

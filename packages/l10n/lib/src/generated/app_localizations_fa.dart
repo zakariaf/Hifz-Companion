@@ -843,4 +843,80 @@ class AppLocalizationsFa extends AppLocalizations {
   @override
   String get mushafAboutOffline =>
       'برنامه پس از نخستین دانلودِ راستی‌آزمایی‌شده کاملاً برون‌خط کار می‌کند و صدای شما را ضبط نمی‌کند.';
+
+  @override
+  String get progressBandStrong => 'استوار';
+
+  @override
+  String get progressBandGood => 'خوب';
+
+  @override
+  String get progressBandFair => 'در حال کم‌رنگ‌شدن';
+
+  @override
+  String get progressBandWeak => 'آمادهٔ مرور';
+
+  @override
+  String get progressBandFaded => 'کم‌رنگ';
+
+  @override
+  String get progressNotStarted => 'آغازنشده';
+
+  @override
+  String get progressNoValue => '—';
+
+  @override
+  String progressPercent(String pct) {
+    return '$pct٪';
+  }
+
+  @override
+  String progressDetailRange(String low, String high) {
+    return '$low–$high٪';
+  }
+
+  @override
+  String get progressDetailRangeEstimated => 'برآورد — هنوز تلاوت نشده';
+
+  @override
+  String progressDetailRangeSelf(String range) {
+    return 'حدود $range، از خودارزیابی شما';
+  }
+
+  @override
+  String progressDetailRangeTeacher(String range) {
+    return 'حدود $range، با تأیید استادتان';
+  }
+
+  @override
+  String progressNextDue(String date) {
+    return 'مرور بعدی: $date';
+  }
+
+  @override
+  String get progressNoNextDue => 'هنوز زمان مروری تعیین نشده';
+
+  @override
+  String get progressHistoryTitle => 'مرورهای اخیر';
+
+  @override
+  String get progressNoHistory => 'هنوز مروری ثبت نشده';
+
+  @override
+  String progressHistoryRow(String date, String grade) {
+    return '$date · $grade';
+  }
+
+  @override
+  String get progressEmptyTitle => 'نقشهٔ حفظ شما';
+
+  @override
+  String get progressEmptyBody =>
+      'این نقشه با صفحه‌های حفظ شما پر می‌شود و به‌آرامی نشان می‌دهد قرآن شما کجا به مرور نیاز دارد.';
+
+  @override
+  String get progressWeakestTitle => 'از اینجا آغاز کنید';
+
+  @override
+  String get progressForecastTitle => 'روزهای پیشِ‌رو';
 }

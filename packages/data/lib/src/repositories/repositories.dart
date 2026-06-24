@@ -37,7 +37,12 @@ abstract interface class CardRepository {
 /// append-only *sanad* audit trail). The append is part of the single write
 /// path ([ReviewRepository.commitReview]); read methods land with their first
 /// consumer.
-abstract interface class ReviewLogRepository {}
+abstract interface class ReviewLogRepository {
+  /// The append-only audit rows for one page (oldest first) — the read half the
+  /// Progress page-detail sheet renders as a short history (E15-T06). Read-only:
+  /// it opens no transaction and appends nothing.
+  Future<List<ReviewLog>> forPage(ProfileId profileId, int pageId);
+}
 
 /// Reads and writes `profile` rows as `models` value types.
 abstract interface class ProfileRepository {

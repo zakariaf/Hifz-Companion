@@ -163,7 +163,7 @@ abstract class AppLocalizations {
   /// **'رواية حفص عن عاصم — مصحف المدينة'**
   String get mushafRiwayahLabel;
 
-  /// A juz label in chrome (e.g. a Today section header or progress roll-up). {juz} is an ALREADY locale-numeral-formatted, bidi-isolated token from numberFormatFor(locale)/bidi.dart — never a raw int and never concatenated (engineering 12 §4, §5). Demonstrates the foundation 'format → isolate → inject' discipline. Best-effort fa/ckb pending native + scholarly review.
+  /// E15 juz roll-up tile label. {juz} is an already locale-numeral, bidi-isolated token. PROVISIONAL — pending native + scholarly review.
   ///
   /// In ar, this message translates to:
   /// **'الجزء {juz}'**
@@ -1278,6 +1278,132 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'يعمل التطبيق دون اتصال بالكامل بعد التنزيل الأول المُتحقَّق منه، ولا يسجّل صوتك.'**
   String get mushafAboutOffline;
+
+  /// E15 heat-map band label: a strongly-retained page (calm state, never a trophy). PROVISIONAL — pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'محكمة'**
+  String get progressBandStrong;
+
+  /// E15 heat-map band label: a well-retained page. PROVISIONAL — pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'جيدة'**
+  String get progressBandGood;
+
+  /// E15 heat-map band label: a softening page (approaching due). Calm, never alarming. PROVISIONAL — pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'تَلين'**
+  String get progressBandFair;
+
+  /// E15 heat-map band label: a page ready for revision (decayed past target). Loss-prevention register, never 'failing'. PROVISIONAL — pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'للمراجعة'**
+  String get progressBandWeak;
+
+  /// E15 heat-map band label: a most-decayed memorized page (the muted neutral end). PROVISIONAL — pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'خافتة'**
+  String get progressBandFaded;
+
+  /// E15 heat-map cell label for a page not yet part of the user's hifz (faded). PROVISIONAL — pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم تبدأ'**
+  String get progressNotStarted;
+
+  /// E15 heat-map cell value placeholder when there is no retrievability to show (a non-memorized page). A dash glyph.
+  ///
+  /// In ar, this message translates to:
+  /// **'—'**
+  String get progressNoValue;
+
+  /// E15 retrievability percentage. {pct} is an already locale-numeral, bidi-isolated token (localeDigits + isolateLtr) — never a raw int. PROVISIONAL — pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{pct}٪'**
+  String progressPercent(String pct);
+
+  /// E15 page-detail retrievability RANGE (never a single false-precise percent). {low}/{high} are already locale-numeral, bidi-isolated tokens. PROVISIONAL — pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{low}–{high}٪'**
+  String progressDetailRange(String low, String high);
+
+  /// E15 page-detail basis: an estimate from the cold-start prior, never recited (honest about prediction). PROVISIONAL — pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'تقدير — لم تُتلَ بعد'**
+  String get progressDetailRangeEstimated;
+
+  /// E15 page-detail retrievability range from self-rating. {range} is the already-built progressDetailRange token. PROVISIONAL — pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'نحو {range}، من تقييمك الذاتي'**
+  String progressDetailRangeSelf(String range);
+
+  /// E15 page-detail retrievability range confirmed by a teacher sign-off. PROVISIONAL — pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'نحو {range}، بتأكيد معلّمك'**
+  String progressDetailRangeTeacher(String range);
+
+  /// E15 page-detail next-due line. {date} is the already-localized CalendarPresenter date label. PROVISIONAL — pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'المراجعة القادمة: {date}'**
+  String progressNextDue(String date);
+
+  /// E15 page-detail: no scheduled revision yet. PROVISIONAL — pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا موعد مراجعة محدّد بعد'**
+  String get progressNoNextDue;
+
+  /// E15 page-detail recent review_log history heading. PROVISIONAL — pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'آخر المراجعات'**
+  String get progressHistoryTitle;
+
+  /// E15 page-detail: no review history yet (calm, never a nag). PROVISIONAL — pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا مراجعات مسجّلة بعد'**
+  String get progressNoHistory;
+
+  /// E15 page-detail history row: a localized date and the grade label. {date} already localized, {grade} a grade label. PROVISIONAL — pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{date} · {grade}'**
+  String progressHistoryRow(String date, String grade);
+
+  /// E15 empty/first-run Progress state title (welcoming, never guilt). PROVISIONAL — pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'خريطة حفظك'**
+  String get progressEmptyTitle;
+
+  /// E15 empty Progress body: the map fills as pages are held and revised. Calm, no streaks/pressure. PROVISIONAL — pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'تمتلئ هذه الخريطة بصفحات حفظك وتُظهر بهدوء أين يحتاج قرآنك إلى مراجعة.'**
+  String get progressEmptyBody;
+
+  /// E15 weakest-pages list heading ('where to look first') — informational, surfaces the weak link, never shaming. PROVISIONAL — pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'ابدأ من هنا'**
+  String get progressWeakestTitle;
+
+  /// E15 upcoming-load forecast heading (a calm planning aid, never a deadline pile). PROVISIONAL — pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأيام القادمة'**
+  String get progressForecastTitle;
 }
 
 class _AppLocalizationsDelegate

@@ -928,5 +928,100 @@
   "mushafAboutOffline": "يعمل التطبيق دون اتصال بالكامل بعد التنزيل الأول المُتحقَّق منه، ولا يسجّل صوتك.",
   "@mushafAboutOffline": {
     "description": "About/Credits: offline + no-microphone covenant (C-048). PROVISIONAL — best-effort fa/ckb, review in T09."
+  },
+  "progressBandStrong": "محكمة",
+  "@progressBandStrong": {
+    "description": "E15 heat-map band label: a strongly-retained page (calm state, never a trophy). PROVISIONAL — pending native + scholarly review."
+  },
+  "progressBandGood": "جيدة",
+  "@progressBandGood": {
+    "description": "E15 heat-map band label: a well-retained page. PROVISIONAL — pending native + scholarly review."
+  },
+  "progressBandFair": "تَلين",
+  "@progressBandFair": {
+    "description": "E15 heat-map band label: a softening page (approaching due). Calm, never alarming. PROVISIONAL — pending native + scholarly review."
+  },
+  "progressBandWeak": "للمراجعة",
+  "@progressBandWeak": {
+    "description": "E15 heat-map band label: a page ready for revision (decayed past target). Loss-prevention register, never 'failing'. PROVISIONAL — pending native + scholarly review."
+  },
+  "progressBandFaded": "خافتة",
+  "@progressBandFaded": {
+    "description": "E15 heat-map band label: a most-decayed memorized page (the muted neutral end). PROVISIONAL — pending native + scholarly review."
+  },
+  "progressNotStarted": "لم تبدأ",
+  "@progressNotStarted": {
+    "description": "E15 heat-map cell label for a page not yet part of the user's hifz (faded). PROVISIONAL — pending native + scholarly review."
+  },
+  "progressNoValue": "—",
+  "@progressNoValue": {
+    "description": "E15 heat-map cell value placeholder when there is no retrievability to show (a non-memorized page). A dash glyph."
+  },
+  "progressPercent": "{pct}٪",
+  "@progressPercent": {
+    "description": "E15 retrievability percentage. {pct} is an already locale-numeral, bidi-isolated token (localeDigits + isolateLtr) — never a raw int. PROVISIONAL — pending native + scholarly review.",
+    "placeholders": {"pct": {"type": "String"}}
+  },
+  "juzLabel": "الجزء {juz}",
+  "@juzLabel": {
+    "description": "E15 juz roll-up tile label. {juz} is an already locale-numeral, bidi-isolated token. PROVISIONAL — pending native + scholarly review.",
+    "placeholders": {"juz": {"type": "String"}}
+  },
+  "progressDetailRange": "{low}–{high}٪",
+  "@progressDetailRange": {
+    "description": "E15 page-detail retrievability RANGE (never a single false-precise percent). {low}/{high} are already locale-numeral, bidi-isolated tokens. PROVISIONAL — pending native + scholarly review.",
+    "placeholders": {"low": {"type": "String"}, "high": {"type": "String"}}
+  },
+  "progressDetailRangeEstimated": "تقدير — لم تُتلَ بعد",
+  "@progressDetailRangeEstimated": {
+    "description": "E15 page-detail basis: an estimate from the cold-start prior, never recited (honest about prediction). PROVISIONAL — pending native + scholarly review."
+  },
+  "progressDetailRangeSelf": "نحو {range}، من تقييمك الذاتي",
+  "@progressDetailRangeSelf": {
+    "description": "E15 page-detail retrievability range from self-rating. {range} is the already-built progressDetailRange token. PROVISIONAL — pending native + scholarly review.",
+    "placeholders": {"range": {"type": "String"}}
+  },
+  "progressDetailRangeTeacher": "نحو {range}، بتأكيد معلّمك",
+  "@progressDetailRangeTeacher": {
+    "description": "E15 page-detail retrievability range confirmed by a teacher sign-off. PROVISIONAL — pending native + scholarly review.",
+    "placeholders": {"range": {"type": "String"}}
+  },
+  "progressNextDue": "المراجعة القادمة: {date}",
+  "@progressNextDue": {
+    "description": "E15 page-detail next-due line. {date} is the already-localized CalendarPresenter date label. PROVISIONAL — pending native + scholarly review.",
+    "placeholders": {"date": {"type": "String"}}
+  },
+  "progressNoNextDue": "لا موعد مراجعة محدّد بعد",
+  "@progressNoNextDue": {
+    "description": "E15 page-detail: no scheduled revision yet. PROVISIONAL — pending native + scholarly review."
+  },
+  "progressHistoryTitle": "آخر المراجعات",
+  "@progressHistoryTitle": {
+    "description": "E15 page-detail recent review_log history heading. PROVISIONAL — pending native + scholarly review."
+  },
+  "progressNoHistory": "لا مراجعات مسجّلة بعد",
+  "@progressNoHistory": {
+    "description": "E15 page-detail: no review history yet (calm, never a nag). PROVISIONAL — pending native + scholarly review."
+  },
+  "progressHistoryRow": "{date} · {grade}",
+  "@progressHistoryRow": {
+    "description": "E15 page-detail history row: a localized date and the grade label. {date} already localized, {grade} a grade label. PROVISIONAL — pending native + scholarly review.",
+    "placeholders": {"date": {"type": "String"}, "grade": {"type": "String"}}
+  },
+  "progressEmptyTitle": "خريطة حفظك",
+  "@progressEmptyTitle": {
+    "description": "E15 empty/first-run Progress state title (welcoming, never guilt). PROVISIONAL — pending native + scholarly review."
+  },
+  "progressEmptyBody": "تمتلئ هذه الخريطة بصفحات حفظك وتُظهر بهدوء أين يحتاج قرآنك إلى مراجعة.",
+  "@progressEmptyBody": {
+    "description": "E15 empty Progress body: the map fills as pages are held and revised. Calm, no streaks/pressure. PROVISIONAL — pending native + scholarly review."
+  },
+  "progressWeakestTitle": "ابدأ من هنا",
+  "@progressWeakestTitle": {
+    "description": "E15 weakest-pages list heading ('where to look first') — informational, surfaces the weak link, never shaming. PROVISIONAL — pending native + scholarly review."
+  },
+  "progressForecastTitle": "الأيام القادمة",
+  "@progressForecastTitle": {
+    "description": "E15 upcoming-load forecast heading (a calm planning aid, never a deadline pile). PROVISIONAL — pending native + scholarly review."
   }
 }
