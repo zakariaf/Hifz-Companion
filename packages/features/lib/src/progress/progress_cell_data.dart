@@ -95,7 +95,7 @@ HeatmapCellData juzCellData(
     localizedValue: l10n.juzLabel(isolateLtr(localeDigits(summary.juz, locale))),
     label: rollUp == null ? l10n.progressNotStarted : bandLabel(l10n, rollUp),
     everReviewed: everReviewed,
-    sourceConfidence: memorized.isEmpty ? 0 : sourceConfidence,
+    sourceConfidence: memorized.isEmpty ? 0.0 : sourceConfidence,
     isJuzRollUp: true,
     weakestPageId: summary.weakestPageId,
   );

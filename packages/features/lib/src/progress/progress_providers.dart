@@ -8,7 +8,7 @@ import 'package:composition/composition.dart'
         persistenceProvider,
         todayProvider;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:models/models.dart' show ReviewLog;
+import 'package:models/models.dart' show ReviewLog, ReviewTrack;
 
 import '../today/today_providers.dart' show pageJuzProvider;
 import 'progress_overview.dart';
@@ -66,6 +66,8 @@ final upcomingLoadProvider = StreamProvider<int>((ref) {
         (cards) => cards
             .where(
               (c) =>
+                  c.isEnabled &&
+                  c.track != ReviewTrack.unmemorized &&
                   c.dueAt != null &&
                   c.dueAt!.epochDay >= today.epochDay &&
                   c.dueAt!.epochDay <= horizon,
