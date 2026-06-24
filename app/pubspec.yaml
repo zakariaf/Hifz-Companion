@@ -49,14 +49,16 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  # Bundled core muṣḥaf (E05): byte-exact Tanzil metadata + QUL layout/word-glyph
-  # DBs + the 604 per-page KFGQPC QPC V2 glyph fonts. Tracked via Git LFS
-  # (.gitattributes), SHA-256-pinned in the binary-baked manifest, verified
-  # fail-closed at first launch. Never fetched at runtime (the app is offline).
+  # Core muṣḥaf (E05): byte-exact Tanzil metadata + QUL layout/word-glyph DBs +
+  # the 604 per-page KFGQPC QPC V2 glyph fonts, SHA-256-pinned and verified
+  # fail-closed. These sacred third-party files are NOT committed (their upstream
+  # licenses + KFGQPC redistribution; LICENSING.md) — they are placed locally /
+  # obtained via the one-time asset-pack download (CLAUDE.md §8) into these dirs,
+  # which carry only a tracked placeholder so a fresh checkout still resolves.
+  # Declared as directories so an empty (placeholder-only) checkout has no missing
+  # individual-file asset warnings.
   assets:
-    - assets/quran/quran-data.xml
-    - assets/quran/qpc-v2-15-lines.db
-    - assets/quran/qpc-v2.db
+    - assets/quran/
     - assets/quran/fonts/
   # Bundled UI font (Vazirmatn, SIL OFL) — no google_fonts, never fetched at
   # runtime. A Sorani-covering face + the Estedad fallback are wired in E09; the
