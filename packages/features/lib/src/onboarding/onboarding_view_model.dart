@@ -391,6 +391,13 @@ class OnboardingController extends Notifier<OnboardingState> {
     try {
       final phase = await ref.read(coreSetupActionProvider)();
       state = state.copyWith(coreSetupPhase: phase);
+      if (phase == CoreSetupPhase.ready) {
+        // The install just wrote `text_checksum_verified_at`. coreVerifiedProvider
+        // is a one-shot FutureProvider that read the (then-absent) stamp at
+        // startup and cached `false`; invalidate it so it re-reads the now-present
+        // stamp and the redirect guard opens the reader without an app restart.
+        ref.invalidate(coreVerifiedProvider);
+      }
     } on Object {
       state = state.copyWith(coreSetupPhase: CoreSetupPhase.integrityFailure);
     }

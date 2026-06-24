@@ -26,3 +26,12 @@ assets-src/
 
 # Flutter golden-test failure output (regenerable diff PNGs; never committed)
 **/failures/
+
+# Core muṣḥaf assets — kept OUT of the code repo (sacred third-party files under
+# their own upstream licenses; KFGQPC redistribution unverified). Placed locally
+# for the build / obtained via the one-time asset-pack download (CLAUDE.md §8).
+# Ignore the asset files by type, but keep the tracked placeholders (README /
+# .gitkeep) so the pubspec directory declarations resolve on a fresh checkout.
+app/assets/quran/*.xml
+app/assets/quran/*.db
+app/assets/quran/fonts/*.ttf

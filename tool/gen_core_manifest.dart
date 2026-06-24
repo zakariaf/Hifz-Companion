@@ -17,19 +17,21 @@
 // Usage:
 //   dart run tool/gen_core_manifest.dart [--assets-dir <dir>] [--page-count 604]
 //
-// Expected file names under <assets-dir>: quran-uthmani.db, layout-qul.json,
-// mutashabihat.json, and QCF_P001.ttf … QCF_P{pageCount}.ttf.
+// Expected file names under <assets-dir>: quran-data.xml (Tanzil metadata),
+// qpc-v2-15-lines.db (QUL layout), qpc-v2.db (QUL word glyphs), and
+// QCF_P001.ttf … QCF_P{pageCount}.ttf (the per-page KFGQPC glyph fonts).
 
 import 'dart:io';
 
 import 'package:crypto/crypto.dart';
 
 const String _outputPath = 'packages/assets/lib/src/pinned_manifest_data.dart';
-const String _textFile = 'quran-uthmani.db';
-const String _layoutFile = 'layout-qul.json';
-const String _mutashabihatFile = 'mutashabihat.json';
+const String _textFile = 'quran-data.xml';
+const String _layoutFile = 'qpc-v2-15-lines.db';
+const String _wordsFile = 'qpc-v2.db';
 
-String _fontFile(int page) => 'QCF_P${page.toString().padLeft(3, '0')}.ttf';
+String _fontFile(int page) =>
+    'fonts/QCF_P${page.toString().padLeft(3, '0')}.ttf';
 
 void main(List<String> args) {
   final assetsDir = _argValue(args, '--assets-dir');
@@ -48,7 +50,7 @@ void main(List<String> args) {
 
   final text = digest(_textFile);
   final layout = digest(_layoutFile);
-  final mutashabihat = digest(_mutashabihatFile);
+  final words = digest(_wordsFile);
 
   final fontSha = <int, String>{};
   final fontBytes = <int, int>{};
@@ -89,11 +91,10 @@ void main(List<String> args) {
     ..writeln("const String kCoreLayoutSha256 = '${layout.sha256}';")
     ..writeln('/// Byte length of the bundled QUL page-layout asset.')
     ..writeln('const int kCoreLayoutBytes = ${layout.bytes};')
-    ..writeln('/// SHA-256 of the bundled mutashābihāt dataset.')
-    ..writeln("const String kCoreMutashabihatSha256 = "
-        "'${mutashabihat.sha256}';")
-    ..writeln('/// Byte length of the bundled mutashābihāt dataset.')
-    ..writeln('const int kCoreMutashabihatBytes = ${mutashabihat.bytes};')
+    ..writeln('/// SHA-256 of the bundled QUL word-by-word glyph asset.')
+    ..writeln("const String kCoreWordsSha256 = '${words.sha256}';")
+    ..writeln('/// Byte length of the bundled QUL word-by-word glyph asset.')
+    ..writeln('const int kCoreWordsBytes = ${words.bytes};')
     ..writeln()
     ..writeln('/// Page → its bundled glyph-font SHA-256 (lower-case hex). '
         'Entries are')

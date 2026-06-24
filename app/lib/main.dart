@@ -4,13 +4,15 @@
 import 'package:assets/assets.dart' show LiveAssetDownloader;
 import 'package:composition/composition.dart';
 import 'package:data/data.dart'
-    show openLivePersistence, registerBundledEdition;
+    show kAppMetaKeyTextChecksumVerifiedAt, openLivePersistence;
 import 'package:features/features.dart'
-    show CoreSetupPhase, coreSetupActionProvider;
-import 'package:flutter/foundation.dart' show kDebugMode;
+    show
+        CoreSetupPhase,
+        RealReciteReaderSurface,
+        coreSetupActionProvider,
+        reciteReaderSurfaceProvider;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:models/models.dart' show kKfgqpcHafsMadaniV2Edition;
 
 import 'app.dart';
 
@@ -23,6 +25,17 @@ import 'app.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final handle = await openLivePersistence();
+  // Font registration is in-memory (per process). A returning ḥāfiẓ whose core
+  // was verified on a prior launch skips onboarding, so the 604 per-page KFGQPC
+  // fonts must be re-registered here at startup — otherwise the reader falls back
+  // to the UI font and draws the raw glyph codepoints. The reference data and the
+  // verified stamp persist; only the font registration is volatile. First-run
+  // users register during onboarding's install (CoreReferenceInstaller).
+  final coreVerified =
+      await handle.meta.read(kAppMetaKeyTextChecksumVerifiedAt) != null;
+  if (coreVerified) {
+    await registerBundledCoreFonts();
+  }
   // Read once at the edge: the first existing profile becomes the active one;
   // a fresh install (no profile) resolves to null → the redirect guard routes
   // to onboarding before any Quran screen (PRD R1).
@@ -34,31 +47,26 @@ Future<void> main() async {
         persistenceProvider.overrideWithValue(handle),
         assetDownloaderProvider.overrideWithValue(const LiveAssetDownloader()),
         initialActiveProfileProvider.overrideWithValue(initialProfileId),
-        // The live bundled-core install (E05's CoreReferenceInstaller) is wired
-        // here once the real KFGQPC asset pack lands; until then a RELEASE build
-        // correctly fail-closes — the muṣḥaf cannot be verified, so onboarding's
-        // core-setup refuses and no Quran text is shown (R1).
-        //
-        // For DEBUG/dev only, so the app is runnable on a simulator without the
-        // ~40-55 MB assets: treat the (content-less, bundle-first) core as ready
-        // — onboarding completes and the reader opens to its blank page. This is
-        // safe by construction: with no bundled text/fonts there is no Quran to
-        // render unverified. It never affects a release build.
-        if (kDebugMode) ...[
-          coreSetupActionProvider.overrideWith(
-            (ref) => () async {
-              // Register only the bundled edition's metadata row so onboarding's
-              // placement commit (profile.mushaf_id FK) resolves; no Quran text
-              // or glyph is written. Then report ready.
-              await registerBundledEdition(
-                ref.read(persistenceProvider),
-                kKfgqpcHafsMadaniV2Edition,
-              );
-              return CoreSetupPhase.ready;
-            },
-          ),
-          coreVerifiedProvider.overrideWith((ref) async => true),
-        ],
+        // The live bundled-core install (E05's CoreReferenceInstaller): verify
+        // every bundled byte against the binary-baked SHA-256 manifest, build
+        // E03's read-only reference tables, register the 604 per-page KFGQPC
+        // glyph fonts, then stamp `text_checksum_verified_at` LAST. Fail-closed —
+        // any mismatch maps to integrityFailure and no Quran text is shown (R1).
+        // `coreVerifiedProvider` is driven by the real stamp this writes (no
+        // override), so the reader route opens only once the muṣḥaf is whole.
+        coreSetupActionProvider.overrideWith(
+          (ref) => () async {
+            final ready =
+                await installAndPrepareCore(ref.read(persistenceProvider));
+            return ready
+                ? CoreSetupPhase.ready
+                : CoreSetupPhase.integrityFailure;
+          },
+        ),
+        // The recite flow's reveal-on-tap surface now renders the real KFGQPC
+        // glyphs (the verified bundled core), not the pre-asset placeholder.
+        reciteReaderSurfaceProvider
+            .overrideWithValue(const RealReciteReaderSurface()),
       ],
       child: const HifzApp(),
     ),

@@ -31,7 +31,8 @@ export 'src/render/mushaf_line_ref.dart' show MushafLineRef;
 export 'src/render/mushaf_overlay_painter.dart'
     show MushafOverlayPainter, OverlayStyle;
 export 'src/render/mushaf_page_navigator.dart' show MushafPageNavigator;
-export 'src/render/mushaf_page_view.dart' show MushafPageView;
+export 'src/render/mushaf_page_view.dart'
+    show MushafGlyphLineView, MushafPageView;
 export 'src/render/mushaf_reader_frame.dart' show MushafReaderFrame;
 export 'src/render/mushaf_reader_page.dart' show MushafReaderPage;
 export 'src/render/overlay_marker.dart'

@@ -104,55 +104,61 @@ abstract final class EmbeddedManifest {
     kKfgqpcHafsMadaniV2Edition,
   );
 
-  /// The file name of the bundled text asset (Tanzil Uthmani).
-  static const String textFileName = 'quran-uthmani.db';
+  /// The file name of the bundled text asset (Tanzil metadata, verbatim).
+  static const String textFileName = 'quran-data.xml';
 
   /// The file name of the bundled QUL page-layout asset.
-  static const String layoutFileName = 'layout-qul.json';
+  static const String layoutFileName = 'qpc-v2-15-lines.db';
 
-  /// The file name of the bundled mutashābihāt dataset.
-  static const String mutashabihatFileName = 'mutashabihat.json';
+  /// The file name of the bundled QUL word-by-word glyph asset.
+  static const String wordsFileName = 'qpc-v2.db';
 
-  /// The font file name for [page] (`'QCF_P001.ttf'` … `'QCF_P604.ttf'`).
+  /// The font file name for [page] (`'QCF_P001.ttf'` … `'QCF_P604.ttf'`). The
+  /// 604 per-page fonts are not installer-manifest entries (they are pinned in
+  /// [kCorePageFontSha256] and verified one-at-a-time at registration, so 200 MB
+  /// of font bytes never accumulate in the installer); this name is the
+  /// sanctioned place to spell the bundled font file for that verification.
   static String fontFileName(int page) =>
       'QCF_P${page.toString().padLeft(3, '0')}.ttf';
+
+  /// Page → its pinned glyph-font SHA-256 (lower-case hex) — the verification
+  /// source the font-registration path (E05-T06) checks each loaded font
+  /// against. Empty/missing until pinned by `tool/gen_core_manifest.dart`; an
+  /// unpinned font then fails verification CLOSED at registration.
+  static const Map<int, String> pageFontSha256 = kCorePageFontSha256;
 }
 
-/// Builds the pinned manifest for [edition]: the text, layout, and mutashābihāt
-/// entries followed by one font entry per page (`1..edition.pageCount`), with
-/// digests/byte sizes from the generated `pinned_manifest_data.dart` (empty
-/// until pinned). Public so a wrong-edition swap is testable.
+/// Builds the pinned manifest for [edition]: the three co-versioned **data**
+/// files the first-launch installer loads, verifies, and builds the reference DB
+/// from — the Tanzil metadata, the QUL page layout, and the QUL word-by-word
+/// glyph DB — with digests/byte sizes from the generated `pinned_manifest_data.dart`
+/// (empty until pinned). The 604 per-page glyph fonts are **not** installer
+/// entries: they are pinned in [kCorePageFontSha256] and verified one-at-a-time
+/// at font registration, so the installer never accumulates 200 MB of font bytes.
+/// Public so a wrong-edition swap is testable.
 CorePackManifest buildCoreManifest(MushafEdition edition) {
-  final files = <ManifestEntry>[
-    const ManifestEntry(
+  const files = <ManifestEntry>[
+    ManifestEntry(
       name: EmbeddedManifest.textFileName,
       sha256: kCoreTextSha256,
       bytes: kCoreTextBytes,
       source: 'tanzil.net',
       license: 'verbatim+attribution',
     ),
-    const ManifestEntry(
+    ManifestEntry(
       name: EmbeddedManifest.layoutFileName,
       sha256: kCoreLayoutSha256,
       bytes: kCoreLayoutBytes,
       source: 'qul.tarteel.ai',
       license: 'QUL',
     ),
-    const ManifestEntry(
-      name: EmbeddedManifest.mutashabihatFileName,
-      sha256: kCoreMutashabihatSha256,
-      bytes: kCoreMutashabihatBytes,
-      source: 'repo',
-      license: 'CC-BY (scholar-reviewed)',
+    ManifestEntry(
+      name: EmbeddedManifest.wordsFileName,
+      sha256: kCoreWordsSha256,
+      bytes: kCoreWordsBytes,
+      source: 'qul.tarteel.ai',
+      license: 'QUL',
     ),
-    for (var page = 1; page <= edition.pageCount; page++)
-      ManifestEntry(
-        name: EmbeddedManifest.fontFileName(page),
-        sha256: kCorePageFontSha256[page] ?? '',
-        bytes: kCorePageFontBytes[page] ?? 0,
-        source: 'kfgqpc',
-        license: 'KFGQPC',
-      ),
   ];
   return CorePackManifest(
     pack: 'core',

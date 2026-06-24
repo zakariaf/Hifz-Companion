@@ -49,12 +49,25 @@ class MushafReaderFrame extends StatelessWidget {
       child: Transform.scale(
         scale: zoom,
         alignment: Alignment.topRight,
-        child: Stack(
-          children: [
-            MushafPageView(glyphPage: glyphPage),
-            if (overlay != null)
-              Positioned.fill(child: CustomPaint(painter: overlay)),
-          ],
+        // Scale the whole page (glyph layer + overlay together) uniformly to fill
+        // the reader viewport — the QPC glyphs have no inherent point size, so at
+        // their natural advance width a page would render tiny and top-aligned.
+        // `SizedBox.expand` forces the fit box to the full viewport (a bare
+        // FittedBox under loose constraints would just take the child's natural
+        // size and not scale); `contain` then keeps the page's aspect and shows it
+        // whole. The overlay rides the same transform, so markers stay registered
+        // to the glyphs. The user's own [zoom] multiplies on top of this fit.
+        child: SizedBox.expand(
+          child: FittedBox(
+            // Default fit is `contain`: keep the page's aspect, show it whole.
+            child: Stack(
+              children: [
+                MushafPageView(glyphPage: glyphPage),
+                if (overlay != null)
+                  Positioned.fill(child: CustomPaint(painter: overlay)),
+              ],
+            ),
+          ),
         ),
       ),
     );
