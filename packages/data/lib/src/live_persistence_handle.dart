@@ -120,6 +120,12 @@ final class LivePersistenceHandle
   Future<String?> mutashabihGroupIdForAyah(String ayahId) =>
       _database.referenceReadDao.mutashabihGroupIdForAyah(ayahId);
 
+  // --- ReviewLogRepository reads (append-only audit; no write surface) ---
+
+  @override
+  Future<List<ReviewLog>> forPage(ProfileId profileId, int pageId) =>
+      _database.reviewLogDao.forCard(profileId, pageId);
+
   // --- AppMetaRepository reads ---
 
   @override

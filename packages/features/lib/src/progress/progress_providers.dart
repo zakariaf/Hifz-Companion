@@ -2,8 +2,13 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import 'package:composition/composition.dart'
-    show activeProfileProvider, cardRepositoryProvider, todayProvider;
+    show
+        activeProfileProvider,
+        cardRepositoryProvider,
+        persistenceProvider,
+        todayProvider;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:models/models.dart' show ReviewLog;
 
 import '../today/today_providers.dart' show pageJuzProvider;
 import 'progress_overview.dart';
@@ -35,5 +40,36 @@ final progressHeatmapProvider = StreamProvider<ProgressOverview>((ref) async* {
           pageJuz: pageJuz,
           today: today,
         ),
+      );
+});
+
+/// The append-only `review_log` history for one [pageId] (oldest first) — the
+/// short history the page-detail sheet renders (E15-T06). Read-only, offline;
+/// autoDispose+family so a closed sheet drops its query. Empty without a profile.
+final reviewLogForPageProvider =
+    FutureProvider.autoDispose.family<List<ReviewLog>, int>((ref, pageId) async {
+  final profileId = ref.watch(activeProfileProvider);
+  if (profileId == null) return const <ReviewLog>[];
+  return ref.watch(persistenceProvider).reviewLog.forPage(profileId, pageId);
+});
+
+/// The count of pages due over the next 7 days — the calm upcoming-load forecast
+/// (E15-T08), a planning aid the user reads to pace revision, never a deadline
+/// pile. Computed on read from the live card set + the injected "today"; stores
+/// nothing and opens no socket.
+final upcomingLoadProvider = StreamProvider<int>((ref) {
+  final profileId = ref.watch(activeProfileProvider);
+  if (profileId == null) return Stream<int>.value(0);
+  final today = ref.watch(todayProvider);
+  final horizon = today.epochDay + 7;
+  return ref.watch(cardRepositoryProvider).watchForProfile(profileId).map(
+        (cards) => cards
+            .where(
+              (c) =>
+                  c.dueAt != null &&
+                  c.dueAt!.epochDay >= today.epochDay &&
+                  c.dueAt!.epochDay <= horizon,
+            )
+            .length,
       );
 });

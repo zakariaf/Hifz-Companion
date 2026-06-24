@@ -43,7 +43,7 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String juzLabel(String juz) {
-    return 'جوزی $juz';
+    return 'جزء $juz';
   }
 
   @override
@@ -850,4 +850,80 @@ class AppLocalizationsCkb extends AppLocalizations {
   @override
   String get mushafAboutOffline =>
       'ئەپەکە دوای یەکەم داگرتنی پشتڕاستکراو بە تەواوی بێ ئینتەرنێت کار دەکات و دەنگت تۆمار ناکات.';
+
+  @override
+  String get progressBandStrong => 'بەهێز';
+
+  @override
+  String get progressBandGood => 'باش';
+
+  @override
+  String get progressBandFair => 'کزبوونەوە';
+
+  @override
+  String get progressBandWeak => 'ئامادە بۆ پێداچوونەوە';
+
+  @override
+  String get progressBandFaded => 'کاڵبوو';
+
+  @override
+  String get progressNotStarted => 'دەستی پێنەکردووە';
+
+  @override
+  String get progressNoValue => '—';
+
+  @override
+  String progressPercent(String pct) {
+    return '$pct٪';
+  }
+
+  @override
+  String progressDetailRange(String low, String high) {
+    return '$low–$high٪';
+  }
+
+  @override
+  String get progressDetailRangeEstimated => 'خەمڵاندن — هێشتا نەخوێنراوەتەوە';
+
+  @override
+  String progressDetailRangeSelf(String range) {
+    return 'نزیکەی $range، لە هەڵسەنگاندنی خۆتەوە';
+  }
+
+  @override
+  String progressDetailRangeTeacher(String range) {
+    return 'نزیکەی $range، بە پشتڕاستکردنەوەی مامۆستاکەت';
+  }
+
+  @override
+  String progressNextDue(String date) {
+    return 'پێداچوونەوەی داهاتوو: $date';
+  }
+
+  @override
+  String get progressNoNextDue => 'هێشتا کاتی پێداچوونەوە دیاری نەکراوە';
+
+  @override
+  String get progressHistoryTitle => 'دوایین پێداچوونەوەکان';
+
+  @override
+  String get progressNoHistory => 'هێشتا هیچ پێداچوونەوەیەک تۆمار نەکراوە';
+
+  @override
+  String progressHistoryRow(String date, String grade) {
+    return '$date · $grade';
+  }
+
+  @override
+  String get progressEmptyTitle => 'نەخشەی حیفزەکەت';
+
+  @override
+  String get progressEmptyBody =>
+      'ئەم نەخشەیە لاپەڕەکانی حیفزت نیشان دەدات و بەهێمنی دەریدەخات قورئانەکەت لەکوێ پێویستی بە پێداچوونەوەیە.';
+
+  @override
+  String get progressWeakestTitle => 'لێرەوە دەست پێ بکە';
+
+  @override
+  String get progressForecastTitle => 'ڕۆژانی داهاتوو';
 }

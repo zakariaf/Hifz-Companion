@@ -27,6 +27,7 @@ class PageHealth {
     required this.band,
     required this.everReviewed,
     required this.sourceConfidence,
+    this.dueAt,
   });
 
   /// The 1-based muṣḥaf page.
@@ -52,6 +53,10 @@ class PageHealth {
   /// The grade source confidence (teacher 1.0 / self ~0.5; `0` non-memorized).
   final double sourceConfidence;
 
+  /// The page's next-due day (the detail sheet renders it via `CalendarPresenter`);
+  /// null for a non-memorized page or one with no scheduled due yet.
+  final CalendarDate? dueAt;
+
   @override
   bool operator ==(Object other) =>
       other is PageHealth &&
@@ -61,7 +66,8 @@ class PageHealth {
       other.retrievability == retrievability &&
       other.band == band &&
       other.everReviewed == everReviewed &&
-      other.sourceConfidence == sourceConfidence;
+      other.sourceConfidence == sourceConfidence &&
+      other.dueAt == dueAt;
 
   @override
   int get hashCode => Object.hash(
@@ -72,6 +78,7 @@ class PageHealth {
         band,
         everReviewed,
         sourceConfidence,
+        dueAt,
       );
 }
 
@@ -217,5 +224,6 @@ PageHealth _healthFor(int pageId, int juz, Card? card, CalendarDate today) {
     band: retentionBand(r),
     everReviewed: card.reps > 0,
     sourceConfidence: sourceConfidenceOf(card),
+    dueAt: card.dueAt,
   );
 }
