@@ -7,6 +7,7 @@
 // RTL under fa, and shows no gamified/scoreboard surface. Offline guard
 // installed; real Mihrab UI fonts for honest layout.
 
+import 'package:composition/composition.dart' show profileRepositoryProvider;
 import 'package:features/features.dart'
     show MihrabAppearance, SettingsScreen, mihrabThemeFor;
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:l10n/l10n.dart';
 
 import '../support/offline_test_bootstrap.dart';
+import 'fake_profiles.dart';
 
 void main() {
   useOfflineTestPolicy();
@@ -26,9 +28,20 @@ void main() {
   Future<void> pump(
     WidgetTester tester, {
     Locale locale = const Locale('ar'),
-  }) =>
-      tester.pumpWidget(
+  }) {
+    // A tall viewport so the lazy ListView builds every section (the Display
+    // group's pickers make the surface taller than a phone screen).
+    tester.view.physicalSize = const Size(1200, 4000);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    return tester.pumpWidget(
         ProviderScope(
+          // The Display group reads the profile/preference seam; no active
+          // profile is selected, so it renders the calm defaults.
+          overrides: [
+            profileRepositoryProvider.overrideWithValue(FakeProfileRepository([])),
+          ],
           child: MaterialApp(
             locale: locale,
             localizationsDelegates: hifzLocalizationsDelegates,
@@ -39,6 +52,7 @@ void main() {
           ),
         ),
       );
+  }
 
   testWidgets('renders the five grouped section headers', (tester) async {
     await pump(tester);

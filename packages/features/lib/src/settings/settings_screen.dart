@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:l10n/l10n.dart';
 
 import '../design_system/theme/spacing_tokens.dart';
+import 'widgets/display_settings_section.dart';
 import 'widgets/settings_section.dart';
 
 /// The Settings tab: a calm, grouped preferences surface (PRD §15) on the
@@ -35,10 +36,7 @@ class SettingsScreen extends StatelessWidget {
         child: ListView(
           padding: EdgeInsetsDirectional.only(bottom: space.space7),
           children: [
-            SettingsSection(
-              title: l10n.settingsSectionDisplay,
-              children: const [_SectionPlaceholderLine()],
-            ),
+            const DisplaySettingsSection(),
             SettingsSection(
               title: l10n.settingsSectionCycle,
               children: const [_SectionPlaceholderLine()],

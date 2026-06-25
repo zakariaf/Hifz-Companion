@@ -61,6 +61,8 @@
   "settingsSectionProfiles": "نمایه‌ها",
   "settingsSectionBackup": "پشتیبان‌گیری",
   "settingsSectionAbout": "درباره",
+  "settingsLanguageLabel": "زبان",
+  "settingsThemeLabel": "ظاهر",
   "onboardingCoverageTitle": "اجزایی که حفظ دارید",
   "onboardingCoverageInstruction": "اجزایی را که حفظ دارید انتخاب کنید.",
   "onboardingConfidenceTitle": "هر جزء چقدر استوار است؟",

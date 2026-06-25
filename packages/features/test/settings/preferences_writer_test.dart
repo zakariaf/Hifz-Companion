@@ -9,14 +9,11 @@
 // ProfileRepository is faked with a controllable watchById stream (no DB);
 // offline guard installed — the write path opens no socket.
 
-import 'dart:async';
-
 import 'package:composition/composition.dart'
     show
         activeProfileProvider,
         initialActiveProfileProvider,
         profileRepositoryProvider;
-import 'package:data/data.dart' show ProfileRepository;
 import 'package:features/features.dart'
     show
         MihrabAppearance,
@@ -24,61 +21,17 @@ import 'package:features/features.dart'
         preferencesWriterProvider;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:models/models.dart';
+import 'package:models/models.dart' show ProfileId;
 
 import '../test_setup.dart';
-
-/// An in-memory [ProfileRepository] whose `watchById` emits the current row on
-/// listen then re-emits each committed upsert — the same observable contract as
-/// the Drift `watchSingleOrNull`, without a database.
-class _FakeProfiles implements ProfileRepository {
-  _FakeProfiles(Iterable<Profile> seed) {
-    for (final p in seed) {
-      _store[p.profileId.value] = p;
-    }
-  }
-
-  final Map<String, Profile> _store = {};
-  final Map<String, StreamController<Profile?>> _controllers = {};
-
-  StreamController<Profile?> _controllerFor(String id) => _controllers
-      .putIfAbsent(id, StreamController<Profile?>.broadcast);
-
-  @override
-  Future<List<Profile>> all() async => _store.values.toList();
-
-  @override
-  Future<Profile?> byProfileId(ProfileId id) async => _store[id.value];
-
-  @override
-  Future<void> upsert(Profile profile) async {
-    _store[profile.profileId.value] = profile;
-    _controllerFor(profile.profileId.value).add(profile);
-  }
-
-  @override
-  Stream<Profile?> watchById(ProfileId id) async* {
-    yield _store[id.value];
-    yield* _controllerFor(id.value).stream;
-  }
-}
-
-Profile _profile(String id, {Map<String, Object?>? settings}) => Profile(
-      profileId: ProfileId(id),
-      displayName: 'name-$id',
-      role: ProfileRole.self,
-      locale: ProfileLocale.fa,
-      mushafId: 'm1',
-      createdAtInstant: DateTime.utc(2026, 6, 17),
-      settings: settings,
-    );
+import 'fake_profiles.dart';
 
 void main() {
   useOfflineTestPolicy();
 
   test('updateDisplayPreferences persists, then the provider republishes',
       () async {
-    final fake = _FakeProfiles([_profile('p1')]);
+    final fake = FakeProfileRepository([fakeProfile('p1')]);
     final container = ProviderContainer(
       overrides: [
         profileRepositoryProvider.overrideWithValue(fake),
@@ -101,7 +54,7 @@ void main() {
     await pumpEventQueue();
 
     // Persisted into settings_json AND republished through the stream.
-    expect(fake._store['p1']!.settings!['appearance'], 'dark');
+    expect(fake.store['p1']!.settings!['appearance'], 'dark');
     expect(
       container.read(displayPreferencesProvider).appearance,
       MihrabAppearance.dark,
@@ -109,7 +62,7 @@ void main() {
   });
 
   test('no active profile makes a preference write a safe no-op', () async {
-    final fake = _FakeProfiles([_profile('p1')]);
+    final fake = FakeProfileRepository([fakeProfile('p1')]);
     final container = ProviderContainer(
       overrides: [profileRepositoryProvider.overrideWithValue(fake)],
     );
@@ -119,13 +72,13 @@ void main() {
           (p) => p.copyWith(appearance: MihrabAppearance.dark),
         );
 
-    expect(fake._store['p1']!.settings, isNull);
+    expect(fake.store['p1']!.settings, isNull);
   });
 
   test('switching the active profile re-scopes the preferences read', () async {
-    final fake = _FakeProfiles([
-      _profile('p1', settings: {'appearance': 'dark'}),
-      _profile('p2', settings: {'appearance': 'sepia'}),
+    final fake = FakeProfileRepository([
+      fakeProfile('p1', settings: {'appearance': 'dark'}),
+      fakeProfile('p2', settings: {'appearance': 'sepia'}),
     ]);
     final container = ProviderContainer(
       overrides: [

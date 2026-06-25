@@ -61,6 +61,8 @@
   "settingsSectionProfiles": "پرۆفایلەکان",
   "settingsSectionBackup": "پاڵپشت",
   "settingsSectionAbout": "دەربارە",
+  "settingsLanguageLabel": "زمان",
+  "settingsThemeLabel": "ڕووکار",
   "onboardingCoverageTitle": "ئەو جوزانەی لەبەرتە",
   "onboardingCoverageInstruction": "ئەو جوزانە هەڵبژێرە کە لەبەرتە.",
   "onboardingConfidenceTitle": "هەر جوزێک چەند جێگیرە؟",

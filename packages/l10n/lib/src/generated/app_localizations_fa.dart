@@ -358,6 +358,12 @@ class AppLocalizationsFa extends AppLocalizations {
   String get settingsSectionAbout => 'درباره';
 
   @override
+  String get settingsLanguageLabel => 'زبان';
+
+  @override
+  String get settingsThemeLabel => 'ظاهر';
+
+  @override
   String get onboardingCoverageTitle => 'اجزایی که حفظ دارید';
 
   @override

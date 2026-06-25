@@ -369,6 +369,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsSectionAbout => 'حول التطبيق';
 
   @override
+  String get settingsLanguageLabel => 'اللغة';
+
+  @override
+  String get settingsThemeLabel => 'المظهر';
+
+  @override
   String get onboardingCoverageTitle => 'الأجزاء التي تحفظها';
 
   @override

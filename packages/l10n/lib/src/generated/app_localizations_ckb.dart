@@ -358,6 +358,12 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get settingsSectionAbout => 'دەربارە';
 
   @override
+  String get settingsLanguageLabel => 'زمان';
+
+  @override
+  String get settingsThemeLabel => 'ڕووکار';
+
+  @override
   String get onboardingCoverageTitle => 'ئەو جوزانەی لەبەرتە';
 
   @override

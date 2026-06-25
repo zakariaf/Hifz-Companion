@@ -364,6 +364,14 @@
   "@settingsSectionAbout": {
     "description": "Settings group header: app information and the offline science screen. Best-effort fa/ckb pending native + scholarly review."
   },
+  "settingsLanguageLabel": "اللغة",
+  "@settingsLanguageLabel": {
+    "description": "Display-settings sub-group label above the UI-language picker (fa/ckb/ar). Best-effort fa/ckb pending native + scholarly review."
+  },
+  "settingsThemeLabel": "المظهر",
+  "@settingsThemeLabel": {
+    "description": "Display-settings sub-group label above the theme picker (light/sepia/dark). Best-effort fa/ckb pending native + scholarly review."
+  },
   "onboardingCoverageTitle": "الأجزاء التي تحفظها",
   "@onboardingCoverageTitle": {
     "description": "Title of the cold-start coverage step: the ḥāfiẓ marks which juz they hold. Calm, no guilt. PROVISIONAL — onboarding copy needs native + scholarly review (E11/E19); best-effort fa/ckb."

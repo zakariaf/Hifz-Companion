@@ -469,6 +469,18 @@ abstract class AppLocalizations {
   /// **'حول التطبيق'**
   String get settingsSectionAbout;
 
+  /// Display-settings sub-group label above the UI-language picker (fa/ckb/ar). Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'اللغة'**
+  String get settingsLanguageLabel;
+
+  /// Display-settings sub-group label above the theme picker (light/sepia/dark). Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'المظهر'**
+  String get settingsThemeLabel;
+
   /// Title of the cold-start coverage step: the ḥāfiẓ marks which juz they hold. Calm, no guilt. PROVISIONAL — onboarding copy needs native + scholarly review (E11/E19); best-effort fa/ckb.
   ///
   /// In ar, this message translates to:
