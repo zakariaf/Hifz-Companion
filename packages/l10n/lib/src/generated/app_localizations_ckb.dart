@@ -343,6 +343,21 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get sectionInPreparation => 'ئەم بەشە لە ئامادەکردندایە.';
 
   @override
+  String get settingsSectionDisplay => 'پیشاندان';
+
+  @override
+  String get settingsSectionCycle => 'خولی پێداچوونەوە';
+
+  @override
+  String get settingsSectionProfiles => 'پرۆفایلەکان';
+
+  @override
+  String get settingsSectionBackup => 'پاڵپشت';
+
+  @override
+  String get settingsSectionAbout => 'دەربارە';
+
+  @override
   String get onboardingCoverageTitle => 'ئەو جوزانەی لەبەرتە';
 
   @override

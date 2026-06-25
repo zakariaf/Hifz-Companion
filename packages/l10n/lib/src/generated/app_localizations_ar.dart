@@ -354,6 +354,21 @@ class AppLocalizationsAr extends AppLocalizations {
   String get sectionInPreparation => 'هذا القسم قيد الإعداد.';
 
   @override
+  String get settingsSectionDisplay => 'العرض';
+
+  @override
+  String get settingsSectionCycle => 'دورة المراجعة';
+
+  @override
+  String get settingsSectionProfiles => 'الملفات الشخصية';
+
+  @override
+  String get settingsSectionBackup => 'النسخ الاحتياطي';
+
+  @override
+  String get settingsSectionAbout => 'حول التطبيق';
+
+  @override
   String get onboardingCoverageTitle => 'الأجزاء التي تحفظها';
 
   @override

@@ -439,6 +439,36 @@ abstract class AppLocalizations {
   /// **'هذا القسم قيد الإعداد.'**
   String get sectionInPreparation;
 
+  /// Settings group header: display and presentation preferences (UI language, calendar, numerals, term-set, theme, font size, muṣḥaf edition). UI chrome, not religious copy. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'العرض'**
+  String get settingsSectionDisplay;
+
+  /// Settings group header: the revision-cycle preset, Pure-cycle mode, and daily time budget. Writes engine config only, never a retention dial. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'دورة المراجعة'**
+  String get settingsSectionCycle;
+
+  /// Settings group header: device-local profiles (self, student, child) and the active-profile switcher. A profile is a typed display name only, with no account and no PII. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'الملفات الشخصية'**
+  String get settingsSectionProfiles;
+
+  /// Settings group header: local, offline backup export and restore, with no cloud and no account. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'النسخ الاحتياطي'**
+  String get settingsSectionBackup;
+
+  /// Settings group header: app information and the offline science screen. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'حول التطبيق'**
+  String get settingsSectionAbout;
+
   /// Title of the cold-start coverage step: the ḥāfiẓ marks which juz they hold. Calm, no guilt. PROVISIONAL — onboarding copy needs native + scholarly review (E11/E19); best-effort fa/ckb.
   ///
   /// In ar, this message translates to:

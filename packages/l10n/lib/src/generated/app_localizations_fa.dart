@@ -343,6 +343,21 @@ class AppLocalizationsFa extends AppLocalizations {
   String get sectionInPreparation => 'این بخش در حال آماده‌سازی است.';
 
   @override
+  String get settingsSectionDisplay => 'نمایش';
+
+  @override
+  String get settingsSectionCycle => 'چرخهٔ مرور';
+
+  @override
+  String get settingsSectionProfiles => 'نمایه‌ها';
+
+  @override
+  String get settingsSectionBackup => 'پشتیبان‌گیری';
+
+  @override
+  String get settingsSectionAbout => 'درباره';
+
+  @override
   String get onboardingCoverageTitle => 'اجزایی که حفظ دارید';
 
   @override

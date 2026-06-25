@@ -344,6 +344,26 @@
   "@sectionInPreparation": {
     "description": "Calm, inert body line shown under each not-yet-built section title in the E07 walking skeleton (Today/Muṣḥaf/Mutashābihāt/Progress/Settings placeholders). Reverent and plain: no claim, no number, no guilt/fear, no exclamation/emoji. Best-effort fa/ckb pending E09 native + scholarly review."
   },
+  "settingsSectionDisplay": "العرض",
+  "@settingsSectionDisplay": {
+    "description": "Settings group header: display and presentation preferences (UI language, calendar, numerals, term-set, theme, font size, muṣḥaf edition). UI chrome, not religious copy. Best-effort fa/ckb pending native + scholarly review."
+  },
+  "settingsSectionCycle": "دورة المراجعة",
+  "@settingsSectionCycle": {
+    "description": "Settings group header: the revision-cycle preset, Pure-cycle mode, and daily time budget. Writes engine config only, never a retention dial. Best-effort fa/ckb pending native + scholarly review."
+  },
+  "settingsSectionProfiles": "الملفات الشخصية",
+  "@settingsSectionProfiles": {
+    "description": "Settings group header: device-local profiles (self, student, child) and the active-profile switcher. A profile is a typed display name only, with no account and no PII. Best-effort fa/ckb pending native + scholarly review."
+  },
+  "settingsSectionBackup": "النسخ الاحتياطي",
+  "@settingsSectionBackup": {
+    "description": "Settings group header: local, offline backup export and restore, with no cloud and no account. Best-effort fa/ckb pending native + scholarly review."
+  },
+  "settingsSectionAbout": "حول التطبيق",
+  "@settingsSectionAbout": {
+    "description": "Settings group header: app information and the offline science screen. Best-effort fa/ckb pending native + scholarly review."
+  },
   "onboardingCoverageTitle": "الأجزاء التي تحفظها",
   "@onboardingCoverageTitle": {
     "description": "Title of the cold-start coverage step: the ḥāfiẓ marks which juz they hold. Calm, no guilt. PROVISIONAL — onboarding copy needs native + scholarly review (E11/E19); best-effort fa/ckb."
