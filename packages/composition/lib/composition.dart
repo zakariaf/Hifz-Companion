@@ -24,6 +24,7 @@ export 'src/cycle_config_repository_provider.dart';
 export 'src/core_install.dart'
     show installAndPrepareCore, registerBundledCoreFonts;
 export 'src/engine_provider.dart';
+export 'src/notification_scheduler_provider.dart';
 export 'src/persistence_provider.dart';
 export 'src/profile_repository_provider.dart';
 export 'src/restore_repository_provider.dart';

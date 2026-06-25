@@ -26,6 +26,12 @@ allowed=(
   # backup file-move (Decision log #13; E17 §9) — OS share sheet + file picker,
   # in the app shell only, behind a service boundary; offline, no network.
   share_plus file_picker
+  # local daily reminder (Decision log #14; E18 §14; doc 07 §6) — the one calm
+  # notification in the app shell only, behind the composition NotificationScheduler
+  # boundary; no push, no server, no network. `timezone` + `flutter_timezone` feed
+  # `zonedSchedule` a DST-correct local fire time, taken only at this edge (never
+  # the engine/CalendarDate core); alarms are inexact (no exact-alarm permission).
+  flutter_local_notifications timezone flutter_timezone
   # drift code generation (Decision log #3: Drift over SQLite) — build-time only,
   # never shipped in the binary; generates database.g.dart + migration steps.
   drift_dev build_runner

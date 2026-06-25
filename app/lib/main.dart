@@ -16,6 +16,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app.dart';
 import 'backup/backup_io_impls.dart';
+import 'reminders/notification_scheduler_impl.dart';
 
 /// The composition root — the one place live services are constructed and bound
 /// into the `ProviderScope` (04 §1.2). It opens the crash-safe Drift store once,
@@ -74,6 +75,12 @@ Future<void> main() async {
         backupShareServiceProvider.overrideWithValue(const ShareBackupService()),
         backupFilePickerProvider.overrideWithValue(const FilePickerBackup()),
         localStoreEraserProvider.overrideWithValue(LocalStoreEraserImpl(handle)),
+        // Local daily reminder (E18 §14) — the one calm notification, app-edge
+        // only behind the composition NotificationScheduler boundary. No push,
+        // no server, no network; the OS fires it. `timezone` + `flutter_timezone`
+        // feed `zonedSchedule` a DST-correct local fire time (Decision log #14).
+        notificationSchedulerProvider
+            .overrideWithValue(LiveNotificationScheduler()),
       ],
       child: const HifzApp(),
     ),

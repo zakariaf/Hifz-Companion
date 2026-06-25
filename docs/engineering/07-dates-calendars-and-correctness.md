@@ -19,7 +19,7 @@ One framing rule governs everything below, from the README's outranking rules an
 | Jalālī | **Solar Hijri** via pure-Dart `shamsi_date` (BSD-3), display-only; default for `fa` ([pub.dev: shamsi_date](https://pub.dev/packages/shamsi_date)) |
 | Calendar choice | **Explicit user setting** (Jalālī / Hijri / Gregorian), not silently inferred from locale ([PRD §13.3](../PRD.md)) |
 | Numerals | Re-mapped **downstream** of calendar conversion to the locale digit set ([PRD §13.3](../PRD.md)) |
-| `timezone` / IANA package | **Not used**; the device's own local zone names "today"; the engine never sees a zone ([pub.dev: timezone](https://pub.dev/packages/timezone)) |
+| `timezone` / IANA package | **Not in the engine or the `CalendarDate` core** — the device's own local zone names "today" and the engine never sees a zone; taken **only at the app-notification edge** (E18, decision 14) to hand `flutter_local_notifications`' `zonedSchedule` a DST-correct local `TZDateTime` for the §14 daily reminder ([pub.dev: timezone](https://pub.dev/packages/timezone)) |
 
 ---
 
@@ -261,12 +261,12 @@ class CalendarPresenter {
 
 ### Decision
 
-The engine never reads a clock: "today" is a `CalendarDate` **injected** at the app edge ([PRD §7.12, §19.3](../PRD.md)). It is computed **once per session/day**, at the boundary, from the device's *local* civil day. The full `timezone`/IANA package is **not** a dependency; the device's own local zone is sufficient to name the local day, and nothing in the app ever converts across arbitrary zones (*Decision log: Dates, calendars & correctness*).
+The engine never reads a clock: "today" is a `CalendarDate` **injected** at the app edge ([PRD §7.12, §19.3](../PRD.md)). It is computed **once per session/day**, at the boundary, from the device's *local* civil day. The full `timezone`/IANA package is **not** a dependency of the engine or the `CalendarDate` core; the device's own local zone is sufficient to name the local day, and nothing in the scheduling path ever converts across arbitrary zones (*Decision log: Dates, calendars & correctness*). The one edge exception — handing the §14 daily-reminder scheduler a DST-correct local `TZDateTime` — is added in the app shell only (decision 14, §6).
 
 ### Rationale
 
 - **Determinism requires an injected clock.** "No wall-clock inside; 'today' is injected" ([PRD §19.3](../PRD.md)) is what makes the goldens reproducible — a test passes a fixed `today` and asserts a fixed schedule, with no dependence on when or where the test runs ([11-testing-strategy.md](11-testing-strategy.md)). A `DateTime.now()` anywhere in scheduling would make the schedule a function of the test machine's clock.
-- **The only place a real zone matters is naming the local day.** A user's "today," and the local daily-reminder fire time ([PRD §14](../PRD.md)), depend on which civil day it is *for them*. That is a thin app-edge concern, resolved by the device's own local zone — `DateTime.now().toLocal()` names the local day. We never need the full IANA tz database, because nothing syncs between devices ([PRD §17](../PRD.md)) and we never convert a date into another region's zone. The `timezone` package "bundles the IANA tz database" and adds `TZDateTime` for arbitrary-zone work ([pub.dev: timezone](https://pub.dev/packages/timezone)) — capability we deliberately do not take on, keeping the dependency surface and the offline footprint minimal.
+- **The only place a real zone matters is naming the local day.** A user's "today," and the local daily-reminder fire time ([PRD §14](../PRD.md)), depend on which civil day it is *for them*. That is a thin app-edge concern, resolved by the device's own local zone — `DateTime.now().toLocal()` names the local day. Naming the civil *day* never needs the full IANA tz database — nothing syncs between devices ([PRD §17](../PRD.md)) and we never convert a date into another region's zone. Re-firing the reminder at a fixed local *time* across a DST transition is the one place the database earns its keep: `flutter_local_notifications`' `zonedSchedule` takes a `TZDateTime`, so E18 takes `timezone` + `flutter_timezone` **only in the app-shell scheduler** (decision 14, §6) — never in the engine or the `CalendarDate` core, whose offline footprint and zone-freedom are unchanged ([pub.dev: timezone](https://pub.dev/packages/timezone)).
 - **One boundary conversion, never repeated.** Computing "today" once and threading the `CalendarDate` through the session means a long-running session does not flip days mid-flight in a surprising way, and a single, testable function owns the local→civil mapping.
 
 ### Specification
@@ -288,7 +288,7 @@ The local notification ([PRD §14](../PRD.md)) keys off the same local civil day
 ### Pitfalls / what we refuse
 
 - **We refuse `DateTime.now()` in the engine or any scheduling path.** It is the determinism break the injected-`today` design exists to prevent; a CI grep flags `DateTime.now()` outside the single `todayFor`/provider edge.
-- **We refuse the `timezone`/IANA dependency for a need we do not have.** Arbitrary-zone conversion is dead weight for an app that never syncs and never shows another region's local time; if a concrete cross-zone requirement ever appears, it is added at the edge, never in the engine.
+- **We refuse the `timezone`/IANA dependency anywhere it is dead weight.** Arbitrary-zone conversion has no place in an app that never syncs and never shows another region's local time, so the engine and the `CalendarDate` core stay zone-free. The one concrete edge requirement that did appear — firing the §14 daily reminder at a fixed *local* time, DST-correct, via `zonedSchedule` — is added **at the app-notification edge only** (decision 14), exactly as this rule provided; the engine still never sees a zone.
 - **We refuse to let a midnight rollover silently re-shuffle an open session.** "Today" is captured at session start; the next session recomputes it. A page does not change due-state under the user's fingers because the clock ticked past midnight mid-recitation.
 
 ---
@@ -383,7 +383,7 @@ All URLs verified reachable on 2026-06-16.
 - `shamsi_date` package, pub.dev (pure Dart, BSD-3-Clause, null-safe; `Jalali`/`Gregorian`/`Date`, `toDateTime`/`fromDateTime`, `julianDayNumber`, `formatter`; range `Gregorian(560,3,20)`–`Gregorian(3798,12,31)`; algorithm based on `jalaali-js`). https://pub.dev/packages/shamsi_date
 - `hijri` package, pub.dev (pure Dart, BSD-2-Clause, v3.0.1; Umm al-Qurā conversion; `HijriCalendar.now()`, `fromDate`, `hijriToGregorian`, `hYear/hMonth/hDay`, `toFormat`, `lengthOfMonth`). https://pub.dev/packages/hijri
 - `hijri_calendar` API docs, pub.dev ("Supported Gregorian date range validation (1937–2076)"; `adjustments` `Map<int,int>` keyed by Julian Day Number, values −1/0/+1, for regional moon-sighting / local-authority alignment). https://pub.dev/documentation/hijri_calendar/latest/
-- `timezone` package, pub.dev (bundled IANA tz database; `TZDateTime`, `initializeTimeZones`, `getLocation`, `setLocalLocation` — capability deliberately not taken on). https://pub.dev/packages/timezone
+- `timezone` package, pub.dev (bundled IANA tz database; `TZDateTime`, `initializeTimeZones`, `getLocation`, `setLocalLocation` — taken only at the app-notification edge for the E18 reminder, decision 14; never in the engine). https://pub.dev/packages/timezone
 - van Gent, R. H. (Utrecht). *The Umm al-Qura Calendar of Saudi Arabia — astronomical rules* ("used by the government of Saudi Arabia for civil purposes"; determined at the Institute of Astronomical & Geophysical Research from "modern astronomical theories of the sun and the moon"; geocentric-conjunction / moonset-after-sunset criteria at Mecca). https://webspace.science.uu.nl/~gent0113/islam/ummalqura_rules.htm
 - Alshehri, M. *hijridate* (Umm al-Qurā ↔ Gregorian; range 1343–1500 AH / 1924–2077 CE; "not intended for religious purposes where lunar crescent sighting is preferred"). https://github.com/dralshehri/hijridate
 - Wikipedia. *Tabular Islamic calendar* (30-year cycle, 11 leap years; "one or two days too early or too late" vs observation; civil/astronomical epochs one day apart). https://en.wikipedia.org/wiki/Tabular_Islamic_calendar
