@@ -5,6 +5,7 @@ import 'package:data/data.dart' show ProfileRepository;
 import 'package:models/models.dart' show Profile, ProfileId;
 
 import 'display_preferences.dart';
+import 'reminder_preferences.dart';
 
 /// The single write path for a profile's display preferences (eng-create-
 /// riverpod-store §3): a calm command object that reads the active profile,
@@ -47,6 +48,18 @@ class PreferencesWriter {
   ) =>
       mutateActiveProfile((profile) {
         final next = update(DisplayPreferences.fromSettings(profile.settings));
+        return profile.copyWith(settings: next.toSettings(profile.settings));
+      });
+
+  /// Applies [update] to the active profile's [ReminderPreferences] and persists
+  /// the result back into its `settings_json`, preserving unknown keys (E18-T02).
+  /// The OS reschedule (E18-T03/T05) runs only *after* this commit, never from a
+  /// view — the schedule is a derived cache over the persisted truth.
+  Future<void> updateReminderPreferences(
+    ReminderPreferences Function(ReminderPreferences current) update,
+  ) =>
+      mutateActiveProfile((profile) {
+        final next = update(ReminderPreferences.fromSettings(profile.settings));
         return profile.copyWith(settings: next.toSettings(profile.settings));
       });
 }

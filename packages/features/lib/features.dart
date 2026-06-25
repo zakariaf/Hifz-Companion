@@ -91,6 +91,7 @@ export 'src/recite/widgets/recite_surface.dart';
 export 'src/settings/cycle_config_writer.dart';
 export 'src/settings/display_preferences.dart';
 export 'src/settings/preferences_writer.dart';
+export 'src/settings/reminder_preferences.dart';
 export 'src/settings/settings_providers.dart';
 export 'src/settings/settings_screen.dart';
 export 'src/settings/widgets/backup_settings_section.dart';

@@ -12,6 +12,7 @@ import 'package:models/models.dart' show Profile;
 import 'cycle_config_writer.dart';
 import 'display_preferences.dart';
 import 'preferences_writer.dart';
+import 'reminder_preferences.dart';
 
 /// The active profile's row, streamed reactively (null until a profile exists
 /// and is selected). It re-emits after every committed preference write, so the
@@ -31,6 +32,16 @@ final activeProfileRecordProvider = StreamProvider<Profile?>((ref) {
 final displayPreferencesProvider = Provider<DisplayPreferences>((ref) {
   final profile = ref.watch(activeProfileRecordProvider).asData?.value;
   return DisplayPreferences.fromSettings(profile?.settings);
+});
+
+/// The active profile's decoded [ReminderPreferences] — the single source of
+/// truth E18 owns (off by default until a profile stores otherwise). The reminder
+/// row reads it for the switch + time; the reminder controller (E18-T03/T05)
+/// re-derives the OS schedule from it. A pure projection: reading it schedules
+/// nothing.
+final reminderPreferencesProvider = Provider<ReminderPreferences>((ref) {
+  final profile = ref.watch(activeProfileRecordProvider).asData?.value;
+  return ReminderPreferences.fromSettings(profile?.settings);
 });
 
 /// The single write path for preference mutations — reads the current active
