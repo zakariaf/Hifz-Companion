@@ -8,7 +8,11 @@
 // SAME injected instant. ProfileRepository is faked; offline guard; real fonts.
 
 import 'package:composition/composition.dart'
-    show initialActiveProfileProvider, profileRepositoryProvider, todayProvider;
+    show
+        cycleConfigRepositoryProvider,
+        initialActiveProfileProvider,
+        profileRepositoryProvider,
+        todayProvider;
 import 'package:features/features.dart'
     show DisplaySettingsSection, MihrabAppearance, mihrabThemeFor;
 import 'package:flutter/material.dart';
@@ -32,6 +36,8 @@ void main() {
 
   Future<AppLocalizations> l10nAr() =>
       AppLocalizations.delegate.load(const Locale('ar'));
+  Future<AppLocalizations> l10nCkb() =>
+      AppLocalizations.delegate.load(const Locale('ckb'));
 
   String preview(AppLocalizations l10n, CalendarSystem system) =>
       l10n.settingsCalendarToday(
@@ -41,23 +47,37 @@ void main() {
         ),
       );
 
+  late FakeCycleConfigRepository cycleFake;
+
   Future<FakeProfileRepository> pump(
     WidgetTester tester, {
     Map<String, Object?>? settings,
     ProfileLocale locale = ProfileLocale.fa,
+    Locale uiLocale = const Locale('ar'),
+    String? region,
   }) async {
+    // A tall viewport so all four pickers fit and stay hit-testable (the
+    // term-set picker is the lowest).
+    tester.view.physicalSize = const Size(1200, 4000);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
     final fake = FakeProfileRepository(
       [fakeProfile('p1', settings: settings, locale: locale)],
+    );
+    cycleFake = FakeCycleConfigRepository(
+      [fakeCycleConfig('p1', regionPreset: region)],
     );
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
           profileRepositoryProvider.overrideWithValue(fake),
+          cycleConfigRepositoryProvider.overrideWithValue(cycleFake),
           initialActiveProfileProvider.overrideWithValue(const ProfileId('p1')),
           todayProvider.overrideWithValue(_fixedToday),
         ],
         child: MaterialApp(
-          locale: const Locale('ar'),
+          locale: uiLocale,
           localizationsDelegates: hifzLocalizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           theme: mihrabThemeFor(MihrabAppearance.light),
@@ -124,6 +144,35 @@ void main() {
     expect(fake.store['p1']!.settings?['calendar'], 'gregorian');
     expect(find.text(preview(l10n, CalendarSystem.gregorian)), findsOneWidget);
     expect(find.text(preview(l10n, CalendarSystem.jalali)), findsNothing);
+  });
+
+  testWidgets('renders the term-set region options', (tester) async {
+    await pump(tester);
+    final l10n = await l10nAr();
+    expect(find.text(l10n.settingsTermSetLabel), findsOneWidget);
+    expect(find.text(l10n.termSetRegionOther), findsOneWidget);
+    expect(find.text(l10n.termSetRegionLevant), findsOneWidget);
+    expect(find.text(l10n.termSetRegionSubcontinent), findsOneWidget);
+  });
+
+  testWidgets('choosing a term-set region persists it through the writer',
+      (tester) async {
+    await pump(tester);
+    final l10n = await l10nAr();
+    await tester.tap(find.text(l10n.termSetRegionSubcontinent));
+    await tester.pumpAndSettle();
+    expect(cycleFake.store['p1']!.regionPreset, 'subcontinent');
+  });
+
+  testWidgets('the ckb provisional note shows under Kurdish, not Arabic',
+      (tester) async {
+    await pump(tester); // Arabic UI — no provisional note.
+    final ar = await l10nAr();
+    expect(find.text(ar.termSetProvisionalNote), findsNothing);
+
+    await pump(tester, uiLocale: const Locale('ckb'));
+    final ckb = await l10nCkb();
+    expect(find.text(ckb.termSetProvisionalNote), findsOneWidget);
   });
 
   testWidgets('no Slider anywhere in the display pickers', (tester) async {

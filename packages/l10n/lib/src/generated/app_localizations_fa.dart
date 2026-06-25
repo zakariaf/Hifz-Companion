@@ -381,6 +381,22 @@ class AppLocalizationsFa extends AppLocalizations {
   }
 
   @override
+  String get settingsTermSetLabel => 'اصطلاحات';
+
+  @override
+  String get termSetRegionOther => 'عمومی';
+
+  @override
+  String get termSetRegionLevant => 'شام';
+
+  @override
+  String get termSetRegionSubcontinent => 'شبه‌قاره';
+
+  @override
+  String get termSetProvisionalNote =>
+      'اصطلاحات کوردی موقتی‌اند و در انتظار بازبینی بومی و علمی هستند.';
+
+  @override
   String get onboardingCoverageTitle => 'اجزایی که حفظ دارید';
 
   @override

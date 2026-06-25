@@ -3,7 +3,7 @@
 
 import 'dart:async';
 
-import 'package:data/data.dart' show ProfileRepository;
+import 'package:data/data.dart' show CycleConfigRepository, ProfileRepository;
 import 'package:models/models.dart';
 
 /// An in-memory [ProfileRepository] for Settings tests: `watchById` emits the
@@ -57,4 +57,49 @@ Profile fakeProfile(
       mushafId: 'm1',
       createdAtInstant: DateTime.utc(2026, 6, 17),
       settings: settings,
+    );
+
+/// An in-memory [CycleConfigRepository] for Settings tests — the same
+/// emit-current-then-re-emit contract as the Drift `watchSingleOrNull`.
+class FakeCycleConfigRepository implements CycleConfigRepository {
+  /// Creates the fake seeded with [seed].
+  FakeCycleConfigRepository([Iterable<CycleConfig> seed = const []]) {
+    for (final c in seed) {
+      store[c.profileId.value] = c;
+    }
+  }
+
+  /// The current configs, keyed by profile id — tests assert against this.
+  final Map<String, CycleConfig> store = {};
+  final Map<String, StreamController<CycleConfig?>> _controllers = {};
+
+  StreamController<CycleConfig?> _controllerFor(String id) =>
+      _controllers.putIfAbsent(id, StreamController<CycleConfig?>.broadcast);
+
+  @override
+  Future<CycleConfig?> byProfile(ProfileId id) async => store[id.value];
+
+  @override
+  Future<void> upsert(CycleConfig config) async {
+    store[config.profileId.value] = config;
+    _controllerFor(config.profileId.value).add(config);
+  }
+
+  @override
+  Stream<CycleConfig?> watchByProfile(ProfileId id) async* {
+    yield store[id.value];
+    yield* _controllerFor(id.value).stream;
+  }
+}
+
+/// A minimal cycle-config fixture (a 7-Manzil weekly khatm; valid CHECK values).
+CycleConfig fakeCycleConfig(String id, {String? regionPreset}) => CycleConfig(
+      profileId: ProfileId(id),
+      cycleType: '7_manzil',
+      nearWindowJuz: 1,
+      farTargetPerDay: 1,
+      cycleCeilingDays: 7,
+      dailyBudgetMinutes: 30,
+      termLabelSet: 'classical',
+      regionPreset: regionPreset,
     );

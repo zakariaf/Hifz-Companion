@@ -2,10 +2,14 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import 'package:composition/composition.dart'
-    show activeProfileProvider, profileRepositoryProvider;
+    show
+        activeProfileProvider,
+        cycleConfigRepositoryProvider,
+        profileRepositoryProvider;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:models/models.dart' show Profile;
 
+import 'cycle_config_writer.dart';
 import 'display_preferences.dart';
 import 'preferences_writer.dart';
 
@@ -35,6 +39,16 @@ final displayPreferencesProvider = Provider<DisplayPreferences>((ref) {
 final preferencesWriterProvider = Provider<PreferencesWriter>((ref) {
   return PreferencesWriter(
     profiles: ref.watch(profileRepositoryProvider),
+    readActiveProfileId: () => ref.read(activeProfileProvider),
+  );
+});
+
+/// The single write path for cycle-config mutations (the term-set region today;
+/// the cycle preset + budget in E16-T07) — persists transactionally before the
+/// `activeCycleConfigProvider` stream republishes.
+final cycleConfigWriterProvider = Provider<CycleConfigWriter>((ref) {
+  return CycleConfigWriter(
+    configs: ref.watch(cycleConfigRepositoryProvider),
     readActiveProfileId: () => ref.read(activeProfileProvider),
   );
 });

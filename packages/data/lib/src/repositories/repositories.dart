@@ -69,6 +69,24 @@ abstract interface class ProfileRepository {
   Stream<Profile?> watchById(ProfileId profileId);
 }
 
+/// Reads and writes the one-per-profile `cycle_config` row — the named cycle
+/// preset, the engine's per-day targets and ceiling, and the term-set region.
+/// The cold-start path seeds it; the Settings term-set + cycle surfaces
+/// (E16-T05 / E16-T07) edit it through [upsert].
+abstract interface class CycleConfigRepository {
+  /// The cycle configuration for [profileId], or null if none has been seeded.
+  Future<CycleConfig?> byProfile(ProfileId profileId);
+
+  /// Inserts or updates the profile's cycle configuration in one transaction,
+  /// committing before the caller's `await` returns (persist-before-republish).
+  Future<void> upsert(CycleConfig config);
+
+  /// A reactive stream of [profileId]'s cycle config (null if absent),
+  /// re-emitting after every committed write — the Settings term-set/cycle
+  /// surfaces read the current region/preset from it.
+  Stream<CycleConfig?> watchByProfile(ProfileId profileId);
+}
+
 /// Read-only access to the fixed Quran reference structure (the juz→page span,
 /// per-page line geometry). Never writes — the muṣḥaf is unwritable at runtime
 /// by construction (R1); the checksum-verified asset loader (E05) is the only

@@ -25,6 +25,10 @@ abstract interface class PersistenceHandle {
   /// The `profile` repository.
   ProfileRepository get profiles;
 
+  /// The one-per-profile `cycle_config` repository (cycle preset, engine
+  /// targets, term-set region).
+  CycleConfigRepository get cycleConfig;
+
   /// The single write path for one review (one transaction, persist before
   /// republish).
   ReviewRepository get reviews;

@@ -7,7 +7,8 @@
 // RTL under fa, and shows no gamified/scoreboard surface. Offline guard
 // installed; real Mihrab UI fonts for honest layout.
 
-import 'package:composition/composition.dart' show profileRepositoryProvider;
+import 'package:composition/composition.dart'
+    show cycleConfigRepositoryProvider, profileRepositoryProvider;
 import 'package:features/features.dart'
     show MihrabAppearance, SettingsScreen, mihrabThemeFor;
 import 'package:flutter/material.dart';
@@ -41,6 +42,8 @@ void main() {
           // profile is selected, so it renders the calm defaults.
           overrides: [
             profileRepositoryProvider.overrideWithValue(FakeProfileRepository([])),
+            cycleConfigRepositoryProvider
+                .overrideWithValue(FakeCycleConfigRepository()),
           ],
           child: MaterialApp(
             locale: locale,

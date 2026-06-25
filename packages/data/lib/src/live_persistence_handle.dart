@@ -8,6 +8,7 @@ import 'db/database.dart';
 import 'persistence_handle.dart';
 import 'repositories/cold_start_repository.dart';
 import 'repositories/confusion_repository.dart';
+import 'repositories/cycle_config_repository.dart';
 import 'repositories/repositories.dart';
 import 'repositories/review_repository.dart';
 
@@ -34,7 +35,8 @@ final class LivePersistenceHandle
       : _database = database,
         reviews = LiveReviewRepository(database),
         coldStart = LiveColdStartRepository(database),
-        confusion = LiveConfusionRepository(database);
+        confusion = LiveConfusionRepository(database),
+        cycleConfig = LiveCycleConfigRepository(database);
 
   final HifzDatabase _database;
 
@@ -46,6 +48,9 @@ final class LivePersistenceHandle
 
   @override
   final ConfusionRepository confusion;
+
+  @override
+  final CycleConfigRepository cycleConfig;
 
   /// The underlying Drift database — data-internal only (never on the
   /// interface). The single write path (E03-T07) runs `database.transaction`.

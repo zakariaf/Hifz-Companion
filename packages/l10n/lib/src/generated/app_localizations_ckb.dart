@@ -381,6 +381,22 @@ class AppLocalizationsCkb extends AppLocalizations {
   }
 
   @override
+  String get settingsTermSetLabel => 'زاراوەکان';
+
+  @override
+  String get termSetRegionOther => 'گشتی';
+
+  @override
+  String get termSetRegionLevant => 'شام';
+
+  @override
+  String get termSetRegionSubcontinent => 'نیمکیشوەر';
+
+  @override
+  String get termSetProvisionalNote =>
+      'زاراوە کوردیەکان کاتین و چاوەڕێی پێداچوونەوەی خۆماڵی و زانستین.';
+
+  @override
   String get onboardingCoverageTitle => 'ئەو جوزانەی لەبەرتە';
 
   @override

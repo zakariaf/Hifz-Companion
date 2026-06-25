@@ -511,6 +511,36 @@ abstract class AppLocalizations {
   /// **'اليوم: {date}'**
   String settingsCalendarToday(String date);
 
+  /// Display-settings sub-group label above the term-set (regional sabaq/sabqi/manzil vocabulary) picker. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'المصطلحات'**
+  String get settingsTermSetLabel;
+
+  /// Term-set region option: the general/default vocabulary set. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'عام'**
+  String get termSetRegionOther;
+
+  /// Term-set region option: the Levant (al-Shām) vocabulary set. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'الشام'**
+  String get termSetRegionLevant;
+
+  /// Term-set region option: the Indian-subcontinent vocabulary set (e.g. dhor for far-revision). Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'شبه القارة'**
+  String get termSetRegionSubcontinent;
+
+  /// Caption shown under the term-set picker when the UI language is Kurdish (Sorani): the ckb terms are provisional pending native-speaker + scholarly review (PRD §13.4); no fiqh ruling. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'المصطلحات الكوردية مبدئية، بانتظار مراجعة متحدث أصلي وعالم.'**
+  String get termSetProvisionalNote;
+
   /// Title of the cold-start coverage step: the ḥāfiẓ marks which juz they hold. Calm, no guilt. PROVISIONAL — onboarding copy needs native + scholarly review (E11/E19); best-effort fa/ckb.
   ///
   /// In ar, this message translates to:

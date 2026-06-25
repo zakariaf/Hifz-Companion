@@ -392,6 +392,22 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get settingsTermSetLabel => 'المصطلحات';
+
+  @override
+  String get termSetRegionOther => 'عام';
+
+  @override
+  String get termSetRegionLevant => 'الشام';
+
+  @override
+  String get termSetRegionSubcontinent => 'شبه القارة';
+
+  @override
+  String get termSetProvisionalNote =>
+      'المصطلحات الكوردية مبدئية، بانتظار مراجعة متحدث أصلي وعالم.';
+
+  @override
   String get onboardingCoverageTitle => 'الأجزاء التي تحفظها';
 
   @override

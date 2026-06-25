@@ -1,7 +1,9 @@
 // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import 'package:composition/composition.dart' show todayProvider;
+import 'package:composition/composition.dart'
+    show termSetRegionProvider, todayProvider;
+import 'package:engine/engine.dart' show ReviewTrack;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:l10n/l10n.dart';
@@ -11,6 +13,7 @@ import '../../design_system/pickers/settings_picker.dart';
 import '../../design_system/theme/mihrab_color_schemes.dart'
     show MihrabAppearance;
 import '../../design_system/theme/spacing_tokens.dart';
+import '../../l10n/term_set.dart';
 import '../settings_providers.dart';
 import 'settings_section.dart';
 
@@ -37,6 +40,8 @@ class DisplaySettingsSection extends ConsumerWidget {
     final today = ref.watch(todayProvider);
     final locale = Localizations.localeOf(context);
     final writer = ref.read(preferencesWriterProvider);
+    final region = ref.watch(termSetRegionProvider);
+    final cycleWriter = ref.read(cycleConfigWriterProvider);
 
     // A sentinel that matches no option leaves nothing highlighted until the
     // active profile (and its locale) have loaded.
@@ -128,6 +133,41 @@ class DisplaySettingsSection extends ConsumerWidget {
                 ),
               ),
               _PreviewLine(l10n.settingsCalendarToday(todayLabel)),
+            ],
+          ),
+        ),
+        _LabeledPicker(
+          label: l10n.settingsTermSetLabel,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SettingsPicker<String>(
+                // Each option previews its far-revision term (manzil vs dhor)
+                // so the user recognises the vocabulary, not just a region name.
+                options: [
+                  SettingsOption(
+                    value: 'other',
+                    label: l10n.termSetRegionOther,
+                    subtitle: trackLabel(l10n, ReviewTrack.far, 'other'),
+                  ),
+                  SettingsOption(
+                    value: 'levant',
+                    label: l10n.termSetRegionLevant,
+                    subtitle: trackLabel(l10n, ReviewTrack.far, 'levant'),
+                  ),
+                  SettingsOption(
+                    value: 'subcontinent',
+                    label: l10n.termSetRegionSubcontinent,
+                    subtitle: trackLabel(l10n, ReviewTrack.far, 'subcontinent'),
+                  ),
+                ],
+                selected: region,
+                onSelected: cycleWriter.setTermSetRegion,
+              ),
+              // The ckb vocabulary is provisional pending native + scholarly
+              // review; surface that only when Kurdish is the active language.
+              if (locale.languageCode == 'ckb')
+                _PreviewLine(l10n.termSetProvisionalNote),
             ],
           ),
         ),
