@@ -397,6 +397,9 @@ class AppLocalizationsCkb extends AppLocalizations {
       'زاراوە کوردیەکان کاتین و چاوەڕێی پێداچوونەوەی خۆماڵی و زانستین.';
 
   @override
+  String get settingsMushafLabel => 'موسحەف';
+
+  @override
   String get onboardingCoverageTitle => 'ئەو جوزانەی لەبەرتە';
 
   @override

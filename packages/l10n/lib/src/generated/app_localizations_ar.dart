@@ -408,6 +408,9 @@ class AppLocalizationsAr extends AppLocalizations {
       'المصطلحات الكوردية مبدئية، بانتظار مراجعة متحدث أصلي وعالم.';
 
   @override
+  String get settingsMushafLabel => 'المصحف';
+
+  @override
   String get onboardingCoverageTitle => 'الأجزاء التي تحفظها';
 
   @override

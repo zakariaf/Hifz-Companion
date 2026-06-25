@@ -397,6 +397,9 @@ class AppLocalizationsFa extends AppLocalizations {
       'اصطلاحات کوردی موقتی‌اند و در انتظار بازبینی بومی و علمی هستند.';
 
   @override
+  String get settingsMushafLabel => 'مصحف';
+
+  @override
   String get onboardingCoverageTitle => 'اجزایی که حفظ دارید';
 
   @override

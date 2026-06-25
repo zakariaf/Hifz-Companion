@@ -7,7 +7,8 @@ import 'package:engine/engine.dart' show ReviewTrack;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:l10n/l10n.dart';
-import 'package:models/models.dart' show ProfileLocale;
+import 'package:models/models.dart'
+    show ProfileLocale, kKfgqpcHafsMadaniV2Edition;
 
 import '../../design_system/pickers/settings_picker.dart';
 import '../../design_system/theme/mihrab_color_schemes.dart'
@@ -169,6 +170,26 @@ class DisplaySettingsSection extends ConsumerWidget {
               if (locale.languageCode == 'ckb')
                 _PreviewLine(l10n.termSetProvisionalNote),
             ],
+          ),
+        ),
+        _LabeledPicker(
+          label: l10n.settingsMushafLabel,
+          // One bundled edition today (Ḥafṣ ʿan ʿĀṣim, Madani); the picker stores
+          // the named choice and states the riwāyah — it never re-typesets,
+          // translates, or mirrors the glyph page (R1/R2). Warsh is roadmapped
+          // and will appear here as a second option.
+          child: SettingsPicker<String>(
+            options: [
+              SettingsOption(
+                value: kKfgqpcHafsMadaniV2Edition.mushafId,
+                label: l10n.mushafRiwayahLabel,
+              ),
+            ],
+            selected:
+                profile?.mushafId ?? kKfgqpcHafsMadaniV2Edition.mushafId,
+            onSelected: (id) => writer.mutateActiveProfile(
+              (p) => p.copyWith(mushafId: id),
+            ),
           ),
         ),
       ],

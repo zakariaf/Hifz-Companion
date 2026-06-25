@@ -20,7 +20,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:l10n/l10n.dart';
-import 'package:models/models.dart' show CalendarDate, ProfileId, ProfileLocale;
+import 'package:models/models.dart'
+    show
+        CalendarDate,
+        ProfileId,
+        ProfileLocale,
+        kKfgqpcHafsMadaniV2Edition;
 
 import '../support/offline_test_bootstrap.dart';
 import 'fake_profiles.dart';
@@ -173,6 +178,23 @@ void main() {
     await pump(tester, uiLocale: const Locale('ckb'));
     final ckb = await l10nCkb();
     expect(find.text(ckb.termSetProvisionalNote), findsOneWidget);
+  });
+
+  testWidgets('the muṣḥaf picker names the edition and states the riwāyah',
+      (tester) async {
+    await pump(tester);
+    final l10n = await l10nAr();
+    expect(find.text(l10n.settingsMushafLabel), findsOneWidget);
+    // The riwāyah is stated explicitly — never "the Quran" in the absolute.
+    expect(find.text(l10n.mushafRiwayahLabel), findsOneWidget);
+  });
+
+  testWidgets('choosing the muṣḥaf edition stores its named id', (tester) async {
+    final fake = await pump(tester); // fixture starts on a placeholder id
+    final l10n = await l10nAr();
+    await tester.tap(find.text(l10n.mushafRiwayahLabel));
+    await tester.pumpAndSettle();
+    expect(fake.store['p1']!.mushafId, kKfgqpcHafsMadaniV2Edition.mushafId);
   });
 
   testWidgets('no Slider anywhere in the display pickers', (tester) async {

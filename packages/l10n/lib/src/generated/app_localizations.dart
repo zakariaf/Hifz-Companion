@@ -541,6 +541,12 @@ abstract class AppLocalizations {
   /// **'المصطلحات الكوردية مبدئية، بانتظار مراجعة متحدث أصلي وعالم.'**
   String get termSetProvisionalNote;
 
+  /// Display-settings sub-group label above the muṣḥaf/riwāyah picker (names the edition and states the riwāyah explicitly; never calls it 'the Quran' in the absolute). Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'المصحف'**
+  String get settingsMushafLabel;
+
   /// Title of the cold-start coverage step: the ḥāfiẓ marks which juz they hold. Calm, no guilt. PROVISIONAL — onboarding copy needs native + scholarly review (E11/E19); best-effort fa/ckb.
   ///
   /// In ar, this message translates to:
