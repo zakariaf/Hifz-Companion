@@ -193,11 +193,11 @@ Each `ProfileExport`:
 | `cards` | array | `card` | Per page: `pageId`, `track`, `d`, `s`, `lastReviewAt` (floating date), `dueAt` (floating date), `reps`, `lapses`, `weakFlag`, `signoffs`, `manualLock`, `prayerCritical`, `enabled`. |
 | `lineBlocks` | array | `line_block` | Lazily-created weak-spot blocks: `blockId`, `pageId`, `lineStart`, `lineEnd`, `errorCount`. |
 | `reviewLog` | array | `review_log` | **Append-only.** Each row: `logId` (UUID), `pageId`, `reviewedAt` (UTC instant), `trackAtReview`, `grade`, `errorLinesJson`, `elapsedDays`, `rPredicted`, `sBefore`, `sAfter`, `dBefore`, `dAfter`, `source`, `teacherLabel?`. |
-| `confusionEdges` | array | `confusion_edge` | `ayahA`, `ayahB`, `weight`, `lastConfusedAt` (UTC). |
+| `confusionEdges` | array | `confusion_edge` | `ayahA`, `ayahB`, `weight`, `lastConfusedAt` (floating date — a `CalendarDate` serial day since the schema-v2 migration). |
 
 Encoding rules:
 
-- **Scheduling days** (`dueAt`, `lastReviewAt`) are floating `"YYYY-MM-DD"`; **true event instants** (`reviewedAt`, `createdAt`, `lastConfusedAt`) are UTC ISO-8601. Restore in a different timezone is tested for record-identity (§8).
+- **Scheduling days** (`dueAt`, `lastReviewAt`, `lastConfusedAt`) are floating `"YYYY-MM-DD"`; **true event instants** (`reviewedAt`, `createdAt`) are UTC ISO-8601. Restore in a different timezone is tested for record-identity (§8).
 - **`logId` and `profileId` are stable UUIDs**, assigned at row creation, carried verbatim. They are the content-address keys that make merge a deduplicating set union (§7) — without device-stable ids, merging two exports would duplicate sign-offs.
 - **No derived field is exported** — no juz/ḥizb health %, no Today list, no forecast; the engine recomputes them ([PRD §10.3](../PRD.md)).
 - **Notifications are not exported** — they are a rebuildable local cache, re-scheduled from `cycle_config` after import ([14 — Notifications, PRD §14](../PRD.md)).
