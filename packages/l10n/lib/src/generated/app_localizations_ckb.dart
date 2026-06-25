@@ -349,6 +349,9 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get settingsSectionCycle => 'خولی پێداچوونەوە';
 
   @override
+  String get settingsSectionReminders => 'بیرخستنەوەکان';
+
+  @override
   String get settingsSectionProfiles => 'پرۆفایلەکان';
 
   @override

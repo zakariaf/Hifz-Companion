@@ -349,6 +349,9 @@ class AppLocalizationsFa extends AppLocalizations {
   String get settingsSectionCycle => 'چرخهٔ مرور';
 
   @override
+  String get settingsSectionReminders => 'یادآوری‌ها';
+
+  @override
   String get settingsSectionProfiles => 'نمایه‌ها';
 
   @override

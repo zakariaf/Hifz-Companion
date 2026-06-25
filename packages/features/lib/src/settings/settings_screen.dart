@@ -10,6 +10,7 @@ import '../design_system/widgets/mihrab_card.dart';
 import 'widgets/backup_settings_section.dart';
 import 'widgets/cycle_settings_section.dart';
 import 'widgets/display_settings_section.dart';
+import 'widgets/reminders_settings_section.dart';
 import 'widgets/settings_section.dart';
 
 /// The Settings tab: a calm, grouped preferences surface (PRD §15) on the
@@ -42,6 +43,7 @@ class SettingsScreen extends StatelessWidget {
           children: [
             const DisplaySettingsSection(),
             const CycleSettingsSection(),
+            const RemindersSettingsSection(),
             SettingsSection(
               title: l10n.settingsSectionProfiles,
               children: [

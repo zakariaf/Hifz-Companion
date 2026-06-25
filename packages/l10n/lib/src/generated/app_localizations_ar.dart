@@ -360,6 +360,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsSectionCycle => 'دورة المراجعة';
 
   @override
+  String get settingsSectionReminders => 'التذكيرات';
+
+  @override
   String get settingsSectionProfiles => 'الملفات الشخصية';
 
   @override

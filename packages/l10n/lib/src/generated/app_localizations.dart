@@ -451,6 +451,12 @@ abstract class AppLocalizations {
   /// **'دورة المراجعة'**
   String get settingsSectionCycle;
 
+  /// Settings group header: the one calm, opt-in, off-by-default daily reminder and the optional catch-up note (PRD §14). Local notifications only, no push/server, no guilt/fear/streak. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'التذكيرات'**
+  String get settingsSectionReminders;
+
   /// Settings group header: device-local profiles (self, student, child) and the active-profile switcher. A profile is a typed display name only, with no account and no PII. Best-effort fa/ckb pending native + scholarly review.
   ///
   /// In ar, this message translates to:

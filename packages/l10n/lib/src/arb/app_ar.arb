@@ -352,6 +352,10 @@
   "@settingsSectionCycle": {
     "description": "Settings group header: the revision-cycle preset, Pure-cycle mode, and daily time budget. Writes engine config only, never a retention dial. Best-effort fa/ckb pending native + scholarly review."
   },
+  "settingsSectionReminders": "التذكيرات",
+  "@settingsSectionReminders": {
+    "description": "Settings group header: the one calm, opt-in, off-by-default daily reminder and the optional catch-up note (PRD §14). Local notifications only, no push/server, no guilt/fear/streak. Best-effort fa/ckb pending native + scholarly review."
+  },
   "settingsSectionProfiles": "الملفات الشخصية",
   "@settingsSectionProfiles": {
     "description": "Settings group header: device-local profiles (self, student, child) and the active-profile switcher. A profile is a typed display name only, with no account and no PII. Best-effort fa/ckb pending native + scholarly review."
