@@ -21,6 +21,8 @@ dependencies:
     path: ../composition
   engine:
     path: ../engine
+  backup:
+    path: ../backup
   data:
     path: ../data
   quran:

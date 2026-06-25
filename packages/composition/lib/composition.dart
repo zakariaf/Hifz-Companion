@@ -25,6 +25,7 @@ export 'src/core_install.dart'
 export 'src/engine_provider.dart';
 export 'src/persistence_provider.dart';
 export 'src/profile_repository_provider.dart';
+export 'src/restore_repository_provider.dart';
 export 'src/reference_repository_provider.dart';
 export 'src/secret_key_store_provider.dart';
 export 'src/today_provider.dart';
