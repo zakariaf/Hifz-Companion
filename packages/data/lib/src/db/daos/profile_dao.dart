@@ -45,6 +45,16 @@ class ProfileDao extends DatabaseAccessor<HifzDatabase> with _$ProfileDaoMixin {
         .map((row) => row == null ? null : _toModel(row));
   }
 
+  /// A reactive stream of every profile on the device (the switcher / manage
+  /// list), re-emitting after any committed create/rename/delete.
+  Stream<List<Profile>> watchAll() =>
+      select(profiles).watch().map((rows) => rows.map(_toModel).toList());
+
+  /// Deletes [profileId]; the schema's `ON DELETE CASCADE` on the child tables
+  /// purges that profile's cards / review_log / cycle_config / confusion rows.
+  Future<void> deleteProfile(ProfileId profileId) =>
+      (delete(profiles)..where((p) => p.profileId.equals(profileId.value))).go();
+
   Profile _toModel(ProfileRow row) {
     return Profile(
       profileId: ProfileId(row.profileId),

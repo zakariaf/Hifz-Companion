@@ -67,6 +67,18 @@ abstract interface class ProfileRepository {
   /// every committed write — the Settings surface reads the active profile's
   /// locale/theme/calendar/numeral preferences from it without a second cache.
   Stream<Profile?> watchById(ProfileId profileId);
+
+  /// A reactive stream of every profile on the device (display order), re-emitting
+  /// after any create/rename/delete — the profile switcher and manage list read
+  /// it (E16-T08/T09).
+  Stream<List<Profile>> watchAll();
+
+  /// Permanently deletes [profileId] and, by the schema's `ON DELETE CASCADE`,
+  /// all of that profile's `card` / `review_log` / `cycle_config` /
+  /// `confusion_edge` rows (right-to-be-forgotten for one profile; E16-T08/T11).
+  /// One transaction; commits before the caller's `await` returns. Other
+  /// profiles are untouched.
+  Future<void> delete(ProfileId profileId);
 }
 
 /// Reads and writes the one-per-profile `cycle_config` row — the named cycle

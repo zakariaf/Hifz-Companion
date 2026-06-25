@@ -68,6 +68,8 @@ export 'src/onboarding/onboarding_providers.dart';
 export 'src/onboarding/onboarding_screen.dart';
 export 'src/onboarding/onboarding_view_model.dart';
 export 'src/placeholder/placeholder_screen.dart';
+export 'src/profiles/profiles_controller.dart';
+export 'src/profiles/profiles_providers.dart';
 export 'src/progress/progress_cell_data.dart';
 export 'src/progress/progress_overview.dart';
 export 'src/progress/progress_providers.dart';

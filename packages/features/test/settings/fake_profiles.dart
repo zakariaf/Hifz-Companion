@@ -20,9 +20,13 @@ class FakeProfileRepository implements ProfileRepository {
   /// The current rows, keyed by profile id — tests assert against this directly.
   final Map<String, Profile> store = {};
   final Map<String, StreamController<Profile?>> _controllers = {};
+  final StreamController<List<Profile>> _allController =
+      StreamController<List<Profile>>.broadcast();
 
   StreamController<Profile?> _controllerFor(String id) =>
       _controllers.putIfAbsent(id, StreamController<Profile?>.broadcast);
+
+  void _emitAll() => _allController.add(store.values.toList());
 
   @override
   Future<List<Profile>> all() async => store.values.toList();
@@ -34,12 +38,26 @@ class FakeProfileRepository implements ProfileRepository {
   Future<void> upsert(Profile profile) async {
     store[profile.profileId.value] = profile;
     _controllerFor(profile.profileId.value).add(profile);
+    _emitAll();
+  }
+
+  @override
+  Future<void> delete(ProfileId id) async {
+    store.remove(id.value);
+    _controllerFor(id.value).add(null);
+    _emitAll();
   }
 
   @override
   Stream<Profile?> watchById(ProfileId id) async* {
     yield store[id.value];
     yield* _controllerFor(id.value).stream;
+  }
+
+  @override
+  Stream<List<Profile>> watchAll() async* {
+    yield store.values.toList();
+    yield* _allController.stream;
   }
 }
 

@@ -102,6 +102,13 @@ final class LivePersistenceHandle
   Stream<Profile?> watchById(ProfileId profileId) =>
       _database.profileDao.watchById(profileId);
 
+  @override
+  Stream<List<Profile>> watchAll() => _database.profileDao.watchAll();
+
+  @override
+  Future<void> delete(ProfileId profileId) =>
+      _database.transaction(() => _database.profileDao.deleteProfile(profileId));
+
   // --- ReferenceRepository reads ---
 
   @override

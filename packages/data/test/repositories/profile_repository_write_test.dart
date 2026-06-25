@@ -99,4 +99,33 @@ void main() {
     final stored = await db.cardDao.byId(const ProfileId('p1'), 1);
     expect(stored?.dueAt, due);
   });
+
+  test('watchAll emits the current set then re-emits on create and delete',
+      () async {
+    final counts = <int>[];
+    final sub =
+        handle.profiles.watchAll().listen((ps) => counts.add(ps.length));
+    await pumpEventQueue();
+    await handle.profiles.upsert(profile('p1'));
+    await pumpEventQueue();
+    await handle.profiles.upsert(profile('p2'));
+    await pumpEventQueue();
+    await handle.profiles.delete(const ProfileId('p1'));
+    await pumpEventQueue();
+    await sub.cancel();
+    expect(counts, [0, 1, 2, 1]);
+  });
+
+  test('delete removes the profile and cascades to its cards (E16-T08/T11)',
+      () async {
+    await handle.profiles.upsert(profile('p1'));
+    await db.cardDao.upsert(card(1, CalendarDate.ymd(2026, 6, 30)));
+    // Enforce FK so the delete cascades (the rows were seeded with FK off).
+    await db.customStatement('PRAGMA foreign_keys = ON;');
+
+    await handle.profiles.delete(const ProfileId('p1'));
+
+    expect(await handle.profiles.byProfileId(const ProfileId('p1')), isNull);
+    expect(await db.cardDao.byId(const ProfileId('p1'), 1), isNull);
+  });
 }
