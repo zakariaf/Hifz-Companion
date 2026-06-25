@@ -547,6 +547,54 @@ abstract class AppLocalizations {
   /// **'المصحف'**
   String get settingsMushafLabel;
 
+  /// Title of the Profiles screen — the device-local multi-profile switcher + create. No account, no PII beyond the typed display name (PRD §17). Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'الملفات الشخصية'**
+  String get profilesScreenTitle;
+
+  /// Settings Profiles row subtitle: tap to switch or manage device-local profiles. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'بدّل أو أدِر الملفات الشخصية'**
+  String get profilesManageSubtitle;
+
+  /// Button to create a new device-local profile (a typed display name + role; no PII). Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة ملف'**
+  String get profilesAddButton;
+
+  /// Text-field hint for a new profile's display name — the only PII. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاسم الظاهر'**
+  String get profilesNameHint;
+
+  /// Accessibility/visual label marking the currently active profile in the switcher (selection is shape+label, never colour alone). Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'نشط'**
+  String get profilesActiveLabel;
+
+  /// Profile role: the device owner (self). Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'أنا'**
+  String get profileRoleSelf;
+
+  /// Profile role: a student a teacher signs off in halaqa mode. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'طالب'**
+  String get profileRoleStudent;
+
+  /// Profile role: a parent-managed child profile (calm, no gamification). Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'طفل'**
+  String get profileRoleChild;
+
   /// Title of the cold-start coverage step: the ḥāfiẓ marks which juz they hold. Calm, no guilt. PROVISIONAL — onboarding copy needs native + scholarly review (E11/E19); best-effort fa/ckb.
   ///
   /// In ar, this message translates to:

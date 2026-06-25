@@ -421,6 +421,38 @@
   "@settingsMushafLabel": {
     "description": "Display-settings sub-group label above the muṣḥaf/riwāyah picker (names the edition and states the riwāyah explicitly; never calls it 'the Quran' in the absolute). Best-effort fa/ckb pending native + scholarly review."
   },
+  "profilesScreenTitle": "الملفات الشخصية",
+  "@profilesScreenTitle": {
+    "description": "Title of the Profiles screen — the device-local multi-profile switcher + create. No account, no PII beyond the typed display name (PRD §17). Best-effort fa/ckb pending native + scholarly review."
+  },
+  "profilesManageSubtitle": "بدّل أو أدِر الملفات الشخصية",
+  "@profilesManageSubtitle": {
+    "description": "Settings Profiles row subtitle: tap to switch or manage device-local profiles. Best-effort fa/ckb pending native + scholarly review."
+  },
+  "profilesAddButton": "إضافة ملف",
+  "@profilesAddButton": {
+    "description": "Button to create a new device-local profile (a typed display name + role; no PII). Best-effort fa/ckb pending native + scholarly review."
+  },
+  "profilesNameHint": "الاسم الظاهر",
+  "@profilesNameHint": {
+    "description": "Text-field hint for a new profile's display name — the only PII. Best-effort fa/ckb pending native + scholarly review."
+  },
+  "profilesActiveLabel": "نشط",
+  "@profilesActiveLabel": {
+    "description": "Accessibility/visual label marking the currently active profile in the switcher (selection is shape+label, never colour alone). Best-effort fa/ckb pending native + scholarly review."
+  },
+  "profileRoleSelf": "أنا",
+  "@profileRoleSelf": {
+    "description": "Profile role: the device owner (self). Best-effort fa/ckb pending native + scholarly review."
+  },
+  "profileRoleStudent": "طالب",
+  "@profileRoleStudent": {
+    "description": "Profile role: a student a teacher signs off in halaqa mode. Best-effort fa/ckb pending native + scholarly review."
+  },
+  "profileRoleChild": "طفل",
+  "@profileRoleChild": {
+    "description": "Profile role: a parent-managed child profile (calm, no gamification). Best-effort fa/ckb pending native + scholarly review."
+  },
   "onboardingCoverageTitle": "الأجزاء التي تحفظها",
   "@onboardingCoverageTitle": {
     "description": "Title of the cold-start coverage step: the ḥāfiẓ marks which juz they hold. Calm, no guilt. PROVISIONAL — onboarding copy needs native + scholarly review (E11/E19); best-effort fa/ckb."

@@ -7,11 +7,13 @@ import 'package:features/features.dart'
         MushafReaderScreen,
         MutashabihatTrainerScreen,
         OnboardingScreen,
+        ProfilesScreen,
         ProgressScreen,
         ReciteGradeScreen,
         SettingsScreen,
         TodayScreen,
         kMutashabihatDrillPathPrefix,
+        kProfilesPath,
         kRecitePathPrefix,
         mushafReaderRouteFromUri;
 import 'package:composition/composition.dart';
@@ -149,6 +151,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/settings',
             builder: (context, state) => const SettingsScreen(),
+          ),
+          GoRoute(
+            path: kProfilesPath,
+            builder: (context, state) => const ProfilesScreen(),
           ),
         ],
       ),

@@ -400,6 +400,30 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get settingsMushafLabel => 'موسحەف';
 
   @override
+  String get profilesScreenTitle => 'پرۆفایلەکان';
+
+  @override
+  String get profilesManageSubtitle => 'گۆڕین یان بەڕێوەبردنی پرۆفایلەکان';
+
+  @override
+  String get profilesAddButton => 'زیادکردنی پرۆفایل';
+
+  @override
+  String get profilesNameHint => 'ناوی پیشاندان';
+
+  @override
+  String get profilesActiveLabel => 'چالاک';
+
+  @override
+  String get profileRoleSelf => 'خۆم';
+
+  @override
+  String get profileRoleStudent => 'خوێندکار';
+
+  @override
+  String get profileRoleChild => 'منداڵ';
+
+  @override
   String get onboardingCoverageTitle => 'ئەو جوزانەی لەبەرتە';
 
   @override

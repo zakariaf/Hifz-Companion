@@ -411,6 +411,30 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsMushafLabel => 'المصحف';
 
   @override
+  String get profilesScreenTitle => 'الملفات الشخصية';
+
+  @override
+  String get profilesManageSubtitle => 'بدّل أو أدِر الملفات الشخصية';
+
+  @override
+  String get profilesAddButton => 'إضافة ملف';
+
+  @override
+  String get profilesNameHint => 'الاسم الظاهر';
+
+  @override
+  String get profilesActiveLabel => 'نشط';
+
+  @override
+  String get profileRoleSelf => 'أنا';
+
+  @override
+  String get profileRoleStudent => 'طالب';
+
+  @override
+  String get profileRoleChild => 'طفل';
+
+  @override
   String get onboardingCoverageTitle => 'الأجزاء التي تحفظها';
 
   @override

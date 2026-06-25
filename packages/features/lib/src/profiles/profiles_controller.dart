@@ -74,8 +74,7 @@ class ProfilesController {
         profileId: id,
         cycleType: '1_juz_day',
         nearWindowJuz: 3,
-        farTargetPerDay:
-            (kKfgqpcHafsMadaniV2Edition.pageCount / 30).ceil(),
+        farTargetPerDay: (kKfgqpcHafsMadaniV2Edition.pageCount / 30).ceil(),
         cycleCeilingDays: 30,
         dailyBudgetMinutes: 30,
         termLabelSet: 'classical',

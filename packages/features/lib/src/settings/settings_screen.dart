@@ -2,9 +2,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:l10n/l10n.dart';
 
 import '../design_system/theme/spacing_tokens.dart';
+import '../design_system/widgets/mihrab_card.dart';
 import 'widgets/cycle_settings_section.dart';
 import 'widgets/display_settings_section.dart';
 import 'widgets/settings_section.dart';
@@ -41,7 +43,19 @@ class SettingsScreen extends StatelessWidget {
             const CycleSettingsSection(),
             SettingsSection(
               title: l10n.settingsSectionProfiles,
-              children: const [_SectionPlaceholderLine()],
+              children: [
+                Padding(
+                  padding:
+                      EdgeInsetsDirectional.symmetric(horizontal: space.space4),
+                  child: MihrabCard(
+                    title: l10n.profilesManageSubtitle,
+                    leading: Icons.people_outline,
+                    // Literal path (kProfilesPath lives in the profiles feature,
+                    // which Settings must not import sideways).
+                    onTap: () => context.go('/settings/profiles'),
+                  ),
+                ),
+              ],
             ),
             SettingsSection(
               title: l10n.settingsSectionBackup,

@@ -400,6 +400,30 @@ class AppLocalizationsFa extends AppLocalizations {
   String get settingsMushafLabel => 'مصحف';
 
   @override
+  String get profilesScreenTitle => 'نمایه‌ها';
+
+  @override
+  String get profilesManageSubtitle => 'تعویض یا مدیریت نمایه‌ها';
+
+  @override
+  String get profilesAddButton => 'افزودن نمایه';
+
+  @override
+  String get profilesNameHint => 'نام نمایشی';
+
+  @override
+  String get profilesActiveLabel => 'فعال';
+
+  @override
+  String get profileRoleSelf => 'خودم';
+
+  @override
+  String get profileRoleStudent => 'دانش‌آموز';
+
+  @override
+  String get profileRoleChild => 'کودک';
+
+  @override
   String get onboardingCoverageTitle => 'اجزایی که حفظ دارید';
 
   @override
