@@ -126,12 +126,12 @@ All multi-byte integers are **big-endian**. Minimum valid file size is 16 bytes 
 
 | Offset | Size | Field | Value |
 |---|---|---|---|
-| 0 | 7 | Magic | ASCII `HIFZBK` = `48 49 46 5A 42 4B` |
-| 7 | 1 | Separator | `0x1F` (US — unit separator; makes the magic non-text-pasteable) |
-| 8 | 1 | Format version | `0x01` |
-| 9 | 1 | Mode | `0x01` = plaintext JSON · `0x02` = encrypted-JSON envelope |
-| 10 | 4 | Body length `n` | UInt32 big-endian; rejected if `10 + 32 + n` ≠ file length |
-| 14 | 2 | Reserved | `00 00` (must be zero in v1; non-zero ⇒ reject) |
+| 0 | 6 | Magic | ASCII `HIFZBK` = `48 49 46 5A 42 4B` |
+| 6 | 1 | Separator | `0x1F` (US — unit separator; makes the magic non-text-pasteable) |
+| 7 | 1 | Format version | `0x01` |
+| 8 | 1 | Mode | `0x01` = plaintext JSON · `0x02` = encrypted-JSON envelope |
+| 9 | 4 | Body length `n` | UInt32 big-endian; rejected if `16 + 32 + n` ≠ file length |
+| 13 | 3 | Reserved | `00 00 00` (must be zero in v1; non-zero ⇒ reject) |
 | 16 | 32 | Body SHA-256 | digest over bytes `[48 …]` (the body) — §5 |
 | 48 | n | Body | mode `0x01`: canonical UTF-8 JSON (§4) · mode `0x02`: encryption envelope (§6) |
 
