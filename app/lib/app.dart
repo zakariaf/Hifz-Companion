@@ -5,6 +5,7 @@ import 'package:features/features.dart'
     show
         activeProfileRecordProvider,
         displayPreferencesProvider,
+        hasCatchUpBacklogProvider,
         mihrabThemeFor,
         reminderControllerProvider,
         reminderPreferencesProvider;
@@ -37,6 +38,12 @@ class HifzApp extends ConsumerWidget {
     // via the controller; this listener covers the non-mutation paths.
     ref.listen(
       reminderPreferencesProvider,
+      (_, __) => ref.read(reminderControllerProvider).reconcile(),
+    );
+    // Re-derive too when a missed-gap backlog appears or clears (E18-T09), so the
+    // daily reminder swaps to / from the help-framed catch-up body.
+    ref.listen(
+      hasCatchUpBacklogProvider,
       (_, __) => ref.read(reminderControllerProvider).reconcile(),
     );
     final router = ref.watch(routerProvider);

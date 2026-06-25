@@ -11,6 +11,7 @@ import 'package:flutter/widgets.dart' show Locale;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:models/models.dart' show Profile;
 
+import '../today/today_providers.dart' show hasCatchUpBacklogProvider;
 import 'cycle_config_writer.dart';
 import 'display_preferences.dart';
 import 'preferences_writer.dart';
@@ -70,6 +71,7 @@ final reminderControllerProvider = Provider<ReminderController>((ref) {
       final profile = ref.read(activeProfileRecordProvider).asData?.value;
       return profile == null ? null : Locale(profile.locale.wireValue);
     },
+    readHasCatchUpBacklog: () => ref.read(hasCatchUpBacklogProvider),
   );
 });
 

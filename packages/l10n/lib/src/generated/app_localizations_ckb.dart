@@ -868,6 +868,10 @@ class AppLocalizationsCkb extends AppLocalizations {
       'ئاگانامەکان بۆ ئەم ئەپە لە ڕێکخستنەکانی ئامێرەکەت کوژاوەتەوە. دەتوانیت لەوێ هەڵیانبکەیتەوە تاکو ئەم بیرخستنەوەیە بگاتە دەستت.';
 
   @override
+  String get reminderCatchUpBody =>
+      'پلانێکی هێمن بۆ دەستپێکردنەوەی پێداچوونەوە ئامادەیە.';
+
+  @override
   String get destructiveKeepData => 'داتاکانم بهێڵەرەوە';
 
   @override

@@ -28,15 +28,18 @@ class ReminderController {
     required NotificationScheduler scheduler,
     required ReminderPreferences Function() readPreferences,
     required Locale? Function() readLocale,
+    required bool Function() readHasCatchUpBacklog,
   })  : _writer = writer,
         _scheduler = scheduler,
         _readPreferences = readPreferences,
-        _readLocale = readLocale;
+        _readLocale = readLocale,
+        _readHasCatchUpBacklog = readHasCatchUpBacklog;
 
   final PreferencesWriter _writer;
   final NotificationScheduler _scheduler;
   final ReminderPreferences Function() _readPreferences;
   final Locale? Function() _readLocale;
+  final bool Function() _readHasCatchUpBacklog;
 
   /// Opt-in / silence: turns the daily reminder on or off, persists, then
   /// (re)schedules or cancels it. On opt-in — and only then — it requests OS
@@ -79,13 +82,20 @@ class ReminderController {
     await _scheduler.scheduleDaily(
       hour: prefs.hour,
       minute: prefs.minute,
-      body: await _resolveBody(),
+      body: await _resolveBody(prefs),
     );
   }
 
-  Future<String> _resolveBody() async {
+  /// The localized notification body for [prefs]: the help-framed catch-up line
+  /// when the catch-up note is on AND a missed-gap backlog exists right now
+  /// (E18-T09), else the calm daily line. The backlog is read, never computed
+  /// (E12 owns the re-spread plan; this only invites the user back).
+  Future<String> _resolveBody(ReminderPreferences prefs) async {
     final locale = _readLocale() ?? AppLocalizations.supportedLocales.first;
     final l10n = await AppLocalizations.delegate.load(locale);
-    return l10n.reminderNotificationBody;
+    final useCatchUp = prefs.catchUpNoteEnabled && _readHasCatchUpBacklog();
+    return useCatchUp
+        ? l10n.reminderCatchUpBody
+        : l10n.reminderNotificationBody;
   }
 }

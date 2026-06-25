@@ -861,6 +861,10 @@ class AppLocalizationsFa extends AppLocalizations {
       'اعلان‌ها برای این برنامه در تنظیمات دستگاهت خاموش است. می‌توانی آنجا روشنشان کنی تا این یادآوری به دستت برسد.';
 
   @override
+  String get reminderCatchUpBody =>
+      'برنامه‌ای آرام برای از سرگیری مرور آماده است.';
+
+  @override
   String get destructiveKeepData => 'داده‌هایم را نگه دار';
 
   @override

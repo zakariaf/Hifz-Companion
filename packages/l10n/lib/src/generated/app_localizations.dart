@@ -1315,6 +1315,12 @@ abstract class AppLocalizations {
   /// **'الإشعارات مُعطَّلة لهذا التطبيق في إعدادات جهازك. يمكنك تفعيلها هناك لتصلك هذه التذكيرة.'**
   String get reminderPermissionDeniedNote;
 
+  /// The OPTIONAL catch-up notification body (PRD §14; E18-T09), used in place of the daily line ONLY when the catch-up note is on AND a missed-gap backlog exists. Framed as HELP — a calm plan to resume — never blame, never 'N days lost', never a countdown/streak/exclamation (C-042, C-043; voice 11 §4 empathy-then-path). The re-spread plan itself is shown in-app (E12); this only invites the user back. Consumed by E18. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'خطة هادئة لاستئناف مراجعتك جاهزة.'**
+  String get reminderCatchUpBody;
+
   /// The SAFE primary action of the destructive-confirm gate — Cancel / Keep my data (the visually-primary, default-focused button; privacy 10 §9, §11). Never buried. Consumed by E16/E17. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///
   /// In ar, this message translates to:

@@ -879,6 +879,9 @@ class AppLocalizationsAr extends AppLocalizations {
       'الإشعارات مُعطَّلة لهذا التطبيق في إعدادات جهازك. يمكنك تفعيلها هناك لتصلك هذه التذكيرة.';
 
   @override
+  String get reminderCatchUpBody => 'خطة هادئة لاستئناف مراجعتك جاهزة.';
+
+  @override
   String get destructiveKeepData => 'احتفظ ببياناتي';
 
   @override
