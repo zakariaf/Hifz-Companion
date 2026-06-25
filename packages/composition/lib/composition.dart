@@ -17,6 +17,7 @@ export 'src/active_cycle_config_provider.dart';
 export 'src/active_profile_provider.dart';
 export 'src/app_ready_provider.dart';
 export 'src/asset_downloader_provider.dart';
+export 'src/backup_io_services.dart';
 export 'src/card_repository_provider.dart';
 export 'src/confusion_repository_provider.dart';
 export 'src/cycle_config_repository_provider.dart';

@@ -6,6 +6,7 @@ import 'package:models/models.dart';
 import 'db/connection.dart';
 import 'db/database.dart';
 import 'persistence_handle.dart';
+import 'repositories/backup_read_repository.dart';
 import 'repositories/cold_start_repository.dart';
 import 'repositories/confusion_repository.dart';
 import 'repositories/cycle_config_repository.dart';
@@ -37,6 +38,7 @@ final class LivePersistenceHandle
         reviews = LiveReviewRepository(database),
         coldStart = LiveColdStartRepository(database),
         restore = LiveRestoreRepository(database),
+        backupRead = LiveBackupReadRepository(database),
         confusion = LiveConfusionRepository(database),
         cycleConfig = LiveCycleConfigRepository(database);
 
@@ -50,6 +52,9 @@ final class LivePersistenceHandle
 
   @override
   final RestoreRepository restore;
+
+  @override
+  final BackupReadRepository backupRead;
 
   @override
   final ConfusionRepository confusion;

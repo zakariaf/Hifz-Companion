@@ -44,6 +44,8 @@ export 'src/persistence_exception.dart'
         ReviewWriteException,
         WrongDatabaseKeyException;
 export 'src/persistence_handle.dart' show PersistenceHandle;
+export 'src/repositories/backup_read_repository.dart'
+    show BackupReadRepository, ProfileExportRows;
 export 'src/repositories/cold_start_repository.dart' show ColdStartRepository;
 export 'src/repositories/confusion_repository.dart' show ConfusionRepository;
 export 'src/repositories/repositories.dart'

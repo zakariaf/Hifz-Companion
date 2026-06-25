@@ -12,7 +12,6 @@ library;
 
 import 'package:backup/backup.dart';
 import 'package:backup/src/envelope.dart';
-import 'package:backup/src/payload.dart' show kCurrentSchemaVersion;
 import 'package:models/models.dart';
 import 'package:test/test.dart';
 

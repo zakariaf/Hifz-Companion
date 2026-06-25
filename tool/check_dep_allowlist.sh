@@ -23,6 +23,9 @@ allowed=(
   # pure-Dart Argon2id→ChaCha20-Poly1305 in backup/, key independent of the
   # device DB key, off by default; SHA-256 integrity stays `crypto`.
   cryptography
+  # backup file-move (Decision log #13; E17 §9) — OS share sheet + file picker,
+  # in the app shell only, behind a service boundary; offline, no network.
+  share_plus file_picker
   # drift code generation (Decision log #3: Drift over SQLite) — build-time only,
   # never shipped in the binary; generates database.g.dart + migration steps.
   drift_dev build_runner

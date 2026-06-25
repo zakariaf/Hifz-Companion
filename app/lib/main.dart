@@ -15,6 +15,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app.dart';
+import 'backup/backup_io_impls.dart';
 
 /// The composition root — the one place live services are constructed and bound
 /// into the `ProviderScope` (04 §1.2). It opens the crash-safe Drift store once,
@@ -67,6 +68,12 @@ Future<void> main() async {
         // glyphs (the verified bundled core), not the pre-asset placeholder.
         reciteReaderSurfaceProvider
             .overrideWithValue(const RealReciteReaderSurface()),
+        // Backup file-move (E17 §9) — the OS share sheet, file picker, and the
+        // local-store erase, the shell's only plugins, behind composition
+        // service boundaries (the pure layers + CI stay plugin-free).
+        backupShareServiceProvider.overrideWithValue(const ShareBackupService()),
+        backupFilePickerProvider.overrideWithValue(const FilePickerBackup()),
+        localStoreEraserProvider.overrideWithValue(LocalStoreEraserImpl(handle)),
       ],
       child: const HifzApp(),
     ),

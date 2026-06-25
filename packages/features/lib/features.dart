@@ -11,6 +11,7 @@
 library;
 
 export 'src/a11y/a11y.dart';
+export 'src/backup/backup_exporter.dart';
 export 'src/backup/backup_providers.dart';
 export 'src/backup/backup_restorer.dart';
 export 'src/design_system/design_system.dart';

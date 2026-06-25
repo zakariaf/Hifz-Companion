@@ -13,4 +13,5 @@ library;
 
 export 'src/backup_error.dart';
 export 'src/hifz_backup.dart';
+export 'src/payload.dart' show kCurrentSchemaVersion;
 export 'src/snapshot.dart';
