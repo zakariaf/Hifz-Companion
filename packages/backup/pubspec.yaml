@@ -11,6 +11,7 @@ environment:
 
 dependencies:
   meta: ^1.15.0
+  crypto: ^3.0.0 # SHA-256 body integrity (§5) — the same primitive that pins assets
   models:
     path: ../models
 
@@ -19,7 +20,6 @@ dev_dependencies:
   glados: ^1.1.0
 # Deliberately absent: flutter, drift, sqlite3, http/dio, any dart:io socket — the
 # package is store-blind and offline-by-construction (domain-backup-format §1;
-# tool/check_dep_allowlist.sh + the banned-import gate wall them out). `crypto`
-# (SHA-256, §5) is added at E17-T04; `cryptography` (Argon2id→ChaCha20-Poly1305,
-# §6) at E17-T05 with its decision-log amendment — the default plaintext path
-# needs neither.
+# tool/check_dep_allowlist.sh + the banned-import gate wall them out). `cryptography`
+# (Argon2id→ChaCha20-Poly1305, §6) is added at E17-T05 with its decision-log
+# amendment — the default plaintext path needs only `crypto`.

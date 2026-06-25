@@ -102,6 +102,12 @@ jobs:
         env:
           TZ: ${{ matrix.tz }}
         run: cd packages/engine && dart test
+      - name: Backup format timezone-invariance under TZ=${{ matrix.tz }}
+        # The .hifzbackup floating-"YYYY-MM-DD" / UTC contract (E17 §4) must be
+        # byte-identical across zones; a TZ-dependent codec diverges on one leg.
+        env:
+          TZ: ${{ matrix.tz }}
+        run: cd packages/backup && dart test
 
   golden:
     # gates 2, 5 — pinned Linux is load-bearing (cross-OS golden drift). Dormant

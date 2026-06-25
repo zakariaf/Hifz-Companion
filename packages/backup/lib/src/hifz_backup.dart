@@ -3,6 +3,10 @@
 
 import 'dart:typed_data';
 
+import 'backup_error.dart';
+import 'container.dart';
+import 'integrity.dart';
+import 'payload.dart';
 import 'snapshot.dart';
 
 /// The pure public façade (domain-backup-format §1) — CPU + crypto only, NO I/O.
@@ -16,27 +20,46 @@ abstract final class HifzBackup {
   /// Argon2id→ChaCha20-Poly1305 envelope (§6) → §3 container bytes.
   ///
   /// A null [passphrase] writes mode `0x01` (plaintext versioned JSON — the
-  /// default); a non-null one writes mode `0x02` (the encrypted envelope). Run
-  /// OFF the UI isolate: Argon2id at 64 MiB is deliberately slow (§6).
-  ///
-  /// Implemented across E17-T02 (container) · T03 (payload) · T04 (integrity) ·
-  /// T05 (envelope). The default plaintext path needs no `cryptography` dep.
+  /// default); a non-null one writes mode `0x02` (the encrypted envelope, E17-T05).
+  /// Run OFF the UI isolate: Argon2id at 64 MiB is deliberately slow (§6).
   static Future<Uint8List> export(
     BackupSnapshot snapshot, {
     String? passphrase,
   }) async {
-    throw UnimplementedError('HifzBackup.export — implemented in E17-T02..T05');
+    final json = encodeCanonicalJson(snapshotToJson(snapshot)); // §4
+    if (passphrase != null) {
+      // The §6 envelope (mode 0x02) lands in E17-T05; the plaintext default works.
+      throw UnimplementedError('encrypted export (mode 0x02) — E17-T05');
+    }
+    const mode = BackupMode.plaintextJson;
+    final body = json;
+    final prefix = writeHeaderPrefix(mode, body.length); // §3 bytes 0..15
+    final out = BytesBuilder()
+      ..add(prefix)
+      ..add(bodyDigest(body)) // §5 bytes 16..47
+      ..add(body); // bytes 48..
+    return out.toBytes();
   }
 
-  /// Parse → (optional) decrypt → verify integrity → decode + migrate, in the §3
-  /// NORMATIVE parse order, throwing a typed `BackupException` at each stage —
+  /// Parse → verify integrity → (optional) decrypt → decode + migrate, in the §3
+  /// NORMATIVE parse order, throwing a typed [BackupException] at each stage —
   /// never a generic catch-all (§1, §3).
-  ///
-  /// Implemented across E17-T02..T05.
   static Future<BackupSnapshot> import(
     Uint8List fileBytes, {
     String? passphrase,
   }) async {
-    throw UnimplementedError('HifzBackup.import — implemented in E17-T02..T05');
+    // Steps 1–5 — structural header parse (length, magic, format, mode, length).
+    final header = readContainerHeader(fileBytes);
+    final body = containerBody(fileBytes);
+    // Step 6 — verify the body SHA-256 in BOTH modes, before any decode/decrypt.
+    if (!verifyBody(body, header.storedDigest)) {
+      throw const BackupException(BackupError.integrityFailed);
+    }
+    // Step 7 — decrypt the envelope if mode 0x02 (E17-T05).
+    if (header.mode == BackupMode.encryptedJson) {
+      throw UnimplementedError('encrypted import (mode 0x02) — E17-T05');
+    }
+    // Step 8 — decode + read schemaVersion (> current ⇒ newerFormat, else migrate).
+    return snapshotFromJson(decodeJsonObject(body));
   }
 }
