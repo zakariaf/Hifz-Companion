@@ -851,6 +851,9 @@ class AppLocalizationsFa extends AppLocalizations {
       'یادآوری بی‌طرف در زمانی که خودت انتخاب می‌کنی؛ هر وقت خواستی خاموشش کن — چیزی ارسال نمی‌شود';
 
   @override
+  String get reminderNotificationBody => 'مرور امروز شما آماده است.';
+
+  @override
   String get destructiveKeepData => 'داده‌هایم را نگه دار';
 
   @override

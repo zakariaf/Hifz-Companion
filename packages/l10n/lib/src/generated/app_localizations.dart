@@ -1297,6 +1297,12 @@ abstract class AppLocalizations {
   /// **'تذكير محايد في وقت تختاره؛ يمكنك إسكاته في أي وقت — لا يُرسَل شيء'**
   String get reminderHonestLine;
 
+  /// The daily local-notification body (PRD §14) — ONE calm neutral line, 'Your revision for today is ready.' Never guilt/fear/loss, no countdown, no exclamation, no streak (C-043; voice 11 §3 'Daily session ready' row). Fired by flutter_local_notifications, local only; the scheduler is handed this already-localized string. Consumed by E18. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'مراجعتك لليوم جاهزة.'**
+  String get reminderNotificationBody;
+
   /// The SAFE primary action of the destructive-confirm gate — Cancel / Keep my data (the visually-primary, default-focused button; privacy 10 §9, §11). Never buried. Consumed by E16/E17. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///
   /// In ar, this message translates to:

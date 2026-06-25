@@ -5,13 +5,16 @@ import 'package:composition/composition.dart'
     show
         activeProfileProvider,
         cycleConfigRepositoryProvider,
+        notificationSchedulerProvider,
         profileRepositoryProvider;
+import 'package:flutter/widgets.dart' show Locale;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:models/models.dart' show Profile;
 
 import 'cycle_config_writer.dart';
 import 'display_preferences.dart';
 import 'preferences_writer.dart';
+import 'reminder_controller.dart';
 import 'reminder_preferences.dart';
 
 /// The active profile's row, streamed reactively (null until a profile exists
@@ -51,6 +54,22 @@ final preferencesWriterProvider = Provider<PreferencesWriter>((ref) {
   return PreferencesWriter(
     profiles: ref.watch(profileRepositoryProvider),
     readActiveProfileId: () => ref.read(activeProfileProvider),
+  );
+});
+
+/// The reminder controller (E18-T03) — persists a reminder-preference change
+/// through the single write path, then re-derives the OS schedule via the
+/// injected [notificationSchedulerProvider]. The body is resolved for the active
+/// profile's locale; the schedule is a derived cache (cancel-then-arm).
+final reminderControllerProvider = Provider<ReminderController>((ref) {
+  return ReminderController(
+    writer: ref.watch(preferencesWriterProvider),
+    scheduler: ref.watch(notificationSchedulerProvider),
+    readPreferences: () => ref.read(reminderPreferencesProvider),
+    readLocale: () {
+      final profile = ref.read(activeProfileRecordProvider).asData?.value;
+      return profile == null ? null : Locale(profile.locale.wireValue);
+    },
   );
 });
 

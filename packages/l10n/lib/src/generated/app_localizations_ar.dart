@@ -869,6 +869,9 @@ class AppLocalizationsAr extends AppLocalizations {
       'تذكير محايد في وقت تختاره؛ يمكنك إسكاته في أي وقت — لا يُرسَل شيء';
 
   @override
+  String get reminderNotificationBody => 'مراجعتك لليوم جاهزة.';
+
+  @override
   String get destructiveKeepData => 'احتفظ ببياناتي';
 
   @override
