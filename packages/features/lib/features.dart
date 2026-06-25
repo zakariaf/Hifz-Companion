@@ -93,6 +93,7 @@ export 'src/settings/display_preferences.dart';
 export 'src/settings/preferences_writer.dart';
 export 'src/settings/settings_providers.dart';
 export 'src/settings/settings_screen.dart';
+export 'src/settings/widgets/backup_settings_section.dart';
 export 'src/settings/widgets/cycle_settings_section.dart';
 export 'src/settings/widgets/display_settings_section.dart';
 export 'src/shell/section_placeholder.dart';

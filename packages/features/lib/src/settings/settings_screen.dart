@@ -7,6 +7,7 @@ import 'package:l10n/l10n.dart';
 
 import '../design_system/theme/spacing_tokens.dart';
 import '../design_system/widgets/mihrab_card.dart';
+import 'widgets/backup_settings_section.dart';
 import 'widgets/cycle_settings_section.dart';
 import 'widgets/display_settings_section.dart';
 import 'widgets/settings_section.dart';
@@ -57,10 +58,7 @@ class SettingsScreen extends StatelessWidget {
                 ),
               ],
             ),
-            SettingsSection(
-              title: l10n.settingsSectionBackup,
-              children: const [_SectionPlaceholderLine()],
-            ),
+            const BackupSettingsSection(),
             SettingsSection(
               title: l10n.settingsSectionAbout,
               children: const [_SectionPlaceholderLine()],
