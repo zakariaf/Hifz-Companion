@@ -286,6 +286,9 @@ final class LiveRestoreRepository implements RestoreRepository {
       );
     }
     return card.copyWith(
+      // Teacher sign-offs (a sanad count) are not a field onReview derives, so
+      // reconstruct them from the merged log — the authoritative source.
+      signoffs: logs.where((l) => l.source == GradeSource.teacher).length,
       hasManualLock: fallback.hasManualLock,
       isPrayerCritical: fallback.isPrayerCritical,
       isEnabled: fallback.isEnabled,

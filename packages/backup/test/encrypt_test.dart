@@ -155,5 +155,11 @@ void main() {
       expect(clampArgon2Iterations(1000000), kArgon2IterationsMax);
       expect(clampArgon2Iterations(3), 3);
     });
+
+    test('parallelism clamps to [1, 16] (a hostile lane count is bounded)', () {
+      expect(clampArgon2Parallelism(0), kArgon2ParallelismMin);
+      expect(clampArgon2Parallelism(255), kArgon2ParallelismMax);
+      expect(clampArgon2Parallelism(1), 1);
+    });
   });
 }

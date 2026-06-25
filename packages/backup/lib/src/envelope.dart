@@ -31,6 +31,8 @@ const int kArgon2IterationsExport = 3;
 const int kArgon2IterationsMin = 1;
 const int kArgon2IterationsMax = 16;
 const int kArgon2Parallelism = 1;
+const int kArgon2ParallelismMin = 1;
+const int kArgon2ParallelismMax = 16;
 const int kSaltLen = 16;
 const int kNonceLen = 12;
 const int kTagLen = 16;
@@ -53,6 +55,13 @@ int clampArgon2Iterations(int t) => t < kArgon2IterationsMin
     ? kArgon2IterationsMin
     : (t > kArgon2IterationsMax ? kArgon2IterationsMax : t);
 
+/// Clamps a hostile/foreign Argon2 parallelism (lane count) to range before
+/// derivation — a huge value would otherwise spin up an unbounded number of
+/// lanes pre-authentication. v1 export uses 1, so a legit file is unaffected.
+int clampArgon2Parallelism(int p) => p < kArgon2ParallelismMin
+    ? kArgon2ParallelismMin
+    : (p > kArgon2ParallelismMax ? kArgon2ParallelismMax : p);
+
 // TODO(E17): Unicode-NFC-normalize the passphrase before derivation (§6) so a
 // passphrase typed with different composition on another device derives the same
 // key. Dart has no built-in normalization; this needs `unorm_dart` (a second
@@ -71,7 +80,7 @@ Future<List<int>> _deriveKey(
   final argon2 = Argon2id(
     memory: memory,
     iterations: iterations,
-    parallelism: parallelism < 1 ? 1 : parallelism,
+    parallelism: parallelism, // callers clamp to [1, max] before derivation
     hashLength: kKeyLen,
   );
   final key = await argon2.deriveKeyFromPassword(
@@ -133,7 +142,7 @@ Future<Uint8List> openEnvelope(
   final header = ByteData.sublistView(envelope);
   final memory = clampArgon2Memory(header.getUint32(1));
   final iterations = clampArgon2Iterations(header.getUint32(5));
-  final parallelism = envelope[9];
+  final parallelism = clampArgon2Parallelism(envelope[9]);
   final salt = Uint8List.sublistView(envelope, 10, 10 + kSaltLen);
   final nonce =
       Uint8List.sublistView(envelope, 26, 26 + kNonceLen);

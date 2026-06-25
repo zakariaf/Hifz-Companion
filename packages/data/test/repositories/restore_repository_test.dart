@@ -66,7 +66,12 @@ void main() {
         dueAt: CalendarDate.ymd(2026, 12, 31), // far future — must be re-clamped
       );
 
-  ReviewLog log(String id, {int pageId = 1, required int dayOffset}) =>
+  ReviewLog log(
+    String id, {
+    int pageId = 1,
+    required int dayOffset,
+    GradeSource source = GradeSource.self,
+  }) =>
       ReviewLog(
         logId: LogId(id),
         profileId: profileId,
@@ -76,7 +81,7 @@ void main() {
         trackAtReview: ReviewTrack.far,
         grade: ReviewGrade.good,
         elapsedDays: 5,
-        source: GradeSource.self,
+        source: source,
         stabilityDaysBefore: 30,
         difficultyBefore: 6,
       );
@@ -174,6 +179,17 @@ void main() {
       final card = await db.cardDao.byId(profileId, 1);
       final ceilingDay = today.addDays(cycle.cycleCeilingDays);
       expect(card!.dueAt!.epochDay, lessThanOrEqualTo(ceilingDay.epochDay));
+    });
+
+    test('a rebuilt card carries the teacher sign-off count from the merged log',
+        () async {
+      await seedLocal([log('a', dayOffset: -20)]);
+      await merge([
+        log('a', dayOffset: -20),
+        log('t', dayOffset: -5, source: GradeSource.teacher),
+      ]);
+      final card = await db.cardDao.byId(profileId, 1);
+      expect(card!.signoffs, 1); // the sanad sign-off survived the rebuild
     });
 
     test('a mid-import failure rolls back to the exact pre-import state',
