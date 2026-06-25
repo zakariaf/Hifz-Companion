@@ -42,6 +42,7 @@ class ProfilesController {
     required String displayName,
     required ProfileRole role,
   }) async {
+    assert(displayName.trim().isNotEmpty, 'displayName must not be empty');
     final id = ProfileId(_newId());
     final day = _today();
     final profile = Profile(

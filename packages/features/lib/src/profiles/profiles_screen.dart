@@ -83,11 +83,12 @@ class ProfilesScreen extends ConsumerWidget {
       context: context,
       builder: (_) => const _CreateProfileDialog(),
     );
-    final name = result?.name.trim() ?? '';
+    if (result == null) return;
+    final name = result.name.trim();
     if (name.isEmpty) return;
     final id = await ref
         .read(profilesControllerProvider)
-        .createProfile(displayName: name, role: result!.role);
+        .createProfile(displayName: name, role: result.role);
     // Activate the new profile only after its seed is durably committed.
     ref.read(activeProfileProvider.notifier).select(id);
   }
