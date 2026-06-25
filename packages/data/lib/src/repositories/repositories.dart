@@ -50,6 +50,23 @@ abstract interface class ProfileRepository {
   /// fresh install — the app-ready gate reads this to decide whether onboarding
   /// must run before any Quran screen (PRD R1).
   Future<List<Profile>> all();
+
+  /// The profile for [profileId], or `null` if none — the read half of a
+  /// preference/profile read-modify-write (E16-T02). Named distinctly from
+  /// [CardRepository.byId] since one handle implements both.
+  Future<Profile?> byProfileId(ProfileId profileId);
+
+  /// Inserts or updates one profile row — the single write path for a profile's
+  /// display name, role, locale, muṣḥaf, and decode-validated settings map (the
+  /// Settings preference writes, E16-T02+; profile CRUD, E16-T08). Commits in
+  /// one transaction before the caller's `await` returns (persist-before-
+  /// republish); the only PII it carries is `displayName` (PRD §17).
+  Future<void> upsert(Profile profile);
+
+  /// A reactive stream of [profileId]'s row (null if absent), re-emitting after
+  /// every committed write — the Settings surface reads the active profile's
+  /// locale/theme/calendar/numeral preferences from it without a second cache.
+  Stream<Profile?> watchById(ProfileId profileId);
 }
 
 /// Read-only access to the fixed Quran reference structure (the juz→page span,

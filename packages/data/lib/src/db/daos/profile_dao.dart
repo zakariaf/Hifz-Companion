@@ -34,6 +34,17 @@ class ProfileDao extends DatabaseAccessor<HifzDatabase> with _$ProfileDaoMixin {
     return rows.map(_toModel).toList();
   }
 
+  /// A reactive stream of the profile for [profileId] (null if absent),
+  /// re-emitting after every committed write — the Settings surface reads the
+  /// active profile's display preferences from it (persist-before-republish).
+  Stream<Profile?> watchById(ProfileId profileId) {
+    final query = select(profiles)
+      ..where((p) => p.profileId.equals(profileId.value));
+    return query
+        .watchSingleOrNull()
+        .map((row) => row == null ? null : _toModel(row));
+  }
+
   Profile _toModel(ProfileRow row) {
     return Profile(
       profileId: ProfileId(row.profileId),

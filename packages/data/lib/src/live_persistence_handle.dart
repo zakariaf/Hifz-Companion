@@ -80,10 +80,22 @@ final class LivePersistenceHandle
   Stream<List<Card>> watchForProfile(ProfileId profileId) =>
       _database.cardDao.watchForProfile(profileId);
 
-  // --- ProfileRepository reads ---
+  // --- ProfileRepository reads + the preference/profile write path ---
 
   @override
   Future<List<Profile>> all() => _database.profileDao.all();
+
+  @override
+  Future<Profile?> byProfileId(ProfileId profileId) =>
+      _database.profileDao.byId(profileId);
+
+  @override
+  Future<void> upsert(Profile profile) =>
+      _database.transaction(() => _database.profileDao.upsert(profile));
+
+  @override
+  Stream<Profile?> watchById(ProfileId profileId) =>
+      _database.profileDao.watchById(profileId);
 
   // --- ReferenceRepository reads ---
 
