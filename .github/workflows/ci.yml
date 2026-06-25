@@ -64,7 +64,7 @@ jobs:
         run: flutter analyze --fatal-infos
       - name: Engine vectors + glados invariants (verify only — never --update-vectors)
         run: |
-          for p in engine models profiles; do (cd "packages/$p" && dart test); done
+          for p in engine models profiles backup; do (cd "packages/$p" && dart test); done
       - name: Unit + widget tests (offline guard installed; golden excluded)
         run: |
           for p in data quran l10n features assets; do
