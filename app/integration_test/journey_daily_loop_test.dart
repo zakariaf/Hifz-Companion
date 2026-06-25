@@ -19,6 +19,7 @@
 
 import 'package:app/app.dart';
 import 'package:composition/composition.dart';
+import 'package:composition/testing.dart' show FakeNotificationScheduler;
 import 'package:data/data.dart' show PersistenceHandle;
 import 'package:data/testing.dart';
 import 'package:engine/engine.dart' show CalendarDate, JuzConfidence;
@@ -62,6 +63,10 @@ void main() {
         overrides: [
           persistenceProvider.overrideWithValue(handle),
           todayProvider.overrideWithValue(today),
+          // E18: the reminder reconcile listener (T05/T09) runs in HifzApp, so the
+          // journey wires the scheduler boundary as main does — a no-op fake here.
+          notificationSchedulerProvider
+              .overrideWithValue(FakeNotificationScheduler()),
         ],
         child: const HifzApp(),
       ),
@@ -145,6 +150,8 @@ void main() {
           persistenceProvider.overrideWithValue(handle),
           todayProvider.overrideWithValue(CalendarDate.ymd(2026, 6, 27)),
           initialActiveProfileProvider.overrideWithValue(profile),
+          notificationSchedulerProvider
+              .overrideWithValue(FakeNotificationScheduler()),
         ],
         child: const HifzApp(),
       ),
