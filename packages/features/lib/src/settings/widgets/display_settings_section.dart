@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import 'package:composition/composition.dart' show todayProvider;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:l10n/l10n.dart';
@@ -32,7 +33,9 @@ class DisplaySettingsSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final profile = ref.watch(activeProfileRecordProvider).asData?.value;
-    final appearance = ref.watch(displayPreferencesProvider).appearance;
+    final prefs = ref.watch(displayPreferencesProvider);
+    final today = ref.watch(todayProvider);
+    final locale = Localizations.localeOf(context);
     final writer = ref.read(preferencesWriterProvider);
 
     // A sentinel that matches no option leaves nothing highlighted until the
@@ -40,6 +43,12 @@ class DisplaySettingsSection extends ConsumerWidget {
     final selectedLocale = profile == null
         ? const Locale('und')
         : Locale(profile.locale.wireValue);
+    // Today rendered in the chosen calendar — the live display transform over
+    // the unchanged stored instant (bidi-isolated for placement in the RTL line).
+    final todayLabel = isolatedDateLabel(
+      CalendarPresenter(prefs.calendarSystem, locale),
+      today,
+    );
 
     return SettingsSection(
       title: l10n.settingsSectionDisplay,
@@ -84,10 +93,42 @@ class DisplaySettingsSection extends ConsumerWidget {
                 label: l10n.appearanceDark,
               ),
             ],
-            selected: appearance,
+            selected: prefs.appearance,
             onSelected: (value) => writer.updateDisplayPreferences(
               (p) => p.copyWith(appearance: value),
             ),
+          ),
+        ),
+        _LabeledPicker(
+          label: l10n.settingsCalendarLabel,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SettingsPicker<CalendarSystem>(
+                options: [
+                  SettingsOption(
+                    value: CalendarSystem.jalali,
+                    label: l10n.calendarJalali,
+                  ),
+                  SettingsOption(
+                    value: CalendarSystem.hijriUmmAlQura,
+                    label: l10n.calendarUmmAlQura,
+                    // The Hijri option is a civil-courtesy date; the standing
+                    // caveat issues no observance ruling (adab).
+                    subtitle: l10n.hijriCivilApproximationCaveat,
+                  ),
+                  SettingsOption(
+                    value: CalendarSystem.gregorian,
+                    label: l10n.calendarGregorian,
+                  ),
+                ],
+                selected: prefs.calendarSystem,
+                onSelected: (system) => writer.updateDisplayPreferences(
+                  (p) => p.copyWith(calendarSystem: system),
+                ),
+              ),
+              _PreviewLine(l10n.settingsCalendarToday(todayLabel)),
+            ],
           ),
         ),
       ],
@@ -124,6 +165,33 @@ class _LabeledPicker extends StatelessWidget {
         ),
         child,
       ],
+    );
+  }
+}
+
+/// A quiet caption line — the calendar picker's live "today in this calendar"
+/// preview ([text] is already localized and bidi-isolated).
+class _PreviewLine extends StatelessWidget {
+  const _PreviewLine(this.text);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final space = theme.extension<SpacingTokens>()!;
+    return Padding(
+      padding: EdgeInsetsDirectional.only(
+        start: space.space4,
+        end: space.space4,
+        top: space.space1,
+        bottom: space.space2,
+      ),
+      child: Text(
+        text,
+        style: theme.textTheme.bodySmall
+            ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+      ),
     );
   }
 }

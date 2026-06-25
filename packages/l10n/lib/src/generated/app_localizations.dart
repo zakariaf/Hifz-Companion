@@ -481,6 +481,36 @@ abstract class AppLocalizations {
   /// **'المظهر'**
   String get settingsThemeLabel;
 
+  /// Display-settings sub-group label above the calendar-system picker. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'التقويم'**
+  String get settingsCalendarLabel;
+
+  /// Calendar-system option: Solar Hijri (Jalālī), the default for Persian. A display calendar only; never feeds scheduling. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'الهجري الشمسي'**
+  String get calendarJalali;
+
+  /// Calendar-system option: lunar Hijri, Umm al-Qurā civil reckoning. A civil-courtesy display date that issues no observance ruling (the standing caveat is shown). Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'الهجري (أم القرى)'**
+  String get calendarUmmAlQura;
+
+  /// Calendar-system option: Gregorian. A display calendar only. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'الميلادي'**
+  String get calendarGregorian;
+
+  /// Live preview under the calendar picker: today's date rendered in the chosen calendar (a display transform over the unchanged stored instant). {date} is a pre-formatted, bidi-isolated date string. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'اليوم: {date}'**
+  String settingsCalendarToday(String date);
+
   /// Title of the cold-start coverage step: the ḥāfiẓ marks which juz they hold. Calm, no guilt. PROVISIONAL — onboarding copy needs native + scholarly review (E11/E19); best-effort fa/ckb.
   ///
   /// In ar, this message translates to:

@@ -375,6 +375,23 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsThemeLabel => 'المظهر';
 
   @override
+  String get settingsCalendarLabel => 'التقويم';
+
+  @override
+  String get calendarJalali => 'الهجري الشمسي';
+
+  @override
+  String get calendarUmmAlQura => 'الهجري (أم القرى)';
+
+  @override
+  String get calendarGregorian => 'الميلادي';
+
+  @override
+  String settingsCalendarToday(String date) {
+    return 'اليوم: $date';
+  }
+
+  @override
   String get onboardingCoverageTitle => 'الأجزاء التي تحفظها';
 
   @override

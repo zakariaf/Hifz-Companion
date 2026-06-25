@@ -39,6 +39,16 @@ void main() {
         settings: settings,
       );
 
+  Card card(int pageId, CalendarDate dueAt) => Card(
+        profileId: const ProfileId('p1'),
+        pageId: pageId,
+        track: ReviewTrack.far,
+        difficulty: 5,
+        stabilityDays: 30,
+        lastReviewedDay: CalendarDate.ymd(2026, 6, 1),
+        dueAt: dueAt,
+      );
+
   test('upsert persists a profile that byId reads back (settings round-trip)',
       () async {
     await handle.profiles
@@ -77,5 +87,16 @@ void main() {
 
     await sub.cancel();
     expect(appearances, ['light', 'sepia']);
+  });
+
+  test('a calendar-setting change leaves a card due_at unchanged (E16-T04 '
+      'display-transform discipline)', () async {
+    final due = CalendarDate.ymd(2026, 6, 30);
+    await db.cardDao.upsert(card(1, due));
+    // Switching the calendar is a profile settings_json write — it must not
+    // touch the card's scheduling instant.
+    await handle.profiles.upsert(profile('p1', settings: {'calendar': 'gregorian'}));
+    final stored = await db.cardDao.byId(const ProfileId('p1'), 1);
+    expect(stored?.dueAt, due);
   });
 }

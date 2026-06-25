@@ -364,6 +364,23 @@ class AppLocalizationsFa extends AppLocalizations {
   String get settingsThemeLabel => 'ظاهر';
 
   @override
+  String get settingsCalendarLabel => 'تقویم';
+
+  @override
+  String get calendarJalali => 'هجری شمسی';
+
+  @override
+  String get calendarUmmAlQura => 'هجری قمری (ام‌القری)';
+
+  @override
+  String get calendarGregorian => 'میلادی';
+
+  @override
+  String settingsCalendarToday(String date) {
+    return 'امروز: $date';
+  }
+
+  @override
   String get onboardingCoverageTitle => 'اجزایی که حفظ دارید';
 
   @override

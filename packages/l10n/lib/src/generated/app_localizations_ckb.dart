@@ -364,6 +364,23 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get settingsThemeLabel => 'ڕووکار';
 
   @override
+  String get settingsCalendarLabel => 'ڕۆژژمێر';
+
+  @override
+  String get calendarJalali => 'کۆچی هەتاوی';
+
+  @override
+  String get calendarUmmAlQura => 'کۆچی مانگی (ئوم القورا)';
+
+  @override
+  String get calendarGregorian => 'زایینی';
+
+  @override
+  String settingsCalendarToday(String date) {
+    return 'ئەمڕۆ: $date';
+  }
+
+  @override
   String get onboardingCoverageTitle => 'ئەو جوزانەی لەبەرتە';
 
   @override
