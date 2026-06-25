@@ -86,7 +86,6 @@ export 'src/recite/recite_view_model.dart';
 export 'src/recite/widgets/grade_band.dart';
 export 'src/recite/widgets/recite_surface.dart';
 export 'src/settings/cycle_config_writer.dart';
-export 'src/settings/cycle_preset_config.dart';
 export 'src/settings/display_preferences.dart';
 export 'src/settings/preferences_writer.dart';
 export 'src/settings/settings_providers.dart';
