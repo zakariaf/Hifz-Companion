@@ -50,6 +50,53 @@ abstract interface class ProfileRepository {
   /// fresh install — the app-ready gate reads this to decide whether onboarding
   /// must run before any Quran screen (PRD R1).
   Future<List<Profile>> all();
+
+  /// The profile for [profileId], or `null` if none — the read half of a
+  /// preference/profile read-modify-write (E16-T02). Named distinctly from
+  /// [CardRepository.byId] since one handle implements both.
+  Future<Profile?> byProfileId(ProfileId profileId);
+
+  /// Inserts or updates one profile row — the single write path for a profile's
+  /// display name, role, locale, muṣḥaf, and decode-validated settings map (the
+  /// Settings preference writes, E16-T02+; profile CRUD, E16-T08). Commits in
+  /// one transaction before the caller's `await` returns (persist-before-
+  /// republish); the only PII it carries is `displayName` (PRD §17).
+  Future<void> upsert(Profile profile);
+
+  /// A reactive stream of [profileId]'s row (null if absent), re-emitting after
+  /// every committed write — the Settings surface reads the active profile's
+  /// locale/theme/calendar/numeral preferences from it without a second cache.
+  Stream<Profile?> watchById(ProfileId profileId);
+
+  /// A reactive stream of every profile on the device (display order), re-emitting
+  /// after any create/rename/delete — the profile switcher and manage list read
+  /// it (E16-T08/T09).
+  Stream<List<Profile>> watchAll();
+
+  /// Permanently deletes [profileId] and, by the schema's `ON DELETE CASCADE`,
+  /// all of that profile's `card` / `review_log` / `cycle_config` /
+  /// `confusion_edge` rows (right-to-be-forgotten for one profile; E16-T08/T11).
+  /// One transaction; commits before the caller's `await` returns. Other
+  /// profiles are untouched.
+  Future<void> delete(ProfileId profileId);
+}
+
+/// Reads and writes the one-per-profile `cycle_config` row — the named cycle
+/// preset, the engine's per-day targets and ceiling, and the term-set region.
+/// The cold-start path seeds it; the Settings term-set + cycle surfaces
+/// (E16-T05 / E16-T07) edit it through [upsert].
+abstract interface class CycleConfigRepository {
+  /// The cycle configuration for [profileId], or null if none has been seeded.
+  Future<CycleConfig?> byProfile(ProfileId profileId);
+
+  /// Inserts or updates the profile's cycle configuration in one transaction,
+  /// committing before the caller's `await` returns (persist-before-republish).
+  Future<void> upsert(CycleConfig config);
+
+  /// A reactive stream of [profileId]'s cycle config (null if absent),
+  /// re-emitting after every committed write — the Settings term-set/cycle
+  /// surfaces read the current region/preset from it.
+  Stream<CycleConfig?> watchByProfile(ProfileId profileId);
 }
 
 /// Read-only access to the fixed Quran reference structure (the juz→page span,

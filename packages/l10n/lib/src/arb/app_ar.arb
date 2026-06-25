@@ -344,6 +344,136 @@
   "@sectionInPreparation": {
     "description": "Calm, inert body line shown under each not-yet-built section title in the E07 walking skeleton (Today/Muṣḥaf/Mutashābihāt/Progress/Settings placeholders). Reverent and plain: no claim, no number, no guilt/fear, no exclamation/emoji. Best-effort fa/ckb pending E09 native + scholarly review."
   },
+  "settingsSectionDisplay": "العرض",
+  "@settingsSectionDisplay": {
+    "description": "Settings group header: display and presentation preferences (UI language, calendar, numerals, term-set, theme, font size, muṣḥaf edition). UI chrome, not religious copy. Best-effort fa/ckb pending native + scholarly review."
+  },
+  "settingsSectionCycle": "دورة المراجعة",
+  "@settingsSectionCycle": {
+    "description": "Settings group header: the revision-cycle preset, Pure-cycle mode, and daily time budget. Writes engine config only, never a retention dial. Best-effort fa/ckb pending native + scholarly review."
+  },
+  "settingsSectionProfiles": "الملفات الشخصية",
+  "@settingsSectionProfiles": {
+    "description": "Settings group header: device-local profiles (self, student, child) and the active-profile switcher. A profile is a typed display name only, with no account and no PII. Best-effort fa/ckb pending native + scholarly review."
+  },
+  "settingsSectionBackup": "النسخ الاحتياطي",
+  "@settingsSectionBackup": {
+    "description": "Settings group header: local, offline backup export and restore, with no cloud and no account. Best-effort fa/ckb pending native + scholarly review."
+  },
+  "settingsSectionAbout": "حول التطبيق",
+  "@settingsSectionAbout": {
+    "description": "Settings group header: app information and the offline science screen. Best-effort fa/ckb pending native + scholarly review."
+  },
+  "settingsLanguageLabel": "اللغة",
+  "@settingsLanguageLabel": {
+    "description": "Display-settings sub-group label above the UI-language picker (fa/ckb/ar). Best-effort fa/ckb pending native + scholarly review."
+  },
+  "settingsThemeLabel": "المظهر",
+  "@settingsThemeLabel": {
+    "description": "Display-settings sub-group label above the theme picker (light/sepia/dark). Best-effort fa/ckb pending native + scholarly review."
+  },
+  "settingsCalendarLabel": "التقويم",
+  "@settingsCalendarLabel": {
+    "description": "Display-settings sub-group label above the calendar-system picker. Best-effort fa/ckb pending native + scholarly review."
+  },
+  "calendarJalali": "الهجري الشمسي",
+  "@calendarJalali": {
+    "description": "Calendar-system option: Solar Hijri (Jalālī), the default for Persian. A display calendar only; never feeds scheduling. Best-effort fa/ckb pending native + scholarly review."
+  },
+  "calendarUmmAlQura": "الهجري (أم القرى)",
+  "@calendarUmmAlQura": {
+    "description": "Calendar-system option: lunar Hijri, Umm al-Qurā civil reckoning. A civil-courtesy display date that issues no observance ruling (the standing caveat is shown). Best-effort fa/ckb pending native + scholarly review."
+  },
+  "calendarGregorian": "الميلادي",
+  "@calendarGregorian": {
+    "description": "Calendar-system option: Gregorian. A display calendar only. Best-effort fa/ckb pending native + scholarly review."
+  },
+  "settingsCalendarToday": "اليوم: {date}",
+  "@settingsCalendarToday": {
+    "description": "Live preview under the calendar picker: today's date rendered in the chosen calendar (a display transform over the unchanged stored instant). {date} is a pre-formatted, bidi-isolated date string. Best-effort fa/ckb pending native + scholarly review.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsTermSetLabel": "المصطلحات",
+  "@settingsTermSetLabel": {
+    "description": "Display-settings sub-group label above the term-set (regional sabaq/sabqi/manzil vocabulary) picker. Best-effort fa/ckb pending native + scholarly review."
+  },
+  "termSetRegionOther": "عام",
+  "@termSetRegionOther": {
+    "description": "Term-set region option: the general/default vocabulary set. Best-effort fa/ckb pending native + scholarly review."
+  },
+  "termSetRegionLevant": "الشام",
+  "@termSetRegionLevant": {
+    "description": "Term-set region option: the Levant (al-Shām) vocabulary set. Best-effort fa/ckb pending native + scholarly review."
+  },
+  "termSetRegionSubcontinent": "شبه القارة",
+  "@termSetRegionSubcontinent": {
+    "description": "Term-set region option: the Indian-subcontinent vocabulary set (e.g. dhor for far-revision). Best-effort fa/ckb pending native + scholarly review."
+  },
+  "termSetProvisionalNote": "المصطلحات الكوردية مبدئية، بانتظار مراجعة متحدث أصلي وعالم.",
+  "@termSetProvisionalNote": {
+    "description": "Caption shown under the term-set picker when the UI language is Kurdish (Sorani): the ckb terms are provisional pending native-speaker + scholarly review (PRD §13.4); no fiqh ruling. Best-effort fa/ckb pending native + scholarly review."
+  },
+  "settingsMushafLabel": "المصحف",
+  "@settingsMushafLabel": {
+    "description": "Display-settings sub-group label above the muṣḥaf/riwāyah picker (names the edition and states the riwāyah explicitly; never calls it 'the Quran' in the absolute). Best-effort fa/ckb pending native + scholarly review."
+  },
+  "profilesScreenTitle": "الملفات الشخصية",
+  "@profilesScreenTitle": {
+    "description": "Title of the Profiles screen — the device-local multi-profile switcher + create. No account, no PII beyond the typed display name (PRD §17). Best-effort fa/ckb pending native + scholarly review."
+  },
+  "profilesManageSubtitle": "بدّل أو أدِر الملفات الشخصية",
+  "@profilesManageSubtitle": {
+    "description": "Settings Profiles row subtitle: tap to switch or manage device-local profiles. Best-effort fa/ckb pending native + scholarly review."
+  },
+  "profilesAddButton": "إضافة ملف",
+  "@profilesAddButton": {
+    "description": "Button to create a new device-local profile (a typed display name + role; no PII). Best-effort fa/ckb pending native + scholarly review."
+  },
+  "profilesNameHint": "الاسم الظاهر",
+  "@profilesNameHint": {
+    "description": "Text-field hint for a new profile's display name — the only PII. Best-effort fa/ckb pending native + scholarly review."
+  },
+  "profilesActiveLabel": "نشط",
+  "@profilesActiveLabel": {
+    "description": "Accessibility/visual label marking the currently active profile in the switcher (selection is shape+label, never colour alone). Best-effort fa/ckb pending native + scholarly review."
+  },
+  "profileRoleSelf": "أنا",
+  "@profileRoleSelf": {
+    "description": "Profile role: the device owner (self). Best-effort fa/ckb pending native + scholarly review."
+  },
+  "profileRoleStudent": "طالب",
+  "@profileRoleStudent": {
+    "description": "Profile role: a student a teacher signs off in halaqa mode. Best-effort fa/ckb pending native + scholarly review."
+  },
+  "profileRoleChild": "طفل",
+  "@profileRoleChild": {
+    "description": "Profile role: a parent-managed child profile (calm, no gamification). Best-effort fa/ckb pending native + scholarly review."
+  },
+  "profilesRename": "إعادة تسمية",
+  "@profilesRename": {
+    "description": "Profile row menu action: rename a profile (change the display name). Best-effort fa/ckb pending native + scholarly review."
+  },
+  "profilesDelete": "حذف",
+  "@profilesDelete": {
+    "description": "Profile row menu action: delete a profile (opens the cancel-primary confirmation). Best-effort fa/ckb pending native + scholarly review."
+  },
+  "deleteProfileConfirm": "حذف الملف",
+  "@deleteProfileConfirm": {
+    "description": "The plainer, secondary destructive trigger label in the delete-profile confirmation (top-start corner; the safe Keep action is the primary, focused button). Best-effort fa/ckb pending native + scholarly review."
+  },
+  "deleteProfileConsequence": "حذف {name} يزيل سجل مراجعته نهائيًا. لا يمكن التراجع، وهذا غير مسح كل البيانات.",
+  "@deleteProfileConsequence": {
+    "description": "The concrete, irreversible consequence in the delete-profile confirmation: it names the profile and states the loss honestly — no fear/loss leverage, no fiqh ruling; explicitly distinct from erase-all (E17). {name} is the bidi-isolated display name. Best-effort fa/ckb pending native + scholarly review.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "onboardingCoverageTitle": "الأجزاء التي تحفظها",
   "@onboardingCoverageTitle": {
     "description": "Title of the cold-start coverage step: the ḥāfiẓ marks which juz they hold. Calm, no guilt. PROVISIONAL — onboarding copy needs native + scholarly review (E11/E19); best-effort fa/ckb."

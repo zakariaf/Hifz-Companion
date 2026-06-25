@@ -46,6 +46,7 @@ export 'src/repositories/repositories.dart'
     show
         AppMetaRepository,
         CardRepository,
+        CycleConfigRepository,
         ProfileRepository,
         ReferenceRepository,
         ReviewLogRepository;

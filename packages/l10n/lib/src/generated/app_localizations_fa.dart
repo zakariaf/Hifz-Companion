@@ -343,6 +343,101 @@ class AppLocalizationsFa extends AppLocalizations {
   String get sectionInPreparation => 'این بخش در حال آماده‌سازی است.';
 
   @override
+  String get settingsSectionDisplay => 'نمایش';
+
+  @override
+  String get settingsSectionCycle => 'چرخهٔ مرور';
+
+  @override
+  String get settingsSectionProfiles => 'نمایه‌ها';
+
+  @override
+  String get settingsSectionBackup => 'پشتیبان‌گیری';
+
+  @override
+  String get settingsSectionAbout => 'درباره';
+
+  @override
+  String get settingsLanguageLabel => 'زبان';
+
+  @override
+  String get settingsThemeLabel => 'ظاهر';
+
+  @override
+  String get settingsCalendarLabel => 'تقویم';
+
+  @override
+  String get calendarJalali => 'هجری شمسی';
+
+  @override
+  String get calendarUmmAlQura => 'هجری قمری (ام‌القری)';
+
+  @override
+  String get calendarGregorian => 'میلادی';
+
+  @override
+  String settingsCalendarToday(String date) {
+    return 'امروز: $date';
+  }
+
+  @override
+  String get settingsTermSetLabel => 'اصطلاحات';
+
+  @override
+  String get termSetRegionOther => 'عمومی';
+
+  @override
+  String get termSetRegionLevant => 'شام';
+
+  @override
+  String get termSetRegionSubcontinent => 'شبه‌قاره';
+
+  @override
+  String get termSetProvisionalNote =>
+      'اصطلاحات کوردی موقتی‌اند و در انتظار بازبینی بومی و علمی هستند.';
+
+  @override
+  String get settingsMushafLabel => 'مصحف';
+
+  @override
+  String get profilesScreenTitle => 'نمایه‌ها';
+
+  @override
+  String get profilesManageSubtitle => 'تعویض یا مدیریت نمایه‌ها';
+
+  @override
+  String get profilesAddButton => 'افزودن نمایه';
+
+  @override
+  String get profilesNameHint => 'نام نمایشی';
+
+  @override
+  String get profilesActiveLabel => 'فعال';
+
+  @override
+  String get profileRoleSelf => 'خودم';
+
+  @override
+  String get profileRoleStudent => 'دانش‌آموز';
+
+  @override
+  String get profileRoleChild => 'کودک';
+
+  @override
+  String get profilesRename => 'تغییر نام';
+
+  @override
+  String get profilesDelete => 'حذف';
+
+  @override
+  String get deleteProfileConfirm => 'حذف نمایه';
+
+  @override
+  String deleteProfileConsequence(String name) {
+    return 'حذف $name سابقهٔ مرور او را برای همیشه پاک می‌کند. بازگشت‌ناپذیر است و با پاک‌کردن همهٔ داده‌ها فرق دارد.';
+  }
+
+  @override
   String get onboardingCoverageTitle => 'اجزایی که حفظ دارید';
 
   @override

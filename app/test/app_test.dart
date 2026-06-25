@@ -4,11 +4,17 @@
 import 'package:app/app.dart';
 import 'package:composition/composition.dart';
 import 'package:data/testing.dart';
-import 'package:features/features.dart' show OnboardingScreen;
+import 'package:features/features.dart'
+    show
+        MihrabAppearance,
+        OnboardingScreen,
+        activeProfileRecordProvider,
+        mihrabThemeFor;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:l10n/l10n.dart';
+import 'package:models/models.dart';
 
 import 'test_setup.dart';
 
@@ -73,6 +79,44 @@ void main() {
           .map((locale) => locale.languageCode)
           .toSet(),
       <String>{'ar', 'fa', 'ckb'},
+    );
+  });
+
+  testWidgets('app locale and theme follow the active profile (E16-T03)',
+      (tester) async {
+    final handle = inMemoryPersistenceHandle();
+    addTearDown(handle.close);
+    final profile = Profile(
+      profileId: const ProfileId('p1'),
+      displayName: 'self',
+      role: ProfileRole.self,
+      locale: ProfileLocale.fa,
+      mushafId: 'm1',
+      createdAtInstant: DateTime.utc(2026, 6, 17),
+      settings: const {'appearance': 'sepia'},
+    );
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          persistenceProvider.overrideWithValue(handle),
+          activeProfileRecordProvider
+              .overrideWith((ref) => Stream.value(profile)),
+        ],
+        child: const HifzApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final app = tester.widget<MaterialApp>(find.byType(MaterialApp));
+    expect(app.locale, const Locale('fa'));
+    // The chosen sepia appearance drives the theme (not the default light).
+    expect(
+      app.theme?.colorScheme,
+      mihrabThemeFor(MihrabAppearance.sepia).colorScheme,
+    );
+    expect(
+      app.theme?.colorScheme,
+      isNot(mihrabThemeFor(MihrabAppearance.light).colorScheme),
     );
   });
 }

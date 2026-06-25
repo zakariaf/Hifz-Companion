@@ -439,6 +439,186 @@ abstract class AppLocalizations {
   /// **'هذا القسم قيد الإعداد.'**
   String get sectionInPreparation;
 
+  /// Settings group header: display and presentation preferences (UI language, calendar, numerals, term-set, theme, font size, muṣḥaf edition). UI chrome, not religious copy. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'العرض'**
+  String get settingsSectionDisplay;
+
+  /// Settings group header: the revision-cycle preset, Pure-cycle mode, and daily time budget. Writes engine config only, never a retention dial. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'دورة المراجعة'**
+  String get settingsSectionCycle;
+
+  /// Settings group header: device-local profiles (self, student, child) and the active-profile switcher. A profile is a typed display name only, with no account and no PII. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'الملفات الشخصية'**
+  String get settingsSectionProfiles;
+
+  /// Settings group header: local, offline backup export and restore, with no cloud and no account. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'النسخ الاحتياطي'**
+  String get settingsSectionBackup;
+
+  /// Settings group header: app information and the offline science screen. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'حول التطبيق'**
+  String get settingsSectionAbout;
+
+  /// Display-settings sub-group label above the UI-language picker (fa/ckb/ar). Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'اللغة'**
+  String get settingsLanguageLabel;
+
+  /// Display-settings sub-group label above the theme picker (light/sepia/dark). Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'المظهر'**
+  String get settingsThemeLabel;
+
+  /// Display-settings sub-group label above the calendar-system picker. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'التقويم'**
+  String get settingsCalendarLabel;
+
+  /// Calendar-system option: Solar Hijri (Jalālī), the default for Persian. A display calendar only; never feeds scheduling. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'الهجري الشمسي'**
+  String get calendarJalali;
+
+  /// Calendar-system option: lunar Hijri, Umm al-Qurā civil reckoning. A civil-courtesy display date that issues no observance ruling (the standing caveat is shown). Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'الهجري (أم القرى)'**
+  String get calendarUmmAlQura;
+
+  /// Calendar-system option: Gregorian. A display calendar only. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'الميلادي'**
+  String get calendarGregorian;
+
+  /// Live preview under the calendar picker: today's date rendered in the chosen calendar (a display transform over the unchanged stored instant). {date} is a pre-formatted, bidi-isolated date string. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'اليوم: {date}'**
+  String settingsCalendarToday(String date);
+
+  /// Display-settings sub-group label above the term-set (regional sabaq/sabqi/manzil vocabulary) picker. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'المصطلحات'**
+  String get settingsTermSetLabel;
+
+  /// Term-set region option: the general/default vocabulary set. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'عام'**
+  String get termSetRegionOther;
+
+  /// Term-set region option: the Levant (al-Shām) vocabulary set. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'الشام'**
+  String get termSetRegionLevant;
+
+  /// Term-set region option: the Indian-subcontinent vocabulary set (e.g. dhor for far-revision). Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'شبه القارة'**
+  String get termSetRegionSubcontinent;
+
+  /// Caption shown under the term-set picker when the UI language is Kurdish (Sorani): the ckb terms are provisional pending native-speaker + scholarly review (PRD §13.4); no fiqh ruling. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'المصطلحات الكوردية مبدئية، بانتظار مراجعة متحدث أصلي وعالم.'**
+  String get termSetProvisionalNote;
+
+  /// Display-settings sub-group label above the muṣḥaf/riwāyah picker (names the edition and states the riwāyah explicitly; never calls it 'the Quran' in the absolute). Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'المصحف'**
+  String get settingsMushafLabel;
+
+  /// Title of the Profiles screen — the device-local multi-profile switcher + create. No account, no PII beyond the typed display name (PRD §17). Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'الملفات الشخصية'**
+  String get profilesScreenTitle;
+
+  /// Settings Profiles row subtitle: tap to switch or manage device-local profiles. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'بدّل أو أدِر الملفات الشخصية'**
+  String get profilesManageSubtitle;
+
+  /// Button to create a new device-local profile (a typed display name + role; no PII). Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة ملف'**
+  String get profilesAddButton;
+
+  /// Text-field hint for a new profile's display name — the only PII. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاسم الظاهر'**
+  String get profilesNameHint;
+
+  /// Accessibility/visual label marking the currently active profile in the switcher (selection is shape+label, never colour alone). Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'نشط'**
+  String get profilesActiveLabel;
+
+  /// Profile role: the device owner (self). Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'أنا'**
+  String get profileRoleSelf;
+
+  /// Profile role: a student a teacher signs off in halaqa mode. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'طالب'**
+  String get profileRoleStudent;
+
+  /// Profile role: a parent-managed child profile (calm, no gamification). Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'طفل'**
+  String get profileRoleChild;
+
+  /// Profile row menu action: rename a profile (change the display name). Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعادة تسمية'**
+  String get profilesRename;
+
+  /// Profile row menu action: delete a profile (opens the cancel-primary confirmation). Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف'**
+  String get profilesDelete;
+
+  /// The plainer, secondary destructive trigger label in the delete-profile confirmation (top-start corner; the safe Keep action is the primary, focused button). Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف الملف'**
+  String get deleteProfileConfirm;
+
+  /// The concrete, irreversible consequence in the delete-profile confirmation: it names the profile and states the loss honestly — no fear/loss leverage, no fiqh ruling; explicitly distinct from erase-all (E17). {name} is the bidi-isolated display name. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف {name} يزيل سجل مراجعته نهائيًا. لا يمكن التراجع، وهذا غير مسح كل البيانات.'**
+  String deleteProfileConsequence(String name);
+
   /// Title of the cold-start coverage step: the ḥāfiẓ marks which juz they hold. Calm, no guilt. PROVISIONAL — onboarding copy needs native + scholarly review (E11/E19); best-effort fa/ckb.
   ///
   /// In ar, this message translates to:

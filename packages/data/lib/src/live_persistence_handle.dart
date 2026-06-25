@@ -8,6 +8,7 @@ import 'db/database.dart';
 import 'persistence_handle.dart';
 import 'repositories/cold_start_repository.dart';
 import 'repositories/confusion_repository.dart';
+import 'repositories/cycle_config_repository.dart';
 import 'repositories/repositories.dart';
 import 'repositories/review_repository.dart';
 
@@ -34,7 +35,8 @@ final class LivePersistenceHandle
       : _database = database,
         reviews = LiveReviewRepository(database),
         coldStart = LiveColdStartRepository(database),
-        confusion = LiveConfusionRepository(database);
+        confusion = LiveConfusionRepository(database),
+        cycleConfig = LiveCycleConfigRepository(database);
 
   final HifzDatabase _database;
 
@@ -46,6 +48,9 @@ final class LivePersistenceHandle
 
   @override
   final ConfusionRepository confusion;
+
+  @override
+  final CycleConfigRepository cycleConfig;
 
   /// The underlying Drift database — data-internal only (never on the
   /// interface). The single write path (E03-T07) runs `database.transaction`.
@@ -80,10 +85,29 @@ final class LivePersistenceHandle
   Stream<List<Card>> watchForProfile(ProfileId profileId) =>
       _database.cardDao.watchForProfile(profileId);
 
-  // --- ProfileRepository reads ---
+  // --- ProfileRepository reads + the preference/profile write path ---
 
   @override
   Future<List<Profile>> all() => _database.profileDao.all();
+
+  @override
+  Future<Profile?> byProfileId(ProfileId profileId) =>
+      _database.profileDao.byId(profileId);
+
+  @override
+  Future<void> upsert(Profile profile) =>
+      _database.transaction(() => _database.profileDao.upsert(profile));
+
+  @override
+  Stream<Profile?> watchById(ProfileId profileId) =>
+      _database.profileDao.watchById(profileId);
+
+  @override
+  Stream<List<Profile>> watchAll() => _database.profileDao.watchAll();
+
+  @override
+  Future<void> delete(ProfileId profileId) =>
+      _database.transaction(() => _database.profileDao.deleteProfile(profileId));
 
   // --- ReferenceRepository reads ---
 

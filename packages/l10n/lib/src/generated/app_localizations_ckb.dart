@@ -343,6 +343,101 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get sectionInPreparation => 'ئەم بەشە لە ئامادەکردندایە.';
 
   @override
+  String get settingsSectionDisplay => 'پیشاندان';
+
+  @override
+  String get settingsSectionCycle => 'خولی پێداچوونەوە';
+
+  @override
+  String get settingsSectionProfiles => 'پرۆفایلەکان';
+
+  @override
+  String get settingsSectionBackup => 'پاڵپشت';
+
+  @override
+  String get settingsSectionAbout => 'دەربارە';
+
+  @override
+  String get settingsLanguageLabel => 'زمان';
+
+  @override
+  String get settingsThemeLabel => 'ڕووکار';
+
+  @override
+  String get settingsCalendarLabel => 'ڕۆژژمێر';
+
+  @override
+  String get calendarJalali => 'کۆچی هەتاوی';
+
+  @override
+  String get calendarUmmAlQura => 'کۆچی مانگی (ئوم القورا)';
+
+  @override
+  String get calendarGregorian => 'زایینی';
+
+  @override
+  String settingsCalendarToday(String date) {
+    return 'ئەمڕۆ: $date';
+  }
+
+  @override
+  String get settingsTermSetLabel => 'زاراوەکان';
+
+  @override
+  String get termSetRegionOther => 'گشتی';
+
+  @override
+  String get termSetRegionLevant => 'شام';
+
+  @override
+  String get termSetRegionSubcontinent => 'نیمکیشوەر';
+
+  @override
+  String get termSetProvisionalNote =>
+      'زاراوە کوردیەکان کاتین و چاوەڕێی پێداچوونەوەی خۆماڵی و زانستین.';
+
+  @override
+  String get settingsMushafLabel => 'موسحەف';
+
+  @override
+  String get profilesScreenTitle => 'پرۆفایلەکان';
+
+  @override
+  String get profilesManageSubtitle => 'گۆڕین یان بەڕێوەبردنی پرۆفایلەکان';
+
+  @override
+  String get profilesAddButton => 'زیادکردنی پرۆفایل';
+
+  @override
+  String get profilesNameHint => 'ناوی پیشاندان';
+
+  @override
+  String get profilesActiveLabel => 'چالاک';
+
+  @override
+  String get profileRoleSelf => 'خۆم';
+
+  @override
+  String get profileRoleStudent => 'خوێندکار';
+
+  @override
+  String get profileRoleChild => 'منداڵ';
+
+  @override
+  String get profilesRename => 'ناوگۆڕین';
+
+  @override
+  String get profilesDelete => 'سڕینەوە';
+
+  @override
+  String get deleteProfileConfirm => 'سڕینەوەی پرۆفایل';
+
+  @override
+  String deleteProfileConsequence(String name) {
+    return 'سڕینەوەی $name تۆماری پێداچوونەوەکەی بۆ هەمیشە دەسڕێتەوە. ناگەڕێتەوە و جیاوازە لە سڕینەوەی هەموو داتاکان.';
+  }
+
+  @override
   String get onboardingCoverageTitle => 'ئەو جوزانەی لەبەرتە';
 
   @override

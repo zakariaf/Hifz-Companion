@@ -29,6 +29,17 @@ class CycleConfigDao extends DatabaseAccessor<HifzDatabase>
     return row == null ? null : _toModel(row);
   }
 
+  /// A reactive stream of [profileId]'s cycle config (null if absent),
+  /// re-emitting after every committed write — the Settings term-set/cycle
+  /// surfaces read the current region/preset from it (persist-before-republish).
+  Stream<CycleConfig?> watchByProfile(ProfileId profileId) {
+    final query = select(cycleConfigs)
+      ..where((c) => c.profileId.equals(profileId.value));
+    return query
+        .watchSingleOrNull()
+        .map((row) => row == null ? null : _toModel(row));
+  }
+
   CycleConfig _toModel(CycleConfigRow row) {
     return CycleConfig(
       profileId: ProfileId(row.profileId),

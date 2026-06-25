@@ -354,6 +354,101 @@ class AppLocalizationsAr extends AppLocalizations {
   String get sectionInPreparation => 'هذا القسم قيد الإعداد.';
 
   @override
+  String get settingsSectionDisplay => 'العرض';
+
+  @override
+  String get settingsSectionCycle => 'دورة المراجعة';
+
+  @override
+  String get settingsSectionProfiles => 'الملفات الشخصية';
+
+  @override
+  String get settingsSectionBackup => 'النسخ الاحتياطي';
+
+  @override
+  String get settingsSectionAbout => 'حول التطبيق';
+
+  @override
+  String get settingsLanguageLabel => 'اللغة';
+
+  @override
+  String get settingsThemeLabel => 'المظهر';
+
+  @override
+  String get settingsCalendarLabel => 'التقويم';
+
+  @override
+  String get calendarJalali => 'الهجري الشمسي';
+
+  @override
+  String get calendarUmmAlQura => 'الهجري (أم القرى)';
+
+  @override
+  String get calendarGregorian => 'الميلادي';
+
+  @override
+  String settingsCalendarToday(String date) {
+    return 'اليوم: $date';
+  }
+
+  @override
+  String get settingsTermSetLabel => 'المصطلحات';
+
+  @override
+  String get termSetRegionOther => 'عام';
+
+  @override
+  String get termSetRegionLevant => 'الشام';
+
+  @override
+  String get termSetRegionSubcontinent => 'شبه القارة';
+
+  @override
+  String get termSetProvisionalNote =>
+      'المصطلحات الكوردية مبدئية، بانتظار مراجعة متحدث أصلي وعالم.';
+
+  @override
+  String get settingsMushafLabel => 'المصحف';
+
+  @override
+  String get profilesScreenTitle => 'الملفات الشخصية';
+
+  @override
+  String get profilesManageSubtitle => 'بدّل أو أدِر الملفات الشخصية';
+
+  @override
+  String get profilesAddButton => 'إضافة ملف';
+
+  @override
+  String get profilesNameHint => 'الاسم الظاهر';
+
+  @override
+  String get profilesActiveLabel => 'نشط';
+
+  @override
+  String get profileRoleSelf => 'أنا';
+
+  @override
+  String get profileRoleStudent => 'طالب';
+
+  @override
+  String get profileRoleChild => 'طفل';
+
+  @override
+  String get profilesRename => 'إعادة تسمية';
+
+  @override
+  String get profilesDelete => 'حذف';
+
+  @override
+  String get deleteProfileConfirm => 'حذف الملف';
+
+  @override
+  String deleteProfileConsequence(String name) {
+    return 'حذف $name يزيل سجل مراجعته نهائيًا. لا يمكن التراجع، وهذا غير مسح كل البيانات.';
+  }
+
+  @override
   String get onboardingCoverageTitle => 'الأجزاء التي تحفظها';
 
   @override
