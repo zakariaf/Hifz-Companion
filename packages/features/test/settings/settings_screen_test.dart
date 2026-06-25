@@ -1,14 +1,18 @@
 // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-// E16-T01: the grouped Settings scaffold renders its five section headers
-// (Display · Cycle · Profiles · Backup · About) on the one-handed template,
-// keeps the `screen.settings` a11y id the shell journey addresses, mirrors to
-// RTL under fa, and shows no gamified/scoreboard surface. Offline guard
-// installed; real Mihrab UI fonts for honest layout.
+// E16-T01: the grouped Settings scaffold renders its section headers (Display ·
+// Cycle · Reminders [E18-T06] · Profiles · Backup · About) on the one-handed
+// template, keeps the `screen.settings` a11y id the shell journey addresses,
+// mirrors to RTL under fa, and shows no gamified/scoreboard surface. Offline
+// guard installed; real Mihrab UI fonts for honest layout.
 
 import 'package:composition/composition.dart'
-    show cycleConfigRepositoryProvider, profileRepositoryProvider;
+    show
+        cycleConfigRepositoryProvider,
+        notificationSchedulerProvider,
+        profileRepositoryProvider;
+import 'package:composition/testing.dart' show FakeNotificationScheduler;
 import 'package:features/features.dart'
     show MihrabAppearance, SettingsScreen, mihrabThemeFor;
 import 'package:flutter/material.dart';
@@ -44,6 +48,10 @@ void main() {
             profileRepositoryProvider.overrideWithValue(FakeProfileRepository([])),
             cycleConfigRepositoryProvider
                 .overrideWithValue(FakeCycleConfigRepository()),
+            // E18-T06 mounts the reminder section here; it reads the scheduler
+            // boundary (the permission status), so wire a no-op fake.
+            notificationSchedulerProvider
+                .overrideWithValue(FakeNotificationScheduler()),
           ],
           child: MaterialApp(
             locale: locale,
@@ -57,12 +65,13 @@ void main() {
       );
   }
 
-  testWidgets('renders the five grouped section headers', (tester) async {
+  testWidgets('renders the six grouped section headers', (tester) async {
     await pump(tester);
     await tester.pumpAndSettle();
     final l10n = await l10nAr();
     expect(find.text(l10n.settingsSectionDisplay), findsOneWidget);
     expect(find.text(l10n.settingsSectionCycle), findsOneWidget);
+    expect(find.text(l10n.settingsSectionReminders), findsOneWidget);
     expect(find.text(l10n.settingsSectionProfiles), findsOneWidget);
     expect(find.text(l10n.settingsSectionBackup), findsOneWidget);
     expect(find.text(l10n.settingsSectionAbout), findsOneWidget);
