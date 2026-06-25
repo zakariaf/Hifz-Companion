@@ -73,6 +73,17 @@ final reminderControllerProvider = Provider<ReminderController>((ref) {
   );
 });
 
+/// Whether the OS currently permits notifications (E18-T08) — a non-prompting
+/// check the reminder row reads to show a calm, non-obstructive denied state when
+/// the reminder is on but the OS is blocking it. Auto-disposed so it re-checks
+/// each time the Settings surface re-subscribes (e.g. after the user returns from
+/// the system notification settings). Defaults to granted until it resolves, so
+/// the denied note never flashes on first paint.
+final notificationPermissionGrantedProvider =
+    FutureProvider.autoDispose<bool>((ref) {
+  return ref.watch(notificationSchedulerProvider).isPermissionGranted();
+});
+
 /// The single write path for cycle-config mutations (the term-set region today;
 /// the cycle preset + budget in E16-T07) — persists transactionally before the
 /// `activeCycleConfigProvider` stream republishes.

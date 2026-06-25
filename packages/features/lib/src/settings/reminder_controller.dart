@@ -39,9 +39,15 @@ class ReminderController {
   final Locale? Function() _readLocale;
 
   /// Opt-in / silence: turns the daily reminder on or off, persists, then
-  /// (re)schedules or cancels it.
-  Future<void> setEnabled({required bool enabled}) =>
-      _apply(_readPreferences().copyWith(enabled: enabled));
+  /// (re)schedules or cancels it. On opt-in — and only then — it requests OS
+  /// notification permission in context (E18-T08); a denied result is honestly
+  /// reflected by the row's calm denied note, never forced.
+  Future<void> setEnabled({required bool enabled}) async {
+    if (enabled) {
+      await _scheduler.requestPermission();
+    }
+    await _apply(_readPreferences().copyWith(enabled: enabled));
+  }
 
   /// Sets the local fire time, persists, then reschedules at the new time.
   Future<void> setTime({required int hour, required int minute}) =>

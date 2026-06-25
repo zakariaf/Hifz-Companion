@@ -875,6 +875,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get reminderNotificationBody => 'مراجعتك لليوم جاهزة.';
 
   @override
+  String get reminderPermissionDeniedNote =>
+      'الإشعارات مُعطَّلة لهذا التطبيق في إعدادات جهازك. يمكنك تفعيلها هناك لتصلك هذه التذكيرة.';
+
+  @override
   String get destructiveKeepData => 'احتفظ ببياناتي';
 
   @override

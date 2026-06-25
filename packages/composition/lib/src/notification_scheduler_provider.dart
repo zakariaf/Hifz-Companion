@@ -26,6 +26,17 @@ abstract interface class NotificationScheduler {
   /// Cancels every scheduled reminder. One tap silences the reminder; every
   /// reschedule calls this first so the schedule can never duplicate or go stale.
   Future<void> cancelAll();
+
+  /// Requests OS permission to post notifications — Android 13+ `POST_NOTIFICATIONS`
+  /// / iOS authorization — **in context, only when the user opts in** (E18-T08).
+  /// Returns whether it is granted; it never forces the user, and after a prior
+  /// decision it is a no-op that reports the current state.
+  Future<bool> requestPermission();
+
+  /// Whether the OS currently permits notifications — a **non-prompting** check
+  /// used to reflect a calm, non-obstructive denied state in the row (the reminder
+  /// is honestly shown as not firing), never to block or nag.
+  Future<bool> isPermissionGranted();
 }
 
 /// The local-notification scheduler seam — wired in `main`

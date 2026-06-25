@@ -857,6 +857,10 @@ class AppLocalizationsFa extends AppLocalizations {
   String get reminderNotificationBody => 'مرور امروز شما آماده است.';
 
   @override
+  String get reminderPermissionDeniedNote =>
+      'اعلان‌ها برای این برنامه در تنظیمات دستگاهت خاموش است. می‌توانی آنجا روشنشان کنی تا این یادآوری به دستت برسد.';
+
+  @override
   String get destructiveKeepData => 'داده‌هایم را نگه دار';
 
   @override

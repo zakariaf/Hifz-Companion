@@ -138,4 +138,23 @@ void main() {
     expect(scheduler.calls, <String>['cancel', 'schedule']);
     expect(scheduler.scheduled.single.hour, 8);
   });
+
+  test('opt-in requests OS permission in context; nothing else prompts',
+      () async {
+    final scheduler = FakeNotificationScheduler();
+    final profiles = FakeProfileRepository([fakeProfile('p1')]);
+    final c = makeContainer(scheduler, profiles);
+    await settle(c);
+    final controller = c.read(reminderControllerProvider);
+
+    await controller.setEnabled(enabled: true);
+    expect(scheduler.requestPermissionCount, 1); // the in-context opt-in prompt
+
+    // No other path prompts — never a re-prompt or a nag.
+    await controller.setTime(hour: 8, minute: 0);
+    await controller.setCatchUpNote(enabled: true);
+    await controller.reconcile();
+    await controller.setEnabled(enabled: false);
+    expect(scheduler.requestPermissionCount, 1);
+  });
 }

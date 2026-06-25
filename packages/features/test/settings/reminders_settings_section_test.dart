@@ -23,10 +23,13 @@ import 'package:models/models.dart' show ProfileId;
 import 'fake_profiles.dart';
 
 Future<(AppLocalizations, FakeNotificationScheduler, FakeProfileRepository)> _pump(
-  WidgetTester tester,
-) async {
-  final scheduler = FakeNotificationScheduler();
-  final profiles = FakeProfileRepository([fakeProfile('p1')]);
+  WidgetTester tester, {
+  bool permissionGranted = true,
+  Map<String, Object?>? settings,
+}) async {
+  final scheduler = FakeNotificationScheduler()
+    ..permissionGranted = permissionGranted;
+  final profiles = FakeProfileRepository([fakeProfile('p1', settings: settings)]);
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
@@ -88,5 +91,27 @@ void main() {
   testWidgets('the honest local-only line is always shown', (tester) async {
     final (l10n, _, _) = await _pump(tester);
     expect(find.text(l10n.reminderHonestLine), findsOneWidget);
+  });
+
+  testWidgets('a blocked OS permission shows the calm denied note (enabled)',
+      (tester) async {
+    final (l10n, _, _) = await _pump(
+      tester,
+      permissionGranted: false,
+      settings: {'reminderEnabled': true},
+    );
+    expect(find.text(l10n.reminderPermissionDeniedNote), findsOneWidget);
+  });
+
+  testWidgets('a granted permission shows no denied note', (tester) async {
+    final (l10n, _, _) = await _pump(tester, settings: {'reminderEnabled': true});
+    expect(find.text(l10n.reminderPermissionDeniedNote), findsNothing);
+  });
+
+  testWidgets('the denied note is absent while the reminder is off',
+      (tester) async {
+    // Even with the OS blocking, an off reminder shows no note — nothing to fire.
+    final (l10n, _, _) = await _pump(tester, permissionGranted: false);
+    expect(find.text(l10n.reminderPermissionDeniedNote), findsNothing);
   });
 }

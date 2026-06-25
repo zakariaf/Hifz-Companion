@@ -13,8 +13,15 @@ class FakeNotificationScheduler implements NotificationScheduler {
   /// How many times `cancelAll` has been called.
   int cancelAllCount = 0;
 
-  /// A flat, ordered log of `'cancel'` / `'schedule'` calls for ordering asserts.
+  /// A flat, ordered log of `'cancel'` / `'schedule'` calls for ordering asserts
+  /// (the permission calls are tracked separately so they don't perturb it).
   final List<String> calls = <String>[];
+
+  /// Whether the simulated OS grants notification permission (default granted).
+  bool permissionGranted = true;
+
+  /// How many times `requestPermission` was called — the in-context opt-in prompt.
+  int requestPermissionCount = 0;
 
   @override
   Future<void> scheduleDaily({
@@ -31,6 +38,15 @@ class FakeNotificationScheduler implements NotificationScheduler {
     cancelAllCount++;
     calls.add('cancel');
   }
+
+  @override
+  Future<bool> requestPermission() async {
+    requestPermissionCount++;
+    return permissionGranted;
+  }
+
+  @override
+  Future<bool> isPermissionGranted() async => permissionGranted;
 }
 
 /// One recorded `scheduleDaily` call.

@@ -21,9 +21,9 @@ Widget _host(Locale locale) => MaterialApp(
       localizationsDelegates: hifzLocalizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       theme: mihrabThemeFor(MihrabAppearance.light),
-      home: Scaffold(
+      home: const Scaffold(
         body: ReminderRow(
-          state: const ReminderRowState(
+          state: ReminderRowState(
             enabled: true,
             time: TimeOfDay(hour: 9, minute: 5),
           ),

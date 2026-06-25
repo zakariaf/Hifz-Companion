@@ -1309,6 +1309,12 @@ abstract class AppLocalizations {
   /// **'مراجعتك لليوم جاهزة.'**
   String get reminderNotificationBody;
 
+  /// The calm, non-obstructive denied state shown when the reminder is on but the OS blocks notifications (E18-T08; privacy 10 §6/§11). Explains and points to system settings — never forces, nags, or re-prompts. No guilt/fear, no exclamation, no mandate ('you can', not 'you must'). Consumed by E18. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإشعارات مُعطَّلة لهذا التطبيق في إعدادات جهازك. يمكنك تفعيلها هناك لتصلك هذه التذكيرة.'**
+  String get reminderPermissionDeniedNote;
+
   /// The SAFE primary action of the destructive-confirm gate — Cancel / Keep my data (the visually-primary, default-focused button; privacy 10 §9, §11). Never buried. Consumed by E16/E17. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///
   /// In ar, this message translates to:

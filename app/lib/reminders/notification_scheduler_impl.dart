@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import 'package:composition/composition.dart' show NotificationScheduler;
+import 'package:flutter/foundation.dart'
+    show TargetPlatform, defaultTargetPlatform;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:timezone/data/latest_all.dart' as tzdata;
@@ -89,5 +91,48 @@ final class LiveNotificationScheduler implements NotificationScheduler {
   Future<void> cancelAll() async {
     await _ensureReady();
     await _plugin.cancelAll();
+  }
+
+  @override
+  Future<bool> requestPermission() async {
+    await _ensureReady();
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+        final granted = await _plugin
+            .resolvePlatformSpecificImplementation<
+                AndroidFlutterLocalNotificationsPlugin>()
+            ?.requestNotificationsPermission();
+        return granted ?? false;
+      case TargetPlatform.iOS:
+        final granted = await _plugin
+            .resolvePlatformSpecificImplementation<
+                IOSFlutterLocalNotificationsPlugin>()
+            ?.requestPermissions(alert: true, sound: true);
+        return granted ?? false;
+      default:
+        // No explicit notification-permission gate on this platform.
+        return true;
+    }
+  }
+
+  @override
+  Future<bool> isPermissionGranted() async {
+    await _ensureReady();
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+        final enabled = await _plugin
+            .resolvePlatformSpecificImplementation<
+                AndroidFlutterLocalNotificationsPlugin>()
+            ?.areNotificationsEnabled();
+        return enabled ?? false;
+      case TargetPlatform.iOS:
+        final options = await _plugin
+            .resolvePlatformSpecificImplementation<
+                IOSFlutterLocalNotificationsPlugin>()
+            ?.checkPermissions();
+        return options?.isEnabled ?? false;
+      default:
+        return true;
+    }
   }
 }

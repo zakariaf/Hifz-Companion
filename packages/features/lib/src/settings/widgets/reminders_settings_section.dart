@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:l10n/l10n.dart';
 
 import '../../design_system/components/reminder_row.dart';
+import '../../design_system/theme/spacing_tokens.dart';
 import '../settings_providers.dart';
 import 'settings_section.dart';
 
@@ -28,6 +29,10 @@ class RemindersSettingsSection extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final prefs = ref.watch(reminderPreferencesProvider);
     final controller = ref.read(reminderControllerProvider);
+    // Assume granted until the non-prompting check resolves, so the calm denied
+    // note never flashes on first paint.
+    final granted =
+        ref.watch(notificationPermissionGrantedProvider).asData?.value ?? true;
 
     return SettingsSection(
       title: l10n.settingsSectionReminders,
@@ -46,7 +51,36 @@ class RemindersSettingsSection extends ConsumerWidget {
                 controller.setCatchUpNote(enabled: value),
           ),
         ),
+        // When the reminder is on but the OS is blocking notifications, an honest,
+        // non-obstructive note (never a forced action): the row already reflects
+        // the user's choice; this explains why it can't fire and where to enable it.
+        if (prefs.enabled && !granted) const _PermissionDeniedNote(),
       ],
+    );
+  }
+}
+
+/// The calm, screen-reader-legible denied state (E18-T08): the reminder is on but
+/// the OS is blocking notifications. It explains and points to system settings — it
+/// never blocks, nags, or re-prompts (the OS won't re-prompt after a denial).
+class _PermissionDeniedNote extends StatelessWidget {
+  const _PermissionDeniedNote();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final space = theme.extension<SpacingTokens>()!;
+    return Padding(
+      padding: EdgeInsetsDirectional.only(
+        start: space.space4,
+        end: space.space4,
+        bottom: space.space4,
+      ),
+      child: Text(
+        AppLocalizations.of(context).reminderPermissionDeniedNote,
+        style: theme.textTheme.bodyMedium
+            ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+      ),
     );
   }
 }
