@@ -7,33 +7,12 @@ import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:timezone/data/latest_all.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
 
+import 'next_daily_fire.dart';
+
 /// The Android channel + stable id for the single daily revision reminder.
 const String _kChannelId = 'hifz_daily_reminder';
 const String _kChannelName = 'Daily revision reminder';
 const int _kReminderId = 0;
-
-/// The next instant a daily reminder for local [hour]:[minute] should fire,
-/// relative to [now] and in [now]'s zone — today if that time is still ahead,
-/// otherwise tomorrow.
-///
-/// Pure and DST-correct: because [now] is a `TZDateTime`, building the same
-/// wall-clock time and adding a calendar day are resolved by the `timezone`
-/// database (not a fixed offset), so a daily 07:00 stays 07:00 *local* across a
-/// spring-forward / fall-back. E18-T04 pins this with DST/timezone vectors; the
-/// live scheduler supplies the real `tz.TZDateTime.now(tz.local)` at the app
-/// edge, so this function reads no clock.
-tz.TZDateTime nextDailyFire({
-  required tz.TZDateTime now,
-  required int hour,
-  required int minute,
-}) {
-  var fire =
-      tz.TZDateTime(now.location, now.year, now.month, now.day, hour, minute);
-  if (!fire.isAfter(now)) {
-    fire = fire.add(const Duration(days: 1));
-  }
-  return fire;
-}
 
 /// The live [NotificationScheduler] (E18; PRD §14): one local daily reminder via
 /// `flutter_local_notifications`, fired at a fixed *local* wall-clock time that
@@ -44,7 +23,7 @@ tz.TZDateTime nextDailyFire({
 /// NO push, NO server, NO network — the OS fires it. Alarms are **inexact**
 /// (`inexactAllowWhileIdle`, so no `SCHEDULE_EXACT_ALARM` permission). Thin
 /// platform glue; untested (no device in CI). The fire-time arithmetic is the
-/// pure [nextDailyFire] above; the one clock read is the app-edge
+/// pure [nextDailyFire] helper; the one clock read is the app-edge
 /// `tz.TZDateTime.now(tz.local)` below, never `DateTime.now()` in shell logic.
 final class LiveNotificationScheduler implements NotificationScheduler {
   /// Creates the scheduler over [plugin] (defaults to a fresh plugin instance).
