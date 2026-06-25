@@ -1032,4 +1032,109 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get progressForecastTitle => 'الأيام القادمة';
+
+  @override
+  String get backupOwnershipLine =>
+      'النسخة الاحتياطية ملفّ تحتفظ به أنت على هذا الجهاز؛ لا يرسله التطبيق إلى أي مكان، ولأنه لا توجد سحابة فأنت صاحب النسخة الوحيدة.';
+
+  @override
+  String get backupNoBackupYet => 'لا توجد نسخة احتياطية بعد.';
+
+  @override
+  String get backupExportAction => 'حفظ نسخة احتياطية';
+
+  @override
+  String get backupImportAction => 'الاستعادة من ملف';
+
+  @override
+  String get eraseAllDataAction => 'محو كل البيانات';
+
+  @override
+  String get backupPreparing => 'جارٍ تحضير النسخة الاحتياطية…';
+
+  @override
+  String get backupExportFailed => 'تعذّر تحضير النسخة الاحتياطية.';
+
+  @override
+  String get backupRestored => 'تمت الاستعادة.';
+
+  @override
+  String get backupCrossMushaf =>
+      'أُنشئت هذه النسخة لمصحف مختلف، فلا يمكن استعادتها هنا.';
+
+  @override
+  String get backupPassphrasePromptTitle => 'أدخل كلمة سر النسخة الاحتياطية';
+
+  @override
+  String get backupPassphraseHint => 'كلمة السر';
+
+  @override
+  String get backupUnlockAction => 'فتح';
+
+  @override
+  String get backupErrorNotBackup => 'هذا الملف ليس نسخة احتياطية لحِفظ.';
+
+  @override
+  String get backupErrorNewer =>
+      'أُنشئت هذه النسخة بإصدار أحدث من التطبيق؛ يُرجى التحديث لفتحها.';
+
+  @override
+  String get backupErrorDamaged => 'هذا الملف تالف أو غير مكتمل.';
+
+  @override
+  String get backupErrorWrongPassword => 'كلمة السر غير صحيحة، أو الملف تالف.';
+
+  @override
+  String get backupErrorUnreadable => 'تعذّرت قراءة هذا الملف.';
+
+  @override
+  String get backupNoRecoveryTradeoff =>
+      'إذا فقدت هذا الهاتف وفقدت ملف النسخة الاحتياطية، فلن يمكن استرجاع سجلك؛ لا توجد سحابة ولا حساب يستعيده.';
+
+  @override
+  String get backupEncryptToggle => 'تشفير هذه النسخة';
+
+  @override
+  String get backupEncryptOneLiner => 'يقفل الملف بكلمة سر تملكها وحدك.';
+
+  @override
+  String get backupPassphraseUnrecoverable =>
+      'إن نسيت كلمة السر فلن يمكن فتح الملف؛ ولا تُحفظ في أي مكان.';
+
+  @override
+  String get backupUnencryptedReadable =>
+      'النسخة غير المشفّرة يمكن لأي من يفتح الملف قراءتها.';
+
+  @override
+  String get backupSaveAction => 'حفظ النسخة';
+
+  @override
+  String get backupMergeOption => 'الإضافة إلى سجلي';
+
+  @override
+  String get backupMergeConsequence =>
+      'تضيف المراجعات المستوردة إلى سجلك الحالي مع الإبقاء على الاثنين.';
+
+  @override
+  String get backupReplaceOption => 'استبدال كل البيانات';
+
+  @override
+  String get backupReplaceConsequence =>
+      'تستبدل كل البيانات الموجودة الآن في رفيق الحفظ بمحتوى الملف.';
+
+  @override
+  String get eraseConsequence =>
+      'يمحو هذا نهائيًا كل ملف شخصي وكل سجل مراجعة على هذا الجهاز. وأي ملف نسخة احتياطية حفظته يصبح حينها النسخة الوحيدة الباقية. لا يمكن التراجع.';
+
+  @override
+  String get eraseConfirmFirst => 'محو كل شيء';
+
+  @override
+  String get eraseKeepData => 'الإبقاء على بياناتي';
+
+  @override
+  String get eraseConsequenceSecond => 'هذا نهائي ولا يمكن التراجع عنه.';
+
+  @override
+  String get eraseConfirmSecond => 'محو الآن';
 }

@@ -10,12 +10,13 @@ publish_to: none
 environment:
   sdk: ^3.6.0
 
-# All nine members in layer order (app + eight packages). models is the
-# bottom-of-graph value-type member below engine.
+# All eleven members in layer order (app + ten packages). models is the
+# bottom-of-graph value-type member below engine; backup is pure-Dart over it.
 workspace:
   - app
   - packages/models
   - packages/engine
+  - packages/backup
   - packages/profiles
   - packages/data
   - packages/quran

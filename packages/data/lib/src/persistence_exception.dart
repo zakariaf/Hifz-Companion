@@ -94,6 +94,37 @@ final class ColdStartConstraintViolated extends ColdStartWriteException {
       : super('a cold-start seed row violated a storage constraint');
 }
 
+/// The backup-restore write path (`RestoreRepository`, E17-T06) could not durably
+/// apply a `.hifzbackup` — replace and merge are all-or-nothing, so on failure
+/// the store rolls back to the exact pre-import state. A subtree of the one
+/// sealed [PersistenceException], surfaced to the backup feature (a calm retry,
+/// never a guilt message).
+sealed class RestoreWriteException extends PersistenceException {
+  /// Creates a restore write exception with a developer-facing [message].
+  const RestoreWriteException(super.message);
+}
+
+/// The restore transaction failed and was rolled back to the pre-import state.
+final class RestoreFailed extends RestoreWriteException {
+  /// Creates the restore-failed exception.
+  const RestoreFailed() : super('the backup restore failed and was rolled back');
+}
+
+/// Even the rollback failed — the store is left needing recovery.
+final class RestoreRollbackFailed extends RestoreWriteException {
+  /// Creates the rollback-failed exception.
+  const RestoreRollbackFailed()
+      : super('the backup restore rollback failed; the store needs recovery');
+}
+
+/// A restored row violated a storage `CHECK`/FK (e.g. a card for an unknown
+/// page); the whole restore rolled back to the pre-import state.
+final class RestoreConstraintViolated extends RestoreWriteException {
+  /// Creates the constraint-violated exception.
+  const RestoreConstraintViolated()
+      : super('a restored row violated a storage constraint');
+}
+
 /// The swap-logging write path (`logSwap`, E14-T03) could not durably commit a
 /// `confusion_edge` strengthen — a swap is a durable bookkeeping act, never a
 /// best-effort "save later", so this surfaces to the feature layer to handle

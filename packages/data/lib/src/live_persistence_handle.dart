@@ -6,10 +6,12 @@ import 'package:models/models.dart';
 import 'db/connection.dart';
 import 'db/database.dart';
 import 'persistence_handle.dart';
+import 'repositories/backup_read_repository.dart';
 import 'repositories/cold_start_repository.dart';
 import 'repositories/confusion_repository.dart';
 import 'repositories/cycle_config_repository.dart';
 import 'repositories/repositories.dart';
+import 'repositories/restore_repository.dart';
 import 'repositories/review_repository.dart';
 
 /// The live [PersistenceHandle] over the Drift [HifzDatabase] — the one place a
@@ -35,6 +37,8 @@ final class LivePersistenceHandle
       : _database = database,
         reviews = LiveReviewRepository(database),
         coldStart = LiveColdStartRepository(database),
+        restore = LiveRestoreRepository(database),
+        backupRead = LiveBackupReadRepository(database),
         confusion = LiveConfusionRepository(database),
         cycleConfig = LiveCycleConfigRepository(database);
 
@@ -45,6 +49,12 @@ final class LivePersistenceHandle
 
   @override
   final ColdStartRepository coldStart;
+
+  @override
+  final RestoreRepository restore;
+
+  @override
+  final BackupReadRepository backupRead;
 
   @override
   final ConfusionRepository confusion;

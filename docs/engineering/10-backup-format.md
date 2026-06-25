@@ -126,12 +126,12 @@ All multi-byte integers are **big-endian**. Minimum valid file size is 16 bytes 
 
 | Offset | Size | Field | Value |
 |---|---|---|---|
-| 0 | 7 | Magic | ASCII `HIFZBK` = `48 49 46 5A 42 4B` |
-| 7 | 1 | Separator | `0x1F` (US — unit separator; makes the magic non-text-pasteable) |
-| 8 | 1 | Format version | `0x01` |
-| 9 | 1 | Mode | `0x01` = plaintext JSON · `0x02` = encrypted-JSON envelope |
-| 10 | 4 | Body length `n` | UInt32 big-endian; rejected if `10 + 32 + n` ≠ file length |
-| 14 | 2 | Reserved | `00 00` (must be zero in v1; non-zero ⇒ reject) |
+| 0 | 6 | Magic | ASCII `HIFZBK` = `48 49 46 5A 42 4B` |
+| 6 | 1 | Separator | `0x1F` (US — unit separator; makes the magic non-text-pasteable) |
+| 7 | 1 | Format version | `0x01` |
+| 8 | 1 | Mode | `0x01` = plaintext JSON · `0x02` = encrypted-JSON envelope |
+| 9 | 4 | Body length `n` | UInt32 big-endian; rejected if `16 + 32 + n` ≠ file length |
+| 13 | 3 | Reserved | `00 00 00` (must be zero in v1; non-zero ⇒ reject) |
 | 16 | 32 | Body SHA-256 | digest over bytes `[48 …]` (the body) — §5 |
 | 48 | n | Body | mode `0x01`: canonical UTF-8 JSON (§4) · mode `0x02`: encryption envelope (§6) |
 
@@ -193,11 +193,11 @@ Each `ProfileExport`:
 | `cards` | array | `card` | Per page: `pageId`, `track`, `d`, `s`, `lastReviewAt` (floating date), `dueAt` (floating date), `reps`, `lapses`, `weakFlag`, `signoffs`, `manualLock`, `prayerCritical`, `enabled`. |
 | `lineBlocks` | array | `line_block` | Lazily-created weak-spot blocks: `blockId`, `pageId`, `lineStart`, `lineEnd`, `errorCount`. |
 | `reviewLog` | array | `review_log` | **Append-only.** Each row: `logId` (UUID), `pageId`, `reviewedAt` (UTC instant), `trackAtReview`, `grade`, `errorLinesJson`, `elapsedDays`, `rPredicted`, `sBefore`, `sAfter`, `dBefore`, `dAfter`, `source`, `teacherLabel?`. |
-| `confusionEdges` | array | `confusion_edge` | `ayahA`, `ayahB`, `weight`, `lastConfusedAt` (UTC). |
+| `confusionEdges` | array | `confusion_edge` | `ayahA`, `ayahB`, `weight`, `lastConfusedAt` (floating date — a `CalendarDate` serial day since the schema-v2 migration). |
 
 Encoding rules:
 
-- **Scheduling days** (`dueAt`, `lastReviewAt`) are floating `"YYYY-MM-DD"`; **true event instants** (`reviewedAt`, `createdAt`, `lastConfusedAt`) are UTC ISO-8601. Restore in a different timezone is tested for record-identity (§8).
+- **Scheduling days** (`dueAt`, `lastReviewAt`, `lastConfusedAt`) are floating `"YYYY-MM-DD"`; **true event instants** (`reviewedAt`, `createdAt`) are UTC ISO-8601. Restore in a different timezone is tested for record-identity (§8).
 - **`logId` and `profileId` are stable UUIDs**, assigned at row creation, carried verbatim. They are the content-address keys that make merge a deduplicating set union (§7) — without device-stable ids, merging two exports would duplicate sign-offs.
 - **No derived field is exported** — no juz/ḥizb health %, no Today list, no forecast; the engine recomputes them ([PRD §10.3](../PRD.md)).
 - **Notifications are not exported** — they are a rebuildable local cache, re-scheduled from `cycle_config` after import ([14 — Notifications, PRD §14](../PRD.md)).

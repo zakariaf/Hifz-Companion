@@ -1584,6 +1584,198 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'الأيام القادمة'**
   String get progressForecastTitle;
+
+  /// E17 backup card: states BOTH halves of ownership — a local file the app moves nowhere, and the user holds the only copy (no cloud). PROVISIONAL — pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'النسخة الاحتياطية ملفّ تحتفظ به أنت على هذا الجهاز؛ لا يرسله التطبيق إلى أي مكان، ولأنه لا توجد سحابة فأنت صاحب النسخة الوحيدة.'**
+  String get backupOwnershipLine;
+
+  /// E17 backup status line when no backup has been made — a neutral fact, never a scold. PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا توجد نسخة احتياطية بعد.'**
+  String get backupNoBackupYet;
+
+  /// E17 backup card: the export (save-a-backup) action label. PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'حفظ نسخة احتياطية'**
+  String get backupExportAction;
+
+  /// E17 backup card: the import (restore-from-a-file) action label. PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاستعادة من ملف'**
+  String get backupImportAction;
+
+  /// E17 erase entry-point label (opens the two-step confirmation). PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'محو كل البيانات'**
+  String get eraseAllDataAction;
+
+  /// E17 export progress note — real CPU/crypto work, never a fake sync. PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'جارٍ تحضير النسخة الاحتياطية…'**
+  String get backupPreparing;
+
+  /// E17 export failure note. PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذّر تحضير النسخة الاحتياطية.'**
+  String get backupExportFailed;
+
+  /// E17 restore success note — quiet, no fanfare. PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'تمت الاستعادة.'**
+  String get backupRestored;
+
+  /// E17 cross-muṣḥaf refusal (R2) — refused clearly, never coerced. PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'أُنشئت هذه النسخة لمصحف مختلف، فلا يمكن استعادتها هنا.'**
+  String get backupCrossMushaf;
+
+  /// E17 import: prompt title for an encrypted backup's password. PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'أدخل كلمة سر النسخة الاحتياطية'**
+  String get backupPassphrasePromptTitle;
+
+  /// E17 password field hint. PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'كلمة السر'**
+  String get backupPassphraseHint;
+
+  /// E17 import: unlock-with-password action. PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'فتح'**
+  String get backupUnlockAction;
+
+  /// E17 restore error: not a Hifz backup file. PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا الملف ليس نسخة احتياطية لحِفظ.'**
+  String get backupErrorNotBackup;
+
+  /// E17 restore error: the backup is newer than this app version. PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'أُنشئت هذه النسخة بإصدار أحدث من التطبيق؛ يُرجى التحديث لفتحها.'**
+  String get backupErrorNewer;
+
+  /// E17 restore error: integrity check failed (damaged/truncated). PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا الملف تالف أو غير مكتمل.'**
+  String get backupErrorDamaged;
+
+  /// E17 restore error: wrong password or corrupt ciphertext — indistinguishable. PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'كلمة السر غير صحيحة، أو الملف تالف.'**
+  String get backupErrorWrongPassword;
+
+  /// E17 restore error: malformed payload. PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذّرت قراءة هذا الملف.'**
+  String get backupErrorUnreadable;
+
+  /// E17 export sheet: the no-recovery tradeoff as a CHECKABLE FACT, empathy-then-fact, never 'your data is safe'. PROVISIONAL — pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'إذا فقدت هذا الهاتف وفقدت ملف النسخة الاحتياطية، فلن يمكن استرجاع سجلك؛ لا توجد سحابة ولا حساب يستعيده.'**
+  String get backupNoRecoveryTradeoff;
+
+  /// E17 export sheet: the optional-encryption switch (protective default on). PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'تشفير هذه النسخة'**
+  String get backupEncryptToggle;
+
+  /// E17 encryption one-line explanation. PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'يقفل الملف بكلمة سر تملكها وحدك.'**
+  String get backupEncryptOneLiner;
+
+  /// E17 export sheet: a forgotten passphrase is unrecoverable; never stored. PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'إن نسيت كلمة السر فلن يمكن فتح الملف؛ ولا تُحفظ في أي مكان.'**
+  String get backupPassphraseUnrecoverable;
+
+  /// E17 export sheet: plain honesty that an unencrypted backup is readable by anyone. PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'النسخة غير المشفّرة يمكن لأي من يفتح الملف قراءتها.'**
+  String get backupUnencryptedReadable;
+
+  /// E17 export sheet: the confirm-and-save action. PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'حفظ النسخة'**
+  String get backupSaveAction;
+
+  /// E17 restore: the merge option label (teacher↔student transfer). PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإضافة إلى سجلي'**
+  String get backupMergeOption;
+
+  /// E17 restore: merge consequence — adds, keeps both. PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'تضيف المراجعات المستوردة إلى سجلك الحالي مع الإبقاء على الاثنين.'**
+  String get backupMergeConsequence;
+
+  /// E17 restore: the replace option label. PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'استبدال كل البيانات'**
+  String get backupReplaceOption;
+
+  /// E17 restore: replace consequence — wipes and rebuilds from the file. PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'تستبدل كل البيانات الموجودة الآن في رفيق الحفظ بمحتوى الملف.'**
+  String get backupReplaceConsequence;
+
+  /// E17 erase gate: concrete irreversible consequence; any backup file becomes the only copy. PROVISIONAL — pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'يمحو هذا نهائيًا كل ملف شخصي وكل سجل مراجعة على هذا الجهاز. وأي ملف نسخة احتياطية حفظته يصبح حينها النسخة الوحيدة الباقية. لا يمكن التراجع.'**
+  String get eraseConsequence;
+
+  /// E17 erase gate: step-1 destructive trigger label. PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'محو كل شيء'**
+  String get eraseConfirmFirst;
+
+  /// E17 erase gate: the SAFE primary (cancel) label. PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإبقاء على بياناتي'**
+  String get eraseKeepData;
+
+  /// E17 erase gate: step-2 consequence. PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا نهائي ولا يمكن التراجع عنه.'**
+  String get eraseConsequenceSecond;
+
+  /// E17 erase gate: step-2 destructive trigger label. PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'محو الآن'**
+  String get eraseConfirmSecond;
 }
 
 class _AppLocalizationsDelegate

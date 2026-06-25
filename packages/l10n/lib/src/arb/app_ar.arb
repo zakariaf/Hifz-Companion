@@ -1153,5 +1153,133 @@
   "progressForecastTitle": "الأيام القادمة",
   "@progressForecastTitle": {
     "description": "E15 upcoming-load forecast heading (a calm planning aid, never a deadline pile). PROVISIONAL — pending native + scholarly review."
+  },
+  "backupOwnershipLine": "النسخة الاحتياطية ملفّ تحتفظ به أنت على هذا الجهاز؛ لا يرسله التطبيق إلى أي مكان، ولأنه لا توجد سحابة فأنت صاحب النسخة الوحيدة.",
+  "@backupOwnershipLine": {
+    "description": "E17 backup card: states BOTH halves of ownership — a local file the app moves nowhere, and the user holds the only copy (no cloud). PROVISIONAL — pending native + scholarly review."
+  },
+  "backupNoBackupYet": "لا توجد نسخة احتياطية بعد.",
+  "@backupNoBackupYet": {
+    "description": "E17 backup status line when no backup has been made — a neutral fact, never a scold. PROVISIONAL."
+  },
+  "backupExportAction": "حفظ نسخة احتياطية",
+  "@backupExportAction": {
+    "description": "E17 backup card: the export (save-a-backup) action label. PROVISIONAL."
+  },
+  "backupImportAction": "الاستعادة من ملف",
+  "@backupImportAction": {
+    "description": "E17 backup card: the import (restore-from-a-file) action label. PROVISIONAL."
+  },
+  "eraseAllDataAction": "محو كل البيانات",
+  "@eraseAllDataAction": {
+    "description": "E17 erase entry-point label (opens the two-step confirmation). PROVISIONAL."
+  },
+  "backupPreparing": "جارٍ تحضير النسخة الاحتياطية…",
+  "@backupPreparing": {
+    "description": "E17 export progress note — real CPU/crypto work, never a fake sync. PROVISIONAL."
+  },
+  "backupExportFailed": "تعذّر تحضير النسخة الاحتياطية.",
+  "@backupExportFailed": {
+    "description": "E17 export failure note. PROVISIONAL."
+  },
+  "backupRestored": "تمت الاستعادة.",
+  "@backupRestored": {
+    "description": "E17 restore success note — quiet, no fanfare. PROVISIONAL."
+  },
+  "backupCrossMushaf": "أُنشئت هذه النسخة لمصحف مختلف، فلا يمكن استعادتها هنا.",
+  "@backupCrossMushaf": {
+    "description": "E17 cross-muṣḥaf refusal (R2) — refused clearly, never coerced. PROVISIONAL."
+  },
+  "backupPassphrasePromptTitle": "أدخل كلمة سر النسخة الاحتياطية",
+  "@backupPassphrasePromptTitle": {
+    "description": "E17 import: prompt title for an encrypted backup's password. PROVISIONAL."
+  },
+  "backupPassphraseHint": "كلمة السر",
+  "@backupPassphraseHint": {
+    "description": "E17 password field hint. PROVISIONAL."
+  },
+  "backupUnlockAction": "فتح",
+  "@backupUnlockAction": {
+    "description": "E17 import: unlock-with-password action. PROVISIONAL."
+  },
+  "backupErrorNotBackup": "هذا الملف ليس نسخة احتياطية لحِفظ.",
+  "@backupErrorNotBackup": {
+    "description": "E17 restore error: not a Hifz backup file. PROVISIONAL."
+  },
+  "backupErrorNewer": "أُنشئت هذه النسخة بإصدار أحدث من التطبيق؛ يُرجى التحديث لفتحها.",
+  "@backupErrorNewer": {
+    "description": "E17 restore error: the backup is newer than this app version. PROVISIONAL."
+  },
+  "backupErrorDamaged": "هذا الملف تالف أو غير مكتمل.",
+  "@backupErrorDamaged": {
+    "description": "E17 restore error: integrity check failed (damaged/truncated). PROVISIONAL."
+  },
+  "backupErrorWrongPassword": "كلمة السر غير صحيحة، أو الملف تالف.",
+  "@backupErrorWrongPassword": {
+    "description": "E17 restore error: wrong password or corrupt ciphertext — indistinguishable. PROVISIONAL."
+  },
+  "backupErrorUnreadable": "تعذّرت قراءة هذا الملف.",
+  "@backupErrorUnreadable": {
+    "description": "E17 restore error: malformed payload. PROVISIONAL."
+  },
+  "backupNoRecoveryTradeoff": "إذا فقدت هذا الهاتف وفقدت ملف النسخة الاحتياطية، فلن يمكن استرجاع سجلك؛ لا توجد سحابة ولا حساب يستعيده.",
+  "@backupNoRecoveryTradeoff": {
+    "description": "E17 export sheet: the no-recovery tradeoff as a CHECKABLE FACT, empathy-then-fact, never 'your data is safe'. PROVISIONAL — pending native + scholarly review."
+  },
+  "backupEncryptToggle": "تشفير هذه النسخة",
+  "@backupEncryptToggle": {
+    "description": "E17 export sheet: the optional-encryption switch (protective default on). PROVISIONAL."
+  },
+  "backupEncryptOneLiner": "يقفل الملف بكلمة سر تملكها وحدك.",
+  "@backupEncryptOneLiner": {
+    "description": "E17 encryption one-line explanation. PROVISIONAL."
+  },
+  "backupPassphraseUnrecoverable": "إن نسيت كلمة السر فلن يمكن فتح الملف؛ ولا تُحفظ في أي مكان.",
+  "@backupPassphraseUnrecoverable": {
+    "description": "E17 export sheet: a forgotten passphrase is unrecoverable; never stored. PROVISIONAL."
+  },
+  "backupUnencryptedReadable": "النسخة غير المشفّرة يمكن لأي من يفتح الملف قراءتها.",
+  "@backupUnencryptedReadable": {
+    "description": "E17 export sheet: plain honesty that an unencrypted backup is readable by anyone. PROVISIONAL."
+  },
+  "backupSaveAction": "حفظ النسخة",
+  "@backupSaveAction": {
+    "description": "E17 export sheet: the confirm-and-save action. PROVISIONAL."
+  },
+  "backupMergeOption": "الإضافة إلى سجلي",
+  "@backupMergeOption": {
+    "description": "E17 restore: the merge option label (teacher↔student transfer). PROVISIONAL."
+  },
+  "backupMergeConsequence": "تضيف المراجعات المستوردة إلى سجلك الحالي مع الإبقاء على الاثنين.",
+  "@backupMergeConsequence": {
+    "description": "E17 restore: merge consequence — adds, keeps both. PROVISIONAL."
+  },
+  "backupReplaceOption": "استبدال كل البيانات",
+  "@backupReplaceOption": {
+    "description": "E17 restore: the replace option label. PROVISIONAL."
+  },
+  "backupReplaceConsequence": "تستبدل كل البيانات الموجودة الآن في رفيق الحفظ بمحتوى الملف.",
+  "@backupReplaceConsequence": {
+    "description": "E17 restore: replace consequence — wipes and rebuilds from the file. PROVISIONAL."
+  },
+  "eraseConsequence": "يمحو هذا نهائيًا كل ملف شخصي وكل سجل مراجعة على هذا الجهاز. وأي ملف نسخة احتياطية حفظته يصبح حينها النسخة الوحيدة الباقية. لا يمكن التراجع.",
+  "@eraseConsequence": {
+    "description": "E17 erase gate: concrete irreversible consequence; any backup file becomes the only copy. PROVISIONAL — pending native + scholarly review."
+  },
+  "eraseConfirmFirst": "محو كل شيء",
+  "@eraseConfirmFirst": {
+    "description": "E17 erase gate: step-1 destructive trigger label. PROVISIONAL."
+  },
+  "eraseKeepData": "الإبقاء على بياناتي",
+  "@eraseKeepData": {
+    "description": "E17 erase gate: the SAFE primary (cancel) label. PROVISIONAL."
+  },
+  "eraseConsequenceSecond": "هذا نهائي ولا يمكن التراجع عنه.",
+  "@eraseConsequenceSecond": {
+    "description": "E17 erase gate: step-2 consequence. PROVISIONAL."
+  },
+  "eraseConfirmSecond": "محو الآن",
+  "@eraseConfirmSecond": {
+    "description": "E17 erase gate: step-2 destructive trigger label. PROVISIONAL."
   }
 }

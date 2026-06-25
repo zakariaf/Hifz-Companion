@@ -17,6 +17,7 @@ export 'src/active_cycle_config_provider.dart';
 export 'src/active_profile_provider.dart';
 export 'src/app_ready_provider.dart';
 export 'src/asset_downloader_provider.dart';
+export 'src/backup_io_services.dart';
 export 'src/card_repository_provider.dart';
 export 'src/confusion_repository_provider.dart';
 export 'src/cycle_config_repository_provider.dart';
@@ -25,6 +26,7 @@ export 'src/core_install.dart'
 export 'src/engine_provider.dart';
 export 'src/persistence_provider.dart';
 export 'src/profile_repository_provider.dart';
+export 'src/restore_repository_provider.dart';
 export 'src/reference_repository_provider.dart';
 export 'src/secret_key_store_provider.dart';
 export 'src/today_provider.dart';

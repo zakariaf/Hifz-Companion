@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: backup
+description: Pure-Dart .hifzbackup serializer over value types + bytes — versioned, integrity-checked, no-cloud/no-account, offline-by-construction. No Drift, no sqlite3, no networking.
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.6.0
+
+dependencies:
+  meta: ^1.15.0
+  crypto: ^3.0.0 # SHA-256 body integrity (§5) — the same primitive that pins assets
+  cryptography: ^2.7.0 # optional Argon2id→ChaCha20-Poly1305 envelope (§6; Decision log #12)
+  models:
+    path: ../models
+
+dev_dependencies:
+  test: ^1.25.0
+  glados: ^1.1.0
+# Deliberately absent: flutter, drift, sqlite3, http/dio, any dart:io socket — the
+# package is store-blind and offline-by-construction (domain-backup-format §1;
+# tool/check_dep_allowlist.sh + the banned-import gate wall them out).

@@ -1021,4 +1021,111 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get progressForecastTitle => 'ڕۆژانی داهاتوو';
+
+  @override
+  String get backupOwnershipLine =>
+      'پاڵپشت فایلێکە کە خۆت لەسەر ئەم ئامێرە دەیپارێزیت؛ ئەپەکە بۆ هیچ شوێنێک ناینێرێت، و چونکە هیچ هەورێک نییە، تەنها وێنە لای تۆیە.';
+
+  @override
+  String get backupNoBackupYet => 'هێشتا هیچ پاڵپشتێک نەکراوە.';
+
+  @override
+  String get backupExportAction => 'پاشەکەوتکردنی پاڵپشت';
+
+  @override
+  String get backupImportAction => 'گەڕاندنەوە لە فایلێکەوە';
+
+  @override
+  String get eraseAllDataAction => 'سڕینەوەی هەموو داتاکان';
+
+  @override
+  String get backupPreparing => 'پاڵپشت ئامادە دەکرێت…';
+
+  @override
+  String get backupExportFailed => 'ئامادەکردنی پاڵپشت سەرکەوتوو نەبوو.';
+
+  @override
+  String get backupRestored => 'گەڕێندرایەوە.';
+
+  @override
+  String get backupCrossMushaf =>
+      'ئەم پاڵپشتە بۆ مەسحەفێکی جیاواز دروستکراوە، بۆیە لێرە ناگەڕێتەوە.';
+
+  @override
+  String get backupPassphrasePromptTitle => 'تێپەڕەوشەی پاڵپشت بنووسە';
+
+  @override
+  String get backupPassphraseHint => 'تێپەڕەوشە';
+
+  @override
+  String get backupUnlockAction => 'کردنەوە';
+
+  @override
+  String get backupErrorNotBackup => 'ئەم فایلە پاڵپشتی حیفز نییە.';
+
+  @override
+  String get backupErrorNewer =>
+      'ئەم پاڵپشتە بە وەشانێکی نوێتری ئەپەکە دروستکراوە؛ بۆ کردنەوەی نوێی بکەرەوە.';
+
+  @override
+  String get backupErrorDamaged => 'ئەم فایلە زیانی پێگەیشتووە یان تەواو نییە.';
+
+  @override
+  String get backupErrorWrongPassword =>
+      'تێپەڕەوشە هەڵەیە، یان فایلەکە زیانی پێگەیشتووە.';
+
+  @override
+  String get backupErrorUnreadable => 'خوێندنەوەی ئەم فایلە سەرکەوتوو نەبوو.';
+
+  @override
+  String get backupNoRecoveryTradeoff =>
+      'ئەگەر ئەم مۆبایلە و فایلی پاڵپشتەکە لەدەست بدەیت، تۆمارەکەت ناگەڕێتەوە؛ هیچ هەور یان هەژمارێک نییە بۆ گەڕاندنەوەی.';
+
+  @override
+  String get backupEncryptToggle => 'نهێنیکردنی ئەم پاڵپشتە';
+
+  @override
+  String get backupEncryptOneLiner =>
+      'فایلەکە بە تێپەڕەوشەیەک کلیل دەکات کە تەنها لای تۆیە.';
+
+  @override
+  String get backupPassphraseUnrecoverable =>
+      'ئەگەر ئەم تێپەڕەوشە لەبیر بکەیت، فایلەکە ناکرێتەوە؛ و لە هیچ شوێنێک پاشەکەوت ناکرێت.';
+
+  @override
+  String get backupUnencryptedReadable =>
+      'پاڵپشتی نهێنی نەکراو هەرکەسێک فایلەکە بکاتەوە دەتوانێت بیخوێنێتەوە.';
+
+  @override
+  String get backupSaveAction => 'پاشەکەوتی پاڵپشت';
+
+  @override
+  String get backupMergeOption => 'زیادکردن بۆ تۆمارەکەم';
+
+  @override
+  String get backupMergeConsequence =>
+      'پێداچوونەوە هاوردەکراوەکان بۆ تۆمارە ئێستاکەت زیاد دەکات و هەردووکیان دەهێڵێتەوە.';
+
+  @override
+  String get backupReplaceOption => 'جێگۆڕکێی هەموو داتاکان';
+
+  @override
+  String get backupReplaceConsequence =>
+      'هەموو داتای ئێستای ناو هاوڕێی حیفز بە ناوەڕۆکی فایلەکە دەگۆڕێت.';
+
+  @override
+  String get eraseConsequence =>
+      'ئەمە هەموو پرۆفایل و هەموو تۆماری پێداچوونەوە لەسەر ئەم ئامێرە بۆ هەمیشە دەسڕێتەوە. ئینجا هەر فایلێکی پاڵپشت کە پاشەکەوتت کردبێت تەنها وێنەی ماوەیە. ناگەڕێتەوە.';
+
+  @override
+  String get eraseConfirmFirst => 'سڕینەوەی هەموو شتێک';
+
+  @override
+  String get eraseKeepData => 'داتاکانم بمێنێتەوە';
+
+  @override
+  String get eraseConsequenceSecond => 'ئەمە هەمیشەییە و ناگەڕێتەوە.';
+
+  @override
+  String get eraseConfirmSecond => 'ئێستا بیسڕەوە';
 }

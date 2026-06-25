@@ -1014,4 +1014,112 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get progressForecastTitle => 'روزهای پیشِ‌رو';
+
+  @override
+  String get backupOwnershipLine =>
+      'نسخهٔ پشتیبان فایلی است که خودتان روی این دستگاه نگه می‌دارید؛ برنامه آن را به جایی نمی‌فرستد و چون ابری در کار نیست، تنها نسخه نزد شماست.';
+
+  @override
+  String get backupNoBackupYet => 'هنوز نسخهٔ پشتیبانی گرفته نشده است.';
+
+  @override
+  String get backupExportAction => 'ذخیرهٔ نسخهٔ پشتیبان';
+
+  @override
+  String get backupImportAction => 'بازیابی از یک فایل';
+
+  @override
+  String get eraseAllDataAction => 'پاک‌کردن همهٔ داده‌ها';
+
+  @override
+  String get backupPreparing => 'در حال آماده‌سازی نسخهٔ پشتیبان…';
+
+  @override
+  String get backupExportFailed => 'آماده‌سازی نسخهٔ پشتیبان ممکن نشد.';
+
+  @override
+  String get backupRestored => 'بازیابی انجام شد.';
+
+  @override
+  String get backupCrossMushaf =>
+      'این نسخه برای مصحف دیگری ساخته شده و اینجا قابل بازیابی نیست.';
+
+  @override
+  String get backupPassphrasePromptTitle =>
+      'گذرواژهٔ نسخهٔ پشتیبان را وارد کنید';
+
+  @override
+  String get backupPassphraseHint => 'گذرواژه';
+
+  @override
+  String get backupUnlockAction => 'بازکردن';
+
+  @override
+  String get backupErrorNotBackup => 'این فایل یک نسخهٔ پشتیبان حِفظ نیست.';
+
+  @override
+  String get backupErrorNewer =>
+      'این نسخه با نگارش تازه‌تری از برنامه ساخته شده است؛ برای بازکردن آن به‌روزرسانی کنید.';
+
+  @override
+  String get backupErrorDamaged => 'این فایل آسیب‌دیده یا ناقص است.';
+
+  @override
+  String get backupErrorWrongPassword =>
+      'گذرواژه نادرست است یا فایل آسیب دیده است.';
+
+  @override
+  String get backupErrorUnreadable => 'خواندن این فایل ممکن نشد.';
+
+  @override
+  String get backupNoRecoveryTradeoff =>
+      'اگر این گوشی و فایل پشتیبان را از دست بدهید، سابقهٔ شما بازیافتنی نیست؛ ابر یا حسابی برای بازگرداندن آن وجود ندارد.';
+
+  @override
+  String get backupEncryptToggle => 'رمزگذاری این نسخه';
+
+  @override
+  String get backupEncryptOneLiner =>
+      'فایل را با گذرواژه‌ای که تنها نزد شماست قفل می‌کند.';
+
+  @override
+  String get backupPassphraseUnrecoverable =>
+      'اگر این گذرواژه را فراموش کنید، فایل بازنمی‌شود؛ و هیچ‌جا ذخیره نمی‌شود.';
+
+  @override
+  String get backupUnencryptedReadable =>
+      'نسخهٔ رمزگذاری‌نشده را هرکس فایل را باز کند می‌تواند بخواند.';
+
+  @override
+  String get backupSaveAction => 'ذخیرهٔ نسخه';
+
+  @override
+  String get backupMergeOption => 'افزودن به سابقهٔ من';
+
+  @override
+  String get backupMergeConsequence =>
+      'مرورهای واردشده را به سابقهٔ کنونی شما می‌افزاید و هر دو را نگه می‌دارد.';
+
+  @override
+  String get backupReplaceOption => 'جایگزینی همهٔ داده‌ها';
+
+  @override
+  String get backupReplaceConsequence =>
+      'همهٔ داده‌های کنونی در همراه حِفظ را با محتوای فایل جایگزین می‌کند.';
+
+  @override
+  String get eraseConsequence =>
+      'این کار همهٔ نمایه‌ها و همهٔ سابقهٔ مرور را روی این دستگاه برای همیشه پاک می‌کند. آنگاه هر فایل پشتیبانی که ذخیره کرده‌اید تنها نسخهٔ باقی‌مانده است. این کار بازگشت‌پذیر نیست.';
+
+  @override
+  String get eraseConfirmFirst => 'پاک‌کردن همه‌چیز';
+
+  @override
+  String get eraseKeepData => 'داده‌هایم بماند';
+
+  @override
+  String get eraseConsequenceSecond => 'این کار همیشگی است و بازگشت‌پذیر نیست.';
+
+  @override
+  String get eraseConfirmSecond => 'اکنون پاک کن';
 }

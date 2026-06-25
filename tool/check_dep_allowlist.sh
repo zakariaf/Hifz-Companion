@@ -19,6 +19,13 @@ allowed=(
   # opt-in at-rest encryption key store (Decision log #3) — Keychain/KeyStore,
   # local only, off by default.
   flutter_secure_storage
+  # optional .hifzbackup encryption envelope (Decision log #12; E17 §6) —
+  # pure-Dart Argon2id→ChaCha20-Poly1305 in backup/, key independent of the
+  # device DB key, off by default; SHA-256 integrity stays `crypto`.
+  cryptography
+  # backup file-move (Decision log #13; E17 §9) — OS share sheet + file picker,
+  # in the app shell only, behind a service boundary; offline, no network.
+  share_plus file_picker
   # drift code generation (Decision log #3: Drift over SQLite) — build-time only,
   # never shipped in the binary; generates database.g.dart + migration steps.
   drift_dev build_runner
@@ -28,7 +35,7 @@ allowed=(
   # flutter SDK dependencies
   flutter flutter_localizations flutter_test integration_test
   # local workspace packages (path deps)
-  models engine profiles data quran l10n composition features assets
+  models engine backup profiles data quran l10n composition features assets
 )
 banned_regex='firebase_|crashlytics|sentry|google_analytics|facebook_|appsflyer|amplitude|mixpanel|google_fonts'
 
