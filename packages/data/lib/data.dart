@@ -34,6 +34,10 @@ export 'src/persistence_exception.dart'
         EncryptionNotLiveException,
         MappingException,
         PersistenceException,
+        RestoreConstraintViolated,
+        RestoreFailed,
+        RestoreRollbackFailed,
+        RestoreWriteException,
         ReviewConstraintViolated,
         ReviewRollbackFailed,
         ReviewTransactionFailed,
@@ -50,4 +54,5 @@ export 'src/repositories/repositories.dart'
         ProfileRepository,
         ReferenceRepository,
         ReviewLogRepository;
+export 'src/repositories/restore_repository.dart' show RestoreRepository;
 export 'src/repositories/review_repository.dart' show ReviewRepository;

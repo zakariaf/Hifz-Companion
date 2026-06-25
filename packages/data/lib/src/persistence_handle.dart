@@ -4,6 +4,7 @@
 import 'repositories/cold_start_repository.dart';
 import 'repositories/confusion_repository.dart';
 import 'repositories/repositories.dart';
+import 'repositories/restore_repository.dart';
 import 'repositories/review_repository.dart';
 
 /// The single injectable seam to the local store — the framework-free interface
@@ -36,6 +37,10 @@ abstract interface class PersistenceHandle {
   /// The cold-start provisioning write path (one all-or-nothing outer
   /// transaction).
   ColdStartRepository get coldStart;
+
+  /// The backup-restore write path (replace / merge — one all-or-nothing outer
+  /// transaction; E17-T06).
+  RestoreRepository get restore;
 
   /// The single write path for a standalone wrong-branch swap (strengthens one
   /// `confusion_edge` in one transaction, persist before republish).

@@ -31,6 +31,19 @@ class LineBlockDao extends DatabaseAccessor<HifzDatabase>
     return rows.map(_toModel).toList();
   }
 
+  /// Every line block for one profile, ordered by page then block — the
+  /// export/restore read (E17). Read-only; opens no transaction.
+  Future<List<LineBlock>> forProfile(ProfileId profileId) async {
+    final query = select(lineBlocks)
+      ..where((b) => b.profileId.equals(profileId.value))
+      ..orderBy([
+        (b) => OrderingTerm(expression: b.pageId),
+        (b) => OrderingTerm(expression: b.blockId),
+      ]);
+    final rows = await query.get();
+    return rows.map(_toModel).toList();
+  }
+
   LineBlock _toModel(LineBlockRow row) {
     return LineBlock(
       blockId: BlockId(row.blockId),
