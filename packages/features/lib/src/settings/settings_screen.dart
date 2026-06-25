@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:l10n/l10n.dart';
 
 import '../design_system/theme/spacing_tokens.dart';
+import 'widgets/cycle_settings_section.dart';
 import 'widgets/display_settings_section.dart';
 import 'widgets/settings_section.dart';
 
@@ -37,10 +38,7 @@ class SettingsScreen extends StatelessWidget {
           padding: EdgeInsetsDirectional.only(bottom: space.space7),
           children: [
             const DisplaySettingsSection(),
-            SettingsSection(
-              title: l10n.settingsSectionCycle,
-              children: const [_SectionPlaceholderLine()],
-            ),
+            const CycleSettingsSection(),
             SettingsSection(
               title: l10n.settingsSectionProfiles,
               children: const [_SectionPlaceholderLine()],

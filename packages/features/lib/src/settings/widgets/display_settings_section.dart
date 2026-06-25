@@ -185,8 +185,7 @@ class DisplaySettingsSection extends ConsumerWidget {
                 label: l10n.mushafRiwayahLabel,
               ),
             ],
-            selected:
-                profile?.mushafId ?? kKfgqpcHafsMadaniV2Edition.mushafId,
+            selected: profile?.mushafId ?? kKfgqpcHafsMadaniV2Edition.mushafId,
             onSelected: (id) => writer.mutateActiveProfile(
               (p) => p.copyWith(mushafId: id),
             ),
