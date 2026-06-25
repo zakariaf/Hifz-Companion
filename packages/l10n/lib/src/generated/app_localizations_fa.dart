@@ -424,6 +424,20 @@ class AppLocalizationsFa extends AppLocalizations {
   String get profileRoleChild => 'کودک';
 
   @override
+  String get profilesRename => 'تغییر نام';
+
+  @override
+  String get profilesDelete => 'حذف';
+
+  @override
+  String get deleteProfileConfirm => 'حذف نمایه';
+
+  @override
+  String deleteProfileConsequence(String name) {
+    return 'حذف $name سابقهٔ مرور او را برای همیشه پاک می‌کند. بازگشت‌ناپذیر است و با پاک‌کردن همهٔ داده‌ها فرق دارد.';
+  }
+
+  @override
   String get onboardingCoverageTitle => 'اجزایی که حفظ دارید';
 
   @override

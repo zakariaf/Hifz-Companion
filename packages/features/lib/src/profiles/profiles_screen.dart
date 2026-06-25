@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:l10n/l10n.dart';
 import 'package:models/models.dart' show Profile, ProfileRole;
 
+import '../design_system/components/destructive_confirm.dart';
 import '../design_system/pickers/settings_picker.dart';
 import '../design_system/theme/spacing_tokens.dart';
 import 'profiles_providers.dart';
@@ -56,6 +57,12 @@ class ProfilesScreen extends ConsumerWidget {
                     onTap: () => ref
                         .read(activeProfileProvider.notifier)
                         .select(profile.profileId),
+                    onRename: () => _renameProfile(context, ref, profile),
+                    // The active profile can't be deleted — switch away first
+                    // (avoids deleting the profile the app is scoped to).
+                    onDelete: profile.profileId == activeId
+                        ? null
+                        : () => _deleteProfile(context, ref, profile),
                   ),
                 ),
               SizedBox(height: space.space3),
@@ -84,6 +91,44 @@ class ProfilesScreen extends ConsumerWidget {
     // Activate the new profile only after its seed is durably committed.
     ref.read(activeProfileProvider.notifier).select(id);
   }
+
+  Future<void> _renameProfile(
+    BuildContext context,
+    WidgetRef ref,
+    Profile profile,
+  ) async {
+    final name = await showDialog<String>(
+      context: context,
+      builder: (_) => _RenameProfileDialog(initial: profile.displayName),
+    );
+    final trimmed = name?.trim() ?? '';
+    if (trimmed.isEmpty) return;
+    await ref
+        .read(profilesControllerProvider)
+        .renameProfile(profile.profileId, trimmed);
+  }
+
+  void _deleteProfile(BuildContext context, WidgetRef ref, Profile profile) {
+    final l10n = AppLocalizations.of(context);
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (sheetContext) => DestructiveConfirmSheet(
+        action: DestructiveAction.wipeProfile,
+        strings: DestructiveConfirmStrings(
+          // The profile name is bidi-isolated inside the consequence sentence.
+          consequence:
+              l10n.deleteProfileConsequence(isolate(profile.displayName)),
+          confirmLabel: l10n.deleteProfileConfirm,
+          cancelLabel: l10n.actionCancel,
+        ),
+        onConfirmed: () {
+          Navigator.of(sheetContext).pop();
+          ref.read(profilesControllerProvider).deleteProfile(profile.profileId);
+        },
+        onCancelled: () => Navigator.of(sheetContext).pop(),
+      ),
+    );
+  }
 }
 
 /// One switcher row — the bidi-isolated display name, the role, and the active
@@ -93,11 +138,15 @@ class _ProfileRow extends StatelessWidget {
     required this.profile,
     required this.isActive,
     required this.onTap,
+    required this.onRename,
+    required this.onDelete,
   });
 
   final Profile profile;
   final bool isActive;
   final VoidCallback onTap;
+  final VoidCallback onRename;
+  final VoidCallback? onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -155,6 +204,28 @@ class _ProfileRow extends StatelessWidget {
                       style: text.labelMedium?.copyWith(color: scheme.primary),
                     ),
                   ],
+                  PopupMenuButton<_RowAction>(
+                    icon: const Icon(Icons.more_vert),
+                    onSelected: (action) {
+                      switch (action) {
+                        case _RowAction.rename:
+                          onRename();
+                        case _RowAction.delete:
+                          onDelete?.call();
+                      }
+                    },
+                    itemBuilder: (context) => [
+                      PopupMenuItem<_RowAction>(
+                        value: _RowAction.rename,
+                        child: Text(l10n.profilesRename),
+                      ),
+                      if (onDelete != null)
+                        PopupMenuItem<_RowAction>(
+                          value: _RowAction.delete,
+                          child: Text(l10n.profilesDelete),
+                        ),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -234,6 +305,55 @@ class _CreateProfileDialogState extends State<_CreateProfileDialog> {
         FilledButton(
           onPressed: () =>
               Navigator.of(context).pop((name: _name.text, role: _role)),
+          child: Text(l10n.actionSave),
+        ),
+      ],
+    );
+  }
+}
+
+/// The per-row manage actions.
+enum _RowAction { rename, delete }
+
+/// The rename dialog — a single display-name field, pre-filled. Returns the new
+/// name or null on cancel.
+class _RenameProfileDialog extends StatefulWidget {
+  const _RenameProfileDialog({required this.initial});
+
+  final String initial;
+
+  @override
+  State<_RenameProfileDialog> createState() => _RenameProfileDialogState();
+}
+
+class _RenameProfileDialogState extends State<_RenameProfileDialog> {
+  late final TextEditingController _name =
+      TextEditingController(text: widget.initial);
+
+  @override
+  void dispose() {
+    _name.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return AlertDialog(
+      title: Text(l10n.profilesRename),
+      content: TextField(
+        controller: _name,
+        autofocus: true,
+        textInputAction: TextInputAction.done,
+        decoration: InputDecoration(hintText: l10n.profilesNameHint),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(l10n.actionCancel),
+        ),
+        FilledButton(
+          onPressed: () => Navigator.of(context).pop(_name.text),
           child: Text(l10n.actionSave),
         ),
       ],

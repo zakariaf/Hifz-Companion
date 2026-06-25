@@ -595,6 +595,30 @@ abstract class AppLocalizations {
   /// **'طفل'**
   String get profileRoleChild;
 
+  /// Profile row menu action: rename a profile (change the display name). Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعادة تسمية'**
+  String get profilesRename;
+
+  /// Profile row menu action: delete a profile (opens the cancel-primary confirmation). Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف'**
+  String get profilesDelete;
+
+  /// The plainer, secondary destructive trigger label in the delete-profile confirmation (top-start corner; the safe Keep action is the primary, focused button). Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف الملف'**
+  String get deleteProfileConfirm;
+
+  /// The concrete, irreversible consequence in the delete-profile confirmation: it names the profile and states the loss honestly — no fear/loss leverage, no fiqh ruling; explicitly distinct from erase-all (E17). {name} is the bidi-isolated display name. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف {name} يزيل سجل مراجعته نهائيًا. لا يمكن التراجع، وهذا غير مسح كل البيانات.'**
+  String deleteProfileConsequence(String name);
+
   /// Title of the cold-start coverage step: the ḥāfiẓ marks which juz they hold. Calm, no guilt. PROVISIONAL — onboarding copy needs native + scholarly review (E11/E19); best-effort fa/ckb.
   ///
   /// In ar, this message translates to:

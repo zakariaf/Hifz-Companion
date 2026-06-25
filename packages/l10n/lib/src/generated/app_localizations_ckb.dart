@@ -424,6 +424,20 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get profileRoleChild => 'منداڵ';
 
   @override
+  String get profilesRename => 'ناوگۆڕین';
+
+  @override
+  String get profilesDelete => 'سڕینەوە';
+
+  @override
+  String get deleteProfileConfirm => 'سڕینەوەی پرۆفایل';
+
+  @override
+  String deleteProfileConsequence(String name) {
+    return 'سڕینەوەی $name تۆماری پێداچوونەوەکەی بۆ هەمیشە دەسڕێتەوە. ناگەڕێتەوە و جیاوازە لە سڕینەوەی هەموو داتاکان.';
+  }
+
+  @override
   String get onboardingCoverageTitle => 'ئەو جوزانەی لەبەرتە';
 
   @override

@@ -435,6 +435,20 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profileRoleChild => 'طفل';
 
   @override
+  String get profilesRename => 'إعادة تسمية';
+
+  @override
+  String get profilesDelete => 'حذف';
+
+  @override
+  String get deleteProfileConfirm => 'حذف الملف';
+
+  @override
+  String deleteProfileConsequence(String name) {
+    return 'حذف $name يزيل سجل مراجعته نهائيًا. لا يمكن التراجع، وهذا غير مسح كل البيانات.';
+  }
+
+  @override
   String get onboardingCoverageTitle => 'الأجزاء التي تحفظها';
 
   @override
