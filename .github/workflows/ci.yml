@@ -107,7 +107,9 @@ jobs:
         # byte-identical across zones; a TZ-dependent codec diverges on one leg.
         env:
           TZ: ${{ matrix.tz }}
-        run: cd packages/backup && dart test
+        # `crypto`-tagged tests are the slow Argon2id envelope round-trips and
+        # carry no dates — run once on the fast lane, not 3× per zone here.
+        run: cd packages/backup && dart test --exclude-tags crypto
 
   golden:
     # gates 2, 5 — pinned Linux is load-bearing (cross-OS golden drift). Dormant

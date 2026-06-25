@@ -5,6 +5,7 @@ import 'dart:typed_data';
 
 import 'backup_error.dart';
 import 'container.dart';
+import 'envelope.dart';
 import 'integrity.dart';
 import 'payload.dart';
 import 'snapshot.dart';
@@ -20,25 +21,23 @@ abstract final class HifzBackup {
   /// Argon2id→ChaCha20-Poly1305 envelope (§6) → §3 container bytes.
   ///
   /// A null [passphrase] writes mode `0x01` (plaintext versioned JSON — the
-  /// default); a non-null one writes mode `0x02` (the encrypted envelope, E17-T05).
-  /// Run OFF the UI isolate: Argon2id at 64 MiB is deliberately slow (§6).
+  /// default); a non-null one writes mode `0x02` (the encrypted envelope). Run
+  /// OFF the UI isolate: Argon2id at 64 MiB is deliberately slow (§6).
   static Future<Uint8List> export(
     BackupSnapshot snapshot, {
     String? passphrase,
   }) async {
     final json = encodeCanonicalJson(snapshotToJson(snapshot)); // §4
-    if (passphrase != null) {
-      // The §6 envelope (mode 0x02) lands in E17-T05; the plaintext default works.
-      throw UnimplementedError('encrypted export (mode 0x02) — E17-T05');
+    if (passphrase == null) {
+      final prefix = writeHeaderPrefix(BackupMode.plaintextJson, json.length);
+      return _assemble(prefix, json);
     }
-    const mode = BackupMode.plaintextJson;
-    final body = json;
-    final prefix = writeHeaderPrefix(mode, body.length); // §3 bytes 0..15
-    final out = BytesBuilder()
-      ..add(prefix)
-      ..add(bodyDigest(body)) // §5 bytes 16..47
-      ..add(body); // bytes 48..
-    return out.toBytes();
+    // The AAD is the 16-byte header, whose length field is the envelope length:
+    // the 38-byte envelope header + the ciphertext (== json) + the 16-byte tag.
+    final envelopeLength = kEnvelopeHeaderLen + json.length + kTagLen;
+    final prefix = writeHeaderPrefix(BackupMode.encryptedJson, envelopeLength);
+    final body = await sealEnvelope(json, passphrase, prefix); // §6, AAD = prefix
+    return _assemble(prefix, body);
   }
 
   /// Parse → verify integrity → (optional) decrypt → decode + migrate, in the §3
@@ -55,11 +54,24 @@ abstract final class HifzBackup {
     if (!verifyBody(body, header.storedDigest)) {
       throw const BackupException(BackupError.integrityFailed);
     }
-    // Step 7 — decrypt the envelope if mode 0x02 (E17-T05).
+    // Step 7 — decrypt the envelope if mode 0x02 (§6).
+    final Uint8List jsonBytes;
     if (header.mode == BackupMode.encryptedJson) {
-      throw UnimplementedError('encrypted import (mode 0x02) — E17-T05');
+      if (passphrase == null) {
+        // Encrypted file, no passphrase — surfaced like any open failure (§6).
+        throw const BackupException(BackupError.wrongPasswordOrDamaged);
+      }
+      jsonBytes = await openEnvelope(body, passphrase, header.headerBytes);
+    } else {
+      jsonBytes = body;
     }
     // Step 8 — decode + read schemaVersion (> current ⇒ newerFormat, else migrate).
-    return snapshotFromJson(decodeJsonObject(body));
+    return snapshotFromJson(decodeJsonObject(jsonBytes));
   }
+
+  static Uint8List _assemble(Uint8List prefix, Uint8List body) => (BytesBuilder()
+        ..add(prefix) // §3 bytes 0..15
+        ..add(bodyDigest(body)) // §5 bytes 16..47
+        ..add(body)) // bytes 48..
+      .toBytes();
 }
