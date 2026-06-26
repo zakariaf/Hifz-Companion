@@ -29,6 +29,7 @@ class ScienceSourceRow extends StatelessWidget {
     super.key,
     required this.claim,
     required this.onOpenSource,
+    this.initiallyExpanded = false,
   });
 
   /// The registered claim this row renders — the only author of the claim.
@@ -36,6 +37,10 @@ class ScienceSourceRow extends StatelessWidget {
 
   /// Opens a citation's external URL (system browser); never an in-app fetch.
   final void Function(String url) onOpenSource;
+
+  /// Whether the "the evidence" layer starts open (collapsed by default; opened
+  /// in goldens/tests to render the evidence without a tap).
+  final bool initiallyExpanded;
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +61,7 @@ class ScienceSourceRow extends StatelessWidget {
       ),
       clipBehavior: Clip.antiAlias,
       child: ExpansionTile(
+        initiallyExpanded: initiallyExpanded,
         // Calm, borderless disclosure — no divider lines or tint shift.
         shape: const Border(),
         collapsedShape: const Border(),
