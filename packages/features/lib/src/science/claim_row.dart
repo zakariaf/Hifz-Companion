@@ -103,7 +103,8 @@ class ClaimRow {
     required this.grades,
     required this.sources,
     this.needsScholarlyReview = false,
-  });
+  })  : assert(grades.length > 0, 'a claim must carry at least one grade'),
+        assert(sources.length > 0, 'a claim must carry at least one source');
 
   /// The stable register id, e.g. `"C-001"`.
   final String id;

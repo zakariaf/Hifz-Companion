@@ -62,9 +62,14 @@ class ScienceSourceRow extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: ExpansionTile(
         initiallyExpanded: initiallyExpanded,
-        // Calm, borderless disclosure — no divider lines or tint shift.
+        // Calm, borderless disclosure — no divider lines, and no M3 primary tint
+        // shift on the title/icon when expanded (neutral on-surface throughout).
         shape: const Border(),
         collapsedShape: const Border(),
+        textColor: scheme.onSurface,
+        collapsedTextColor: scheme.onSurface,
+        iconColor: scheme.onSurfaceVariant,
+        collapsedIconColor: scheme.onSurfaceVariant,
         tilePadding: EdgeInsetsDirectional.symmetric(
           horizontal: space.space4,
           vertical: space.space1,

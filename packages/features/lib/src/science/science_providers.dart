@@ -35,12 +35,19 @@ class ClaimGroupSection {
 ///
 /// A pure DI [Provider]: no mutation, no clock, no network, no I/O. The data is
 /// the in-binary [claimsRegister], parsed once and memoized (offline, no-AI).
-final scienceGroupsProvider = Provider<List<ClaimGroupSection>>(
-  (ref) => [
-    for (final group in claimGroupsInRegister)
-      ClaimGroupSection(group: group, claims: claimsForGroup(group)),
-  ],
-);
+final scienceGroupsProvider = Provider<List<ClaimGroupSection>>((ref) {
+  // Single pass: bucket every row by group, then emit the non-empty groups in
+  // A–J order (no per-group re-scan of the register).
+  final grouped = {for (final g in ClaimGroup.values) g: <ClaimRow>[]};
+  for (final row in claimsRegister) {
+    grouped[row.group]!.add(row);
+  }
+  return [
+    for (final g in ClaimGroup.values)
+      if (grouped[g]!.isNotEmpty)
+        ClaimGroupSection(group: g, claims: List.unmodifiable(grouped[g]!)),
+  ];
+});
 
 /// The flat register (every row, register order) — for the no-orphan coverage
 /// test and any surface that needs a single claim by id.

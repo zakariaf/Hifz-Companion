@@ -141,5 +141,19 @@ void main() {
       expect(() => parseClaimsRegister('not json'),
           throwsA(isA<ClaimRegisterFormatException>()),);
     });
+
+    test('a non-string grade tag throws a descriptive format exception', () {
+      const bad = '{"version":1,"claims":[{"id":"C-900","group":"A",'
+          '"grades":[7],"sources":[{"label":"x"}]}]}';
+      expect(() => parseClaimsRegister(bad),
+          throwsA(isA<ClaimRegisterFormatException>()),);
+    });
+
+    test('a non-string url throws a descriptive format exception', () {
+      const bad = '{"version":1,"claims":[{"id":"C-900","group":"A",'
+          '"grades":["MA"],"sources":[{"label":"x","url":7}]}]}';
+      expect(() => parseClaimsRegister(bad),
+          throwsA(isA<ClaimRegisterFormatException>()),);
+    });
   });
 }

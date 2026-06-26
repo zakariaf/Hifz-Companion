@@ -48,7 +48,11 @@ List<ClaimRow> parseClaimsRegister(String source) {
       throw ClaimRegisterFormatException('claim "$id" has no grades');
     }
     final grades = [
-      for (final tag in gradeTags) EvidenceGrade.parse(tag as String),
+      for (final tag in gradeTags)
+        if (tag is String)
+          EvidenceGrade.parse(tag)
+        else
+          throw ClaimRegisterFormatException('claim "$id" has a non-string grade'),
     ];
 
     final rawSources = entry['sources'];
@@ -58,7 +62,7 @@ List<ClaimRow> parseClaimsRegister(String source) {
     final sources = [
       for (final s in rawSources)
         if (s is Map<String, dynamic>)
-          ClaimSource(label: _requireString(s, 'label'), url: s['url'] as String?)
+          ClaimSource(label: _requireString(s, 'label'), url: _optionalString(s, 'url'))
         else
           throw ClaimRegisterFormatException('claim "$id" has a malformed source'),
     ];
@@ -80,6 +84,15 @@ String _requireString(Map<String, dynamic> map, String key) {
   final value = map[key];
   if (value is! String || value.isEmpty) {
     throw ClaimRegisterFormatException('missing or empty "$key"');
+  }
+  return value;
+}
+
+String? _optionalString(Map<String, dynamic> map, String key) {
+  final value = map[key];
+  if (value == null) return null;
+  if (value is! String) {
+    throw ClaimRegisterFormatException('"$key" must be a string or null');
   }
   return value;
 }
