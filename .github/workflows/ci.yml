@@ -149,6 +149,8 @@ jobs:
           bash tool/check_dep_allowlist.sh
           bash tool/check_l10n_complete.sh
           bash tool/test/check_l10n_complete_test.sh
+      - name: Science register coverage (E19 — no orphan/mis-graded claim vs CLAIMS.md)
+        run: dart run tool/check_claims_coverage.dart
       - name: Asset SHA-256 integrity (dormant/fail-closed on the empty manifest)
         run: dart run tool/verify_asset_hashes.dart
       - name: Tool-gate unit suites (E05-T10 asset integrity + E09 adab/ckb lints — package:test)
@@ -157,6 +159,7 @@ jobs:
           dart test tool/test/check_adab_lint_test.dart
           dart test tool/test/check_ckb_canonical_test.dart
           dart test tool/test/check_arb_plurals_test.dart
+          dart test tool/test/check_claims_coverage_test.dart
       - name: REUSE license clarity (per-file SPDX GPL-3.0-or-later)
         uses: fsfe/reuse-action@v6
 
