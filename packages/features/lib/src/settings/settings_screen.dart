@@ -63,35 +63,22 @@ class SettingsScreen extends StatelessWidget {
             const BackupSettingsSection(),
             SettingsSection(
               title: l10n.settingsSectionAbout,
-              children: const [_SectionPlaceholderLine()],
+              children: [
+                Padding(
+                  padding:
+                      EdgeInsetsDirectional.symmetric(horizontal: space.space4),
+                  child: MihrabCard(
+                    title: l10n.scienceTitle,
+                    leading: Icons.science_outlined,
+                    // Literal path (kSciencePath lives in the science feature,
+                    // which Settings must not import sideways).
+                    onTap: () => context.go('/settings/science'),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-/// The calm "this section is being prepared" line shown under a section whose
-/// real controls land in a later E16 task. Reverent and plain — no number, no
-/// claim, no guilt/fear (design-system 01 §1; PRD R3).
-class _SectionPlaceholderLine extends StatelessWidget {
-  const _SectionPlaceholderLine();
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final space = theme.extension<SpacingTokens>()!;
-    return Padding(
-      padding: EdgeInsetsDirectional.only(
-        start: space.space4,
-        end: space.space4,
-        bottom: space.space2,
-      ),
-      child: Text(
-        AppLocalizations.of(context).sectionInPreparation,
-        style: theme.textTheme.bodyMedium
-            ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
       ),
     );
   }
