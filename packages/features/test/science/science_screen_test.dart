@@ -23,7 +23,7 @@ void main() {
   setUpAll(loadRealUiFonts);
 
   Future<void> pumpScreen(WidgetTester tester,
-      {Locale locale = const Locale('ar')}) async {
+      {Locale locale = const Locale('ar'),}) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [

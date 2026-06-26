@@ -38,7 +38,7 @@ void main() {
       final l10n = await AppLocalizations.delegate.load(locale);
       for (final group in claimGroupsInRegister) {
         expect(scienceGroupLabel(l10n, group), isNotEmpty,
-            reason: '${group.letter} header missing for $locale');
+            reason: '${group.letter} header missing for $locale',);
       }
     }
   });

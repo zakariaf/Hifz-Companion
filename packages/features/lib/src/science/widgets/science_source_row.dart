@@ -173,17 +173,17 @@ class _SourceLine extends StatelessWidget {
 
     // With a URL: the whole line is one ≥48dp link that visibly leaves the app
     // (the external glyph at the logical end + the "opens in your browser" hint),
-    // announced to a screen reader as one phrase. The decoration is excluded.
-    return Semantics(
-      link: true,
-      label: '$citation. $opensInBrowser',
-      child: InkWell(
-        onTap: () => onOpen(url!),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(minHeight: minTarget),
-          child: Padding(
-            padding: EdgeInsetsDirectional.only(bottom: gap),
-            child: ExcludeSemantics(
+    // merged into one screen-reader node — the citation read naturally, the glyph
+    // carrying the localized "opens in your browser" label, the link trait added.
+    return MergeSemantics(
+      child: Semantics(
+        link: true,
+        child: InkWell(
+          onTap: () => onOpen(url!),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: minTarget),
+            child: Padding(
+              padding: EdgeInsetsDirectional.only(bottom: gap),
               child: Row(
                 children: [
                   Expanded(child: text),
@@ -192,6 +192,7 @@ class _SourceLine extends StatelessWidget {
                     Icons.open_in_new,
                     size: theme.textTheme.bodyMedium?.fontSize,
                     color: scheme.onSurfaceVariant,
+                    semanticLabel: opensInBrowser,
                   ),
                 ],
               ),
