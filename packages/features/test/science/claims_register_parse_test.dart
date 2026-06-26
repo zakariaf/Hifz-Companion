@@ -37,7 +37,7 @@ void main() {
         final json = '{"version":1,"claims":[{"id":"C-900","group":"A",'
             '"grades":["$tag"],"sources":[{"label":"x"}]}]}';
         expect(parseClaimsRegister(json).single.grades, [grade],
-            reason: 'grade tag "$tag" parses to $grade');
+            reason: 'grade tag "$tag" parses to $grade',);
       }
     });
 
@@ -59,7 +59,7 @@ void main() {
         ]),
       );
       expect(EvidenceGrade.values, containsAll(used),
-          reason: 'every used grade is a valid legend grade');
+          reason: 'every used grade is a valid legend grade',);
     });
 
     test('a [TRAD] row carries its collection + number as on-device text', () {
@@ -78,7 +78,7 @@ void main() {
       final offline = claimsRegister.firstWhere((r) => r.id == 'C-048');
       expect(offline.grades, [EvidenceGrade.trad]);
       expect(offline.sources.single.url, isNull,
-          reason: 'a project-rule source has no external link');
+          reason: 'a project-rule source has no external link',);
     });
 
     test('groups resolve and are queryable in A–J order', () {
@@ -105,28 +105,28 @@ void main() {
       const bad = '{"version":1,"claims":[{"id":"C-900","group":"A",'
           '"grades":[],"sources":[{"label":"x"}]}]}';
       expect(() => parseClaimsRegister(bad),
-          throwsA(isA<ClaimRegisterFormatException>()));
+          throwsA(isA<ClaimRegisterFormatException>()),);
     });
 
     test('empty source list throws', () {
       const bad = '{"version":1,"claims":[{"id":"C-900","group":"A",'
           '"grades":["MA"],"sources":[]}]}';
       expect(() => parseClaimsRegister(bad),
-          throwsA(isA<ClaimRegisterFormatException>()));
+          throwsA(isA<ClaimRegisterFormatException>()),);
     });
 
     test('missing id throws', () {
       const bad = '{"version":1,"claims":[{"group":"A",'
           '"grades":["MA"],"sources":[{"label":"x"}]}]}';
       expect(() => parseClaimsRegister(bad),
-          throwsA(isA<ClaimRegisterFormatException>()));
+          throwsA(isA<ClaimRegisterFormatException>()),);
     });
 
     test('unknown group throws', () {
       const bad = '{"version":1,"claims":[{"id":"C-900","group":"Z",'
           '"grades":["MA"],"sources":[{"label":"x"}]}]}';
       expect(() => parseClaimsRegister(bad),
-          throwsA(isA<ClaimRegisterFormatException>()));
+          throwsA(isA<ClaimRegisterFormatException>()),);
     });
 
     test('duplicate id throws', () {
@@ -134,12 +134,12 @@ void main() {
           '{"id":"C-900","group":"A","grades":["MA"],"sources":[{"label":"x"}]},'
           '{"id":"C-900","group":"B","grades":["CS"],"sources":[{"label":"y"}]}]}';
       expect(() => parseClaimsRegister(bad),
-          throwsA(isA<ClaimRegisterFormatException>()));
+          throwsA(isA<ClaimRegisterFormatException>()),);
     });
 
     test('non-JSON throws', () {
       expect(() => parseClaimsRegister('not json'),
-          throwsA(isA<ClaimRegisterFormatException>()));
+          throwsA(isA<ClaimRegisterFormatException>()),);
     });
   });
 }
