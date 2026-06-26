@@ -41,9 +41,17 @@ final class LiveNotificationScheduler implements NotificationScheduler {
   Future<void> _ensureReady() async {
     if (_ready) return;
     tzdata.initializeTimeZones();
-    tz.setLocalLocation(
-      tz.getLocation(await FlutterTimezone.getLocalTimezone()),
-    );
+    // A device may report a zone name absent from the bundled IANA database
+    // (rare, on heavily-customized Android); fall back to UTC rather than crash
+    // initialization — the reminder then fires at UTC wall-clock there, degraded
+    // but never a crash (Gemini review, PR #22). 'UTC' is always present.
+    try {
+      tz.setLocalLocation(
+        tz.getLocation(await FlutterTimezone.getLocalTimezone()),
+      );
+    } on Exception {
+      tz.setLocalLocation(tz.getLocation('UTC'));
+    }
     await _plugin.initialize(
       const InitializationSettings(
         android: AndroidInitializationSettings('@mipmap/ic_launcher'),
@@ -102,13 +110,18 @@ final class LiveNotificationScheduler implements NotificationScheduler {
             .resolvePlatformSpecificImplementation<
                 AndroidFlutterLocalNotificationsPlugin>()
             ?.requestNotificationsPermission();
-        return granted ?? false;
+        // On Android < 13 there is no runtime POST_NOTIFICATIONS permission, so
+        // the request returns null — fall back to the actual enabled state rather
+        // than report a false denial (Gemini review, PR #22).
+        return granted ?? await isPermissionGranted();
       case TargetPlatform.iOS:
         final granted = await _plugin
             .resolvePlatformSpecificImplementation<
                 IOSFlutterLocalNotificationsPlugin>()
             ?.requestPermissions(alert: true, sound: true);
-        return granted ?? false;
+        // A null result (unresolved plugin) falls back to the actual enabled
+        // state rather than a false denial.
+        return granted ?? await isPermissionGranted();
       default:
         // No explicit notification-permission gate on this platform.
         return true;
