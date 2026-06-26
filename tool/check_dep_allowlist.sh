@@ -32,6 +32,10 @@ allowed=(
   # `zonedSchedule` a DST-correct local fire time, taken only at this edge (never
   # the engine/CalendarDate core); alarms are inexact (no exact-alarm permission).
   flutter_local_notifications timezone flutter_timezone
+  # science-screen external source link (Decision log #15; E19) — opens a citation
+  # URL in the OS browser, app shell only, behind the SourceLinkLauncher boundary;
+  # offline, no in-app fetch, no network (platform channel, never a Dart socket).
+  url_launcher
   # drift code generation (Decision log #3: Drift over SQLite) — build-time only,
   # never shipped in the binary; generates database.g.dart + migration steps.
   drift_dev build_runner

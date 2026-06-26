@@ -30,4 +30,5 @@ export 'src/profile_repository_provider.dart';
 export 'src/restore_repository_provider.dart';
 export 'src/reference_repository_provider.dart';
 export 'src/secret_key_store_provider.dart';
+export 'src/source_link_launcher_provider.dart';
 export 'src/today_provider.dart';

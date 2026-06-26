@@ -11,3 +11,5 @@ library;
 
 export 'src/testing/fake_notification_scheduler.dart'
     show FakeNotificationScheduler, ScheduledReminder;
+export 'src/testing/fake_source_link_launcher.dart'
+    show FakeSourceLinkLauncher;
