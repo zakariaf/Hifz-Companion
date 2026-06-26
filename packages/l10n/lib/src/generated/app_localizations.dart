@@ -1800,6 +1800,420 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'محو الآن'**
   String get eraseConfirmSecond;
+
+  /// E19 science screen title + the Settings/About nav row. Calm, no marketing.
+  ///
+  /// In ar, this message translates to:
+  /// **'العِلم الذي نتبعه'**
+  String get scienceTitle;
+
+  /// E19 science screen intro: renders the sourced register; no retention promise (C-025/C-047). PROVISIONAL.
+  ///
+  /// In ar, this message translates to:
+  /// **'كلُّ ما هنا مبنيٌّ على مصدرٍ مذكورٍ ودرجةِ قوّة، نعرضه لتطمئنّ إلى ما يقوم عليه التطبيق. ليس وعدًا بشأن حِفظك، بل بيانٌ لِما نستند إليه.'**
+  String get scienceIntro;
+
+  /// E19 expansion header for a claim's named source(s) + grade.
+  ///
+  /// In ar, this message translates to:
+  /// **'الدليل'**
+  String get scienceEvidenceLabel;
+
+  /// E19 label above a claim's on-device citation list.
+  ///
+  /// In ar, this message translates to:
+  /// **'المصادر'**
+  String get scienceSourcesLabel;
+
+  /// E19 note on a [TRAD]/methodology row awaiting named scholarly sign-off (science doc §8; PRD §21).
+  ///
+  /// In ar, this message translates to:
+  /// **'بحاجة إلى مراجعة علمية'**
+  String get scienceNeedsReview;
+
+  /// E19 external-link hint: the optional source URL leaves the app; harmless offline.
+  ///
+  /// In ar, this message translates to:
+  /// **'يُفتح في متصفّحك'**
+  String get scienceOpensInBrowser;
+
+  /// E19 CLAIMS group A header.
+  ///
+  /// In ar, this message translates to:
+  /// **'الذاكرة والنسيان'**
+  String get scienceGroupA;
+
+  /// E19 CLAIMS group B header.
+  ///
+  /// In ar, this message translates to:
+  /// **'المباعدة والجدولة'**
+  String get scienceGroupB;
+
+  /// E19 CLAIMS group C header (engine math, glossed plainly).
+  ///
+  /// In ar, this message translates to:
+  /// **'كيف يعمل جدول المراجعة'**
+  String get scienceGroupC;
+
+  /// E19 CLAIMS group D header (retrieval practice).
+  ///
+  /// In ar, this message translates to:
+  /// **'الاستظهار من الذاكرة'**
+  String get scienceGroupD;
+
+  /// E19 CLAIMS group E header (interference).
+  ///
+  /// In ar, this message translates to:
+  /// **'المتشابهات'**
+  String get scienceGroupE;
+
+  /// E19 CLAIMS group F header (serial recall / the page unit).
+  ///
+  /// In ar, this message translates to:
+  /// **'الصفحة وحدةً واحدة'**
+  String get scienceGroupF;
+
+  /// E19 CLAIMS group G header (overlearning / lifelong retention).
+  ///
+  /// In ar, this message translates to:
+  /// **'الرسوخ مدى العمر'**
+  String get scienceGroupG;
+
+  /// E19 CLAIMS group H header (traditional methodology; sect-neutral, no ruling).
+  ///
+  /// In ar, this message translates to:
+  /// **'المنهج التقليدي'**
+  String get scienceGroupH;
+
+  /// E19 CLAIMS group I header (motivation without coercion).
+  ///
+  /// In ar, this message translates to:
+  /// **'الدافع بلا ضغط'**
+  String get scienceGroupI;
+
+  /// E19 CLAIMS group J header (cross-cutting honesty & privacy).
+  ///
+  /// In ar, this message translates to:
+  /// **'الصدق والخصوصية'**
+  String get scienceGroupJ;
+
+  /// C-001 [EXP/CS]: Memory fades on a predictable curve — steep at first, then slowly.
+  ///
+  /// In ar, this message translates to:
+  /// **'الذاكرة تخفت وفق منحنًى متوقَّع: سريعًا في البداية ثم ببطء.'**
+  String get scienceClaimC001Headline;
+
+  /// C-002 [EXP/TEXT]: A 'forgotten' page is not lost — re-reciting is far cheaper than first memorizing.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصفحة التي «نسيتها» ليست ضائعة؛ إعادةُ تسميعها أيسرُ بكثير من حفظها أوّل مرّة.'**
+  String get scienceClaimC002Headline;
+
+  /// C-003 [EXP]: A single stumble does not mean you've lost the page.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعثُّرٌ واحد لا يعني أنّك فقدتَ الصفحة.'**
+  String get scienceClaimC003Headline;
+
+  /// C-004 [TEXT/MA]: A night's sleep helps fix what you revised today into lasting memory.
+  ///
+  /// In ar, this message translates to:
+  /// **'نومُ الليلة يُعين على تثبيت ما راجعتَه اليوم في الذاكرة الراسخة.'**
+  String get scienceClaimC004Headline;
+
+  /// C-004 honest caveat: the app schedules in whole days and does not track sleep.
+  ///
+  /// In ar, this message translates to:
+  /// **'يجدول التطبيق بالأيام كاملةً، ولا يتتبّع نومك.'**
+  String get scienceClaimC004Caveat;
+
+  /// C-005 [OBS]: Deeply, repeatedly recited material can reach a near-flat retention plateau lasting decades.
+  ///
+  /// In ar, this message translates to:
+  /// **'ما يُسمَّع بعمقٍ وتَكرارٍ يبلغ مستوًى شبهَ ثابتٍ من الرسوخ يدوم عقودًا.'**
+  String get scienceClaimC005Headline;
+
+  /// C-006 [MA]: Spaced revision retains far better than re-reading in one sitting.
+  ///
+  /// In ar, this message translates to:
+  /// **'المراجعةُ بفواصلَ متباعدةٍ تُرسِّخ أكثرَ بكثيرٍ من القراءة المتكرِّرة في جلسةٍ واحدة.'**
+  String get scienceClaimC006Headline;
+
+  /// C-007 [MA/EXP]: The best gap grows as a page strengthens — daily, then weekly, then monthly.
+  ///
+  /// In ar, this message translates to:
+  /// **'أفضلُ فاصلٍ بين المراجعات يطول كلما رسخت الصفحة: يوميًّا، ثم أسبوعيًّا، ثم شهريًّا.'**
+  String get scienceClaimC007Headline;
+
+  /// C-008 [CS]: Wider gaps mean less daily work for the same lasting result — not laziness.
+  ///
+  /// In ar, this message translates to:
+  /// **'الفواصلُ الأوسع تعني عملًا يوميًّا أقلَّ لنتيجةٍ راسخةٍ ذاتِها، لا تكاسلًا.'**
+  String get scienceClaimC008Headline;
+
+  /// C-009 [EXP]: Reviewing a little early costs minutes; too late can lose it — so we err early.
+  ///
+  /// In ar, this message translates to:
+  /// **'مراجعةُ الصفحة مبكِّرًا قليلًا تكلِّف دقائق، والتأخُّر قد يُفقِدها؛ لذا نميل إلى التبكير.'**
+  String get scienceClaimC009Headline;
+
+  /// C-010 [TEXT]: The app models how recall fades with a standard, open spaced-repetition curve.
+  ///
+  /// In ar, this message translates to:
+  /// **'يُحاكي التطبيقُ خفوتَ الاستذكار بمنحنى تكرارٍ متباعدٍ قياسيٍّ ومفتوح.'**
+  String get scienceClaimC010Headline;
+
+  /// C-010 honest caveat: the constants are a starting prior tuned from the user's own logs (no ML, no network).
+  ///
+  /// In ar, this message translates to:
+  /// **'هذه الثوابتُ تقديرٌ مبدئيٌّ يُضبَط من مراجعاتك، لا قاعدةً جامدة.'**
+  String get scienceClaimC010Caveat;
+
+  /// C-011 [TEXT/EXP]: Each on-time review makes a page hold longer before it needs revising again.
+  ///
+  /// In ar, this message translates to:
+  /// **'كلُّ مراجعةٍ في وقتها تجعل الصفحةَ تصمد أطولَ قبل أن تحتاج مراجعةً جديدة.'**
+  String get scienceClaimC011Headline;
+
+  /// C-012 [TEXT/EXP]: Reviewing a page when slightly weaker strengthens it more than while still fresh.
+  ///
+  /// In ar, this message translates to:
+  /// **'مراجعةُ الصفحة وهي أضعفُ قليلًا تقوّيها أكثرَ من مراجعتها وهي ما تزال طريّة.'**
+  String get scienceClaimC012Headline;
+
+  /// C-013 [EXP]: Spreading revision across days and nights holds better than cramming.
+  ///
+  /// In ar, this message translates to:
+  /// **'توزيعُ المراجعة على أيّامٍ (ولياليها) يثبُت أكثرَ من حشرها في جلسةٍ واحدة.'**
+  String get scienceClaimC013Headline;
+
+  /// C-014 [OBS]: The traditional cycle already is spaced repetition; the app only re-orders within it.
+  ///
+  /// In ar, this message translates to:
+  /// **'دورةُ المراجعة التقليدية هي أصلًا تكرارٌ متباعد؛ والتطبيقُ يعيد الترتيبَ داخلها فحسب.'**
+  String get scienceClaimC014Headline;
+
+  /// C-016 [EXP/TRAD]: Every page is guaranteed a revision at least once per chosen cycle — the trust clamp.
+  ///
+  /// In ar, this message translates to:
+  /// **'كلُّ صفحةٍ مضمونةٌ مراجعةً مرّةً على الأقلّ في كلِّ دورةٍ تختارها — يمكن للتطبيق أن يراجعها أكثر، لا أقلّ.'**
+  String get scienceClaimC016Headline;
+
+  /// C-016 honest caveat: the guarantee is structural (cycle ceiling), not a probability.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا ضمانٌ بنيويّ — كلُّ صفحةٍ تعود ضمن دورتك — لا احتمالٌ رقميّ.'**
+  String get scienceClaimC016Caveat;
+
+  /// C-017 [TEXT]: We don't chase a near-perfect retention number — it multiplies daily load.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا نُطارد رقمًا مثل «مئةٍ في المئة»؛ فذلك يضاعِف عملَك اليوميَّ ويكسِر الدورةَ التي تقدر عليها.'**
+  String get scienceClaimC017Headline;
+
+  /// C-017 honest caveat: stakes-tiered targets; the cost curve explodes toward 1.0.
+  ///
+  /// In ar, this message translates to:
+  /// **'يستعمل التطبيقُ أهدافًا لطيفةً؛ ومطاردةُ رقمٍ قريبٍ من الكمال تُضاعِف عملَك اليوميّ.'**
+  String get scienceClaimC017Caveat;
+
+  /// C-018 [MA/EXP]: Reciting from memory protects your hifz far more than re-reading.
+  ///
+  /// In ar, this message translates to:
+  /// **'التسميعُ عن ظهر قلبٍ يحفظ حِفظَك أكثرَ بكثيرٍ من إعادة القراءة.'**
+  String get scienceClaimC018Headline;
+
+  /// C-019 [EXP]: A strong page never becomes 'done' — only continued recitation keeps it (PRD §7.12).
+  ///
+  /// In ar, this message translates to:
+  /// **'الصفحةُ القويّة لا تُصبح «منتهيةً» أبدًا؛ دوامُ التسميع وحده يُبقيها.'**
+  String get scienceClaimC019Headline;
+
+  /// C-020 [MA/EXP]: Let recitation finish before correcting — feedback works best after the full attempt.
+  ///
+  /// In ar, this message translates to:
+  /// **'دَعِ التسميعَ يكتمل قبل التصحيح؛ فالتقويمُ أنفعُ بعد المحاولة كاملةً.'**
+  String get scienceClaimC020Headline;
+
+  /// C-021 [MA/TRAD]: A teacher who hears and corrects strengthens a page more than self-rating. PROVISIONAL — needs scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'المعلِّمُ الذي يسمع تسميعَك ويصحِّحه يقوّي الصفحةَ أكثرَ من تقييمك نفسَك.'**
+  String get scienceClaimC021Headline;
+
+  /// C-022 [EXP/OBS]: Re-reading feels best, but reciting from memory is what actually holds.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعادةُ القراءة تبدو الأنجع، لكنّ التسميعَ عن ظهر قلبٍ هو ما يثبُت فعلًا.'**
+  String get scienceClaimC022Headline;
+
+  /// C-023 [EXP]: Lasting hifz comes from re-reciting over time, not extra reps on memorizing day.
+  ///
+  /// In ar, this message translates to:
+  /// **'الحِفظُ الراسخ يأتي من إعادة التسميع عبر الزمن، لا من تكرارٍ إضافيٍّ يومَ الحفظ.'**
+  String get scienceClaimC023Headline;
+
+  /// C-024 [EXP/OBS]: Reciting a page until effortless makes it far harder to lose.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسميعُ الصفحة حتى تَسهُلَ بلا كُلفةٍ يجعل فقدانَها أصعبَ بكثير.'**
+  String get scienceClaimC024Headline;
+
+  /// C-025 [OBS]: We can't promise you'll never forget a page — retention comes from regular revision, not a number.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا نَعِدُك بألَّا تنسى صفحةً أبدًا؛ فالرسوخُ يأتي من المراجعة المنتظمة لا من رقمٍ سحري.'**
+  String get scienceClaimC025Headline;
+
+  /// C-025 honest caveat: a grade describes the evidence, never the user's own Quran.
+  ///
+  /// In ar, this message translates to:
+  /// **'الدرجةُ تصف قوّةَ الدليل، لا وعدًا بشأن حِفظك.'**
+  String get scienceClaimC025Caveat;
+
+  /// C-026 [CS]: Most forgetting comes from interference between similar passages, not the passing of time.
+  ///
+  /// In ar, this message translates to:
+  /// **'أكثرُ النسيان من التداخل بين المواضع المتشابهة، لا من مرور الزمن وحده.'**
+  String get scienceClaimC026Headline;
+
+  /// C-027 [CS]: The more alike two passages, the more they interfere — repetition alone won't fix them.
+  ///
+  /// In ar, this message translates to:
+  /// **'كلما زاد تشابهُ موضعين زاد تداخلُهما؛ ولذا لا يكفي التكرارُ وحده لتمييزهما.'**
+  String get scienceClaimC027Headline;
+
+  /// C-028 [EXP]: To stop confusing two similar passages, practice them back-to-back to tell them apart.
+  ///
+  /// In ar, this message translates to:
+  /// **'لتكفَّ عن الخلط بين موضعين متشابهين، مرِّنهما متتاليين حتى تميِّز بينهما.'**
+  String get scienceClaimC028Headline;
+
+  /// C-029 [EXP]: Drilling only one of a confusable pair can weaken its twin — so we practice the whole group.
+  ///
+  /// In ar, this message translates to:
+  /// **'تمرينُ أحد المتشابهين وحده قد يُضعِف قرينَه؛ لذا نمرِّن المجموعةَ كاملةً.'**
+  String get scienceClaimC029Headline;
+
+  /// C-030 [CS/TRAD/OBS]: Confusing similar verses tends to get harder the more of the Quran you hold. PROVISIONAL — needs scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخلطُ بين الآيات المتشابهة يزداد صعوبةً كلما زاد ما تحفظه من القرآن.'**
+  String get scienceClaimC030Headline;
+
+  /// C-031 [CS]: You memorize and recite in flowing pages, not separate cards — so we revise the same way.
+  ///
+  /// In ar, this message translates to:
+  /// **'تحفظُ القرآنَ وتُسمِّعه صفحاتٍ متّصلةً لا بطاقاتٍ منفصلة؛ فنراجعه بالطريقة نفسها.'**
+  String get scienceClaimC031Headline;
+
+  /// C-032 [CS]: Re-reciting the same page in its fixed order is exactly what cements it.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعادةُ تسميع الصفحة نفسها بترتيبها الثابت هي ما يُرسِّخها تمامًا.'**
+  String get scienceClaimC032Headline;
+
+  /// C-033 [EXP]: We grade the whole page but pinpoint exactly where you stumbled.
+  ///
+  /// In ar, this message translates to:
+  /// **'نقيِّمُ الصفحةَ كاملةً لكن نحدِّد بدقّةٍ موضعَ تعثُّرك.'**
+  String get scienceClaimC033Headline;
+
+  /// C-034 [TRAD]: Hifz revision is traditionally three tracks — sabaq, sabqi, manzil. PROVISIONAL — needs scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'تُنظَّم مراجعةُ الحِفظ تقليديًّا في ثلاثة مساراتٍ: الجديد (السبق)، والقريب (السبقي)، والبعيد (المنزل).'**
+  String get scienceClaimC034Headline;
+
+  /// C-035 [TRAD]: The decay axiom (meaning of Ṣaḥīḥ al-Bukhārī 5032), framed as methodology, never a threat. PROVISIONAL — needs scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'تحثُّ السنّةُ على دوام المراجعة: فالقرآنُ أسرعُ تفلُّتًا من الإبل في عُقُلها.'**
+  String get scienceClaimC035Headline;
+
+  /// C-036 [TRAD]: The seven manazil divide the Quran for a weekly khatm. PROVISIONAL — needs scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'المنازلُ السبعُ تقسِّم القرآنَ لخَتمةٍ أسبوعية: مراجعةُ كلِّ ما تحفظ مرّةً في الأسبوع على الأقلّ.'**
+  String get scienceClaimC036Headline;
+
+  /// C-037 [MA/TEXT]: The masters reached spaced, expanding-interval revision centuries before the experiments.
+  ///
+  /// In ar, this message translates to:
+  /// **'بلَغ المتقنون المراجعةَ المتباعدةَ المتوسِّعةَ قبل قرونٍ من تأكيد التجارب لها.'**
+  String get scienceClaimC037Headline;
+
+  /// C-038 [TRAD]: The Quran is learned face-to-face from a teacher (talaqqi), in a chain to the Prophet ﷺ. PROVISIONAL — needs scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'يُتلقَّى القرآنُ ويُصحَّح مشافهةً عن معلِّمٍ (تلقّيًا)، بسندٍ متّصلٍ إلى النبيِّ ﷺ.'**
+  String get scienceClaimC038Headline;
+
+  /// C-039 [TRAD]: The tradition reviews the whole corpus periodically; the ʿarda precedent (Bukhārī 4998). PROVISIONAL — needs scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'يراجع التقليدُ كلَّ المحفوظ دوريًّا؛ فقد كان جبريلُ يعارض النبيَّ ﷺ بالقرآن كلَّ عام.'**
+  String get scienceClaimC039Headline;
+
+  /// C-040 [TRAD]: Traditional methods overlearn then cycle everything, rather than chase a number. PROVISIONAL — needs scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'تُفرِط الطرقُ التقليدية في إتقان النصِّ — مئاتُ التكرارات — ثم تُدوِّر كلَّ المحفوظ، لا أن تُلاحق رقمًا.'**
+  String get scienceClaimC040Headline;
+
+  /// C-041 [MA/EXP]: We deliberately avoid streaks, badges, and guilt — they don't build lasting habits and can undermine intrinsic motivation.
+  ///
+  /// In ar, this message translates to:
+  /// **'نتجنّب عمدًا السلاسلَ والشاراتِ والشعورَ بالذنب: فالبحثُ يبيّن أنها لا تبني عادةً راسخة وقد تُضعِف الدافعَ الذي يأتي بك إلى المراجعة.'**
+  String get scienceClaimC041Headline;
+
+  /// C-042 [OBS]: Missing one day doesn't undo your progress.
+  ///
+  /// In ar, this message translates to:
+  /// **'تفويتُ يومٍ واحدٍ لا يمحو تقدُّمَك.'**
+  String get scienceClaimC042Headline;
+
+  /// C-043 [MA/TEXT]: Reminders stay calm and blameless — never guilt or loss framing.
+  ///
+  /// In ar, this message translates to:
+  /// **'التذكيراتُ تبقى هادئةً بلا لومٍ: «مراجعةُ اليوم جاهزة»، لا «ستفقد حِفظك».'**
+  String get scienceClaimC043Headline;
+
+  /// C-044 [MA/TEXT]: Your progress is your own — a calm map, never a ranking against others.
+  ///
+  /// In ar, this message translates to:
+  /// **'تقدُّمُك مِلكُك — يُعرَض خريطةً هادئةً لكلِّ قرآنك، لا ترتيبًا مقارنةً بالآخرين.'**
+  String get scienceClaimC044Headline;
+
+  /// C-045 [TRAD/CS]: Actions are by intentions — we never turn revision into reward-chasing. PROVISIONAL — needs scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'إنما الأعمالُ بالنيّات — فلا نحوِّل المراجعةَ إلى مطاردةِ مكافأة.'**
+  String get scienceClaimC045Headline;
+
+  /// C-046 [TRAD]: An aid to revision and a servant to your teacher — not a replacement for oral correction, and not a fatwa. PROVISIONAL — needs scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا عونٌ على المراجعة وخادمٌ لمعلِّمك — لا بديلٌ عن التصحيح الشفهيّ، ولا فتوى.'**
+  String get scienceClaimC046Headline;
+
+  /// C-047 [OBS]: Where the science is uncertain or simplified, we say so — and name and date every source.
+  ///
+  /// In ar, this message translates to:
+  /// **'حيثُ يكون العلمُ غيرَ مؤكَّدٍ أو يُبسِّط التطبيق، نقول ذلك — ونُسمّي ونؤرّخ كلَّ مصدر.'**
+  String get scienceClaimC047Headline;
+
+  /// C-047 honest caveat: simplifications are disclosed openly.
+  ///
+  /// In ar, this message translates to:
+  /// **'نُفصِح عن كلِّ تبسيطٍ: «يستعمل التطبيق كذا؛ والبحثُ يبيّن كذا–كذا».'**
+  String get scienceClaimC047Caveat;
+
+  /// C-048 [TRAD-equivalent project rule]: The app works fully offline and never records your voice or sends your data anywhere (PRD C1/C2).
+  ///
+  /// In ar, this message translates to:
+  /// **'يعمل التطبيقُ بلا إنترنت تمامًا، ولا يسجِّل صوتَك ولا يُرسِل بياناتِك إلى أيِّ مكان.'**
+  String get scienceClaimC048Headline;
 }
 
 class _AppLocalizationsDelegate
