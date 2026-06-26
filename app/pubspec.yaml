@@ -34,6 +34,11 @@ dependencies:
   flutter_local_notifications: ^19.0.0
   timezone: ^0.10.0
   flutter_timezone: ^4.0.0
+  # Science-screen external source link (Decision log #15; E19) — open a citation
+  # URL in the system browser, app-edge only behind the composition
+  # SourceLinkLauncher boundary. The citation is full on-device text; the URL is
+  # an optional convenience that leaves the app. NO in-app fetch, NO network.
+  url_launcher: ^6.3.0
   # Full downward fan-in — expected here and only here.
   models:
     path: ../packages/models

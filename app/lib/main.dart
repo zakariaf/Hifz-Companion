@@ -17,6 +17,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'app.dart';
 import 'backup/backup_io_impls.dart';
 import 'reminders/notification_scheduler_impl.dart';
+import 'science/url_launcher_source_link.dart';
 
 /// The composition root — the one place live services are constructed and bound
 /// into the `ProviderScope` (04 §1.2). It opens the crash-safe Drift store once,
@@ -81,6 +82,13 @@ Future<void> main() async {
         // feed `zonedSchedule` a DST-correct local fire time (Decision log #14).
         notificationSchedulerProvider
             .overrideWithValue(LiveNotificationScheduler()),
+        // Science-screen external source link (E19 §2/§4; Decision log #15) —
+        // opens a citation URL in the system browser, app-edge only behind the
+        // composition SourceLinkLauncher boundary. The citation is full on-device
+        // text; the URL is an optional convenience that leaves the app. No in-app
+        // fetch, no network.
+        sourceLinkLauncherProvider
+            .overrideWithValue(const UrlLauncherSourceLink()),
       ],
       child: const HifzApp(),
     ),

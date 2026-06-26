@@ -1150,4 +1150,264 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get eraseConfirmSecond => 'محو الآن';
+
+  @override
+  String get scienceTitle => 'العِلم الذي نتبعه';
+
+  @override
+  String get scienceIntro =>
+      'كلُّ ما هنا مبنيٌّ على مصدرٍ مذكورٍ ودرجةِ قوّة، نعرضه لتطمئنّ إلى ما يقوم عليه التطبيق. ليس وعدًا بشأن حِفظك، بل بيانٌ لِما نستند إليه.';
+
+  @override
+  String get scienceEvidenceLabel => 'الدليل';
+
+  @override
+  String get scienceSourcesLabel => 'المصادر';
+
+  @override
+  String get scienceNeedsReview => 'بحاجة إلى مراجعة علمية';
+
+  @override
+  String get scienceOpensInBrowser => 'يُفتح في متصفّحك';
+
+  @override
+  String get scienceGroupA => 'الذاكرة والنسيان';
+
+  @override
+  String get scienceGroupB => 'المباعدة والجدولة';
+
+  @override
+  String get scienceGroupC => 'كيف يعمل جدول المراجعة';
+
+  @override
+  String get scienceGroupD => 'الاستظهار من الذاكرة';
+
+  @override
+  String get scienceGroupE => 'المتشابهات';
+
+  @override
+  String get scienceGroupF => 'الصفحة وحدةً واحدة';
+
+  @override
+  String get scienceGroupG => 'الرسوخ مدى العمر';
+
+  @override
+  String get scienceGroupH => 'المنهج التقليدي';
+
+  @override
+  String get scienceGroupI => 'الدافع بلا ضغط';
+
+  @override
+  String get scienceGroupJ => 'الصدق والخصوصية';
+
+  @override
+  String get scienceClaimC001Headline =>
+      'الذاكرة تخفت وفق منحنًى متوقَّع: سريعًا في البداية ثم ببطء.';
+
+  @override
+  String get scienceClaimC002Headline =>
+      'الصفحة التي «نسيتها» ليست ضائعة؛ إعادةُ تسميعها أيسرُ بكثير من حفظها أوّل مرّة.';
+
+  @override
+  String get scienceClaimC003Headline =>
+      'تعثُّرٌ واحد لا يعني أنّك فقدتَ الصفحة.';
+
+  @override
+  String get scienceClaimC004Headline =>
+      'نومُ الليلة يُعين على تثبيت ما راجعتَه اليوم في الذاكرة الراسخة.';
+
+  @override
+  String get scienceClaimC004Caveat =>
+      'يجدول التطبيق بالأيام كاملةً، ولا يتتبّع نومك.';
+
+  @override
+  String get scienceClaimC005Headline =>
+      'ما يُسمَّع بعمقٍ وتَكرارٍ يبلغ مستوًى شبهَ ثابتٍ من الرسوخ يدوم عقودًا.';
+
+  @override
+  String get scienceClaimC006Headline =>
+      'المراجعةُ بفواصلَ متباعدةٍ تُرسِّخ أكثرَ بكثيرٍ من القراءة المتكرِّرة في جلسةٍ واحدة.';
+
+  @override
+  String get scienceClaimC007Headline =>
+      'أفضلُ فاصلٍ بين المراجعات يطول كلما رسخت الصفحة: يوميًّا، ثم أسبوعيًّا، ثم شهريًّا.';
+
+  @override
+  String get scienceClaimC008Headline =>
+      'الفواصلُ الأوسع تعني عملًا يوميًّا أقلَّ لنتيجةٍ راسخةٍ ذاتِها، لا تكاسلًا.';
+
+  @override
+  String get scienceClaimC009Headline =>
+      'مراجعةُ الصفحة مبكِّرًا قليلًا تكلِّف دقائق، والتأخُّر قد يُفقِدها؛ لذا نميل إلى التبكير.';
+
+  @override
+  String get scienceClaimC010Headline =>
+      'يُحاكي التطبيقُ خفوتَ الاستذكار بمنحنى تكرارٍ متباعدٍ قياسيٍّ ومفتوح.';
+
+  @override
+  String get scienceClaimC010Caveat =>
+      'هذه الثوابتُ تقديرٌ مبدئيٌّ يُضبَط من مراجعاتك، لا قاعدةً جامدة.';
+
+  @override
+  String get scienceClaimC011Headline =>
+      'كلُّ مراجعةٍ في وقتها تجعل الصفحةَ تصمد أطولَ قبل أن تحتاج مراجعةً جديدة.';
+
+  @override
+  String get scienceClaimC012Headline =>
+      'مراجعةُ الصفحة وهي أضعفُ قليلًا تقوّيها أكثرَ من مراجعتها وهي ما تزال طريّة.';
+
+  @override
+  String get scienceClaimC013Headline =>
+      'توزيعُ المراجعة على أيّامٍ (ولياليها) يثبُت أكثرَ من حشرها في جلسةٍ واحدة.';
+
+  @override
+  String get scienceClaimC014Headline =>
+      'دورةُ المراجعة التقليدية هي أصلًا تكرارٌ متباعد؛ والتطبيقُ يعيد الترتيبَ داخلها فحسب.';
+
+  @override
+  String get scienceClaimC016Headline =>
+      'كلُّ صفحةٍ مضمونةٌ مراجعةً مرّةً على الأقلّ في كلِّ دورةٍ تختارها — يمكن للتطبيق أن يراجعها أكثر، لا أقلّ.';
+
+  @override
+  String get scienceClaimC016Caveat =>
+      'هذا ضمانٌ بنيويّ — كلُّ صفحةٍ تعود ضمن دورتك — لا احتمالٌ رقميّ.';
+
+  @override
+  String get scienceClaimC017Headline =>
+      'لا نُطارد رقمًا مثل «مئةٍ في المئة»؛ فذلك يضاعِف عملَك اليوميَّ ويكسِر الدورةَ التي تقدر عليها.';
+
+  @override
+  String get scienceClaimC017Caveat =>
+      'يستعمل التطبيقُ أهدافًا لطيفةً؛ ومطاردةُ رقمٍ قريبٍ من الكمال تُضاعِف عملَك اليوميّ.';
+
+  @override
+  String get scienceClaimC018Headline =>
+      'التسميعُ عن ظهر قلبٍ يحفظ حِفظَك أكثرَ بكثيرٍ من إعادة القراءة.';
+
+  @override
+  String get scienceClaimC019Headline =>
+      'الصفحةُ القويّة لا تُصبح «منتهيةً» أبدًا؛ دوامُ التسميع وحده يُبقيها.';
+
+  @override
+  String get scienceClaimC020Headline =>
+      'دَعِ التسميعَ يكتمل قبل التصحيح؛ فالتقويمُ أنفعُ بعد المحاولة كاملةً.';
+
+  @override
+  String get scienceClaimC021Headline =>
+      'المعلِّمُ الذي يسمع تسميعَك ويصحِّحه يقوّي الصفحةَ أكثرَ من تقييمك نفسَك.';
+
+  @override
+  String get scienceClaimC022Headline =>
+      'إعادةُ القراءة تبدو الأنجع، لكنّ التسميعَ عن ظهر قلبٍ هو ما يثبُت فعلًا.';
+
+  @override
+  String get scienceClaimC023Headline =>
+      'الحِفظُ الراسخ يأتي من إعادة التسميع عبر الزمن، لا من تكرارٍ إضافيٍّ يومَ الحفظ.';
+
+  @override
+  String get scienceClaimC024Headline =>
+      'تسميعُ الصفحة حتى تَسهُلَ بلا كُلفةٍ يجعل فقدانَها أصعبَ بكثير.';
+
+  @override
+  String get scienceClaimC025Headline =>
+      'لا نَعِدُك بألَّا تنسى صفحةً أبدًا؛ فالرسوخُ يأتي من المراجعة المنتظمة لا من رقمٍ سحري.';
+
+  @override
+  String get scienceClaimC025Caveat =>
+      'الدرجةُ تصف قوّةَ الدليل، لا وعدًا بشأن حِفظك.';
+
+  @override
+  String get scienceClaimC026Headline =>
+      'أكثرُ النسيان من التداخل بين المواضع المتشابهة، لا من مرور الزمن وحده.';
+
+  @override
+  String get scienceClaimC027Headline =>
+      'كلما زاد تشابهُ موضعين زاد تداخلُهما؛ ولذا لا يكفي التكرارُ وحده لتمييزهما.';
+
+  @override
+  String get scienceClaimC028Headline =>
+      'لتكفَّ عن الخلط بين موضعين متشابهين، مرِّنهما متتاليين حتى تميِّز بينهما.';
+
+  @override
+  String get scienceClaimC029Headline =>
+      'تمرينُ أحد المتشابهين وحده قد يُضعِف قرينَه؛ لذا نمرِّن المجموعةَ كاملةً.';
+
+  @override
+  String get scienceClaimC030Headline =>
+      'الخلطُ بين الآيات المتشابهة يزداد صعوبةً كلما زاد ما تحفظه من القرآن.';
+
+  @override
+  String get scienceClaimC031Headline =>
+      'تحفظُ القرآنَ وتُسمِّعه صفحاتٍ متّصلةً لا بطاقاتٍ منفصلة؛ فنراجعه بالطريقة نفسها.';
+
+  @override
+  String get scienceClaimC032Headline =>
+      'إعادةُ تسميع الصفحة نفسها بترتيبها الثابت هي ما يُرسِّخها تمامًا.';
+
+  @override
+  String get scienceClaimC033Headline =>
+      'نقيِّمُ الصفحةَ كاملةً لكن نحدِّد بدقّةٍ موضعَ تعثُّرك.';
+
+  @override
+  String get scienceClaimC034Headline =>
+      'تُنظَّم مراجعةُ الحِفظ تقليديًّا في ثلاثة مساراتٍ: الجديد (السبق)، والقريب (السبقي)، والبعيد (المنزل).';
+
+  @override
+  String get scienceClaimC035Headline =>
+      'تحثُّ السنّةُ على دوام المراجعة: فالقرآنُ أسرعُ تفلُّتًا من الإبل في عُقُلها.';
+
+  @override
+  String get scienceClaimC036Headline =>
+      'المنازلُ السبعُ تقسِّم القرآنَ لخَتمةٍ أسبوعية: مراجعةُ كلِّ ما تحفظ مرّةً في الأسبوع على الأقلّ.';
+
+  @override
+  String get scienceClaimC037Headline =>
+      'بلَغ المتقنون المراجعةَ المتباعدةَ المتوسِّعةَ قبل قرونٍ من تأكيد التجارب لها.';
+
+  @override
+  String get scienceClaimC038Headline =>
+      'يُتلقَّى القرآنُ ويُصحَّح مشافهةً عن معلِّمٍ (تلقّيًا)، بسندٍ متّصلٍ إلى النبيِّ ﷺ.';
+
+  @override
+  String get scienceClaimC039Headline =>
+      'يراجع التقليدُ كلَّ المحفوظ دوريًّا؛ فقد كان جبريلُ يعارض النبيَّ ﷺ بالقرآن كلَّ عام.';
+
+  @override
+  String get scienceClaimC040Headline =>
+      'تُفرِط الطرقُ التقليدية في إتقان النصِّ — مئاتُ التكرارات — ثم تُدوِّر كلَّ المحفوظ، لا أن تُلاحق رقمًا.';
+
+  @override
+  String get scienceClaimC041Headline =>
+      'نتجنّب عمدًا السلاسلَ والشاراتِ والشعورَ بالذنب: فالبحثُ يبيّن أنها لا تبني عادةً راسخة وقد تُضعِف الدافعَ الذي يأتي بك إلى المراجعة.';
+
+  @override
+  String get scienceClaimC042Headline => 'تفويتُ يومٍ واحدٍ لا يمحو تقدُّمَك.';
+
+  @override
+  String get scienceClaimC043Headline =>
+      'التذكيراتُ تبقى هادئةً بلا لومٍ: «مراجعةُ اليوم جاهزة»، لا «ستفقد حِفظك».';
+
+  @override
+  String get scienceClaimC044Headline =>
+      'تقدُّمُك مِلكُك — يُعرَض خريطةً هادئةً لكلِّ قرآنك، لا ترتيبًا مقارنةً بالآخرين.';
+
+  @override
+  String get scienceClaimC045Headline =>
+      'إنما الأعمالُ بالنيّات — فلا نحوِّل المراجعةَ إلى مطاردةِ مكافأة.';
+
+  @override
+  String get scienceClaimC046Headline =>
+      'هذا عونٌ على المراجعة وخادمٌ لمعلِّمك — لا بديلٌ عن التصحيح الشفهيّ، ولا فتوى.';
+
+  @override
+  String get scienceClaimC047Headline =>
+      'حيثُ يكون العلمُ غيرَ مؤكَّدٍ أو يُبسِّط التطبيق، نقول ذلك — ونُسمّي ونؤرّخ كلَّ مصدر.';
+
+  @override
+  String get scienceClaimC047Caveat =>
+      'نُفصِح عن كلِّ تبسيطٍ: «يستعمل التطبيق كذا؛ والبحثُ يبيّن كذا–كذا».';
+
+  @override
+  String get scienceClaimC048Headline =>
+      'يعمل التطبيقُ بلا إنترنت تمامًا، ولا يسجِّل صوتَك ولا يُرسِل بياناتِك إلى أيِّ مكان.';
 }

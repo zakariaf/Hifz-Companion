@@ -1136,4 +1136,265 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get eraseConfirmSecond => 'اکنون پاک کن';
+
+  @override
+  String get scienceTitle => 'دانشی که دنبال می‌کنیم';
+
+  @override
+  String get scienceIntro =>
+      'هر گفته در این صفحه بر پایهٔ منبعی نام‌برده و درجه‌ای از استواری است؛ آن را نشان می‌دهیم تا مبنای کار را بسنجید. این وعده‌ای دربارهٔ حفظ شما نیست، بلکه بیانِ آن چیزی است که بر آن تکیه می‌کنیم.';
+
+  @override
+  String get scienceEvidenceLabel => 'شواهد';
+
+  @override
+  String get scienceSourcesLabel => 'منابع';
+
+  @override
+  String get scienceNeedsReview => 'نیازمند بازبینی اهل علم';
+
+  @override
+  String get scienceOpensInBrowser => 'در مرورگر شما باز می‌شود';
+
+  @override
+  String get scienceGroupA => 'حافظه و فراموشی';
+
+  @override
+  String get scienceGroupB => 'فاصله‌گذاری و زمان‌بندی';
+
+  @override
+  String get scienceGroupC => 'سازوکار برنامهٔ مرور';
+
+  @override
+  String get scienceGroupD => 'بازخوانی از حافظه';
+
+  @override
+  String get scienceGroupE => 'آیات متشابه';
+
+  @override
+  String get scienceGroupF => 'صفحه همچون یک واحد';
+
+  @override
+  String get scienceGroupG => 'ماندگاری در درازمدت';
+
+  @override
+  String get scienceGroupH => 'روش سنّتی';
+
+  @override
+  String get scienceGroupI => 'انگیزه بدون فشار';
+
+  @override
+  String get scienceGroupJ => 'صداقت و حریم خصوصی';
+
+  @override
+  String get scienceClaimC001Headline =>
+      'حافظه بر منحنی‌ای پیش‌بینی‌پذیر کم‌رنگ می‌شود؛ نخست تند، سپس آرام.';
+
+  @override
+  String get scienceClaimC002Headline =>
+      'صفحه‌ای که «فراموش» کرده‌اید گم نشده است؛ بازخواندنش بسیار آسان‌تر از حفظ نخستین آن است.';
+
+  @override
+  String get scienceClaimC003Headline =>
+      'یک لغزش به معنای از دست رفتن صفحه نیست.';
+
+  @override
+  String get scienceClaimC004Headline =>
+      'خواب شب کمک می‌کند آنچه امروز مرور کرده‌اید در حافظهٔ ماندگار جای گیرد.';
+
+  @override
+  String get scienceClaimC004Caveat =>
+      'برنامه بر پایهٔ روزهای کامل زمان‌بندی می‌کند و خوابِ شما را دنبال نمی‌کند.';
+
+  @override
+  String get scienceClaimC005Headline =>
+      'آنچه ژرف و پیوسته بازخوانده شود به سطحی کمابیش ثابت می‌رسد که دهه‌ها می‌ماند.';
+
+  @override
+  String get scienceClaimC006Headline =>
+      'مرور با فاصله‌های فزاینده بسیار بهتر از بازخوانی در یک نشست نگه می‌دارد.';
+
+  @override
+  String get scienceClaimC007Headline =>
+      'بهترین فاصله میان مرورها با استوارتر شدن صفحه بیشتر می‌شود: روزانه، سپس هفتگی، سپس ماهانه.';
+
+  @override
+  String get scienceClaimC008Headline =>
+      'فاصله‌های بازتر یعنی کار روزانهٔ کمتر برای همان نتیجهٔ ماندگار، نه تنبلی.';
+
+  @override
+  String get scienceClaimC009Headline =>
+      'مرور کمی زودهنگام چند دقیقه هزینه دارد، اما دیرکرد ممکن است صفحه را ببرد؛ پس کمی زودتر را برمی‌گزینیم.';
+
+  @override
+  String get scienceClaimC010Headline =>
+      'برنامه کم‌رنگ‌شدن یادآوری را با منحنیِ استانداردِ بازِ تکرارِ فاصله‌دار مدل می‌کند.';
+
+  @override
+  String get scienceClaimC010Caveat =>
+      'این ثابت‌ها برآوردی آغازین‌اند که از مرورهای شما تنظیم می‌شوند، نه قاعده‌ای ثابت.';
+
+  @override
+  String get scienceClaimC011Headline =>
+      'هر مرور به‌هنگام، صفحه را پیش از نیاز به مرور دوباره دیرپاتر می‌کند.';
+
+  @override
+  String get scienceClaimC012Headline =>
+      'مرور صفحه هنگامی که اندکی سست‌تر است، آن را بیش از مرور در حالت تازه استوار می‌کند.';
+
+  @override
+  String get scienceClaimC013Headline =>
+      'پخش‌کردن مرور در روزها (و شب‌ها) بهتر از فشردن آن در یک نشست می‌ماند.';
+
+  @override
+  String get scienceClaimC014Headline =>
+      'چرخهٔ مرور سنّتی خود همان تکرارِ فاصله‌دار است؛ برنامه تنها درون آن بازچینش می‌کند.';
+
+  @override
+  String get scienceClaimC016Headline =>
+      'هر صفحه دستِ‌کم یک‌بار در هر چرخه‌ای که برمی‌گزینید مرور می‌شود — برنامه می‌تواند بیشتر مرورش کند، نه کمتر.';
+
+  @override
+  String get scienceClaimC016Caveat =>
+      'این تضمینی ساختاری است — هر صفحه درون چرخهٔ شما بازمی‌گردد — نه احتمالی عددی.';
+
+  @override
+  String get scienceClaimC017Headline =>
+      'به دنبال عددی مانند «صد در صد» نمی‌رویم؛ این کار روزانهٔ شما را چند برابر می‌کند و چرخه‌ای را که از پسش برمی‌آیید می‌شکند.';
+
+  @override
+  String get scienceClaimC017Caveat =>
+      'برنامه هدف‌هایی ملایم به کار می‌برد؛ دنبال‌کردن عددی نزدیک به کمال کار روزانه را چند برابر می‌کند.';
+
+  @override
+  String get scienceClaimC018Headline =>
+      'از بر خواندن، حفظ شما را بسیار بیش از بازخوانی نگه می‌دارد.';
+
+  @override
+  String get scienceClaimC019Headline =>
+      'صفحهٔ استوار هرگز «تمام‌شده» نمی‌شود؛ تنها تسمیعِ پیوسته آن را نگه می‌دارد.';
+
+  @override
+  String get scienceClaimC020Headline =>
+      'بگذارید تسمیع کامل شود، سپس تصحیح؛ بازخورد پس از تلاشِ کامل بهترین اثر را دارد.';
+
+  @override
+  String get scienceClaimC021Headline =>
+      'استادی که تسمیع شما را می‌شنود و تصحیح می‌کند، صفحه را بیش از خودسنجی استوار می‌کند.';
+
+  @override
+  String get scienceClaimC022Headline =>
+      'بازخوانی به‌نظر بهترین می‌آید، اما آنچه به‌راستی می‌ماند از بر خواندن است.';
+
+  @override
+  String get scienceClaimC023Headline =>
+      'حفظِ ماندگار از بازخواندن در گذر زمان می‌آید، نه از تکرارِ افزون در روزِ حفظ.';
+
+  @override
+  String get scienceClaimC024Headline =>
+      'بازخواندن صفحه تا جایی که بی‌زحمت شود، از دست دادنش را بسیار دشوارتر می‌کند.';
+
+  @override
+  String get scienceClaimC025Headline =>
+      'نمی‌توانیم وعده دهیم که هرگز صفحه‌ای را فراموش نکنید؛ ماندگاری از مرورِ منظم می‌آید، نه از عددی جادویی.';
+
+  @override
+  String get scienceClaimC025Caveat =>
+      'درجه، استواریِ شواهد را وصف می‌کند، نه وعده‌ای دربارهٔ حفظ شما.';
+
+  @override
+  String get scienceClaimC026Headline =>
+      'بیشتر فراموشی از درهم‌آمیختگی میان بخش‌های همانند است، نه صرفِ گذر زمان.';
+
+  @override
+  String get scienceClaimC027Headline =>
+      'هرچه دو بخش همانندتر باشند بیشتر درهم می‌آمیزند؛ از این‌رو تنها تکرار آن‌ها را جدا نمی‌کند.';
+
+  @override
+  String get scienceClaimC028Headline =>
+      'برای آنکه دو بخش همانند را اشتباه نگیرید، آن‌ها را پشت‌سرهم تمرین کنید تا تفاوتشان را دریابید.';
+
+  @override
+  String get scienceClaimC029Headline =>
+      'تمرینِ تنها یکی از جفتِ همانند ممکن است همتایش را سست کند؛ پس همهٔ گروه را تمرین می‌کنیم.';
+
+  @override
+  String get scienceClaimC030Headline =>
+      'اشتباهِ آیات همانند هرچه بیشتر از قرآن را در حفظ داشته باشید دشوارتر می‌شود.';
+
+  @override
+  String get scienceClaimC031Headline =>
+      'قرآن را در صفحاتِ پیوسته حفظ و تسمیع می‌کنید، نه کارت‌های جدا؛ پس به همان شیوه مرور می‌کنیم.';
+
+  @override
+  String get scienceClaimC032Headline =>
+      'بازخواندن همان صفحه به ترتیبِ ثابتش، همان چیزی است که آن را استوار می‌کند.';
+
+  @override
+  String get scienceClaimC033Headline =>
+      'کل صفحه را درجه می‌دهیم، اما دقیقاً جای لغزش شما را نشان می‌دهیم.';
+
+  @override
+  String get scienceClaimC034Headline =>
+      'مرورِ حفظ به‌طور سنّتی در سه مسیر سامان می‌یابد: نو (سبق)، نزدیک (سبقی)، و دور (منزل).';
+
+  @override
+  String get scienceClaimC035Headline =>
+      'سنّت بر مرورِ پیوسته تأکید دارد: قرآن زودتر از شترانِ دربند از حافظه می‌گریزد.';
+
+  @override
+  String get scienceClaimC036Headline =>
+      'هفت منزل، قرآن را برای ختمی هفتگی بخش می‌کند: مرورِ همهٔ آنچه حفظ دارید دستِ‌کم هفته‌ای یک‌بار.';
+
+  @override
+  String get scienceClaimC037Headline =>
+      'استادان، قرن‌ها پیش از تأیید آزمایش‌ها به مرورِ فاصله‌دار و فزاینده رسیدند.';
+
+  @override
+  String get scienceClaimC038Headline =>
+      'قرآن رودررو از استاد (تلقّی) آموخته و تصحیح می‌شود، با سندی پیوسته تا پیامبر ﷺ.';
+
+  @override
+  String get scienceClaimC039Headline =>
+      'سنّت همهٔ آنچه را شخص در حفظ دارد دوره‌ای مرور می‌کند؛ جبرئیل هر سال قرآن را با پیامبر ﷺ عرضه می‌کرد.';
+
+  @override
+  String get scienceClaimC040Headline =>
+      'روش‌های سنّتی متن را بسیار می‌آموزند — صدها تکرار — سپس همهٔ محفوظات را می‌گردانند، نه آنکه در پیِ عددی باشند.';
+
+  @override
+  String get scienceClaimC041Headline =>
+      'آگاهانه از زنجیره‌ها، نشان‌ها و احساس گناه دوری می‌کنیم: پژوهش نشان می‌دهد اینها عادتِ ماندگار نمی‌سازند و می‌توانند انگیزه‌ای را که شما را به مرور می‌آورد سست کنند.';
+
+  @override
+  String get scienceClaimC042Headline =>
+      'از دست رفتنِ یک روز پیشرفت شما را پاک نمی‌کند.';
+
+  @override
+  String get scienceClaimC043Headline =>
+      'یادآوری‌ها آرام و بی‌سرزنش می‌مانند: «مرورِ امروز آماده است»، نه «حفظت را از دست می‌دهی».';
+
+  @override
+  String get scienceClaimC044Headline =>
+      'پیشرفت شما از آنِ خود شماست — همچون نقشه‌ای آرام از همهٔ قرآنتان نشان داده می‌شود، نه رتبه‌بندی در برابر دیگران.';
+
+  @override
+  String get scienceClaimC045Headline =>
+      'کارها به نیّت‌هاست — پس هرگز مرور را به دنبالِ پاداش بدل نمی‌کنیم.';
+
+  @override
+  String get scienceClaimC046Headline =>
+      'این یاریگرِ مرور و خدمتگزارِ استادِ شماست — نه جایگزینِ تصحیحِ شفاهی، و نه فتوا.';
+
+  @override
+  String get scienceClaimC047Headline =>
+      'هرجا دانش قطعی نباشد یا برنامه ساده‌سازی کند، آن را می‌گوییم — و نام و سالِ هر منبع را می‌آوریم.';
+
+  @override
+  String get scienceClaimC047Caveat =>
+      'هر ساده‌سازی را آشکار می‌گوییم: «برنامه چنین به کار می‌برد؛ پژوهش چنین تا چنان نشان می‌دهد».';
+
+  @override
+  String get scienceClaimC048Headline =>
+      'برنامه به‌طور کامل بدون اینترنت کار می‌کند و هرگز صدای شما را ضبط یا داده‌هایتان را به جایی ارسال نمی‌کند.';
 }

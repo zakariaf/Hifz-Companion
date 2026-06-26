@@ -10,11 +10,13 @@ import 'package:features/features.dart'
         ProfilesScreen,
         ProgressScreen,
         ReciteGradeScreen,
+        ScienceScreen,
         SettingsScreen,
         TodayScreen,
         kMutashabihatDrillPathPrefix,
         kProfilesPath,
         kRecitePathPrefix,
+        kSciencePath,
         mushafReaderRouteFromUri;
 import 'package:composition/composition.dart';
 import 'package:flutter/material.dart';
@@ -155,6 +157,13 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: kProfilesPath,
             builder: (context, state) => const ProfilesScreen(),
+          ),
+          GoRoute(
+            // "The science we follow" — reached from Settings/About; a sibling
+            // under /settings so the Settings tab stays selected. Not a Quran
+            // route, so it is ungated (renders from the bundled register).
+            path: kSciencePath,
+            builder: (context, state) => const ScienceScreen(),
           ),
         ],
       ),

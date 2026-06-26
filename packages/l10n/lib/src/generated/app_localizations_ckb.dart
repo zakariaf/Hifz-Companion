@@ -1142,4 +1142,265 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get eraseConfirmSecond => 'ئێستا بیسڕەوە';
+
+  @override
+  String get scienceTitle => 'ئەو زانستەی کە شوێنی دەکەوین';
+
+  @override
+  String get scienceIntro =>
+      'هەر وتەیەک لێرە لەسەر سەرچاوەیەکی ناودراو و پلەیەکی بەهێزی ڕاوەستاوە؛ پیشانی دەدەین تاکو بناغەی کارەکە بپشکنیت. ئەمە بەڵێن نییە دەربارەی حیفزەکەت، بەڵکوو ڕوونکردنەوەی ئەوەیە کە پشتی پێ دەبەستین.';
+
+  @override
+  String get scienceEvidenceLabel => 'بەڵگە';
+
+  @override
+  String get scienceSourcesLabel => 'سەرچاوەکان';
+
+  @override
+  String get scienceNeedsReview => 'پێویستی بە پێداچوونەوەی زانایانە هەیە';
+
+  @override
+  String get scienceOpensInBrowser => 'لە وێبگەڕەکەتدا دەکرێتەوە';
+
+  @override
+  String get scienceGroupA => 'بیرگە و لەبیرچوون';
+
+  @override
+  String get scienceGroupB => 'بۆشایی و کاتبەندی';
+
+  @override
+  String get scienceGroupC => 'چۆنیەتی کارکردنی خشتەی پێداچوونەوە';
+
+  @override
+  String get scienceGroupD => 'هێنانەوە لە یادەوە';
+
+  @override
+  String get scienceGroupE => 'ئایەتە هاوشێوەکان';
+
+  @override
+  String get scienceGroupF => 'لاپەڕە وەک یەک یەکە';
+
+  @override
+  String get scienceGroupG => 'مانەوەی درێژخایەن';
+
+  @override
+  String get scienceGroupH => 'ڕێبازی نەریتی';
+
+  @override
+  String get scienceGroupI => 'پاڵنەر بەبێ گوشار';
+
+  @override
+  String get scienceGroupJ => 'ڕاستگۆیی و تایبەتمەندی';
+
+  @override
+  String get scienceClaimC001Headline =>
+      'بیرگە بەپێی هێڵێکی پێشبینیکراو لەدەست دەچێت؛ سەرەتا خێرا، پاشان بەهێواشی.';
+
+  @override
+  String get scienceClaimC002Headline =>
+      'ئەو لاپەڕەیەی «لەبیرت چووە» ون نەبووە؛ دووبارە لەبەرکردنەوەی زۆر ئاسانترە لە حیفزکردنی یەکەمجار.';
+
+  @override
+  String get scienceClaimC003Headline =>
+      'یەک هەڵە مانای ئەوە نییە لاپەڕەکەت لەدەست داوە.';
+
+  @override
+  String get scienceClaimC004Headline =>
+      'خەوی شەو یارمەتی دەدات ئەوەی ئەمڕۆ پێداچوویتەوە لە بیرگەی مەندگاردا جێگیر بێت.';
+
+  @override
+  String get scienceClaimC004Caveat =>
+      'بەرنامەکە بەپێی ڕۆژی تەواو کاتبەندی دەکات و خەوت هەڵناسەنگێنێت.';
+
+  @override
+  String get scienceClaimC005Headline =>
+      'ئەوەی بەقووڵی و دووبارە لەبەر بکرێتەوە دەگاتە ئاستێکی نزیکەی جێگیر کە دەیان ساڵ دەمێنێتەوە.';
+
+  @override
+  String get scienceClaimC006Headline =>
+      'پێداچوونەوە بە بۆشایی گەشەسەندوو زۆر باشتر ڕادەگرێت لە دووبارە خوێندنەوە لە یەک دانیشتندا.';
+
+  @override
+  String get scienceClaimC007Headline =>
+      'هەرچی لاپەڕە بەهێزتر بێت، ماوەی نێوان پێداچوونەوەکان زیاد دەکات: ڕۆژانە، ئینجا هەفتانە، ئینجا مانگانە.';
+
+  @override
+  String get scienceClaimC008Headline =>
+      'بۆشایی فراوانتر مانای کاری ڕۆژانەی کەمترە بۆ هەمان ئەنجامی مەندگار، نەک تەمەڵی.';
+
+  @override
+  String get scienceClaimC009Headline =>
+      'پێداچوونەوەی کەمێک زوو چەند خولەکێک تێدەچێت، بەڵام درەنگی لەوانەیە لاپەڕەکە بدۆڕێنێت؛ بۆیە کەمێک زووتر هەڵدەبژێرین.';
+
+  @override
+  String get scienceClaimC010Headline =>
+      'بەرنامەکە کاڵبوونەوەی بیرهێنانەوە بە هێڵێکی ستانداردی کراوەی دووبارەکردنەوەی بۆشاییدارەوە پێشبینی دەکات.';
+
+  @override
+  String get scienceClaimC010Caveat =>
+      'ئەم نەگۆڕانە لە سەرەتاوە خەمڵێنراون و لە پێداچوونەوەکانتەوە ڕێک دەخرێن، نەک یاسایەکی ڕەق.';
+
+  @override
+  String get scienceClaimC011Headline =>
+      'هەر پێداچوونەوەیەک لە کاتی خۆیدا وا دەکات لاپەڕە درێژتر بمێنێتەوە پێش ئەوەی پێداچوونەوەی نوێی پێویست بێت.';
+
+  @override
+  String get scienceClaimC012Headline =>
+      'پێداچوونەوەی لاپەڕە کاتێک کەمێک لاوازترە، زیاتر بەهێزی دەکات لە پێداچوونەوەی کاتێک هێشتا تازەیە.';
+
+  @override
+  String get scienceClaimC013Headline =>
+      'دابەشکردنی پێداچوونەوە بەسەر ڕۆژان (و شەوان) باشتر دەمێنێتەوە لە چەپاندنی لە یەک دانیشتندا.';
+
+  @override
+  String get scienceClaimC014Headline =>
+      'خولی پێداچوونەوەی نەریتی خۆی دووبارەکردنەوەی بۆشاییدارە؛ بەرنامەکە تەنها لە ناویدا ڕیزبەندی دەگۆڕێت.';
+
+  @override
+  String get scienceClaimC016Headline =>
+      'هەر لاپەڕەیەک لانیکەم جارێک لە هەر خولێکدا کە هەڵیدەبژێریت پێداچوونەوەی بۆ دەکرێت — بەرنامەکە تەنها زیاتر دەیکات، نەک کەمتر.';
+
+  @override
+  String get scienceClaimC016Caveat =>
+      'ئەمە دڵنیاییەکی بنیاتییە — هەر لاپەڕەیەک لە ناو خولەکەتدا دەگەڕێتەوە — نەک ئەگەرێکی ژمارەیی.';
+
+  @override
+  String get scienceClaimC017Headline =>
+      'بەدوای ژمارەیەکی تەواو وەک سەد لەسەد ناکەوین؛ ئەوە کاری ڕۆژانەت چەند بەرامبەر زیاد دەکات و ئەو خولە تێکدەدات کە دەتوانیت بەردەوامی پێ بدەیت.';
+
+  @override
+  String get scienceClaimC017Caveat =>
+      'بەرنامەکە ئامانجی نەرم بەکاردەهێنێت؛ ڕاوکردنی ژمارەیەکی نزیک لە تەواوی، کاری ڕۆژانەت چەند بەرامبەر زیاد دەکات.';
+
+  @override
+  String get scienceClaimC018Headline =>
+      'لەبەرخوێندنەوە لە یادەوە، حیفزەکەت زۆر زیاتر دەپارێزێت لە دووبارە خوێندنەوە.';
+
+  @override
+  String get scienceClaimC019Headline =>
+      'لاپەڕەی بەهێز هەرگیز «تەواو» نابێت؛ تەنها بەردەوامیی لەبەرخوێندنەوە دەیپارێزێت.';
+
+  @override
+  String get scienceClaimC020Headline =>
+      'بهێڵە لەبەرخوێندنەوەکە تەواو بێت پێش ڕاستکردنەوە؛ ڕاستکردنەوە لەدوای هەوڵی تەواو باشترین کاریگەری هەیە.';
+
+  @override
+  String get scienceClaimC021Headline =>
+      'ئەو مامۆستایەی گوێ لە لەبەرخوێندنەوەکەت دەگرێت و ڕاستی دەکاتەوە، لاپەڕە زیاتر بەهێز دەکات لە هەڵسەنگاندنی خۆت.';
+
+  @override
+  String get scienceClaimC022Headline =>
+      'دووبارە خوێندنەوە وا دیارە باشترینە، بەڵام ئەوەی بەڕاستی دەمێنێتەوە لەبەرخوێندنەوەیە لە یادەوە.';
+
+  @override
+  String get scienceClaimC023Headline =>
+      'حیفزی مەندگار لە دووبارە لەبەرخوێندنەوە بەدرێژایی کات دێت، نەک لە دووبارەکردنەوەی زیادە لە ڕۆژی حیفزکردندا.';
+
+  @override
+  String get scienceClaimC024Headline =>
+      'لەبەرخوێندنەوەی لاپەڕە تاکو بەبێ ماندووبوون ئاسان بێت، لەدەستدانی زۆر گرانتر دەکات.';
+
+  @override
+  String get scienceClaimC025Headline =>
+      'بەڵێنت پێ نادەین کە هەرگیز لاپەڕەیەک لەبیر نەکەیت؛ مەندگاری لە پێداچوونەوەی ڕێکوپێکەوە دێت، نەک لە ژمارەیەکی جادوویی.';
+
+  @override
+  String get scienceClaimC025Caveat =>
+      'پلەکە بەهێزیی بەڵگە پیشان دەدات، نەک بەڵێن دەربارەی حیفزەکەت.';
+
+  @override
+  String get scienceClaimC026Headline =>
+      'زۆربەی لەبیرچوون لە تێکەڵبوونی نێوان بەشە هاوشێوەکانەوەیە، نەک تەنها تێپەڕبوونی کات.';
+
+  @override
+  String get scienceClaimC027Headline =>
+      'هەرچی دوو بەش هاوشێوەتر بن زیاتر تێکەڵ دەبن؛ بۆیە تەنها دووبارەکردنەوە جیایان ناکاتەوە.';
+
+  @override
+  String get scienceClaimC028Headline =>
+      'بۆ ئەوەی دوو بەشی هاوشێوە تێکەڵ نەکەیت، بەدوای یەکدا مەشقیان بکە تاکو جیاوازییان بزانیت.';
+
+  @override
+  String get scienceClaimC029Headline =>
+      'مەشقکردنی تەنها یەکێک لە جووتە هاوشێوەکان لەوانەیە هاوتاکەی لاواز بکات؛ بۆیە هەموو کۆمەڵەکە مەشق دەکەین.';
+
+  @override
+  String get scienceClaimC030Headline =>
+      'تێکەڵکردنی ئایەتە هاوشێوەکان هەرچی زیاتر لە قورئان لە یاد بێت، زیاتر ڕوودەدات.';
+
+  @override
+  String get scienceClaimC031Headline =>
+      'قورئان بە لاپەڕەی پەیوەست لە یاد دەکەیت و لەبەری دەخوێنیتەوە، نەک کارتی جیاجیا؛ بۆیە بە هەمان شێوە پێداچوونەوەی بۆ دەکەین.';
+
+  @override
+  String get scienceClaimC032Headline =>
+      'دووبارە لەبەرخوێندنەوەی هەمان لاپەڕە بە ڕیزبەندی جێگیرەکەی، تەواو ئەوەیە کە جێگیری دەکات.';
+
+  @override
+  String get scienceClaimC033Headline =>
+      'هەموو لاپەڕە پلە دەدەین، بەڵام بەووردی شوێنی هەڵەکەت دیاری دەکەین.';
+
+  @override
+  String get scienceClaimC034Headline =>
+      'پێداچوونەوەی حیفز بە نەریتی لە سێ ڕێڕەودا ڕێک دەخرێت: نوێ (سەبەق)، نزیک (سەبقی)، و دوور (مەنزیل).';
+
+  @override
+  String get scienceClaimC035Headline =>
+      'سوننەت پێداگری لەسەر بەردەوامیی پێداچوونەوە دەکات: قورئان خێراتر لە وشترە بەستراوەکان لە یاد دەردەچێت.';
+
+  @override
+  String get scienceClaimC036Headline =>
+      'حەوت مەنزیل قورئان بۆ ختمێکی هەفتانە دابەش دەکەن: پێداچوونەوەی هەموو ئەوەی لە یادتە لانیکەم هەفتەی جارێک.';
+
+  @override
+  String get scienceClaimC037Headline =>
+      'شارەزایان سەدان ساڵ پێش پشتڕاستکردنەوەی تاقیکردنەوەکان، گەیشتنە پێداچوونەوەی بۆشاییداری فراوانبوو.';
+
+  @override
+  String get scienceClaimC038Headline =>
+      'قورئان ڕووبەڕوو لە مامۆستاوە (تەلەقی) فێر دەکرێت و ڕاست دەکرێتەوە، بە سەنەدێکی پەیوەست تا پێغەمبەر ﷺ.';
+
+  @override
+  String get scienceClaimC039Headline =>
+      'نەریت هەموو ئەوەی کەسێک لە یادیەتی بە دەورەیی پێداچوونەوەی بۆ دەکات؛ جبریل هەموو ساڵێک قورئانی لەگەڵ پێغەمبەر ﷺ پێداچووەوە.';
+
+  @override
+  String get scienceClaimC040Headline =>
+      'ڕێبازە نەریتییەکان دەق زۆر زیاد فێر دەبن — سەدان دووبارەکردنەوە — پاشان هەموو ئەوەی لە یادە دەگێڕنەوە، نەک بەدوای ژمارەیەکدا بکەون.';
+
+  @override
+  String get scienceClaimC041Headline =>
+      'بەئەنقەست زنجیرە و نیشان و هەستی تاوانباری بەکارناهێنین: توێژینەوە دەریدەخات ئەمانە خووی مەندگار دروست ناکەن و لەوانەیە ئەو پاڵنەرە لاواز بکەن کە بۆ پێداچوونەوەت دەهێنێت.';
+
+  @override
+  String get scienceClaimC042Headline =>
+      'نەهاتنی یەک ڕۆژ پێشکەوتنەکەت ناسڕێتەوە.';
+
+  @override
+  String get scienceClaimC043Headline =>
+      'بیرخستنەوەکان هێمن و بێ گلەیین: «پێداچوونەوەی ئەمڕۆت ئامادەیە»، نەک «حیفزەکەت لەدەست دەدەیت».';
+
+  @override
+  String get scienceClaimC044Headline =>
+      'پێشکەوتنت هی خۆتە — وەک نەخشەیەکی هێمنی هەموو قورئانەکەت پیشان دەدرێت، نەک ڕیزبەندی بەرامبەر کەسانی تر.';
+
+  @override
+  String get scienceClaimC045Headline =>
+      'کردار بە نیازەکانیانەوەن — بۆیە هەرگیز پێداچوونەوە ناکەینە ڕاوی پاداشت.';
+
+  @override
+  String get scienceClaimC046Headline =>
+      'ئەمە یارمەتیدەری پێداچوونەوەیە و خزمەتکاری مامۆستاکەتە — نە جێگرەوەی ڕاستکردنەوەی زارەکی، نە فەتوا.';
+
+  @override
+  String get scienceClaimC047Headline =>
+      'لەکوێ زانست نادیار بێت یان بەرنامەکە ساکاری بکات، ئەوە ڕادەگەیەنین — و ناوی هەر سەرچاوەیەک و ساڵی دیاری دەکەین.';
+
+  @override
+  String get scienceClaimC047Caveat =>
+      'هەموو ساکارکردنێک ئاشکرا ڕادەگەیەنین: «بەرنامەکە وا بەکاری دەهێنێت؛ توێژینەوە وا بۆ وا پیشان دەدات».';
+
+  @override
+  String get scienceClaimC048Headline =>
+      'بەرنامەکە بە تەواوی بێ ئینتەرنێت کار دەکات و هەرگیز دەنگت تۆمار ناکات یان داتاکانت بۆ هیچ شوێنێک نانێرێت.';
 }
