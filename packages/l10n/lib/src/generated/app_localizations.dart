@@ -451,6 +451,12 @@ abstract class AppLocalizations {
   /// **'دورة المراجعة'**
   String get settingsSectionCycle;
 
+  /// Settings group header: the one calm, opt-in, off-by-default daily reminder and the optional catch-up note (PRD §14). Local notifications only, no push/server, no guilt/fear/streak. Best-effort fa/ckb pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'التذكيرات'**
+  String get settingsSectionReminders;
+
   /// Settings group header: device-local profiles (self, student, child) and the active-profile switcher. A profile is a typed display name only, with no account and no PII. Best-effort fa/ckb pending native + scholarly review.
   ///
   /// In ar, this message translates to:
@@ -1296,6 +1302,24 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تذكير محايد في وقت تختاره؛ يمكنك إسكاته في أي وقت — لا يُرسَل شيء'**
   String get reminderHonestLine;
+
+  /// The daily local-notification body (PRD §14) — ONE calm neutral line, 'Your revision for today is ready.' Never guilt/fear/loss, no countdown, no exclamation, no streak (C-043; voice 11 §3 'Daily session ready' row). Fired by flutter_local_notifications, local only; the scheduler is handed this already-localized string. Consumed by E18. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'مراجعتك لليوم جاهزة.'**
+  String get reminderNotificationBody;
+
+  /// The calm, non-obstructive denied state shown when the reminder is on but the OS blocks notifications (E18-T08; privacy 10 §6/§11). Explains and points to system settings — never forces, nags, or re-prompts. No guilt/fear, no exclamation, no mandate ('you can', not 'you must'). Consumed by E18. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإشعارات مُعطَّلة لهذا التطبيق في إعدادات جهازك. يمكنك تفعيلها هناك لتصلك هذه التذكيرة.'**
+  String get reminderPermissionDeniedNote;
+
+  /// The OPTIONAL catch-up notification body (PRD §14; E18-T09), used in place of the daily line ONLY when the catch-up note is on AND a missed-gap backlog exists. Framed as HELP — a calm plan to resume — never blame, never 'N days lost', never a countdown/streak/exclamation (C-042, C-043; voice 11 §4 empathy-then-path). The re-spread plan itself is shown in-app (E12); this only invites the user back. Consumed by E18. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'خطة هادئة لاستئناف مراجعتك جاهزة.'**
+  String get reminderCatchUpBody;
 
   /// The SAFE primary action of the destructive-confirm gate — Cancel / Keep my data (the visually-primary, default-focused button; privacy 10 §9, §11). Never buried. Consumed by E16/E17. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///

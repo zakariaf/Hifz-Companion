@@ -349,6 +349,9 @@ class AppLocalizationsFa extends AppLocalizations {
   String get settingsSectionCycle => 'چرخهٔ مرور';
 
   @override
+  String get settingsSectionReminders => 'یادآوری‌ها';
+
+  @override
   String get settingsSectionProfiles => 'نمایه‌ها';
 
   @override
@@ -849,6 +852,17 @@ class AppLocalizationsFa extends AppLocalizations {
   @override
   String get reminderHonestLine =>
       'یادآوری بی‌طرف در زمانی که خودت انتخاب می‌کنی؛ هر وقت خواستی خاموشش کن — چیزی ارسال نمی‌شود';
+
+  @override
+  String get reminderNotificationBody => 'مرور امروز شما آماده است.';
+
+  @override
+  String get reminderPermissionDeniedNote =>
+      'اعلان‌ها برای این برنامه در تنظیمات دستگاهت خاموش است. می‌توانی آنجا روشنشان کنی تا این یادآوری به دستت برسد.';
+
+  @override
+  String get reminderCatchUpBody =>
+      'برنامه‌ای آرام برای از سرگیری مرور آماده است.';
 
   @override
   String get destructiveKeepData => 'داده‌هایم را نگه دار';

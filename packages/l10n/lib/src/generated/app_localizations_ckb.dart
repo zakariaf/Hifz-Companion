@@ -349,6 +349,9 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get settingsSectionCycle => 'خولی پێداچوونەوە';
 
   @override
+  String get settingsSectionReminders => 'بیرخستنەوەکان';
+
+  @override
   String get settingsSectionProfiles => 'پرۆفایلەکان';
 
   @override
@@ -856,6 +859,17 @@ class AppLocalizationsCkb extends AppLocalizations {
   @override
   String get reminderHonestLine =>
       'بیرخستنەوەیەکی بێلایەن لە کاتێکدا کە خۆت هەڵیدەبژێریت؛ هەر کاتێک بتەوێت بێدەنگی بکە — هیچ نانێردرێت';
+
+  @override
+  String get reminderNotificationBody => 'پێداچوونەوەی ئەمڕۆت ئامادەیە.';
+
+  @override
+  String get reminderPermissionDeniedNote =>
+      'ئاگانامەکان بۆ ئەم ئەپە لە ڕێکخستنەکانی ئامێرەکەت کوژاوەتەوە. دەتوانیت لەوێ هەڵیانبکەیتەوە تاکو ئەم بیرخستنەوەیە بگاتە دەستت.';
+
+  @override
+  String get reminderCatchUpBody =>
+      'پلانێکی هێمن بۆ دەستپێکردنەوەی پێداچوونەوە ئامادەیە.';
 
   @override
   String get destructiveKeepData => 'داتاکانم بهێڵەرەوە';

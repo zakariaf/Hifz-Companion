@@ -352,6 +352,10 @@
   "@settingsSectionCycle": {
     "description": "Settings group header: the revision-cycle preset, Pure-cycle mode, and daily time budget. Writes engine config only, never a retention dial. Best-effort fa/ckb pending native + scholarly review."
   },
+  "settingsSectionReminders": "التذكيرات",
+  "@settingsSectionReminders": {
+    "description": "Settings group header: the one calm, opt-in, off-by-default daily reminder and the optional catch-up note (PRD §14). Local notifications only, no push/server, no guilt/fear/streak. Best-effort fa/ckb pending native + scholarly review."
+  },
   "settingsSectionProfiles": "الملفات الشخصية",
   "@settingsSectionProfiles": {
     "description": "Settings group header: device-local profiles (self, student, child) and the active-profile switcher. A profile is a typed display name only, with no account and no PII. Best-effort fa/ckb pending native + scholarly review."
@@ -950,6 +954,18 @@
   "reminderHonestLine": "تذكير محايد في وقت تختاره؛ يمكنك إسكاته في أي وقت — لا يُرسَل شيء",
   "@reminderHonestLine": {
     "description": "The one honest local-only line under the reminder row — a neutral reminder, silenceable anytime, nothing sent (no server/push, C-043). Calm, no guilt/fear/loss, no exclamation. Consumed by E16/E18. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "reminderNotificationBody": "مراجعتك لليوم جاهزة.",
+  "@reminderNotificationBody": {
+    "description": "The daily local-notification body (PRD §14) — ONE calm neutral line, 'Your revision for today is ready.' Never guilt/fear/loss, no countdown, no exclamation, no streak (C-043; voice 11 §3 'Daily session ready' row). Fired by flutter_local_notifications, local only; the scheduler is handed this already-localized string. Consumed by E18. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "reminderPermissionDeniedNote": "الإشعارات مُعطَّلة لهذا التطبيق في إعدادات جهازك. يمكنك تفعيلها هناك لتصلك هذه التذكيرة.",
+  "@reminderPermissionDeniedNote": {
+    "description": "The calm, non-obstructive denied state shown when the reminder is on but the OS blocks notifications (E18-T08; privacy 10 §6/§11). Explains and points to system settings — never forces, nags, or re-prompts. No guilt/fear, no exclamation, no mandate ('you can', not 'you must'). Consumed by E18. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "reminderCatchUpBody": "خطة هادئة لاستئناف مراجعتك جاهزة.",
+  "@reminderCatchUpBody": {
+    "description": "The OPTIONAL catch-up notification body (PRD §14; E18-T09), used in place of the daily line ONLY when the catch-up note is on AND a missed-gap backlog exists. Framed as HELP — a calm plan to resume — never blame, never 'N days lost', never a countdown/streak/exclamation (C-042, C-043; voice 11 §4 empathy-then-path). The re-spread plan itself is shown in-app (E12); this only invites the user back. Consumed by E18. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
   },
   "destructiveKeepData": "احتفظ ببياناتي",
   "@destructiveKeepData": {

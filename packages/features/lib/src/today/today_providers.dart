@@ -33,6 +33,15 @@ final todaySessionProvider = StreamProvider<TodaySession>((ref) {
       .map((cards) => buildTodaySession(cards, today, engine));
 });
 
+/// Whether the active profile has a missed-gap catch-up backlog right now — the
+/// E12 read model [TodaySession.catchUp] is non-null (E18-T09 reads this signal; it
+/// computes no schedule). `false` while loading or with no profile. The reminder
+/// controller reads it to choose the help-framed catch-up notification body when
+/// the optional catch-up note is on.
+final hasCatchUpBacklogProvider = Provider<bool>((ref) {
+  return ref.watch(todaySessionProvider).asData?.value.catchUp != null;
+});
+
 /// The page → juz lookup, built once from the bundled QUL reference (the inverse
 /// of `pageIdsForJuz`). Reference metadata (never glyph codes); used only to
 /// label a Today row "Page N · Juz M". Offline — the reference is bundled-core.

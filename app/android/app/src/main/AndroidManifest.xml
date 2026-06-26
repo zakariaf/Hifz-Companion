@@ -1,4 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- E18 (PRD §14): the one local daily reminder. POST_NOTIFICATIONS is the
+         Android 13+ runtime permission, requested in context on opt-in (E18-T08).
+         RECEIVE_BOOT_COMPLETED lets the inexact daily alarm survive a reboot. NO
+         SCHEDULE_EXACT_ALARM — alarms are inexact (inexactAllowWhileIdle), the
+         F-Droid-friendly path that needs no special-access permission. -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <application
         android:label="hifz"
         android:name="${applicationName}"
@@ -30,6 +37,19 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <!-- flutter_local_notifications (E18): re-arm the scheduled daily reminder
+             after a device reboot. The plugin's other receivers are merged from its
+             own manifest; the boot receiver needs the app to opt in here. -->
+        <receiver
+            android:exported="false"
+            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
+            </intent-filter>
+        </receiver>
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and

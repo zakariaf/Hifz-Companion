@@ -360,6 +360,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsSectionCycle => 'دورة المراجعة';
 
   @override
+  String get settingsSectionReminders => 'التذكيرات';
+
+  @override
   String get settingsSectionProfiles => 'الملفات الشخصية';
 
   @override
@@ -867,6 +870,16 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get reminderHonestLine =>
       'تذكير محايد في وقت تختاره؛ يمكنك إسكاته في أي وقت — لا يُرسَل شيء';
+
+  @override
+  String get reminderNotificationBody => 'مراجعتك لليوم جاهزة.';
+
+  @override
+  String get reminderPermissionDeniedNote =>
+      'الإشعارات مُعطَّلة لهذا التطبيق في إعدادات جهازك. يمكنك تفعيلها هناك لتصلك هذه التذكيرة.';
+
+  @override
+  String get reminderCatchUpBody => 'خطة هادئة لاستئناف مراجعتك جاهزة.';
 
   @override
   String get destructiveKeepData => 'احتفظ ببياناتي';

@@ -26,6 +26,14 @@ dependencies:
   share_plus: ^10.0.0
   file_picker: ^8.0.0
   path_provider: ^2.1.0
+  # Local daily reminder (Decision log #14; E18) — the one calm notification,
+  # app-edge only behind the composition NotificationScheduler boundary. NO push,
+  # NO server, NO network: `flutter_local_notifications` schedules locally;
+  # `timezone` + `flutter_timezone` feed `zonedSchedule` a DST-correct local fire
+  # time (doc 07 §6 takes them ONLY here, never in the engine/date core).
+  flutter_local_notifications: ^19.0.0
+  timezone: ^0.10.0
+  flutter_timezone: ^4.0.0
   # Full downward fan-in — expected here and only here.
   models:
     path: ../packages/models

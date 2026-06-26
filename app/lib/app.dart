@@ -5,7 +5,10 @@ import 'package:features/features.dart'
     show
         activeProfileRecordProvider,
         displayPreferencesProvider,
-        mihrabThemeFor;
+        hasCatchUpBacklogProvider,
+        mihrabThemeFor,
+        reminderControllerProvider,
+        reminderPreferencesProvider;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:l10n/l10n.dart';
@@ -27,6 +30,22 @@ class HifzApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // E18-T05: the OS reminder schedule is a rebuildable derived cache over the
+    // persisted prefs — re-derive it (idempotent cancel-then-arm) whenever they
+    // become available or change: the active profile loading at startup (the prefs
+    // flip from the default to the stored value), a profile switch, or a restore
+    // writing new prefs. A change made through the reminder row also reschedules
+    // via the controller; this listener covers the non-mutation paths.
+    ref.listen(
+      reminderPreferencesProvider,
+      (_, __) => ref.read(reminderControllerProvider).reconcile(),
+    );
+    // Re-derive too when a missed-gap backlog appears or clears (E18-T09), so the
+    // daily reminder swaps to / from the help-framed catch-up body.
+    ref.listen(
+      hasCatchUpBacklogProvider,
+      (_, __) => ref.read(reminderControllerProvider).reconcile(),
+    );
     final router = ref.watch(routerProvider);
     final appearance = ref.watch(displayPreferencesProvider).appearance;
     final profile = ref.watch(activeProfileRecordProvider).asData?.value;
