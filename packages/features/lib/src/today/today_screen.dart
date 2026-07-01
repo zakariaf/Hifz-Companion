@@ -37,7 +37,8 @@ class TodayScreen extends ConsumerWidget {
     // Each state carries a distinct key so the calm content cross-fade (instant
     // under the OS Reduce Motion flag, E08-T05) is detected on transition.
     final content = session.when(
-      loading: () => const SessionSkeleton(key: ValueKey<String>('today.loading')),
+      loading: () =>
+          const SessionSkeleton(key: ValueKey<String>('today.loading')),
       error: (error, _) => TodayRetryView(
         key: const ValueKey<String>('today.error'),
         message: l10n.commonRetry,
@@ -95,16 +96,18 @@ class _TodayDay extends ConsumerWidget {
           onOpen: (pageId) => context.push(reciteLocation(pageId)),
         );
         // The honest budget-feedback line sits above the still-complete day —
-        // FAR/manzil is never dropped to fit (E12-T04). The choices deep-link to
-        // the E16-owned settings (a single settings surface until E16 splits it).
+        // FAR/manzil is never dropped to fit (E12-T04). The three choices
+        // deep-link to the Cycle settings group (named cycle, daily budget,
+        // new-lesson cadence) — the control that actually changes the load —
+        // rather than the top of Settings.
         if (!session.budgetOverflow) return list;
-        void toSettings() => context.push('/settings');
+        void toCycleSettings() => context.push('/settings?focus=cycle');
         return Column(
           children: <Widget>[
             BudgetFeedbackLine(
-              onRaiseBudget: toSettings,
-              onLengthenCycle: toSettings,
-              onPauseNewSabaq: toSettings,
+              onRaiseBudget: toCycleSettings,
+              onLengthenCycle: toCycleSettings,
+              onPauseNewSabaq: toCycleSettings,
             ),
             Expanded(child: list),
           ],
@@ -117,7 +120,7 @@ class _TodayDay extends ConsumerWidget {
 /// The catch-up state: the calm re-spread banner after a gap. Accepting or
 /// deferring the plan resumes into the ordinary day for this slice (the
 /// persisted accept-state lands with E16/E04 wiring); accept fires only the calm
-/// `haptic.confirm`, never a celebration. Adjust deep-links to settings.
+/// `haptic.confirm`, never a celebration. Adjust deep-links to the cycle settings.
 class _CatchUpView extends ConsumerStatefulWidget {
   const _CatchUpView({required this.session, super.key});
 
@@ -159,7 +162,7 @@ class _CatchUpViewState extends ConsumerState<_CatchUpView> {
           HapticFeedback.lightImpact();
           setState(() => _dismissed = true);
         },
-        onAdjust: () => context.push('/settings'),
+        onAdjust: () => context.push('/settings?focus=cycle'),
         onDefer: () => setState(() => _dismissed = true),
       ),
     );
