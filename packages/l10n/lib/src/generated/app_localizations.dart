@@ -1417,6 +1417,12 @@ abstract class AppLocalizations {
   /// **'المتشابهات'**
   String get mushafOverlayMutashabihat;
 
+  /// Reader overlay toggle tooltip shown while that overlay is disabled because it has nothing to show on the current page — no weak-line/mutashābihāt data or per-word geometry yet. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا شيء لعرضه في هذه الصفحة'**
+  String get mushafOverlayUnavailableOnPage;
+
   /// Reader zoom-in (+) control. PROVISIONAL — best-effort fa/ckb, review in T09.
   ///
   /// In ar, this message translates to:

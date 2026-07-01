@@ -924,6 +924,10 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get mushafOverlayMutashabihat => 'هاوشێوەکان';
 
   @override
+  String get mushafOverlayUnavailableOnPage =>
+      'هیچ شتێک نییە بۆ پیشاندان لەم پەڕەیەدا';
+
+  @override
   String get mushafZoomIn => 'گەورەکردن';
 
   @override

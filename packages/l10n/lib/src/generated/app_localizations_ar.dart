@@ -934,6 +934,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get mushafOverlayMutashabihat => 'المتشابهات';
 
   @override
+  String get mushafOverlayUnavailableOnPage => 'لا شيء لعرضه في هذه الصفحة';
+
+  @override
   String get mushafZoomIn => 'تكبير';
 
   @override

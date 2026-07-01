@@ -917,6 +917,10 @@ class AppLocalizationsFa extends AppLocalizations {
   String get mushafOverlayMutashabihat => 'متشابهات';
 
   @override
+  String get mushafOverlayUnavailableOnPage =>
+      'چیزی برای نمایش در این صفحه نیست';
+
+  @override
   String get mushafZoomIn => 'بزرگ‌نمایی';
 
   @override

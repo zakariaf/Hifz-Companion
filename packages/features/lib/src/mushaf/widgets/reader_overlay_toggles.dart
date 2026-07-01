@@ -6,11 +6,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:l10n/l10n.dart';
 
 import '../mushaf_providers.dart';
+import '../overlay_providers.dart';
 
 /// The two diagnostic overlay toggles (weak-line, mutashābihāt). Both default
 /// **off** — a clean page first; diagnostics are opt-in, never forced on the
 /// sacred surface. Flipping a toggle is display-only (E13-T02): it mutates no
 /// card, writes no `review_log`, and shows no badge/count/celebration.
+///
+/// Each toggle is **enabled only when its overlay has something to paint on the
+/// current page** ([weakLineOverlayAvailableProvider] /
+/// [mutashabihatOverlayAvailableProvider]); otherwise it is disabled with an
+/// honest "nothing to show here" tooltip rather than a control that flips a
+/// state and paints nothing. The data + per-word geometry are bundle-first, so
+/// today both sit disabled and light up by themselves once those land.
 class ReaderOverlayToggles extends ConsumerWidget {
   /// Creates the toggles bound to the reader opened at [entryPage].
   const ReaderOverlayToggles({required this.entryPage, super.key});
@@ -23,20 +31,29 @@ class ReaderOverlayToggles extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final state = ref.watch(mushafReaderStateProvider(entryPage));
     final notifier = ref.read(mushafReaderStateProvider(entryPage).notifier);
+    final page = state.pageNumber;
+    final weakLineAvailable = ref.watch(weakLineOverlayAvailableProvider(page));
+    final mutashabihatAvailable =
+        ref.watch(mutashabihatOverlayAvailableProvider(page));
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         IconButton(
           isSelected: state.isWeakLineOverlayVisible,
-          onPressed: notifier.toggleWeakLineOverlay,
-          tooltip: l10n.mushafOverlayWeakLines,
+          onPressed: weakLineAvailable ? notifier.toggleWeakLineOverlay : null,
+          tooltip: weakLineAvailable
+              ? l10n.mushafOverlayWeakLines
+              : l10n.mushafOverlayUnavailableOnPage,
           icon: const Icon(Icons.subject_outlined),
           selectedIcon: const Icon(Icons.subject),
         ),
         IconButton(
           isSelected: state.isMutashabihatOverlayVisible,
-          onPressed: notifier.toggleMutashabihatOverlay,
-          tooltip: l10n.mushafOverlayMutashabihat,
+          onPressed:
+              mutashabihatAvailable ? notifier.toggleMutashabihatOverlay : null,
+          tooltip: mutashabihatAvailable
+              ? l10n.mushafOverlayMutashabihat
+              : l10n.mushafOverlayUnavailableOnPage,
           icon: const Icon(Icons.compare_arrows_outlined),
           selectedIcon: const Icon(Icons.compare_arrows),
         ),
