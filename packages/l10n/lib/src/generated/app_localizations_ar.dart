@@ -336,6 +336,18 @@ class AppLocalizationsAr extends AppLocalizations {
   String get navSettings => 'الإعدادات';
 
   @override
+  String get headerSubtitleToday => 'مراجعة اليوم — هادئة وقصيرة';
+
+  @override
+  String get headerSubtitleMutashabihat => 'المواضع التي يكثر الخلط بينها';
+
+  @override
+  String get headerSubtitleProgress => 'القرآن كله، جدارٌ من الفسيفساء';
+
+  @override
+  String get headerSubtitleSettings => 'تفضيلات هادئة للعرض';
+
+  @override
   String get appearanceFollowSystem => 'تلقائي';
 
   @override
@@ -1048,6 +1060,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get progressForecastTitle => 'الأيام القادمة';
+
+  @override
+  String get progressTileWallTitle => 'جدار فسيفساء حفظك';
+
+  @override
+  String get progressTileWallHint =>
+      'كل بلاطة صفحة؛ كلما كان الطلاء أغمق كان الحفظ أرسخ. ونقش البلاطة يتحدّث مع اللون — لا اللون وحده.';
 
   @override
   String get backupOwnershipLine =>

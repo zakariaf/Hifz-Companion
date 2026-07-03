@@ -99,20 +99,26 @@ MihrabColors mihrabColorsFor(MihrabAppearance appearance) =>
     };
 
 // Heat-map ramp + bespoke tints per 03 §5/§6. (T02/T03/T10 finalise + audit.)
+// Mihrab-architecture (concept 03): the heat-map reads as a glazed zellige
+// tile-wall — a rich teal glaze receding through turquoise to bare limestone —
+// and the track chip is a light glazed tile. Owner-directed design amendment.
 const _lightColors = MihrabColors(
-  heatmapStrong: Color(0xFF1B8A5A),
-  heatmapGood: Color(0xFF49A074),
-  heatmapFair: Color(0xFF93BFA6),
-  heatmapWeak: Color(0xFFB9C3BC),
-  heatmapFaded: Color(0xFFD2D8D2),
-  trackChipSurface: Color(0xFFDCE6DF),
-  trackChipText: Color(0xFF46514B),
-  decayCalm: Color(0xFFB9C3BC),
+  heatmapStrong: Color(0xFF167C6D),
+  heatmapGood: Color(0xFF3AA6A0),
+  heatmapFair: Color(0xFF93C4BC),
+  heatmapWeak: Color(0xFFC6C0AF),
+  heatmapFaded: Color(0xFFE0D8C6),
+  trackChipSurface: Color(0xFFD5E2DB),
+  trackChipText: Color(0xFF2E463F),
+  decayCalm: Color(0xFFC6C0AF),
   readerSurfaceSepia: Color(0xFFF3EAD8),
   readerSurfaceNight: Color(0xFF14110C),
-  semanticWarning: Color(0xFF8A5A00),
-  accentGold: Color(0xFFA57F33),
-  textTertiary: Color(0xFF5C665F),
+  // Terracotta + gold are deepened from the concept's #B5623C / brighter gold to
+  // the darker clay/ochre it also uses, so the warning reads at 4.5:1 and the
+  // gold ornament mark at 3:1 on the limestone surface (03 §7 re-audit).
+  semanticWarning: Color(0xFF8A4A2C),
+  accentGold: Color(0xFF9E7A2B),
+  textTertiary: Color(0xFF5A655F),
 );
 
 const _sepiaColors = MihrabColors(

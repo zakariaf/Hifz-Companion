@@ -49,6 +49,7 @@ class TodayCatchUpBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final locale = Localizations.localeOf(context);
     final plan = CatchUpPlan(
       missedDays: catchUp.missedDays,
       planDays: catchUp.planDays,
@@ -67,8 +68,16 @@ class TodayCatchUpBanner extends StatelessWidget {
       child: CatchUpBanner(
         plan: plan,
         empathy: l10n.catchUpEmpathy,
-        factLine: l10n.catchUpMissedDays(catchUp.missedDays),
-        pathLine: l10n.catchUpPlanLine(catchUp.planDays),
+        // intl renders the plural `{count}` in ASCII; pin the active locale's
+        // numeral block (۰۱۲ / ٠١٢) so the day counts never leak as `6`/`2`.
+        factLine: toLocaleNumerals(
+          l10n.catchUpMissedDays(catchUp.missedDays),
+          locale,
+        ),
+        pathLine: toLocaleNumerals(
+          l10n.catchUpPlanLine(catchUp.planDays),
+          locale,
+        ),
         startLabel: l10n.catchUpStartPlan,
         adjustLabel: l10n.catchUpAdjust,
         deferLabel: l10n.catchUpDefer,

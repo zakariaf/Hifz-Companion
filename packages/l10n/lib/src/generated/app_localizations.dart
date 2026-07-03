@@ -403,6 +403,30 @@ abstract class AppLocalizations {
   /// **'الإعدادات'**
   String get navSettings;
 
+  /// Subtitle under the Today tab's mihrab-niche header. PROVISIONAL — best-effort fa/ckb, review pending.
+  ///
+  /// In ar, this message translates to:
+  /// **'مراجعة اليوم — هادئة وقصيرة'**
+  String get headerSubtitleToday;
+
+  /// Subtitle under the Mutashābihāt tab's header. PROVISIONAL — best-effort fa/ckb, review pending.
+  ///
+  /// In ar, this message translates to:
+  /// **'المواضع التي يكثر الخلط بينها'**
+  String get headerSubtitleMutashabihat;
+
+  /// Subtitle under the Progress tab's header. PROVISIONAL — best-effort fa/ckb, review pending.
+  ///
+  /// In ar, this message translates to:
+  /// **'القرآن كله، جدارٌ من الفسيفساء'**
+  String get headerSubtitleProgress;
+
+  /// Subtitle under the Settings tab's header. PROVISIONAL — best-effort fa/ckb, review pending.
+  ///
+  /// In ar, this message translates to:
+  /// **'تفضيلات هادئة للعرض'**
+  String get headerSubtitleSettings;
+
   /// Appearance switcher: follow the OS light/dark setting. Best-effort fa/ckb pending E09.
   ///
   /// In ar, this message translates to:
@@ -1614,6 +1638,18 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'الأيام القادمة'**
   String get progressForecastTitle;
+
+  /// Progress tile-wall section banner heading — the whole-Quran heat-map framed as one mosaic (zellige) wall of your memorization. Calm, never a scoreboard. PROVISIONAL — pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'جدار فسيفساء حفظك'**
+  String get progressTileWallTitle;
+
+  /// Progress tile-wall explanatory line: each tile is one page, a deeper glaze means more firmly held, and the tile texture speaks alongside the colour (never colour alone — the a11y redundant-encoding rule). PROVISIONAL — pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'كل بلاطة صفحة؛ كلما كان الطلاء أغمق كان الحفظ أرسخ. ونقش البلاطة يتحدّث مع اللون — لا اللون وحده.'**
+  String get progressTileWallHint;
 
   /// E17 backup card: states BOTH halves of ownership — a local file the app moves nowhere, and the user holds the only copy (no cloud). PROVISIONAL — pending native + scholarly review.
   ///

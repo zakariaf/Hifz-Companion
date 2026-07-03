@@ -68,11 +68,14 @@ void main() {
     );
   }
 
-  testWidgets('renders the six grouped section headers', (tester) async {
+  testWidgets('renders the grouped preference sections', (tester) async {
     await pump(tester);
     await tester.pumpAndSettle();
     final l10n = await l10nAr();
-    expect(find.text(l10n.settingsSectionDisplay), findsOneWidget);
+    // The mihrab restyle splits Display into per-preference niche cards.
+    expect(find.text(l10n.settingsLanguageLabel), findsOneWidget);
+    expect(find.text(l10n.settingsThemeLabel), findsOneWidget);
+    expect(find.text(l10n.settingsCalendarLabel), findsOneWidget);
     expect(find.text(l10n.settingsSectionCycle), findsOneWidget);
     expect(find.text(l10n.settingsSectionReminders), findsOneWidget);
     expect(find.text(l10n.settingsSectionProfiles), findsOneWidget);
@@ -131,10 +134,10 @@ void main() {
       tester.getTopLeft(find.text(l10n.settingsSectionCycle)).dy,
       lessThan(200),
     );
-    // ...and the Display group it sat under has scrolled above the fold, proving
+    // ...and the Language card it sat above has scrolled above the fold, proving
     // the list genuinely moved (not a trivially-already-at-top pass).
     expect(
-      tester.getTopLeft(find.text(l10n.settingsSectionDisplay)).dy,
+      tester.getTopLeft(find.text(l10n.settingsLanguageLabel)).dy,
       lessThan(0),
     );
   });

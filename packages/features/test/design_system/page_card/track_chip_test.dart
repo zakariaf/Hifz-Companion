@@ -74,13 +74,13 @@ void main() {
   });
 
   testWidgets(
-      'far is the calm green maintenance family (a role, not a literal)',
+      'far is the filled calm-green maintenance pill (a role, not a literal)',
       (tester) async {
     await tester.pumpWidget(
       _host(const TrackChip(family: TrackFamily.far, label: 'منزل')),
     );
     final scheme = Theme.of(tester.element(find.byType(TrackChip))).colorScheme;
-    expect(_chipDecoration(tester).color, scheme.primaryContainer);
+    expect(_chipDecoration(tester).color, scheme.primary);
   });
 
   testWidgets('no family resolves to the warning/danger token (no alarm-red)',

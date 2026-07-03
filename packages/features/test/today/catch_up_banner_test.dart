@@ -60,7 +60,10 @@ void main() {
     await pump(t, plan());
     final l10n = await AppLocalizations.delegate.load(const Locale('ar'));
     final empathyY = t.getTopLeft(find.text(l10n.catchUpEmpathy)).dy;
-    final factY = t.getTopLeft(find.text(l10n.catchUpMissedDays(3))).dy;
+    // The fact line renders in locale numerals (۰۱۲ / ٠١٢), never ASCII.
+    final factText =
+        toLocaleNumerals(l10n.catchUpMissedDays(3), const Locale('ar'));
+    final factY = t.getTopLeft(find.text(factText)).dy;
     final choiceY = t.getTopLeft(find.text(l10n.catchUpStartPlan)).dy;
     expect(empathyY, lessThan(factY));
     expect(factY, lessThan(choiceY));

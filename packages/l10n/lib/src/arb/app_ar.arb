@@ -320,6 +320,22 @@
   "@navSettings": {
     "description": "Bottom-nav label for the Settings tab. Best-effort fa/ckb pending E09."
   },
+  "headerSubtitleToday": "مراجعة اليوم — هادئة وقصيرة",
+  "@headerSubtitleToday": {
+    "description": "Subtitle under the Today tab's mihrab-niche header. PROVISIONAL — best-effort fa/ckb, review pending."
+  },
+  "headerSubtitleMutashabihat": "المواضع التي يكثر الخلط بينها",
+  "@headerSubtitleMutashabihat": {
+    "description": "Subtitle under the Mutashābihāt tab's header. PROVISIONAL — best-effort fa/ckb, review pending."
+  },
+  "headerSubtitleProgress": "القرآن كله، جدارٌ من الفسيفساء",
+  "@headerSubtitleProgress": {
+    "description": "Subtitle under the Progress tab's header. PROVISIONAL — best-effort fa/ckb, review pending."
+  },
+  "headerSubtitleSettings": "تفضيلات هادئة للعرض",
+  "@headerSubtitleSettings": {
+    "description": "Subtitle under the Settings tab's header. PROVISIONAL — best-effort fa/ckb, review pending."
+  },
   "appearanceFollowSystem": "تلقائي",
   "@appearanceFollowSystem": {
     "description": "Appearance switcher: follow the OS light/dark setting. Best-effort fa/ckb pending E09."
@@ -1173,6 +1189,14 @@
   "progressForecastTitle": "الأيام القادمة",
   "@progressForecastTitle": {
     "description": "E15 upcoming-load forecast heading (a calm planning aid, never a deadline pile). PROVISIONAL — pending native + scholarly review."
+  },
+  "progressTileWallTitle": "جدار فسيفساء حفظك",
+  "@progressTileWallTitle": {
+    "description": "Progress tile-wall section banner heading — the whole-Quran heat-map framed as one mosaic (zellige) wall of your memorization. Calm, never a scoreboard. PROVISIONAL — pending native + scholarly review."
+  },
+  "progressTileWallHint": "كل بلاطة صفحة؛ كلما كان الطلاء أغمق كان الحفظ أرسخ. ونقش البلاطة يتحدّث مع اللون — لا اللون وحده.",
+  "@progressTileWallHint": {
+    "description": "Progress tile-wall explanatory line: each tile is one page, a deeper glaze means more firmly held, and the tile texture speaks alongside the colour (never colour alone — the a11y redundant-encoding rule). PROVISIONAL — pending native + scholarly review."
   },
   "backupOwnershipLine": "النسخة الاحتياطية ملفّ تحتفظ به أنت على هذا الجهاز؛ لا يرسله التطبيق إلى أي مكان، ولأنه لا توجد سحابة فأنت صاحب النسخة الوحيدة.",
   "@backupOwnershipLine": {

@@ -8,6 +8,7 @@
 
 import 'package:features/features.dart';
 import 'package:features/src/onboarding/widgets/coverage_capture_grid.dart';
+import 'package:features/src/onboarding/widgets/onboarding_glyphs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:l10n/l10n.dart';
@@ -71,11 +72,18 @@ void main() {
     expect(l10n.onboardingNotHeld.isNotEmpty, isTrue);
   });
 
-  testWidgets('held cell carries a check glyph; un-held carries an empty ring',
+  testWidgets('held cell carries a filled star; un-held carries a dashed ring',
       (t) async {
     await pump(t, held: const {3}, onToggle: (_) {});
-    expect(find.byIcon(Icons.check_circle), findsOneWidget); // the one held juz
-    expect(find.byIcon(Icons.circle_outlined), findsNWidgets(29));
+    // Scope to the interactive cells so the banner/legend glyphs don't count.
+    Finder cellGlyph(MihrabGlyphKind kind) => find.descendant(
+          of: find.byType(InkWell),
+          matching: find.byWidgetPredicate(
+            (w) => w is MihrabGlyph && w.kind == kind,
+          ),
+        );
+    expect(cellGlyph(MihrabGlyphKind.filledStar), findsOneWidget); // held juz 3
+    expect(cellGlyph(MihrabGlyphKind.dashedRing), findsNWidgets(29));
   });
 
   testWidgets('each cell is a toggled, labelled, ≥48 dp target', (t) async {

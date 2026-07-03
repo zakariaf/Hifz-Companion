@@ -325,6 +325,18 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get navSettings => 'ڕێکخستنەکان';
 
   @override
+  String get headerSubtitleToday => 'پێداچوونەوەی ئەمڕۆ — هێمن و کورت';
+
+  @override
+  String get headerSubtitleMutashabihat => 'ئەو شوێنانەی زۆر تێکەڵ دەکرێن';
+
+  @override
+  String get headerSubtitleProgress => 'هەموو قورئان، دیوارێکی کاشی';
+
+  @override
+  String get headerSubtitleSettings => 'هەڵبژاردنە هێمنەکانی پیشاندان';
+
+  @override
   String get appearanceFollowSystem => 'سیستەم';
 
   @override
@@ -1039,6 +1051,13 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get progressForecastTitle => 'ڕۆژانی داهاتوو';
+
+  @override
+  String get progressTileWallTitle => 'دیواری کاشیی حیفزت';
+
+  @override
+  String get progressTileWallHint =>
+      'هەر خشتێک یەک لاپەڕەیە؛ لووکی تۆختر واتە جێگیرتر. ڕووکاری خشتەکەش لەگەڵ ڕەنگدا دەیڵێت — نەک تەنها ڕەنگ.';
 
   @override
   String get backupOwnershipLine =>

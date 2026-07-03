@@ -325,6 +325,18 @@ class AppLocalizationsFa extends AppLocalizations {
   String get navSettings => 'تنظیمات';
 
   @override
+  String get headerSubtitleToday => 'مرورِ امروز — آرام و کوتاه';
+
+  @override
+  String get headerSubtitleMutashabihat => 'جاهایی که زیاد جابه‌جا می‌شوند';
+
+  @override
+  String get headerSubtitleProgress => 'کلِ قرآن، یک دیوارِ کاشی';
+
+  @override
+  String get headerSubtitleSettings => 'ترجیح‌های آرام و نمایشی';
+
+  @override
   String get appearanceFollowSystem => 'سیستم';
 
   @override
@@ -1032,6 +1044,13 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get progressForecastTitle => 'روزهای پیشِ‌رو';
+
+  @override
+  String get progressTileWallTitle => 'دیوارِ کاشیِ حفظِ تو';
+
+  @override
+  String get progressTileWallHint =>
+      'هر کاشی یک صفحه؛ لعابِ پررنگ‌تر یعنی استوارتر. بافتِ کاشی هم با رنگ می‌گوید — نه فقط رنگ.';
 
   @override
   String get backupOwnershipLine =>

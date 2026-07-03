@@ -95,9 +95,9 @@ void main() {
     await tester.pump();
     final l10n = await AppLocalizations.delegate.load(const Locale('ar'));
     // MergeSemantics collapses the row into ONE node carrying every part in
-    // order: track, decay, "Page N · Juz M", state.
+    // reading order: "Page N · Juz M", track, decay, state.
     final phrase = RegExp(
-      'TRACKWORD[\\s\\S]*DECAYWORD[\\s\\S]*٢٥٣[\\s\\S]*١٣[\\s\\S]*${l10n.stateWeak}',
+      '٢٥٣[\\s\\S]*١٣[\\s\\S]*TRACKWORD[\\s\\S]*DECAYWORD[\\s\\S]*${l10n.stateWeak}',
     );
     expect(
       find.bySemanticsLabel(phrase),

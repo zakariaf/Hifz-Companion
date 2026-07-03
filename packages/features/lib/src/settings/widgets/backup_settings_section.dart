@@ -14,7 +14,9 @@ import 'package:l10n/l10n.dart';
 
 import '../../backup/backup_restorer.dart';
 import '../../design_system/components/destructive_confirm.dart';
+import '../../design_system/theme/mihrab_colors.dart';
 import '../../design_system/theme/spacing_tokens.dart';
+import '../../design_system/widgets/mihrab_note_card.dart';
 import '../../backup/backup_providers.dart'
     show backupExporterProvider, backupRestorerProvider;
 import 'settings_section.dart';
@@ -37,44 +39,58 @@ class BackupSettingsSection extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final space = Theme.of(context).extension<SpacingTokens>()!;
     final text = Theme.of(context).textTheme;
-    final scheme = Theme.of(context).colorScheme;
+    final mihrab = Theme.of(context).extension<MihrabColors>()!;
 
     return SettingsSection(
       title: l10n.settingsSectionBackup,
       children: [
+        // The two actions live on one calm limestone card: Export the primary
+        // glazed-teal action, Import the quieter outlined one, over a plain
+        // status line. (The persisted last-backup date needs a device-pref write
+        // seam — a flagged follow-up; until then the neutral "No backup yet".)
         Padding(
-          padding: EdgeInsetsDirectional.only(
-            start: space.space4,
-            end: space.space4,
-            bottom: space.space2,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Both halves of ownership, plainly — a file you keep; the only copy.
-              Text(l10n.backupOwnershipLine, style: text.bodyMedium),
-              SizedBox(height: space.space2),
-              // A plain status, never a streak. (The persisted last-backup date
-              // needs a device-pref write seam — a flagged follow-up; until then
-              // this is the neutral "No backup yet".)
-              Text(
-                l10n.backupNoBackupYet,
-                style: text.bodySmall
-                    ?.copyWith(color: scheme.onSurfaceVariant),
+          padding: EdgeInsetsDirectional.symmetric(horizontal: space.space4),
+          child: Card(
+            clipBehavior: Clip.antiAlias,
+            child: Padding(
+              padding: EdgeInsetsDirectional.all(space.space4),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  FilledButton.icon(
+                    onPressed: () => _export(context, ref),
+                    icon: const Icon(Icons.download_outlined),
+                    label: Text(l10n.backupExportAction),
+                  ),
+                  SizedBox(height: space.space2),
+                  OutlinedButton.icon(
+                    onPressed: () => _import(context, ref),
+                    icon: const Icon(Icons.upload_outlined),
+                    label: Text(l10n.backupImportAction),
+                  ),
+                  SizedBox(height: space.space3),
+                  // A plain status in the warm terracotta accent, never a streak.
+                  Text(
+                    l10n.backupNoBackupYet,
+                    style: text.bodySmall
+                        ?.copyWith(color: mihrab.semanticWarning),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
-        ListTile(
-          leading: const Icon(Icons.save_alt_outlined),
-          title: Text(l10n.backupExportAction),
-          onTap: () => _export(context, ref),
+        SizedBox(height: space.space3),
+        // Both halves of ownership, plainly — a file you keep; the only copy —
+        // in a warm-keyline note, never a cloud promise.
+        Padding(
+          padding: EdgeInsetsDirectional.symmetric(horizontal: space.space4),
+          child: MihrabNoteCard(
+            text: l10n.backupOwnershipLine,
+            tone: MihrabNoteTone.warm,
+          ),
         ),
-        ListTile(
-          leading: const Icon(Icons.file_open_outlined),
-          title: Text(l10n.backupImportAction),
-          onTap: () => _import(context, ref),
-        ),
+        SizedBox(height: space.space2),
         // Erase sits low/plain and behind a two-step confirmation (T09).
         Padding(
           padding: EdgeInsetsDirectional.only(

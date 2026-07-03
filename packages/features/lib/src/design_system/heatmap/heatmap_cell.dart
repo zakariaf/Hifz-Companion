@@ -1,6 +1,8 @@
 // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:l10n/l10n.dart';
 
@@ -44,10 +46,11 @@ Color heatFillFor(MihrabColors colors, HeatmapCellData data) {
   return muted;
 }
 
-/// One retention square (design-system 07 §8, 08) — the leaf the E15 whole-Quran
-/// grid composes 604 times.
+/// One retention tile — an 8-fold zellige khatam star (design-system 07 §8, 08) —
+/// the leaf the E15 whole-Quran mosaic tile-wall composes 604 times.
 ///
-/// It paints the calm single-hue ramp (VSUP-muted by confidence), encodes its
+/// It glazes the star with the calm single-hue ramp (VSUP-muted by confidence)
+/// on a hairline limestone tile-bed, encodes its
 /// state **three ways** (fill + a locale-numeral value/range + a plain label,
 /// plus an optional decay texture), and carries the **min-leaning** juz roll-up
 /// with its weakest-page badge at the logical start. Domain-blind: it renders the
@@ -79,23 +82,26 @@ class HeatmapCell extends StatelessWidget {
       height: space.space8,
       child: Stack(
         children: [
+          // The glazed 8-fold zellige khatam star: the ramp/VSUP fill inside the
+          // star, on a hairline limestone tile-bed grout edge (08 §5). The star
+          // silhouette replaces the plain square; colour still comes from the
+          // ramp, so the cell stays "never colour alone" (fill + value + label).
           Positioned.fill(
-            child: DecoratedBox(
-              decoration: ShapeDecoration(
-                color: fill,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadiusDirectional.all(
-                    Radius.circular(space.space2),
-                  ),
-                ),
+            child: CustomPaint(
+              painter: _ZelligeStarPainter(
+                glaze: fill,
+                tileBed: scheme.outlineVariant,
               ),
             ),
           ),
           if (data.showDecayTexture)
             Positioned.fill(
               child: ExcludeSemantics(
-                child: CustomPaint(
-                  painter: _DecayTexturePainter(scheme.onSurfaceVariant),
+                child: ClipPath(
+                  clipper: const _ZelligeStarClipper(),
+                  child: CustomPaint(
+                    painter: _DecayTexturePainter(scheme.onSurfaceVariant),
+                  ),
                 ),
               ),
             ),
@@ -156,6 +162,84 @@ class HeatmapCell extends StatelessWidget {
     }
     return MergeSemantics(child: cell);
   }
+}
+
+/// The eight points of the zellige khatam star (the 8-fold Islamic geometric
+/// star the mosaic tile-wall is built from) — a fixed geometry constant.
+const int _zelligeStarPoints = 8;
+
+/// The star's inner-to-outer radius ratio — the full, calm khatam proportion
+/// (a reverent 8-point star, never a spiky burst).
+const double _zelligeInnerRadiusRatio = 0.541;
+
+/// The hairline limestone tile-bed stroke that outlines each glazed star — a
+/// grout line, deliberately NOT a spacing token (a drawn edge, not a layout
+/// distance), mirroring `kMihrabFocusRingWidth`.
+const double _zelligeTileBedWidth = 1;
+
+/// Builds the 8-fold khatam star path centred in [size], inset by the tile-bed
+/// stroke so the grout edge is never clipped. Shared by the painter and the
+/// decay-texture clipper so the geometry lives in exactly one place.
+Path _zelligeStarPath(Size size) {
+  final center = Offset(size.width / 2, size.height / 2);
+  final outer = size.shortestSide / 2 - _zelligeTileBedWidth;
+  final inner = outer * _zelligeInnerRadiusRatio;
+  final path = Path();
+  for (var i = 0; i < _zelligeStarPoints * 2; i++) {
+    final radius = i.isEven ? outer : inner;
+    final angle = -math.pi / 2 + i * math.pi / _zelligeStarPoints;
+    final point = Offset(
+      center.dx + radius * math.cos(angle),
+      center.dy + radius * math.sin(angle),
+    );
+    if (i == 0) {
+      path.moveTo(point.dx, point.dy);
+    } else {
+      path.lineTo(point.dx, point.dy);
+    }
+  }
+  return path..close();
+}
+
+/// Paints one glazed zellige khatam tile: the [glaze] (the cell's ramp/VSUP fill)
+/// inside the 8-fold star, on a hairline [tileBed] limestone grout edge — the
+/// star silhouette that reads as a mosaic wall, never a plain square.
+class _ZelligeStarPainter extends CustomPainter {
+  const _ZelligeStarPainter({required this.glaze, required this.tileBed});
+
+  final Color glaze;
+  final Color tileBed;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final star = _zelligeStarPath(size);
+    canvas.drawPath(star, Paint()..color = glaze);
+    canvas.drawPath(
+      star,
+      Paint()
+        ..color = tileBed
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = _zelligeTileBedWidth
+        ..strokeJoin = StrokeJoin.round,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_ZelligeStarPainter oldDelegate) =>
+      oldDelegate.glaze != glaze || oldDelegate.tileBed != tileBed;
+}
+
+/// Clips the optional decay hatch to the star silhouette, so the third
+/// colour-independent decay channel stays inside the glazed tile and never
+/// spills into the limestone bed at the corners.
+class _ZelligeStarClipper extends CustomClipper<Path> {
+  const _ZelligeStarClipper();
+
+  @override
+  Path getClip(Size size) => _zelligeStarPath(size);
+
+  @override
+  bool shouldReclip(_ZelligeStarClipper oldClipper) => false;
 }
 
 /// A restrained third colour-independent channel for the decaying end — a faint

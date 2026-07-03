@@ -61,11 +61,14 @@ class DrillBranchView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final scheme = Theme.of(context).colorScheme;
+    final space = Theme.of(context).extension<SpacingTokens>()!;
     final motion = Theme.of(context).extension<MotionTokens>()!;
     final reduceMotion = MediaQuery.disableAnimationsOf(context);
     final lines = ref.watch(drillPageLinesProvider(member.pageNumber));
     final revealed = phase != BranchPhase.hidden;
     final anchored = phase == BranchPhase.anchored;
+    final cardRadius = Radius.circular(space.space4);
 
     final page = lines.maybeWhen(
       data: (refs) => MushafReaderPage(
@@ -80,29 +83,47 @@ class DrillBranchView extends ConsumerWidget {
       orElse: () => const SizedBox.expand(),
     );
 
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        // Tapping the revealed (pre-anchor) page adds the anchor. Opaque so the
-        // whole page area accepts the tap even before glyphs give it size.
-        GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: phase == BranchPhase.revealed ? onShowAnchor : null,
-          child: page,
-        ),
-        IgnorePointer(
-          ignoring: revealed,
-          child: AnimatedOpacity(
-            opacity: revealed ? 0 : 1,
-            duration: reduceMotion ? Duration.zero : motion.durationShort,
-            curve: motion.curveStandard,
-            child: _RevealCover(
-              label: l10n.mutashabihatDrillReveal,
-              onReveal: onReveal,
-            ),
+    // The immutable page framed as a calm limestone "verse card" (concept 05) —
+    // chrome only; the glyph layer and the gold anchor overlay are untouched.
+    return Padding(
+      padding: EdgeInsetsDirectional.all(space.space4),
+      child: DecoratedBox(
+        decoration: ShapeDecoration(
+          color: scheme.surfaceContainerLowest,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadiusDirectional.all(cardRadius),
+            side: BorderSide(color: scheme.outlineVariant),
           ),
         ),
-      ],
+        child: ClipRRect(
+          borderRadius: BorderRadiusDirectional.all(cardRadius),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              // Tapping the revealed (pre-anchor) page adds the anchor. Opaque
+              // so the whole page area accepts the tap even before glyphs give
+              // it size.
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: phase == BranchPhase.revealed ? onShowAnchor : null,
+                child: page,
+              ),
+              IgnorePointer(
+                ignoring: revealed,
+                child: AnimatedOpacity(
+                  opacity: revealed ? 0 : 1,
+                  duration: reduceMotion ? Duration.zero : motion.durationShort,
+                  curve: motion.curveStandard,
+                  child: _RevealCover(
+                    label: l10n.mutashabihatDrillReveal,
+                    onReveal: onReveal,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 

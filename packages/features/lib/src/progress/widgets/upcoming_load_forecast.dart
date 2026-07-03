@@ -24,22 +24,44 @@ class UpcomingLoadForecast extends ConsumerWidget {
     final space = theme.extension<SpacingTokens>()!;
     final load = ref.watch(upcomingLoadProvider);
 
+    final scheme = theme.colorScheme;
     return load.maybeWhen(
       data: (count) => Card(
+        elevation: 0,
         margin: EdgeInsets.zero,
-        child: Padding(
-          padding: EdgeInsetsDirectional.all(space.space4),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(l10n.progressForecastTitle, style: theme.textTheme.titleSmall),
-              SizedBox(height: space.space1),
-              Text(
-                localizedPagesDue(count: count, locale: locale, l10n: l10n),
-                style: theme.textTheme.bodyMedium
-                    ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
-              ),
-            ],
+        color: scheme.surfaceContainer,
+        surfaceTintColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius:
+              BorderRadiusDirectional.all(Radius.circular(space.space4)),
+          side: BorderSide(color: scheme.outlineVariant),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: DecoratedBox(
+          // A calm teal spine down the reading-start edge — the same quiet
+          // marker the Mihrab page card wears, tying the forecast to the surface.
+          decoration: BoxDecoration(
+            border: BorderDirectional(
+              start: BorderSide(color: scheme.primary, width: space.space2),
+            ),
+          ),
+          child: Padding(
+            padding: EdgeInsetsDirectional.all(space.space4),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  l10n.progressForecastTitle,
+                  style: theme.textTheme.titleSmall,
+                ),
+                SizedBox(height: space.space1),
+                Text(
+                  localizedPagesDue(count: count, locale: locale, l10n: l10n),
+                  style: theme.textTheme.bodyMedium
+                      ?.copyWith(color: scheme.onSurfaceVariant),
+                ),
+              ],
+            ),
           ),
         ),
       ),

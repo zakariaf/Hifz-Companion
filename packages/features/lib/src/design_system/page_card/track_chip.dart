@@ -11,11 +11,13 @@ import 'page_card_view_data.dart';
 /// alarm-red, never a count/badge.
 ///
 /// The tradition-tied color family resolves from `ColorScheme` roles by name —
-/// `far` (manzil) → the calm green *maintenance* family (`primaryContainer`),
-/// `near` (sabqi) → `secondaryContainer`, `neww` (sabaq) → `tertiaryContainer`;
-/// none is a danger/warning role. [label] is the already-localized regional
-/// term-set string (ckb's longer terms **wrap**, never ellipsis). The chip is
-/// not a separate tap/focus node — it is part of the row's merged phrase.
+/// `far` (manzil) → a **filled** calm-green *maintenance* pill (`primary` /
+/// `onPrimary`, the concept's glazed-teal track badge), `near` (sabqi) → the
+/// tonal `secondaryContainer` tile, `neww` (sabaq) → the warm-sand
+/// `tertiaryContainer` tile; none is a danger/warning role. [label] is the
+/// already-localized regional term-set string (ckb's longer terms **wrap**,
+/// never ellipsis). The chip is not a separate tap/focus node — it is part of
+/// the row's merged phrase.
 class TrackChip extends StatelessWidget {
   /// Creates a chip for [family] showing [label].
   const TrackChip({required this.family, required this.label, super.key});
@@ -32,7 +34,7 @@ class TrackChip extends StatelessWidget {
     final space = Theme.of(context).extension<SpacingTokens>()!;
     final text = Theme.of(context).textTheme;
     final (background, foreground) = switch (family) {
-      TrackFamily.far => (scheme.primaryContainer, scheme.onPrimaryContainer),
+      TrackFamily.far => (scheme.primary, scheme.onPrimary),
       TrackFamily.near => (
           scheme.secondaryContainer,
           scheme.onSecondaryContainer,

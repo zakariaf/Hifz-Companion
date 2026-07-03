@@ -28,19 +28,37 @@ class DrillProgressStrip extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
     final space = theme.extension<SpacingTokens>()!;
     final locale = Localizations.localeOf(context);
+    // A calm centered glazed-tile chip marking the position in the group; not a
+    // progress-bar-to-a-reward, just where the ḥāfiẓ is.
     return Padding(
       padding: EdgeInsetsDirectional.symmetric(
-        vertical: space.space2,
+        vertical: space.space3,
         horizontal: space.space4,
       ),
-      child: Text(
-        l10n.mutashabihatDrillProgress(
-          isolateLtr(localeDigits(position, locale)),
-          isolateLtr(localeDigits(total, locale)),
+      child: Center(
+        child: DecoratedBox(
+          decoration: ShapeDecoration(
+            color: scheme.primaryContainer,
+            shape: const StadiumBorder(),
+          ),
+          child: Padding(
+            padding: EdgeInsetsDirectional.symmetric(
+              horizontal: space.space4,
+              vertical: space.space2,
+            ),
+            child: Text(
+              l10n.mutashabihatDrillProgress(
+                isolateLtr(localeDigits(position, locale)),
+                isolateLtr(localeDigits(total, locale)),
+              ),
+              style: theme.textTheme.labelLarge
+                  ?.copyWith(color: scheme.onPrimaryContainer),
+            ),
+          ),
         ),
-        style: theme.textTheme.bodySmall,
       ),
     );
   }

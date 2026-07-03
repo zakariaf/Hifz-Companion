@@ -12,11 +12,13 @@ void main() {
 
   group('pinned roles equal the 03 §7 audited hexes', () {
     test('Light', () {
+      // Mihrab-architecture amendment (concept 03): limestone plaster surface,
+      // deep tile-shadow ink, glazed-teal primary — all re-audited AA in §7.
       final s = colorSchemeFor(MihrabAppearance.light);
       expect(s.brightness, Brightness.light);
-      expect(s.surface, const Color(0xFFF3F6F1));
-      expect(s.onSurface, const Color(0xFF1A211E));
-      expect(s.primary, const Color(0xFF18745A));
+      expect(s.surface, const Color(0xFFEFEBE3));
+      expect(s.onSurface, const Color(0xFF233230));
+      expect(s.primary, const Color(0xFF1C7062));
     });
 
     test('Dark uses off-black surface and the re-toned accent', () {

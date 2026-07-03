@@ -10,6 +10,7 @@ import 'package:models/models.dart' show Profile, ProfileRole;
 import '../design_system/components/destructive_confirm.dart';
 import '../design_system/pickers/settings_picker.dart';
 import '../design_system/theme/spacing_tokens.dart';
+import '../design_system/widgets/mihrab_arch_header.dart';
 import 'profiles_providers.dart';
 
 /// The Profiles screen (PRD §15.3): the device-local multi-profile switcher and
@@ -34,46 +35,59 @@ class ProfilesScreen extends ConsumerWidget {
       container: true,
       label: l10n.profilesScreenTitle,
       explicitChildNodes: true,
-      child: SafeArea(
-        child: profiles.when(
-          loading: () => const Center(
-            child: CircularProgressIndicator.adaptive(),
+      child: Column(
+        children: [
+          // The pushed screens carry their own miḥrāb niche (there is no shared
+          // arch header outside the tab shell). Purely decorative chrome.
+          MihrabArchHeader(
+            title: l10n.profilesScreenTitle,
+            subtitle: l10n.profilesManageSubtitle,
           ),
-          error: (_, __) => Center(
-            child: TextButton(
-              onPressed: () => ref.invalidate(profilesListProvider),
-              child: Text(l10n.commonRetry),
-            ),
-          ),
-          data: (list) => ListView(
-            padding: EdgeInsetsDirectional.all(space.space4),
-            children: [
-              for (final profile in list)
-                Padding(
-                  padding: EdgeInsetsDirectional.only(bottom: space.space2),
-                  child: _ProfileRow(
-                    profile: profile,
-                    isActive: profile.profileId == activeId,
-                    onTap: () => ref
-                        .read(activeProfileProvider.notifier)
-                        .select(profile.profileId),
-                    onRename: () => _renameProfile(context, ref, profile),
-                    // The active profile can't be deleted — switch away first
-                    // (avoids deleting the profile the app is scoped to).
-                    onDelete: profile.profileId == activeId
-                        ? null
-                        : () => _deleteProfile(context, ref, profile),
+          Expanded(
+            child: SafeArea(
+              top: false,
+              child: profiles.when(
+                loading: () => const Center(
+                  child: CircularProgressIndicator.adaptive(),
+                ),
+                error: (_, __) => Center(
+                  child: TextButton(
+                    onPressed: () => ref.invalidate(profilesListProvider),
+                    child: Text(l10n.commonRetry),
                   ),
                 ),
-              SizedBox(height: space.space3),
-              FilledButton.tonalIcon(
-                onPressed: () => _createProfile(context, ref),
-                icon: const Icon(Icons.add),
-                label: Text(l10n.profilesAddButton),
+                data: (list) => ListView(
+                  padding: EdgeInsetsDirectional.all(space.space4),
+                  children: [
+                    for (final profile in list)
+                      Padding(
+                        padding:
+                            EdgeInsetsDirectional.only(bottom: space.space3),
+                        child: _ProfileRow(
+                          profile: profile,
+                          isActive: profile.profileId == activeId,
+                          onTap: () => ref
+                              .read(activeProfileProvider.notifier)
+                              .select(profile.profileId),
+                          onRename: () => _renameProfile(context, ref, profile),
+                          // The active profile can't be deleted — switch away
+                          // first (avoids deleting the scoped-to profile).
+                          onDelete: profile.profileId == activeId
+                              ? null
+                              : () => _deleteProfile(context, ref, profile),
+                        ),
+                      ),
+                    SizedBox(height: space.space1),
+                    _AddProfileButton(
+                      label: l10n.profilesAddButton,
+                      onTap: () => _createProfile(context, ref),
+                    ),
+                  ],
+                ),
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -156,29 +170,57 @@ class _ProfileRow extends StatelessWidget {
     final space = Theme.of(context).extension<SpacingTokens>()!;
     final text = Theme.of(context).textTheme;
 
+    // The avatar tile reads as a glazed teal (self/student) or warm-sand (child)
+    // زلیج tile; the active profile's is a solid teal glaze. The active state is
+    // ALSO carried by the teal card outline, the "فعال" pill, and `selected` —
+    // never colour alone.
+    final Color avatarSurface;
+    final Color avatarGlyph;
+    if (isActive) {
+      avatarSurface = scheme.primary;
+      avatarGlyph = scheme.onPrimary;
+    } else if (profile.role == ProfileRole.child) {
+      avatarSurface = scheme.tertiaryContainer;
+      avatarGlyph = scheme.onTertiaryContainer;
+    } else {
+      avatarSurface = scheme.primaryContainer;
+      avatarGlyph = scheme.onPrimaryContainer;
+    }
+
     return Semantics(
       button: true,
       selected: isActive,
       child: Card(
         elevation: 0,
-        color: isActive
-            ? scheme.surfaceContainerHighest
-            : scheme.surfaceContainerLow,
+        color: scheme.surfaceContainer,
         surfaceTintColor: Colors.transparent,
         clipBehavior: Clip.antiAlias,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(space.space5)),
+          side: BorderSide(
+            color: isActive ? scheme.primary : scheme.outlineVariant,
+            width: isActive ? 2 : 1,
+          ),
+        ),
         child: InkWell(
           onTap: onTap,
           child: ConstrainedBox(
             constraints: BoxConstraints(minHeight: space.space8),
             child: Padding(
-              padding: EdgeInsetsDirectional.all(space.space4),
+              padding: EdgeInsetsDirectional.all(space.space3),
               child: Row(
                 children: [
-                  Icon(
-                    isActive ? Icons.check_circle : Icons.person_outline,
-                    color: isActive ? scheme.primary : scheme.onSurfaceVariant,
+                  Container(
+                    width: space.space8,
+                    height: space.space8,
+                    decoration: BoxDecoration(
+                      color: avatarSurface,
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(space.space3)),
+                    ),
+                    child: Icon(Icons.person, color: avatarGlyph),
                   ),
-                  SizedBox(width: space.space4),
+                  SizedBox(width: space.space3),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -200,10 +242,7 @@ class _ProfileRow extends StatelessWidget {
                   ),
                   if (isActive) ...[
                     SizedBox(width: space.space2),
-                    Text(
-                      l10n.profilesActiveLabel,
-                      style: text.labelMedium?.copyWith(color: scheme.primary),
-                    ),
+                    _ActivePill(label: l10n.profilesActiveLabel),
                   ],
                   PopupMenuButton<_RowAction>(
                     icon: const Icon(Icons.more_vert),
@@ -242,6 +281,136 @@ String _roleLabel(AppLocalizations l10n, ProfileRole role) => switch (role) {
       ProfileRole.student => l10n.profileRoleStudent,
       ProfileRole.child => l10n.profileRoleChild,
     };
+
+/// The calm teal-outlined "فعال" status pill on the active switcher row — the
+/// active marker carried by label + shape (never colour alone).
+class _ActivePill extends StatelessWidget {
+  const _ActivePill({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final space = Theme.of(context).extension<SpacingTokens>()!;
+    final text = Theme.of(context).textTheme;
+    return Container(
+      padding: EdgeInsetsDirectional.symmetric(
+        horizontal: space.space3,
+        vertical: space.space1,
+      ),
+      decoration: ShapeDecoration(
+        shape: StadiumBorder(side: BorderSide(color: scheme.primary)),
+      ),
+      child: Text(
+        label,
+        style: text.labelMedium?.copyWith(
+          color: scheme.primary,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+}
+
+/// The "افزودنِ نمایه" affordance — a dashed-outline tile (an unfinished niche
+/// waiting to be filled) with the calm teal add glyph + label. One ≥48dp target.
+class _AddProfileButton extends StatelessWidget {
+  const _AddProfileButton({required this.label, required this.onTap});
+
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final space = Theme.of(context).extension<SpacingTokens>()!;
+    final text = Theme.of(context).textTheme;
+    return Semantics(
+      button: true,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.all(Radius.circular(space.space5)),
+          child: CustomPaint(
+            painter: _DashedRRectPainter(
+              color: scheme.outlineVariant,
+              radius: space.space5,
+              dashLength: space.space3,
+              gapLength: space.space2,
+            ),
+            child: ConstrainedBox(
+              constraints:
+                  BoxConstraints(minHeight: space.space8 + space.space3),
+              child: Center(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.add, color: scheme.primary),
+                    SizedBox(width: space.space2),
+                    Text(
+                      label,
+                      style: text.labelLarge?.copyWith(color: scheme.primary),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Strokes a dashed rounded-rectangle outline (the "add" tile's edge) using the
+/// path metrics of the rounded rect — colour and radius come from tokens.
+class _DashedRRectPainter extends CustomPainter {
+  const _DashedRRectPainter({
+    required this.color,
+    required this.radius,
+    required this.dashLength,
+    required this.gapLength,
+  });
+
+  final Color color;
+  final double radius;
+  final double dashLength;
+  final double gapLength;
+
+  static const double _stroke = 1.5;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final rrect = RRect.fromRectAndRadius(
+      (Offset.zero & size).deflate(_stroke / 2),
+      Radius.circular(radius),
+    );
+    final paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = _stroke;
+    for (final metric in (Path()..addRRect(rrect)).computeMetrics()) {
+      var distance = 0.0;
+      while (distance < metric.length) {
+        final next = distance + dashLength;
+        canvas.drawPath(
+          metric.extractPath(distance, next.clamp(0, metric.length)),
+          paint,
+        );
+        distance = next + gapLength;
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(_DashedRRectPainter old) =>
+      old.color != color ||
+      old.radius != radius ||
+      old.dashLength != dashLength ||
+      old.gapLength != gapLength;
+}
 
 /// The create-profile dialog: a typed display name (the only PII) + a role
 /// (self / student / child). Returns `(name, role)` or null on cancel.
