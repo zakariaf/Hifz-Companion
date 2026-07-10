@@ -190,6 +190,7 @@
   "certaintyObsPhrase": "تویژینەوەیەکی مەیدانی/چاودێری",
   "certaintyTextPhrase": "پێداچوونەوەی شارەزا یان بەڵگەنامەی ڕێباز",
   "certaintyTradPhrase": "زانستی نەقلی؛ سەرچاوەکەی لە خوارەوە ناوبراوە",
+  "certaintyRulePhrase": "بنەمایەک کە ئەپەکە مسۆگەری دەکات",
   "certaintyLegendTitle": "هێزی ئەو بەڵگانەی پشتی پێدەبەستین",
   "catchUpEmpathy": "کێشە نییە — بەهێمنی قەرەبووی دەکەینەوە",
   "catchUpMissedDays": "{count, plural, one{{count} ڕۆژ بەبێ پێداچوونەوە تێپەڕی} other{{count} ڕۆژ بەبێ پێداچوونەوە تێپەڕی}}",

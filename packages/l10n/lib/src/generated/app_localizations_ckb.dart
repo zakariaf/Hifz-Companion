@@ -812,6 +812,9 @@ class AppLocalizationsCkb extends AppLocalizations {
       'زانستی نەقلی؛ سەرچاوەکەی لە خوارەوە ناوبراوە';
 
   @override
+  String get certaintyRulePhrase => 'بنەمایەک کە ئەپەکە مسۆگەری دەکات';
+
+  @override
   String get certaintyLegendTitle => 'هێزی ئەو بەڵگانەی پشتی پێدەبەستین';
 
   @override

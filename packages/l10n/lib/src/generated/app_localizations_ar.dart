@@ -817,6 +817,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get certaintyTradPhrase => 'علم نقلي، مصدره مذكور أدناه';
 
   @override
+  String get certaintyRulePhrase => 'قاعدة يضمنها التطبيق';
+
+  @override
   String get certaintyLegendTitle => 'قوة الأدلة التي نستند إليها';
 
   @override

@@ -7,13 +7,14 @@ import '../theme/spacing_tokens.dart';
 import 'certainty_strings.dart';
 import 'evidence_grade.dart';
 
-/// The pure mapping from an [EvidenceGrade] to its lay confidence-*about-the-
-/// evidence* phrase (science 11 §5) — no `BuildContext`, no I/O, no model.
+/// The pure mapping from an [EvidenceGrade] to its lay phrase (science 11 §5) —
+/// no `BuildContext`, no I/O, no model.
 ///
 /// Total over the sealed enum via an exhaustive `switch` (no `default`, so a new
 /// grade is a compile error, not a silent fallthrough). `[RCT]` and `[EXP]` share
-/// one phrase. It describes the **evidence**, never the user's Quran — no arm
-/// says "safe"/"mastered"/"proven", a percentage, or a star.
+/// one phrase. For the evidence grades it describes the **evidence**, never the
+/// user's Quran; `[RULE]` names a product commitment, not evidence. No arm says
+/// "safe"/"mastered"/"proven", a percentage, or a star.
 String certaintyLabel(EvidenceGrade grade, CertaintyStrings strings) =>
     switch (grade) {
       EvidenceGrade.ma => strings.ma,
@@ -23,6 +24,7 @@ String certaintyLabel(EvidenceGrade grade, CertaintyStrings strings) =>
       EvidenceGrade.obs => strings.obs,
       EvidenceGrade.text => strings.text,
       EvidenceGrade.trad => strings.trad,
+      EvidenceGrade.rule => strings.rule,
     };
 
 /// A calm, neutral evidence-certainty badge (science 11 §5; voice §2).
@@ -50,8 +52,11 @@ class CertaintyLabel extends StatelessWidget {
     final text = Theme.of(context).textTheme;
     final phrase = certaintyLabel(grade, strings);
     // Composed from localized parts (not a literal) so the grade is spoken as
-    // text; the prefix + phrase both come from AppLocalizations.
-    final semanticLabel = strings.semanticPrefix + phrase;
+    // text; the prefix + phrase both come from AppLocalizations. `[RULE]` is
+    // announced without the "strength of evidence" prefix — it names a product
+    // commitment, not evidence, so the evidence framing must not apply to it.
+    final semanticLabel =
+        grade == EvidenceGrade.rule ? phrase : strings.semanticPrefix + phrase;
     return Semantics(
       label: semanticLabel,
       child: Container(
@@ -59,7 +64,7 @@ class CertaintyLabel extends StatelessWidget {
           horizontal: space.space3,
           vertical: space.space2,
         ),
-        // The SAME neutral surface for all seven grades — never colour-as-signal.
+        // The SAME neutral surface for every grade — never colour-as-signal.
         decoration: ShapeDecoration(
           color: scheme.surfaceContainerHighest,
           shape: StadiumBorder(
@@ -81,8 +86,10 @@ class CertaintyLabel extends StatelessWidget {
 /// §5) — a calm row per distinct phrase, never a "★★★★★" rating.
 ///
 /// `[RCT]`/`[EXP]` share a row (one phrase). `[TRAD]` reads as named scholarship,
-/// not visually elevated above the empirical rows and issuing no ruling. Reflows
-/// (never truncates) at 200% text scale.
+/// not visually elevated above the empirical rows and issuing no ruling. `[RULE]`
+/// closes the legend as the one non-evidence row — a product commitment, plainly
+/// set apart from the evidence grades. Reflows (never truncates) at 200% text
+/// scale.
 class CertaintyLegend extends StatelessWidget {
   /// Creates the legend from the injected [strings] and [title].
   const CertaintyLegend({
@@ -97,7 +104,8 @@ class CertaintyLegend extends StatelessWidget {
   /// The localized legend title.
   final String title;
 
-  /// The grades shown, one per distinct phrase (exp shares rct's row).
+  /// The grades shown, one per distinct phrase (exp shares rct's row); the
+  /// non-evidence [EvidenceGrade.rule] closes the legend, plainly set apart.
   static const List<EvidenceGrade> rows = [
     EvidenceGrade.ma,
     EvidenceGrade.rct,
@@ -105,6 +113,7 @@ class CertaintyLegend extends StatelessWidget {
     EvidenceGrade.obs,
     EvidenceGrade.text,
     EvidenceGrade.trad,
+    EvidenceGrade.rule,
   ];
 
   @override

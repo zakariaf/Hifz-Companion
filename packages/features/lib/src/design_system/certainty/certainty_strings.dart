@@ -21,6 +21,7 @@ class CertaintyStrings {
     required this.obs,
     required this.text,
     required this.trad,
+    required this.rule,
     required this.semanticPrefix,
   });
 
@@ -32,6 +33,7 @@ class CertaintyStrings {
         obs: l10n.certaintyObsPhrase,
         text: l10n.certaintyTextPhrase,
         trad: l10n.certaintyTradPhrase,
+        rule: l10n.certaintyRulePhrase,
         semanticPrefix: l10n.certaintyEvidencePrefix,
       );
 
@@ -53,6 +55,12 @@ class CertaintyStrings {
   /// "traditional scholarship, named below" ([TRAD]).
   final String trad;
 
+  /// "a rule the app guarantees" ([RULE]) — a product commitment, not evidence;
+  /// rendered without the [semanticPrefix] evidence framing.
+  final String rule;
+
   /// The screen-reader prefix read before the phrase ("strength of evidence:").
+  /// Read only for the evidence grades — [rule] is announced on its own, since it
+  /// names a commitment, not evidence strength.
   final String semanticPrefix;
 }

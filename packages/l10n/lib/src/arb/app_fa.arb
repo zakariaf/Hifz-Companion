@@ -190,6 +190,7 @@
   "certaintyObsPhrase": "یک پژوهش میدانی/مشاهده‌ای",
   "certaintyTextPhrase": "بازبینی کارشناسی یا مستندات روش",
   "certaintyTradPhrase": "دانش نقلی؛ منبعش در زیر آمده است",
+  "certaintyRulePhrase": "قاعده‌ای که برنامه تضمین می‌کند",
   "certaintyLegendTitle": "استواری شواهدی که بر آن تکیه می‌کنیم",
   "catchUpEmpathy": "ایرادی ندارد — با آرامش جبران می‌کنیم",
   "catchUpMissedDays": "{count, plural, one{{count} روز بدون مرور گذشت} other{{count} روز بدون مرور گذشت}}",

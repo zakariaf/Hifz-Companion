@@ -915,6 +915,10 @@
   "@certaintyTradPhrase": {
     "description": "Evidence-certainty lay phrase for grade [TRAD] — 'traditional scholarship, source named below' (science 11 §5). Named scholarship paired with its source; issues NO fiqh ruling and is NOT ranked above the empirical grades; defers to the teacher and the sanad (C-046, CLAIMS scope clause). Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
   },
+  "certaintyRulePhrase": "قاعدة يضمنها التطبيق",
+  "@certaintyRulePhrase": {
+    "description": "Lay phrase for the NON-evidence grade [RULE] (C-048) — 'a rule the app guarantees'. Marks a hard product commitment (offline-by-design, no microphone) backed by design + CI, NOT empirical evidence and NOT a fiqh ruling; announced without the certaintyEvidencePrefix. Never 'proven'/a star/a percentage/a Quran promise. Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
   "certaintyLegendTitle": "قوة الأدلة التي نستند إليها",
   "@certaintyLegendTitle": {
     "description": "Title of the always-reachable plain-words evidence-certainty legend (science 11 §3, §5). 'The strength of the evidence we rely on.' Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."

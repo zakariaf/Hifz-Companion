@@ -13,9 +13,10 @@
 /// rejects an unknown grade as a release-blocking defect rather than rendering a
 /// fallback.
 ///
-/// Grades use the bare register tags (`MA`/`RCT`/`EXP`/`CS`/`OBS`/`TEXT`/`TRAD`);
-/// `C-048`'s "TRAD-equivalent project rule" is carried as `TRAD` (the app's own
-/// offline/no-microphone guarantee), with its on-device source naming it plainly.
+/// Grades use the bare register tags (`MA`/`RCT`/`EXP`/`CS`/`OBS`/`TEXT`/`TRAD`),
+/// plus the non-evidence `RULE`: `C-048`'s offline/no-microphone guarantee is a
+/// hard product rule, carried as `RULE` (never coerced to `TRAD`), with its
+/// on-device source naming the design commitment plainly.
 const String claimsRegisterJson = r'''
 {
   "version": 1,
@@ -338,7 +339,7 @@ const String claimsRegisterJson = r'''
       ]
     },
     {
-      "id": "C-048", "group": "J", "grades": ["TRAD"],
+      "id": "C-048", "group": "J", "grades": ["RULE"],
       "sources": [
         {"label": "Hifz Companion design — offline, no microphone (PRD C1, C2)", "url": null}
       ]

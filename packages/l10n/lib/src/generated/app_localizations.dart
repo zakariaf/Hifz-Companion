@@ -1243,6 +1243,12 @@ abstract class AppLocalizations {
   /// **'علم نقلي، مصدره مذكور أدناه'**
   String get certaintyTradPhrase;
 
+  /// Lay phrase for the NON-evidence grade [RULE] (C-048) — 'a rule the app guarantees'. Marks a hard product commitment (offline-by-design, no microphone) backed by design + CI, NOT empirical evidence and NOT a fiqh ruling; announced without the certaintyEvidencePrefix. Never 'proven'/a star/a percentage/a Quran promise. Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'قاعدة يضمنها التطبيق'**
+  String get certaintyRulePhrase;
+
   /// Title of the always-reachable plain-words evidence-certainty legend (science 11 §3, §5). 'The strength of the evidence we rely on.' Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///
   /// In ar, this message translates to:

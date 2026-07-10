@@ -807,6 +807,9 @@ class AppLocalizationsFa extends AppLocalizations {
   String get certaintyTradPhrase => 'دانش نقلی؛ منبعش در زیر آمده است';
 
   @override
+  String get certaintyRulePhrase => 'قاعده‌ای که برنامه تضمین می‌کند';
+
+  @override
   String get certaintyLegendTitle => 'استواری شواهدی که بر آن تکیه می‌کنیم';
 
   @override

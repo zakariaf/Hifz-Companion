@@ -1,9 +1,10 @@
 // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-// E10-T06 — the correctness-critical pure mapping: certaintyLabel over all seven
-// grades (rct/exp share a phrase), EvidenceGrade.parse round-trips + throws on an
-// unknown tag, and no real phrase leaks a star/percentage/ASCII digit.
+// E10-T06 — the correctness-critical pure mapping: certaintyLabel over every
+// grade (the seven evidence grades — rct/exp share a phrase — plus the
+// non-evidence [RULE]), EvidenceGrade.parse round-trips + throws on an unknown
+// tag, and no real phrase leaks a star/percentage/ASCII digit.
 
 import 'package:features/features.dart';
 import 'package:flutter/widgets.dart' show Locale;
@@ -19,13 +20,14 @@ const _fixture = CertaintyStrings(
   obs: 'obs-phrase',
   text: 'text-phrase',
   trad: 'trad-phrase',
+  rule: 'rule-phrase',
   semanticPrefix: 'evidence: ',
 );
 
 void main() {
   useOfflineTestPolicy();
 
-  group('certaintyLabel — pure mapping over all seven grades', () {
+  group('certaintyLabel — pure mapping over every grade', () {
     test('each grade returns its phrase; rct and exp share one', () {
       expect(certaintyLabel(EvidenceGrade.ma, _fixture), 'ma-phrase');
       expect(certaintyLabel(EvidenceGrade.rct, _fixture), 'rctexp-phrase');
@@ -34,6 +36,7 @@ void main() {
       expect(certaintyLabel(EvidenceGrade.obs, _fixture), 'obs-phrase');
       expect(certaintyLabel(EvidenceGrade.text, _fixture), 'text-phrase');
       expect(certaintyLabel(EvidenceGrade.trad, _fixture), 'trad-phrase');
+      expect(certaintyLabel(EvidenceGrade.rule, _fixture), 'rule-phrase');
     });
 
     test('it is total — a value exists for every grade', () {
@@ -49,6 +52,7 @@ void main() {
       expect(EvidenceGrade.parse('MA'), EvidenceGrade.ma);
       expect(EvidenceGrade.parse(' ma '), EvidenceGrade.ma);
       expect(EvidenceGrade.parse('[TRAD]'), EvidenceGrade.trad);
+      expect(EvidenceGrade.parse('[RULE]'), EvidenceGrade.rule);
     });
 
     test('an unknown or empty tag throws the typed register-integrity error',
@@ -63,9 +67,16 @@ void main() {
       );
     });
 
-    test('trad is last and not ranked above the empirical grades', () {
-      expect(EvidenceGrade.values.last, EvidenceGrade.trad);
+    test('trad is last among the evidence grades; rule (non-evidence) is last',
+        () {
       expect(EvidenceGrade.values.first, EvidenceGrade.ma);
+      // The non-evidence project-rule grade sits after every evidence grade.
+      expect(EvidenceGrade.values.last, EvidenceGrade.rule);
+      // trad is not ranked above the empirical grades: it is the last of the
+      // seven evidence grades, immediately before the non-evidence rule.
+      final evidence =
+          EvidenceGrade.values.where((g) => g != EvidenceGrade.rule).toList();
+      expect(evidence.last, EvidenceGrade.trad);
     });
   });
 
