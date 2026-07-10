@@ -61,7 +61,7 @@ class JuzPagesSheet extends StatelessWidget {
                   children: [
                     for (final page in summary.pages)
                       HeatmapCell(
-                        data: pageCellData(l10n, locale, page),
+                        data: pageCellData(l10n, page),
                         onTap: () => PageDetailSheet.show(context, page),
                       ),
                   ],
