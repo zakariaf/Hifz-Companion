@@ -88,6 +88,7 @@ export 'src/recite/recite_route.dart';
 export 'src/recite/recite_view_model.dart';
 export 'src/recite/widgets/grade_band.dart';
 export 'src/recite/widgets/recite_surface.dart';
+export 'src/sabaq/sabaq_pace.dart' show sabaqIntakeActive;
 export 'src/science/science_route.dart' show kSciencePath;
 export 'src/science/science_screen.dart' show ScienceScreen;
 export 'src/settings/cycle_config_writer.dart';

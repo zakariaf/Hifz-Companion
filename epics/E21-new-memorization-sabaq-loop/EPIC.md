@@ -27,7 +27,7 @@ Everything else in this epic (the beginner branch, profiles, the pause flag, the
 ### In scope
 
 - **Engine intake primitive** — a pure `sabaqSeed(pageId, today, {isPrayerCritical})` that produces a `NEW`-track `CardSeed` with conservative priors and a trust-clamped `due_at = today`, analogous to `coldStartCard` but for a *never-held* page; and filling the reserved `EngineConfig.newLinesPerDay` slot so the day-builder can read it.
-- **Engine intake *consumption*** — `buildToday` / `loadBalance` reading `newLinesPerDay` and the "yesterday's sabaq consolidated" signal to cap the daily NEW load (old-before-new, budget-first), and honoring a real **paused** flag; FAR/manzil due items are never dropped to make room for new (§7.9).
+- **The sabaq pace as an intake signal** — `newLinesPerDay` gates the intake surface (`sabaqIntakeActive`: `0` ⇒ paused/off, positive ⇒ active), **not** the engine's consolidating New band (which the time budget already bounds — a pace cap there would starve consolidation). A real one-write "pause new sabaq" sets the pace to 0. The engine's existing budget-first, manzil-never-dropped load balancer (§7.9) is unchanged.
 - **The transactional intake write path** — a new `SabaqIntakeRepository.startMemorizing(profileId, pageId, …)` that, in one `db.transaction`, inserts the seed card and appends a provenance `review_log` row, persist-before-republish. `CardRepository` stays read-only; no raw upsert from a widget.
 - **The "I'm just starting" onboarding branch** — a beginner path that allows **zero held juz**, relaxes the `coverage.isNotEmpty` advance gate for that branch, explains *"mark pages as you memorize them,"* and reaches the placement commit so a from-zero user can finish onboarding into a working (initially empty, ready-to-grow) schedule.
 - **Per-profile placement** — a reachable entry point into the already-built `ProfileId`-keyed onboarding/placement controller so an **in-app-created** student/child profile can run placement (or begin a sabaq loop) instead of being seeded `const []` forever.
@@ -86,7 +86,7 @@ E15 (newly-memorized pages appear in the heat-map and its weakest-first rollups)
 
 ## Deliverables
 
-- [ ] **Engine:** `EngineConfig.newLinesPerDay` (reserved slot filled) + a pure `sabaqSeed(...)` intake primitive (NEW track, conservative priors, trust-clamped `due_at = today`), golden-vector + property tested; `buildToday`/`loadBalance` read `newLinesPerDay`, honor the "consolidated" gate + a paused flag, and never drop manzil for new.
+- [ ] **Engine:** a pure `sabaqSeed(...)` intake primitive (NEW track, conservative priors, trust-clamped `due_at = today`), golden-vector tested; the D/S/R math, trust clamp, and load balancer are unchanged. The sabaq **pace** lives in the feature layer as an intake signal (`sabaqIntakeActive`) + a one-write "pause" — never an `EngineConfig` field or a cap on the consolidating New band.
 - [ ] **Data:** `SabaqIntakeRepository.startMemorizing(...)` — one transaction inserting the seed card + appending a provenance `review_log` row, persist-before-republish; `CardRepository` unchanged (read-only); unit + crash-safety tests.
 - [ ] **Onboarding:** the "I'm just starting" branch — zero held juz allowed, the gate relaxed for that path, calm explanatory copy, and a clean placement commit into an empty-but-ready schedule (F02).
 - [ ] **Profiles:** a reachable per-profile placement entry point so an in-app student/child profile runs placement / starts a loop instead of `const []` (F04).
@@ -120,7 +120,7 @@ E15 (newly-memorized pages appear in the heat-map and its weakest-first rollups)
 |---|---|---|---|
 | E21-T01 | Engine: `EngineConfig.newLinesPerDay` + pure `sabaqSeed` intake primitive (NEW track, conservative priors, trust-clamped `due_at=today`), golden-vector + property tested | L | E04 |
 | E21-T02 | Data: `SabaqIntakeRepository.startMemorizing` transactional writer (seed card insert + append-only `review_log`, persist-before-republish); `CardRepository` stays read-only; unit + crash-safety tests | M | E03, E21-T01 |
-| E21-T03 | Engine/settings consumption: `buildToday`/`loadBalance` read `newLinesPerDay`, honor the "yesterday's sabaq consolidated" gate + a persisted **paused** flag; never drop manzil for new (F11) | L | E21-T01, E16 |
+| E21-T03 | Sabaq pace + real "pause new sabaq" (F11): remove the superfluous `EngineConfig.newLinesPerDay` (the pace is an *intake* signal, not an engine cap — a cap on the consolidating New band would starve it), add the pure `sabaqIntakeActive(CycleConfig)` signal the surfaces gate on, and `CycleConfigWriter.pauseNewSabaq()` (pace → 0, no migration) | S–M | E21-T01, E16 |
 | E21-T04 | Onboarding "I'm just starting" branch: zero held juz allowed, gate relaxed for the branch, calm copy, clean placement commit into an empty-ready schedule (F02) | L | E11, E21-T02 |
 | E21-T05 | Per-profile placement: reach the built-but-unreachable `ProfileId`-keyed onboarding controller so in-app profiles run placement / start a loop (F04) | M | E21-T04, E16 |
 | E21-T06 | Today intake surface: *"start a new lesson"* entry from the New (sabaq) section + the guided daily new-lesson revision (old-before-new, repeated to sign-off, §7.8) | L | E12, E21-T02 |

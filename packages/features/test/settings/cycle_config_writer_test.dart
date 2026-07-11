@@ -71,6 +71,25 @@ void main() {
     expect(fake.store['p1']!.dailyBudgetMinutes, 45);
   });
 
+  test('pausing new sabaq sets the pace to 0 and touches nothing else',
+      () async {
+    final (container, fake) = setup();
+    addTearDown(container.dispose);
+    final writer = container.read(cycleConfigWriterProvider);
+    // Start with an active pace, then pause.
+    await writer.setCustomCycle(
+      farCycleDays: 45,
+      nearWindowJuz: 5,
+      newLinesPerDay: 10,
+    );
+    final active = fake.store['p1']!;
+    await writer.pauseNewSabaq();
+    final paused = fake.store['p1']!;
+    expect(paused.newLinesPerDay, 0);
+    // Only the pace moved — restoring it yields the pre-pause config.
+    expect(paused.copyWith(newLinesPerDay: 10), active);
+  });
+
   test('the Custom editor writes the four bounded fields', () async {
     final (container, fake) = setup();
     addTearDown(container.dispose);
