@@ -700,6 +700,9 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get budgetPauseNewSabaq => 'دواخستنی سەبەقی نوێ';
 
   @override
+  String get todayStartNewLesson => 'دەستپێکردنی سەبەقی نوێ';
+
+  @override
   String get commonRetry => 'هەوڵدانەوە';
 
   @override

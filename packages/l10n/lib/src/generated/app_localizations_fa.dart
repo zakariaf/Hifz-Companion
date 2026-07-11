@@ -697,6 +697,9 @@ class AppLocalizationsFa extends AppLocalizations {
   String get budgetPauseNewSabaq => 'به تعویق انداختن سبق تازه';
 
   @override
+  String get todayStartNewLesson => 'شروع سبق تازه';
+
+  @override
   String get commonRetry => 'تلاش دوباره';
 
   @override

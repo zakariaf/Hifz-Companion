@@ -1027,6 +1027,12 @@ abstract class AppLocalizations {
   /// **'تأجيل السبق الجديد'**
   String get budgetPauseNewSabaq;
 
+  /// Calm Today affordance shown only when new memorization is on (newLinesPerDay > 0): opens the muṣḥaf reader to mark a newly-memorized page (E21-T06). No number, no streak/score/celebration. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'ابدأ سبقاً جديداً'**
+  String get todayStartNewLesson;
+
   /// Generic calm retry action for a failed local read (e.g. the Today queue) — never a guilt/error-shame message. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///
   /// In ar, this message translates to:

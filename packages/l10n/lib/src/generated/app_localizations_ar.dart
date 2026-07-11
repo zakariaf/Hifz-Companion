@@ -706,6 +706,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get budgetPauseNewSabaq => 'تأجيل السبق الجديد';
 
   @override
+  String get todayStartNewLesson => 'ابدأ سبقاً جديداً';
+
+  @override
   String get commonRetry => 'إعادة المحاولة';
 
   @override
