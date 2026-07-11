@@ -459,6 +459,14 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get onboardingCoverageInstruction => 'ئەو جوزانە هەڵبژێرە کە لەبەرتە.';
 
   @override
+  String get onboardingJustStarting =>
+      'من تازە دەستم پێکردووە — هێشتا هیچ جوزئێکم لەبەر نەکردووە';
+
+  @override
+  String get onboardingJustStartingNote =>
+      'کێشە نییە. هەر لاپەڕەیەک کە لەبەری بکەیت، بۆ پێداچوونەوەکەت زیاد دەکرێت.';
+
+  @override
   String get onboardingConfidenceTitle => 'هەر جوزێک چەند جێگیرە؟';
 
   @override

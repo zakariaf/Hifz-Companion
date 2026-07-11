@@ -32,6 +32,8 @@ void main() {
     'coverage': CoverageCaptureGrid(
       heldJuz: const {1, 2, 5, 13},
       onToggle: (_) {},
+      justStarting: false,
+      onJustStarting: (_) {},
     ),
     'confidence': ConfidenceStep(
       heldJuz: const {1, 2},

@@ -470,6 +470,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get onboardingCoverageInstruction => 'اختر الأجزاء التي تحفظها.';
 
   @override
+  String get onboardingJustStarting => 'أنا في البداية — لم أحفظ أي جزء بعد';
+
+  @override
+  String get onboardingJustStartingNote =>
+      'لا حرج في ذلك. ستضيف الصفحات إلى مراجعتك كلما حفظتها.';
+
+  @override
   String get onboardingConfidenceTitle => 'ما مدى رسوخ كل جزء؟';
 
   @override

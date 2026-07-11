@@ -661,6 +661,18 @@ abstract class AppLocalizations {
   /// **'اختر الأجزاء التي تحفظها.'**
   String get onboardingCoverageInstruction;
 
+  /// Coverage-step affordance for a from-zero beginner who holds no juz yet (E21-T04; F02). Calm and non-judgemental — starting is never 'behind' or '0%'. Choosing it clears any held juz and lets onboarding finish into an empty, ready-to-grow schedule. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'أنا في البداية — لم أحفظ أي جزء بعد'**
+  String get onboardingJustStarting;
+
+  /// Calm reassurance shown when the 'I'm just starting' beginner branch is chosen: pages join the revision as the user memorizes them (the sabaq intake surfaces). No guilt, no 'behind', no number. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا حرج في ذلك. ستضيف الصفحات إلى مراجعتك كلما حفظتها.'**
+  String get onboardingJustStartingNote;
+
   /// Title of the per-juz confidence step (Solid/Shaky/Rusty self-report). No score, no praise. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///
   /// In ar, this message translates to:

@@ -30,6 +30,8 @@ class CoverageCaptureGrid extends StatelessWidget {
   const CoverageCaptureGrid({
     required this.heldJuz,
     required this.onToggle,
+    required this.justStarting,
+    required this.onJustStarting,
     super.key,
   });
 
@@ -38,6 +40,12 @@ class CoverageCaptureGrid extends StatelessWidget {
 
   /// Called with the tapped juz to toggle its membership.
   final ValueChanged<int> onToggle;
+
+  /// Whether the from-zero beginner branch is selected (E21-T04; F02).
+  final bool justStarting;
+
+  /// Called to select/clear the "I'm just starting" beginner branch.
+  final ValueChanged<bool> onJustStarting;
 
   @override
   Widget build(BuildContext context) {
@@ -66,39 +74,58 @@ class CoverageCaptureGrid extends StatelessWidget {
                 style: theme.textTheme.bodyMedium
                     ?.copyWith(color: scheme.onSurfaceVariant),
               ),
+              SizedBox(height: space.space3),
+              _JustStartingToggle(
+                selected: justStarting,
+                label: l10n.onboardingJustStarting,
+                onChanged: onJustStarting,
+              ),
+              if (justStarting) ...[
+                SizedBox(height: space.space2),
+                Text(
+                  l10n.onboardingJustStartingNote,
+                  style: theme.textTheme.bodyMedium
+                      ?.copyWith(color: scheme.onSurfaceVariant),
+                ),
+              ],
             ],
           ),
         ),
+        // Dimmed but still tappable when "just starting" — tapping a juz holds
+        // it and exits the beginner branch (never a hard lock).
         Expanded(
-          child: GridView.builder(
-            padding: EdgeInsetsDirectional.fromSTEB(
-              space.space4,
-              space.space2,
-              space.space4,
-              space.space4,
+          child: Opacity(
+            opacity: justStarting ? 0.4 : 1,
+            child: GridView.builder(
+              padding: EdgeInsetsDirectional.fromSTEB(
+                space.space4,
+                space.space2,
+                space.space4,
+                space.space4,
+              ),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                // 5 columns — square cells stay well over the 48 dp tap floor.
+                crossAxisCount: 5,
+                mainAxisSpacing: space.space2,
+                crossAxisSpacing: space.space2,
+              ),
+              itemCount: 30,
+              itemBuilder: (context, index) {
+                // index 0 = juz ۱ at the start (right) under RTL; index 29 = juz ۳۰.
+                final juz = index + 1;
+                final held = heldJuz.contains(juz);
+                final numeral = formatLocaleNumber(locale, juz);
+                return _JuzCell(
+                  numeral: numeral,
+                  held: held,
+                  label: l10n.onboardingCoverageCellLabel(
+                    numeral,
+                    held ? l10n.onboardingHeld : l10n.onboardingNotHeld,
+                  ),
+                  onTap: () => onToggle(juz),
+                );
+              },
             ),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              // 5 columns — square cells stay well over the 48 dp tap floor.
-              crossAxisCount: 5,
-              mainAxisSpacing: space.space2,
-              crossAxisSpacing: space.space2,
-            ),
-            itemCount: 30,
-            itemBuilder: (context, index) {
-              // index 0 = juz ۱ at the start (right) under RTL; index 29 = juz ۳۰.
-              final juz = index + 1;
-              final held = heldJuz.contains(juz);
-              final numeral = formatLocaleNumber(locale, juz);
-              return _JuzCell(
-                numeral: numeral,
-                held: held,
-                label: l10n.onboardingCoverageCellLabel(
-                  numeral,
-                  held ? l10n.onboardingHeld : l10n.onboardingNotHeld,
-                ),
-                onTap: () => onToggle(juz),
-              );
-            },
           ),
         ),
         _CoverageLegend(
@@ -308,6 +335,87 @@ class _LegendItem extends StatelessWidget {
               ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
         ),
       ],
+    );
+  }
+}
+
+/// The from-zero beginner affordance on the coverage step: a calm, selectable
+/// "I'm just starting" toggle (E21-T04; F02). Choosing it clears any held juz
+/// and lets a beginner finish onboarding into an empty, ready-to-grow schedule.
+/// Selected vs not is carried by shape (filled star vs dashed ring) + label, not
+/// hue alone; a ≥48 dp toggle Semantics node.
+class _JustStartingToggle extends StatelessWidget {
+  const _JustStartingToggle({
+    required this.selected,
+    required this.label,
+    required this.onChanged,
+  });
+
+  final bool selected;
+  final String label;
+  final ValueChanged<bool> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final space = theme.extension<SpacingTokens>()!;
+    final mihrab = theme.extension<MihrabColors>()!;
+    final radius = BorderRadius.circular(space.space3);
+    return Semantics(
+      button: true,
+      toggled: selected,
+      label: label,
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          onTap: () => onChanged(!selected),
+          borderRadius: radius,
+          child: ExcludeSemantics(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: space.space8),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  borderRadius: radius,
+                  color: selected
+                      ? scheme.primary
+                      : scheme.surfaceContainerHighest,
+                  border: Border.all(
+                    color: selected ? scheme.primary : scheme.outlineVariant,
+                  ),
+                ),
+                child: Padding(
+                  padding: EdgeInsetsDirectional.symmetric(
+                    horizontal: space.space4,
+                    vertical: space.space3,
+                  ),
+                  child: Row(
+                    children: [
+                      MihrabGlyph(
+                        kind: selected
+                            ? MihrabGlyphKind.filledStar
+                            : MihrabGlyphKind.dashedRing,
+                        color: selected ? mihrab.accentGold : scheme.outline,
+                        size: space.space5,
+                      ),
+                      SizedBox(width: space.space3),
+                      Expanded(
+                        child: Text(
+                          label,
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color:
+                                selected ? scheme.onPrimary : scheme.onSurface,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -34,7 +34,12 @@ void main() {
         supportedLocales: AppLocalizations.supportedLocales,
         theme: mihrabThemeFor(MihrabAppearance.light),
         home: Scaffold(
-          body: CoverageCaptureGrid(heldJuz: held, onToggle: onToggle),
+          body: CoverageCaptureGrid(
+            heldJuz: held,
+            onToggle: onToggle,
+            justStarting: false,
+            onJustStarting: (_) {},
+          ),
         ),
       ),
     );
@@ -45,7 +50,14 @@ void main() {
   testWidgets('renders 30 cells; juz ۱ at the start (right) under RTL',
       (t) async {
     await pump(t, held: const {}, onToggle: (_) {});
-    expect(find.byType(InkWell), findsNWidgets(30));
+    // Scope to grid cells — the "I'm just starting" toggle is a separate control.
+    expect(
+      find.descendant(
+        of: find.byType(GridView),
+        matching: find.byType(InkWell),
+      ),
+      findsNWidgets(30),
+    );
     final ar = await AppLocalizations.delegate.load(const Locale('ar'));
     final juz1 = formatLocaleNumber(const Locale('ar'), 1);
     final juz30 = formatLocaleNumber(const Locale('ar'), 30);
@@ -75,9 +87,10 @@ void main() {
   testWidgets('held cell carries a filled star; un-held carries a dashed ring',
       (t) async {
     await pump(t, held: const {3}, onToggle: (_) {});
-    // Scope to the interactive cells so the banner/legend glyphs don't count.
+    // Scope to the grid cells so the banner/legend/"just starting" toggle glyphs
+    // don't count.
     Finder cellGlyph(MihrabGlyphKind kind) => find.descendant(
-          of: find.byType(InkWell),
+          of: find.byType(GridView),
           matching: find.byWidgetPredicate(
             (w) => w is MihrabGlyph && w.kind == kind,
           ),

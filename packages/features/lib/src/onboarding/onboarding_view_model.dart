@@ -144,6 +144,7 @@ class OnboardingState {
     this.coverage = const <int>{},
     this.confidence = const <int, JuzConfidence>{},
     this.memorizedOn = const <int, CalendarDate>{},
+    this.justStarting = false,
     this.cyclePreset,
     this.pureCycleMode = false,
     this.customCycle,
@@ -173,6 +174,11 @@ class OnboardingState {
   /// Optional per-held-juz "when memorized" date (sparse; absent ⇒ no decay).
   final Map<int, CalendarDate> memorizedOn;
 
+  /// Whether the user is a from-zero beginner ("I'm just starting") — holds no
+  /// juz yet and will add pages as they memorize them (E21-T04). Mutually
+  /// exclusive with a non-empty [coverage]: holding any juz clears this.
+  final bool justStarting;
+
   /// The named cycle preset (E11-T08), or null until picked.
   final CyclePreset? cyclePreset;
 
@@ -201,6 +207,7 @@ class OnboardingState {
     Set<int>? coverage,
     Map<int, JuzConfidence>? confidence,
     Map<int, CalendarDate>? memorizedOn,
+    bool? justStarting,
     CyclePreset? cyclePreset,
     bool? pureCycleMode,
     CustomCycleConfig? customCycle,
@@ -215,6 +222,7 @@ class OnboardingState {
         coverage: coverage ?? this.coverage,
         confidence: confidence ?? this.confidence,
         memorizedOn: memorizedOn ?? this.memorizedOn,
+        justStarting: justStarting ?? this.justStarting,
         cyclePreset: cyclePreset ?? this.cyclePreset,
         pureCycleMode: pureCycleMode ?? this.pureCycleMode,
         customCycle: customCycle ?? this.customCycle,
@@ -232,6 +240,7 @@ class OnboardingState {
       setEquals(other.coverage, coverage) &&
       mapEquals(other.confidence, confidence) &&
       mapEquals(other.memorizedOn, memorizedOn) &&
+      other.justStarting == justStarting &&
       other.cyclePreset == cyclePreset &&
       other.pureCycleMode == pureCycleMode &&
       other.customCycle == customCycle &&
@@ -255,6 +264,7 @@ class OnboardingState {
           customCycle,
           dailyBudgetMinutes,
           placement,
+          justStarting,
         ),
       );
 }
@@ -419,7 +429,25 @@ class OnboardingController extends Notifier<OnboardingState> {
       coverage: coverage,
       confidence: confidence,
       memorizedOn: memorizedOn,
+      // Holding any juz contradicts "I'm just starting".
+      justStarting: coverage.isEmpty && state.justStarting,
     );
+  }
+
+  /// Marks (or clears) the from-zero beginner branch ("I'm just starting").
+  /// Choosing it clears any held juz + ratings — a beginner holds nothing yet —
+  /// and unblocks the coverage step so onboarding can finish into an empty,
+  /// ready-to-grow schedule (E21-T04; F02). Pages are added later as the ḥāfiẓ
+  /// memorizes them (the sabaq intake surfaces).
+  void setJustStarting({required bool value}) {
+    state = value
+        ? state.copyWith(
+            justStarting: true,
+            coverage: const <int>{},
+            confidence: const <int, JuzConfidence>{},
+            memorizedOn: const <int, CalendarDate>{},
+          )
+        : state.copyWith(justStarting: false);
   }
 
   /// Records the self-reported [confidence] for a **held** [juz] (no-op
@@ -477,14 +505,27 @@ class OnboardingController extends Notifier<OnboardingState> {
   void next() {
     if (!_canLeave(state.cursor)) return;
     const order = OnboardingStep.values;
-    final i = state.cursor.index;
-    if (i + 1 < order.length) state = state.copyWith(cursor: order[i + 1]);
+    var i = state.cursor.index + 1;
+    // A from-zero beginner has no held juz to rate — skip the confidence step.
+    if (i < order.length &&
+        order[i] == OnboardingStep.confidence &&
+        state.coverage.isEmpty) {
+      i += 1;
+    }
+    if (i < order.length) state = state.copyWith(cursor: order[i]);
   }
 
   /// Moves the cursor back one step without dropping any captured value.
   void back() {
-    final i = state.cursor.index;
-    if (i > 0) state = state.copyWith(cursor: OnboardingStep.values[i - 1]);
+    const order = OnboardingStep.values;
+    var i = state.cursor.index - 1;
+    // Symmetric skip: a beginner never lands on the (empty) confidence step.
+    if (i >= 0 &&
+        order[i] == OnboardingStep.confidence &&
+        state.coverage.isEmpty) {
+      i -= 1;
+    }
+    if (i >= 0) state = state.copyWith(cursor: order[i]);
   }
 
   /// The placement commit + first-day handoff (E11-T09): commits the captured
@@ -538,8 +579,14 @@ class OnboardingController extends Notifier<OnboardingState> {
         OnboardingStep.riwayahConfirm => true,
         OnboardingStep.coreSetup =>
           state.coreSetupPhase == CoreSetupPhase.ready,
-        OnboardingStep.coverage => state.coverage.isNotEmpty,
-        OnboardingStep.confidence => state.everyHeldJuzRated,
+        // A from-zero beginner ("I'm just starting") holds nothing yet, so the
+        // coverage step no longer hard-blocks them (F02).
+        OnboardingStep.coverage =>
+          state.coverage.isNotEmpty || state.justStarting,
+        // Nothing to rate when no juz is held — the confidence step passes
+        // vacuously for a beginner (and is skipped by next()/back()).
+        OnboardingStep.confidence =>
+          state.coverage.isEmpty || state.everyHeldJuzRated,
         // A sensible named default (and budget) is applied at the commit if the
         // user leaves the preset/budget untouched, so the step never blocks.
         OnboardingStep.cyclePreset => true,

@@ -142,6 +142,8 @@
   "onboardingRetry": "هەوڵدانەوە",
   "onboardingHeld": "لەبەرکراو",
   "onboardingNotHeld": "لەبەرنەکراو",
+  "onboardingJustStarting": "من تازە دەستم پێکردووە — هێشتا هیچ جوزئێکم لەبەر نەکردووە",
+  "onboardingJustStartingNote": "کێشە نییە. هەر لاپەڕەیەک کە لەبەری بکەیت، بۆ پێداچوونەوەکەت زیاد دەکرێت.",
   "onboardingCoverageCellLabel": "{juz} — {state}",
   "todayEmpty": "لە ئێستادا هیچ پەڕەیەک نییە بۆ پێداچوونەوە.",
   "todaySemanticTitle": "پێداچوونەوەی ئەمڕۆ",

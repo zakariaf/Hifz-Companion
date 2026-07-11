@@ -460,6 +460,14 @@ class AppLocalizationsFa extends AppLocalizations {
       'اجزایی را که حفظ دارید انتخاب کنید.';
 
   @override
+  String get onboardingJustStarting =>
+      'من تازه شروع کرده‌ام — هنوز هیچ جزئی را حفظ نکرده‌ام';
+
+  @override
+  String get onboardingJustStartingNote =>
+      'اشکالی ندارد. هر صفحه‌ای را که حفظ می‌کنید به‌تدریج به مرور شما افزوده می‌شود.';
+
+  @override
   String get onboardingConfidenceTitle => 'هر جزء چقدر استوار است؟';
 
   @override
