@@ -929,6 +929,21 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get mushafJumpTitle => 'بڕۆ بۆ';
 
   @override
+  String get mushafMemorizedThisPage => 'ئەم لاپەڕەیەم لەبەرکردووە';
+
+  @override
+  String get sabaqStartedNote =>
+      'بۆ پێداچوونەوەکەت زیادکرا — لە پێداچوونەوەی ئەمڕۆدا دەردەکەوێت.';
+
+  @override
+  String get sabaqAlreadyInRevision =>
+      'ئەم لاپەڕەیە پێشتر لە پێداچوونەوەکەتدایە.';
+
+  @override
+  String get sabaqIntakeFailedNote =>
+      'ئێستا پاشەکەوت نەکرا. دووبارە هەوڵبدەوە.';
+
+  @override
   String get mushafUnitJuz => 'جزء';
 
   @override

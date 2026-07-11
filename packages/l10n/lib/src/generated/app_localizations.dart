@@ -1423,6 +1423,30 @@ abstract class AppLocalizations {
   /// **'الانتقال إلى'**
   String get mushafJumpTitle;
 
+  /// Reader control that records the current page as newly memorized (page-granular sabaq intake, E21-T07): it enters the page into the revision schedule. Calm and factual, never a streak/score/celebration. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'حفظتُ هذه الصفحة'**
+  String get mushafMemorizedThisPage;
+
+  /// Calm confirmation after a page is marked memorized (E21): it joins the revision schedule and appears in Today. No number, no celebration. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'أُضيفت إلى مراجعتك — ستظهر ضمن مراجعة اليوم.'**
+  String get sabaqStartedNote;
+
+  /// Calm note when the page is already in the revision schedule (E21) — never a failure or a scold. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذه الصفحة موجودة في مراجعتك بالفعل.'**
+  String get sabaqAlreadyInRevision;
+
+  /// Calm retry note when recording a newly-memorized page failed and rolled back (E21). No guilt. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذّر الحفظ الآن. حاوِل مرة أخرى.'**
+  String get sabaqIntakeFailedNote;
+
   /// Jump-to unit label: juz. PROVISIONAL — best-effort fa/ckb, review in T09.
   ///
   /// In ar, this message translates to:

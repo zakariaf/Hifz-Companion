@@ -12,6 +12,8 @@ import 'package:models/models.dart' show MushafEdition;
 import '../../design_system/theme/mihrab_colors.dart';
 import '../../design_system/theme/motion_tokens.dart';
 import '../../design_system/theme/spacing_tokens.dart';
+import '../../sabaq/sabaq_intake_controller.dart';
+import '../../sabaq/sabaq_providers.dart';
 import '../mushaf_providers.dart';
 import 'jump_picker.dart';
 import 'mushaf_pager.dart';
@@ -365,6 +367,58 @@ class _MihrabReaderFramePainter extends CustomPainter {
 /// The transient controls, gathered into one limestone pill: the jump-to button,
 /// the theme dots, the zoom group, and the diagnostic overlay toggles. No panel
 /// over the page interior — an edge band only.
+/// The "I've memorized this page" reader control — page-granular sabaq intake
+/// (E21-T07; PRD §12.3). It records the **current** page as newly memorized so it
+/// enters the revision schedule, then confirms calmly. Always available (recording
+/// what you memorized is user-initiated — never gated on the sabaq *pace*, which
+/// only governs the Today prompt). It mutates no glyph and re-typesets nothing —
+/// the write is the intake controller's single write path. No gamification of
+/// any kind; an already-in-revision page is a calm note, never a failure.
+class _MemorizedPageControl extends ConsumerWidget {
+  const _MemorizedPageControl({required this.entryPage});
+
+  final int entryPage;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final scheme = Theme.of(context).colorScheme;
+    // The *current* page (the pager may have moved from the entry page).
+    final pageNumber = ref.watch(
+      mushafReaderStateProvider(entryPage).select((s) => s.pageNumber),
+    );
+    return OutlinedButton.icon(
+      onPressed: () => _mark(context, ref, pageNumber),
+      icon: const Icon(Icons.bookmark_add_outlined),
+      label: Text(l10n.mushafMemorizedThisPage),
+      style: OutlinedButton.styleFrom(
+        foregroundColor: scheme.primary,
+        side: BorderSide(color: scheme.primary),
+        shape: const StadiumBorder(),
+      ),
+    );
+  }
+
+  Future<void> _mark(BuildContext context, WidgetRef ref, int page) async {
+    // Capture context-derived objects before the async gap.
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    final result =
+        await ref.read(sabaqIntakeControllerProvider).startMemorizing(page);
+    final note = switch (result) {
+      SabaqIntakeResult.started => l10n.sabaqStartedNote,
+      SabaqIntakeResult.alreadyStarted => l10n.sabaqAlreadyInRevision,
+      SabaqIntakeResult.failed => l10n.sabaqIntakeFailedNote,
+      SabaqIntakeResult.noProfile => null,
+    };
+    if (note != null) {
+      messenger
+        ..clearSnackBars()
+        ..showSnackBar(SnackBar(content: Text(note)));
+    }
+  }
+}
+
 class _ControlsBand extends StatelessWidget {
   const _ControlsBand({required this.page});
 
@@ -408,6 +462,7 @@ class _ControlsBand extends StatelessWidget {
                   shape: const StadiumBorder(),
                 ),
               ),
+              _MemorizedPageControl(entryPage: page),
               ReaderThemeControl(entryPage: page),
               ReaderZoomControl(entryPage: page),
               ReaderOverlayToggles(entryPage: page),

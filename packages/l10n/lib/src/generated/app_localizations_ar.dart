@@ -938,6 +938,18 @@ class AppLocalizationsAr extends AppLocalizations {
   String get mushafJumpTitle => 'الانتقال إلى';
 
   @override
+  String get mushafMemorizedThisPage => 'حفظتُ هذه الصفحة';
+
+  @override
+  String get sabaqStartedNote => 'أُضيفت إلى مراجعتك — ستظهر ضمن مراجعة اليوم.';
+
+  @override
+  String get sabaqAlreadyInRevision => 'هذه الصفحة موجودة في مراجعتك بالفعل.';
+
+  @override
+  String get sabaqIntakeFailedNote => 'تعذّر الحفظ الآن. حاوِل مرة أخرى.';
+
+  @override
   String get mushafUnitJuz => 'جزء';
 
   @override

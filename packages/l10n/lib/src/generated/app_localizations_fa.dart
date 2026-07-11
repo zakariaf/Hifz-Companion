@@ -922,6 +922,19 @@ class AppLocalizationsFa extends AppLocalizations {
   String get mushafJumpTitle => 'رفتن به';
 
   @override
+  String get mushafMemorizedThisPage => 'این صفحه را حفظ کردم';
+
+  @override
+  String get sabaqStartedNote =>
+      'به مرور شما افزوده شد — در مرور امروز نمایان می‌شود.';
+
+  @override
+  String get sabaqAlreadyInRevision => 'این صفحه از پیش در مرور شماست.';
+
+  @override
+  String get sabaqIntakeFailedNote => 'فعلاً ذخیره نشد. دوباره تلاش کنید.';
+
+  @override
   String get mushafUnitJuz => 'جزء';
 
   @override
