@@ -259,6 +259,8 @@
   "progressNextDue": "پێداچوونەوەی داهاتوو: {date}",
   "progressNoNextDue": "هێشتا کاتی پێداچوونەوە دیاری نەکراوە",
   "progressHistoryTitle": "دوایین پێداچوونەوەکان",
+  "progressPrayerCritical": "لاپەڕەیەک کە لە نوێژدا پشتی پێدەبەستم",
+  "progressPrayerCriticalNote": "بە پێوەرێکی بەرزتر پێداچوونەوەی بۆ دەکرێت.",
   "progressNoHistory": "هێشتا هیچ پێداچوونەوەیەک تۆمار نەکراوە",
   "progressHistoryRow": "{date} · {grade}",
   "progressEmptyTitle": "نەخشەی حیفزەکەت",

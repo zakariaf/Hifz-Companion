@@ -259,6 +259,8 @@
   "progressNextDue": "مرور بعدی: {date}",
   "progressNoNextDue": "هنوز زمان مروری تعیین نشده",
   "progressHistoryTitle": "مرورهای اخیر",
+  "progressPrayerCritical": "صفحه‌ای که در نماز به آن تکیه دارم",
+  "progressPrayerCriticalNote": "با معیاری بالاتر مرور می‌شود تا حفظ بماند.",
   "progressNoHistory": "هنوز مروری ثبت نشده",
   "progressHistoryRow": "{date} · {grade}",
   "progressEmptyTitle": "نقشهٔ حفظ شما",

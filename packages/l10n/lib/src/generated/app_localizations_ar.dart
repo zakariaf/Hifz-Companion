@@ -1066,6 +1066,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get progressHistoryTitle => 'آخر المراجعات';
 
   @override
+  String get progressPrayerCritical => 'صفحة أعتمد عليها في الصلاة';
+
+  @override
+  String get progressPrayerCriticalNote => 'تُراجَع بمعيار أعلى للحفاظ عليها.';
+
+  @override
   String get progressNoHistory => 'لا مراجعات مسجّلة بعد';
 
   @override

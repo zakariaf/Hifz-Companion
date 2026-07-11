@@ -10,6 +10,7 @@ import 'repositories/backup_read_repository.dart';
 import 'repositories/cold_start_repository.dart';
 import 'repositories/confusion_repository.dart';
 import 'repositories/cycle_config_repository.dart';
+import 'repositories/prayer_critical_repository.dart';
 import 'repositories/repositories.dart';
 import 'repositories/restore_repository.dart';
 import 'repositories/review_repository.dart';
@@ -39,6 +40,7 @@ final class LivePersistenceHandle
         reviews = LiveReviewRepository(database),
         coldStart = LiveColdStartRepository(database),
         sabaqIntake = LiveSabaqIntakeRepository(database),
+        prayerCritical = LivePrayerCriticalRepository(database),
         restore = LiveRestoreRepository(database),
         backupRead = LiveBackupReadRepository(database),
         confusion = LiveConfusionRepository(database),
@@ -54,6 +56,9 @@ final class LivePersistenceHandle
 
   @override
   final SabaqIntakeRepository sabaqIntake;
+
+  @override
+  final PrayerCriticalRepository prayerCritical;
 
   @override
   final RestoreRepository restore;

@@ -1197,6 +1197,14 @@
   "@progressHistoryTitle": {
     "description": "E15 page-detail recent review_log history heading. PROVISIONAL — pending native + scholarly review."
   },
+  "progressPrayerCritical": "صفحة أعتمد عليها في الصلاة",
+  "@progressPrayerCritical": {
+    "description": "Page-detail toggle (E21-T08): the user marks this page as one they rely on in ṣalāh, so it is revised to a higher retention floor. A user preference the user chooses, NEVER a fiqh ruling or a bundled list. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "progressPrayerCriticalNote": "تُراجَع بمعيار أعلى للحفاظ عليها.",
+  "@progressPrayerCriticalNote": {
+    "description": "Subtitle under the prayer-critical toggle (E21-T08): a page marked this way is revised to a higher standard. No number, no ruling. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
   "progressNoHistory": "لا مراجعات مسجّلة بعد",
   "@progressNoHistory": {
     "description": "E15 page-detail: no review history yet (calm, never a nag). PROVISIONAL — pending native + scholarly review."

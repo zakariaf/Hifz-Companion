@@ -1061,6 +1061,13 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get progressHistoryTitle => 'دوایین پێداچوونەوەکان';
 
   @override
+  String get progressPrayerCritical => 'لاپەڕەیەک کە لە نوێژدا پشتی پێدەبەستم';
+
+  @override
+  String get progressPrayerCriticalNote =>
+      'بە پێوەرێکی بەرزتر پێداچوونەوەی بۆ دەکرێت.';
+
+  @override
   String get progressNoHistory => 'هێشتا هیچ پێداچوونەوەیەک تۆمار نەکراوە';
 
   @override

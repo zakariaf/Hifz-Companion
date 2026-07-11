@@ -1,11 +1,17 @@
-# E21-T08 — Prayer-critical seeding (F18) — **needs a decision before build**
+# E21-T08 — Prayer-critical (F18) — a user-driven per-page toggle
 
 | | |
 |---|---|
 | **Epic** | [E21 — New-Memorization (Sabaq) Loop & Beginner Path](EPIC.md) |
 | **Size** | M |
-| **Depends on** | E21-T01, E21-T02, E21-T07 |
-| **Status** | **Specced, not built — blocked on the marking-affordance decision + (for any preset) scholarly review.** |
+| **Depends on** | E21-T02, E21-T07 |
+| **Status** | **Built (2026-07-11).** Decision resolved by the owner: a **user-driven toggle in the Progress page-detail sheet** (no bundled preset, so no scholarly-review gate). |
+
+## Built shape
+
+A `SwitchListTile` in the page-detail sheet ("a page I rely on in ṣalāh — revised to a higher standard"), shown only for a held page. On change it writes through a new transactional `PrayerCriticalRepository.setPrayerCritical(profileId, pageId, value)` (read → `copyWith` → upsert, one transaction, no `review_log` row); the engine's 0.97 floor (`kCriticalTargetR`) and catch-up priority already honor the flag, so **no engine change**. `PageHealth` gained `isPrayerCritical` (from the card) so the sheet reflects the persisted state. Copy ships fa/ckb/ar (PROVISIONAL). A user preference — never a fiqh ruling, never a bundled list. Tested: the repo (persist / no-op for an unknown page / idempotent / no sanad row) and the controller (writes for the active profile / no-op with none).
+
+The seed-time `CardSeed.isPrayerCritical` path (below) was **not** needed — a page is marked prayer-critical after it is held, so a card-update toggle is the whole mechanism.
 
 ## Goal
 

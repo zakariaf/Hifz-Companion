@@ -1651,6 +1651,18 @@ abstract class AppLocalizations {
   /// **'آخر المراجعات'**
   String get progressHistoryTitle;
 
+  /// Page-detail toggle (E21-T08): the user marks this page as one they rely on in ṣalāh, so it is revised to a higher retention floor. A user preference the user chooses, NEVER a fiqh ruling or a bundled list. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'صفحة أعتمد عليها في الصلاة'**
+  String get progressPrayerCritical;
+
+  /// Subtitle under the prayer-critical toggle (E21-T08): a page marked this way is revised to a higher standard. No number, no ruling. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تُراجَع بمعيار أعلى للحفاظ عليها.'**
+  String get progressPrayerCriticalNote;
+
   /// E15 page-detail: no review history yet (calm, never a nag). PROVISIONAL — pending native + scholarly review.
   ///
   /// In ar, this message translates to:

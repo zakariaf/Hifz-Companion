@@ -199,6 +199,30 @@ final class SabaqIntakeConstraintViolated extends SabaqIntakeWriteException {
       : super('a sabaq intake row violated a storage constraint');
 }
 
+/// The prayer-critical toggle write path (`setPrayerCritical`, E21-T08) could not
+/// durably persist the flag. A subtree of the one sealed [PersistenceException],
+/// surfaced to the feature layer to handle calmly (a quiet retry) — a preference
+/// toggle, never a guilt path.
+sealed class PrayerCriticalWriteException extends PersistenceException {
+  /// Creates a prayer-critical write exception with a developer-facing [message].
+  const PrayerCriticalWriteException(super.message);
+}
+
+/// The toggle transaction failed and was rolled back; the flag is unchanged.
+final class PrayerCriticalWriteFailed extends PrayerCriticalWriteException {
+  /// Creates the write-failed exception.
+  const PrayerCriticalWriteFailed()
+      : super('the prayer-critical toggle failed and was rolled back');
+}
+
+/// Even the rollback failed — the store is left needing recovery.
+final class PrayerCriticalRollbackFailed extends PrayerCriticalWriteException {
+  /// Creates the rollback-failed exception.
+  const PrayerCriticalRollbackFailed()
+      : super('the prayer-critical toggle rollback failed; the store needs '
+            'recovery');
+}
+
 /// The encryption flavor is active but the cipher is **not live** — `PRAGMA
 /// cipher;` returned no rows, so `sqlite3mc` fell back to stock SQLite and
 /// `PRAGMA key` was a no-op (a build defect). The store is refused at open so a

@@ -1052,6 +1052,13 @@ class AppLocalizationsFa extends AppLocalizations {
   String get progressHistoryTitle => 'مرورهای اخیر';
 
   @override
+  String get progressPrayerCritical => 'صفحه‌ای که در نماز به آن تکیه دارم';
+
+  @override
+  String get progressPrayerCriticalNote =>
+      'با معیاری بالاتر مرور می‌شود تا حفظ بماند.';
+
+  @override
   String get progressNoHistory => 'هنوز مروری ثبت نشده';
 
   @override

@@ -4,6 +4,7 @@
 import 'repositories/backup_read_repository.dart';
 import 'repositories/cold_start_repository.dart';
 import 'repositories/confusion_repository.dart';
+import 'repositories/prayer_critical_repository.dart';
 import 'repositories/repositories.dart';
 import 'repositories/restore_repository.dart';
 import 'repositories/review_repository.dart';
@@ -43,6 +44,10 @@ abstract interface class PersistenceHandle {
   /// The new-memorization (sabaq) intake write path — introduces one
   /// newly-memorized page as a New card in one transaction (E21-T02).
   SabaqIntakeRepository get sabaqIntake;
+
+  /// The prayer-critical toggle write path — sets a page's higher retention
+  /// floor from the page-detail sheet in one transaction (E21-T08).
+  PrayerCriticalRepository get prayerCritical;
 
   /// The backup-restore write path (replace / merge — one all-or-nothing outer
   /// transaction; E17-T06).

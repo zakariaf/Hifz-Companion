@@ -120,11 +120,13 @@ E15 (newly-memorized pages appear in the heat-map and its weakest-first rollups)
 > "I've memorized this page"), T06 (Today "start a new lesson"), and T09 (the
 > pure-engine lifecycle proof) are built and green — a beginner can start from
 > zero and any ḥāfiẓ can grow their hifz page by page (F01/F02/F11 closed).
-> **T08** (prayer-critical, F18) and **T05** (per-profile placement re-run, F04
-> residual) are specced but not built — each is blocked on an explicit decision
-> (T08: the marking affordance + scholarly review for any preset; T05: a risky
-> E16 router change, and the blocker is already resolved by the intake surfaces).
-> The UI tasks' per-locale goldens regenerate on the Linux CI lane.
+> **T08** (prayer-critical, F18) is **built** as a user-driven per-page toggle in
+> the Progress page-detail sheet (no bundled preset → no scholarly-review gate),
+> with a transactional card-flag write path; the engine's 0.97 floor already
+> honors it. **T05** (per-profile placement re-run, F04 residual) is specced but
+> deferred — the blocker is already resolved by the intake surfaces, and the
+> residual needs a risky E16 router change. The UI tasks' per-locale goldens
+> regenerate on the Linux CI lane.
 
 > Ordering: engine seed + config (T01) and the transactional write (T02) first; then the engine consumption/pause (T03); then the two entry surfaces (T04 onboarding, T06 Today, T07 reader) and profiles (T05); prayer-critical (T08) and the integration/goldens (T09) close it. T01/T06 implement the resolved **page-granular** design.
 

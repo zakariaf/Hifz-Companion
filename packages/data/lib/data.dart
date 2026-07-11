@@ -34,6 +34,9 @@ export 'src/persistence_exception.dart'
         EncryptionNotLiveException,
         MappingException,
         PersistenceException,
+        PrayerCriticalRollbackFailed,
+        PrayerCriticalWriteException,
+        PrayerCriticalWriteFailed,
         RestoreConstraintViolated,
         RestoreFailed,
         RestoreRollbackFailed,
@@ -61,6 +64,8 @@ export 'src/repositories/repositories.dart'
         ProfileRepository,
         ReferenceRepository,
         ReviewLogRepository;
+export 'src/repositories/prayer_critical_repository.dart'
+    show PrayerCriticalRepository;
 export 'src/repositories/restore_repository.dart' show RestoreRepository;
 export 'src/repositories/review_repository.dart' show ReviewRepository;
 export 'src/repositories/sabaq_intake_repository.dart'

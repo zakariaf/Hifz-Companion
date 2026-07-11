@@ -75,6 +75,8 @@ export 'src/profiles/profiles_controller.dart';
 export 'src/profiles/profiles_providers.dart';
 export 'src/profiles/profiles_route.dart';
 export 'src/profiles/profiles_screen.dart';
+export 'src/progress/prayer_critical_controller.dart'
+    show PrayerCriticalController, prayerCriticalControllerProvider;
 export 'src/progress/progress_cell_data.dart';
 export 'src/progress/progress_overview.dart';
 export 'src/progress/progress_providers.dart';
