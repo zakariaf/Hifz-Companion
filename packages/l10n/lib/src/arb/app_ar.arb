@@ -453,6 +453,18 @@
   "@profilesAddButton": {
     "description": "Button to create a new device-local profile (a typed display name + role; no PII). Best-effort fa/ckb pending native + scholarly review."
   },
+  "profileSetUpPlacement": "إعداد المراجعة",
+  "@profileSetUpPlacement": {
+    "description": "Per-profile action (E21-T05; F04): open placement for an in-app-created student/child that has no cards yet, to rate its held juz and seed its schedule. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "profilePlacementTitle": "إعداد المراجعة",
+  "@profilePlacementTitle": {
+    "description": "Title of the per-profile placement screen (E21-T05): rate the profile's held juz (Solid/Shaky/Rusty) to seed its schedule. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
+  "profilePlacementSaved": "تم إعداد المراجعة.",
+  "@profilePlacementSaved": {
+    "description": "Calm confirmation after per-profile placement seeds the schedule (E21-T05). No number, no celebration. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb."
+  },
   "profilesNameHint": "الاسم الظاهر",
   "@profilesNameHint": {
     "description": "Text-field hint for a new profile's display name — the only PII. Best-effort fa/ckb pending native + scholarly review."

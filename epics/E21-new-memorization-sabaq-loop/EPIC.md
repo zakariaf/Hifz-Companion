@@ -114,19 +114,15 @@ E15 (newly-memorized pages appear in the heat-map and its weakest-first rollups)
 
 ## Tasks
 
-> **Build status (2026-07-11).** The sabaq loop is **functionally complete and
-> tested end-to-end**: T01 (engine seed), T02 (write path), T03 (pace + pause),
-> T04 (zero-juz beginner onboarding), the shared intake controller, T07 (reader
-> "I've memorized this page"), T06 (Today "start a new lesson"), and T09 (the
-> pure-engine lifecycle proof) are built and green — a beginner can start from
-> zero and any ḥāfiẓ can grow their hifz page by page (F01/F02/F11 closed).
-> **T08** (prayer-critical, F18) is **built** as a user-driven per-page toggle in
-> the Progress page-detail sheet (no bundled preset → no scholarly-review gate),
-> with a transactional card-flag write path; the engine's 0.97 floor already
-> honors it. **T05** (per-profile placement re-run, F04 residual) is specced but
-> deferred — the blocker is already resolved by the intake surfaces, and the
-> residual needs a risky E16 router change. The UI tasks' per-locale goldens
-> regenerate on the Linux CI lane.
+> **Build status (2026-07-11): all nine tasks built and tested.** T01 (engine
+> seed), T02 (write path), T03 (pace + pause / F11), T04 (zero-juz beginner
+> onboarding / F02), the shared intake controller, T07 (reader "I've memorized
+> this page"), T06 (Today "start a new lesson"), T08 (prayer-critical toggle /
+> F18), T05 (per-profile placement modal / F04), and T09 (lifecycle proof) — a
+> beginner starts from zero and any ḥāfiẓ grows their hifz page by page; held
+> profiles can be placed; a page can be marked prayer-critical; the pace pauses.
+> **F01/F02/F04/F11/F18 closed.** Zero change to the frozen D/S/R math. The UI
+> tasks' per-locale goldens regenerate on the Linux CI lane (`[update-goldens]`).
 
 > Ordering: engine seed + config (T01) and the transactional write (T02) first; then the engine consumption/pause (T03); then the two entry surfaces (T04 onboarding, T06 Today, T07 reader) and profiles (T05); prayer-critical (T08) and the integration/goldens (T09) close it. T01/T06 implement the resolved **page-granular** design.
 

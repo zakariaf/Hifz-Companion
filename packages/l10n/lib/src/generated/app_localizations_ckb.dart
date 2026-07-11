@@ -424,6 +424,15 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get profilesAddButton => 'زیادکردنی پرۆفایل';
 
   @override
+  String get profileSetUpPlacement => 'ڕێکخستنی پێداچوونەوە';
+
+  @override
+  String get profilePlacementTitle => 'ڕێکخستنی پێداچوونەوە';
+
+  @override
+  String get profilePlacementSaved => 'پێداچوونەوە ڕێکخرا.';
+
+  @override
   String get profilesNameHint => 'ناوی پیشاندان';
 
   @override

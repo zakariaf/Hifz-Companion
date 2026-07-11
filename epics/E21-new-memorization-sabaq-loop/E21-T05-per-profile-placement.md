@@ -1,11 +1,17 @@
-# E21-T05 — Per-profile placement (F04) — **largely mooted; residual needs a router decision**
+# E21-T05 — Per-profile placement (F04) — a safe placement modal
 
 | | |
 |---|---|
 | **Epic** | [E21 — New-Memorization (Sabaq) Loop & Beginner Path](EPIC.md) |
 | **Size** | M |
-| **Depends on** | E16 (profiles/router), E21-T02/T06/T07 |
-| **Status** | **Blocker resolved by the intake surfaces; residual (per-juz placement re-run) deferred — a risky E16 router change.** |
+| **Depends on** | E11 (capture widgets), E21-T02 |
+| **Status** | **Built (2026-07-11).** Per the owner's choice: a placement flow reached from the Profiles screen, **without** touching the router redirect guard. |
+
+## Built shape
+
+A `ProfilePlacementScreen(profileId)` reached from the Profiles screen's per-profile menu ("Set up revision") as a pushed `MaterialPageRoute` — **no go_router route, no redirect-guard change**. It reuses the onboarding `CoverageCaptureGrid` (with the "I'm just starting" branch) + `ConfidenceStep`, captures the profile's held juz + Solid/Shaky/Rusty rating, and commits through a new `ColdStartSeeder.placeExistingProfile(profile, cycle, coverage, confidence, today)` — the same conservative engine priors as onboarding, scoped to the **existing** profile + its existing cycle, in one all-or-nothing `seedColdStart` transaction. A beginner student (no held juz) seeds nothing and grows via intake. The seed rule now lives in one shared `_seedsFor` helper (onboarding + placement). Copy ships fa/ckb/ar (PROVISIONAL). Tested: `placeExistingProfile` seeds the existing profile + cycle verbatim (one card per held+rated page), and the onboarding commit is unchanged.
+
+**Both halves of F04 are now closed:** the blocker (in-app profiles born empty) by the intake surfaces, and the convenience (a quick per-juz placement for a student who already holds juz) by this modal — with no risk to the core router.
 
 ## What F04 was
 

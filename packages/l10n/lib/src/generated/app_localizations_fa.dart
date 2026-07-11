@@ -424,6 +424,15 @@ class AppLocalizationsFa extends AppLocalizations {
   String get profilesAddButton => 'افزودن نمایه';
 
   @override
+  String get profileSetUpPlacement => 'تنظیم مرور';
+
+  @override
+  String get profilePlacementTitle => 'تنظیم مرور';
+
+  @override
+  String get profilePlacementSaved => 'مرور تنظیم شد.';
+
+  @override
   String get profilesNameHint => 'نام نمایشی';
 
   @override

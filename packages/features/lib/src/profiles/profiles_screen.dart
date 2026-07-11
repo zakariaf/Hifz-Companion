@@ -11,6 +11,7 @@ import '../design_system/components/destructive_confirm.dart';
 import '../design_system/pickers/settings_picker.dart';
 import '../design_system/theme/spacing_tokens.dart';
 import '../design_system/widgets/mihrab_arch_header.dart';
+import 'profile_placement_screen.dart';
 import 'profiles_providers.dart';
 
 /// The Profiles screen (PRD §15.3): the device-local multi-profile switcher and
@@ -70,6 +71,13 @@ class ProfilesScreen extends ConsumerWidget {
                               .read(activeProfileProvider.notifier)
                               .select(profile.profileId),
                           onRename: () => _renameProfile(context, ref, profile),
+                          onSetUpPlacement: () => Navigator.of(context).push(
+                            MaterialPageRoute<void>(
+                              builder: (_) => ProfilePlacementScreen(
+                                profileId: profile.profileId,
+                              ),
+                            ),
+                          ),
                           // The active profile can't be deleted — switch away
                           // first (avoids deleting the scoped-to profile).
                           onDelete: profile.profileId == activeId
@@ -155,6 +163,7 @@ class _ProfileRow extends StatelessWidget {
     required this.onTap,
     required this.onRename,
     required this.onDelete,
+    required this.onSetUpPlacement,
   });
 
   final Profile profile;
@@ -162,6 +171,7 @@ class _ProfileRow extends StatelessWidget {
   final VoidCallback onTap;
   final VoidCallback onRename;
   final VoidCallback? onDelete;
+  final VoidCallback onSetUpPlacement;
 
   @override
   Widget build(BuildContext context) {
@@ -250,6 +260,8 @@ class _ProfileRow extends StatelessWidget {
                       switch (action) {
                         case _RowAction.rename:
                           onRename();
+                        case _RowAction.placement:
+                          onSetUpPlacement();
                         case _RowAction.delete:
                           onDelete?.call();
                       }
@@ -258,6 +270,10 @@ class _ProfileRow extends StatelessWidget {
                       PopupMenuItem<_RowAction>(
                         value: _RowAction.rename,
                         child: Text(l10n.profilesRename),
+                      ),
+                      PopupMenuItem<_RowAction>(
+                        value: _RowAction.placement,
+                        child: Text(l10n.profileSetUpPlacement),
                       ),
                       if (onDelete != null)
                         PopupMenuItem<_RowAction>(
@@ -483,7 +499,7 @@ class _CreateProfileDialogState extends State<_CreateProfileDialog> {
 }
 
 /// The per-row manage actions.
-enum _RowAction { rename, delete }
+enum _RowAction { rename, placement, delete }
 
 /// The rename dialog — a single display-name field, pre-filled. Returns the new
 /// name or null on cancel.

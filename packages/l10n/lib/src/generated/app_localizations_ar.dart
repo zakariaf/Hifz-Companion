@@ -435,6 +435,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profilesAddButton => 'إضافة ملف';
 
   @override
+  String get profileSetUpPlacement => 'إعداد المراجعة';
+
+  @override
+  String get profilePlacementTitle => 'إعداد المراجعة';
+
+  @override
+  String get profilePlacementSaved => 'تم إعداد المراجعة.';
+
+  @override
   String get profilesNameHint => 'الاسم الظاهر';
 
   @override

@@ -595,6 +595,24 @@ abstract class AppLocalizations {
   /// **'إضافة ملف'**
   String get profilesAddButton;
 
+  /// Per-profile action (E21-T05; F04): open placement for an in-app-created student/child that has no cards yet, to rate its held juz and seed its schedule. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعداد المراجعة'**
+  String get profileSetUpPlacement;
+
+  /// Title of the per-profile placement screen (E21-T05): rate the profile's held juz (Solid/Shaky/Rusty) to seed its schedule. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعداد المراجعة'**
+  String get profilePlacementTitle;
+
+  /// Calm confirmation after per-profile placement seeds the schedule (E21-T05). No number, no celebration. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم إعداد المراجعة.'**
+  String get profilePlacementSaved;
+
   /// Text-field hint for a new profile's display name — the only PII. Best-effort fa/ckb pending native + scholarly review.
   ///
   /// In ar, this message translates to:
