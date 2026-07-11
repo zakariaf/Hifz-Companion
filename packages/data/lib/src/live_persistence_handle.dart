@@ -13,6 +13,7 @@ import 'repositories/cycle_config_repository.dart';
 import 'repositories/repositories.dart';
 import 'repositories/restore_repository.dart';
 import 'repositories/review_repository.dart';
+import 'repositories/sabaq_intake_repository.dart';
 
 /// The live [PersistenceHandle] over the Drift [HifzDatabase] — the one place a
 /// Drift handle lives behind the interface (05 §1).
@@ -37,6 +38,7 @@ final class LivePersistenceHandle
       : _database = database,
         reviews = LiveReviewRepository(database),
         coldStart = LiveColdStartRepository(database),
+        sabaqIntake = LiveSabaqIntakeRepository(database),
         restore = LiveRestoreRepository(database),
         backupRead = LiveBackupReadRepository(database),
         confusion = LiveConfusionRepository(database),
@@ -49,6 +51,9 @@ final class LivePersistenceHandle
 
   @override
   final ColdStartRepository coldStart;
+
+  @override
+  final SabaqIntakeRepository sabaqIntake;
 
   @override
   final RestoreRepository restore;

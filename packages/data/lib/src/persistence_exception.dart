@@ -157,6 +157,48 @@ final class ConfusionConstraintViolated extends ConfusionWriteException {
       : super('the swap violated a storage constraint and was rejected');
 }
 
+/// The new-memorization (sabaq) intake write path (`startMemorizing`, E21-T02)
+/// could not durably introduce a newly-memorized page. A subtree of the one
+/// sealed [PersistenceException], surfaced to the sabaq feature to handle
+/// exhaustively — a calm retry, or a clear "already in your revision", never a
+/// guilt message.
+sealed class SabaqIntakeWriteException extends PersistenceException {
+  /// Creates a sabaq-intake write exception with a developer-facing [message].
+  const SabaqIntakeWriteException(super.message);
+}
+
+/// The page is already in this profile's revision — a card already exists, so
+/// intake is refused rather than clobbering the page's live D/S/due state. An
+/// **expected** outcome the feature layer reports calmly ("already in your
+/// revision"), never a failure.
+final class SabaqPageAlreadyStarted extends SabaqIntakeWriteException {
+  /// Creates the already-started refusal.
+  const SabaqPageAlreadyStarted()
+      : super('the page is already in revision (a card already exists)');
+}
+
+/// The intake transaction failed and was rolled back; no card was created.
+final class SabaqIntakeFailed extends SabaqIntakeWriteException {
+  /// Creates the intake-failed exception.
+  const SabaqIntakeFailed()
+      : super('the sabaq intake failed and was rolled back');
+}
+
+/// Even the rollback failed — the store is left needing recovery.
+final class SabaqIntakeRollbackFailed extends SabaqIntakeWriteException {
+  /// Creates the rollback-failed exception.
+  const SabaqIntakeRollbackFailed()
+      : super('the sabaq intake rollback failed; the store needs recovery');
+}
+
+/// A seed card violated a storage `CHECK`/constraint (e.g. a New card with a
+/// null due day) and was rejected whole; the store is left exactly as before.
+final class SabaqIntakeConstraintViolated extends SabaqIntakeWriteException {
+  /// Creates the constraint-violated exception.
+  const SabaqIntakeConstraintViolated()
+      : super('a sabaq intake row violated a storage constraint');
+}
+
 /// The encryption flavor is active but the cipher is **not live** — `PRAGMA
 /// cipher;` returned no rows, so `sqlite3mc` fell back to stock SQLite and
 /// `PRAGMA key` was a no-op (a build defect). The store is refused at open so a
