@@ -14,7 +14,7 @@ the three doc sets (`docs/design-system/`, `docs/engineering/`,
   these are **not** phased releases. The whole gift ships at once, or not at all;
   nothing ships until E20 says every covenant is proven.
 
-> **Plan status.** Every epic **E01–E20** now carries its full per-task files.
+> **Plan status.** Every epic **E01–E20** carries its full per-task files.
 > E15–E19 were *built before* their task files existed ("built blind" against
 > the EPIC.md + design docs); their `E##-T##-*.md` files were retro-authored
 > from the governing docs on 2026-07-10 and the build was then audited against
@@ -22,6 +22,12 @@ the three doc sets (`docs/design-system/`, `docs/engineering/`,
 > verdicts and the add/amend/remove/defer adjustments, and
 > `docs/audits/2026-07-10-full-app-audit.md` for the whole-app audit. **E20
 > remains unbuilt** (specs ready, release never attempted).
+>
+> **E21 (added 2026-07-11)** is the audit's top remediation: the
+> new-memorization (sabaq) loop and beginner path that the original E01–E20 plan
+> never assigned an owner (audit F01/F02/F04). It is a **feature** epic — it
+> builds in the feature waves and E20 release gates on it. Its `EPIC.md` is
+> approved; its nine task files are authored as each task is built.
 
 ## Epic index
 
@@ -46,10 +52,12 @@ the three doc sets (`docs/design-system/`, `docs/engineering/`,
 | [E17](E17-backup-and-restore/EPIC.md) | Backup & Restore | feature | E03, E07, E10, E16 | 9 | The local, offline "never trapped" promise in bytes: the pure-Dart `.hifzbackup` container (magic + version + body SHA-256), the truth-only versioned JSON payload, replace-vs-merge restore as a set-union over the append-only `review_log`, optional Argon2id→ChaCha20-Poly1305 encryption, and the honest no-cloud tradeoff copy — the app never transmits the file. |
 | [E18](E18-reminders/EPIC.md) | Reminders | feature | E02, E07, E09, E16 | 11 | One calm, opt-in, off-by-default daily local notification — "Your revision for today is ready" — plus an optional framed-as-help catch-up note, as a rebuildable derived cache keyed off the injected local civil day; no guilt/fear/loss/streak framing, no escalation, no push, no server. |
 | [E19](E19-science-screen-and-claims/EPIC.md) | Science Screen & Claims | feature | E07, E09, E10, E04 | 10 | The offline "The science we follow" screen and the bundled CLAIMS register it renders read-only: each `C-NNN` claim a calm source row with a plain headline, a neutral evidence-certainty label, and a named/dated on-device source — no claim ships unsourced, every `[TRAD]` row names its source and issues no fiqh ruling. |
-| [E20](E20-release-readiness/EPIC.md) | Release Readiness | release | E08–E19 | 9 | No new feature work — the gate that decides whether the gift may ship: every PRD §20 release-blocking check green in one suite, the airplane-mode acceptance run, the two human sign-offs (scholarly muṣḥaf proof + mutashābihāt review) and the adab checkpoint, the OSS trust pack, and the multi-channel release from one signed, provenance-attested tag. |
+| [E20](E20-release-readiness/EPIC.md) | Release Readiness | release | E08–E19, E21 | 9 | No new feature work — the gate that decides whether the gift may ship: every PRD §20 release-blocking check green in one suite, the airplane-mode acceptance run, the two human sign-offs (scholarly muṣḥaf proof + mutashābihāt review) and the adab checkpoint, the OSS trust pack, and the multi-channel release from one signed, provenance-attested tag. |
+| [E21](E21-new-memorization-sabaq-loop/EPIC.md) | New-Memorization (Sabaq) Loop & Beginner Path | feature | E04, E11, E12, E13, E16 | 9 | The missing "growing your hifz" half — sabaq intake (a newly-memorized page → a scheduled NEW card via a seed primitive + transactional write path), reader/Today "start memorizing" surfaces, the zero-juz beginner onboarding branch, per-profile placement, wired new-lines/pause, and prayer-critical seeding. Closes audit blockers F01/F02/F04 and majors F11/F18. Builds in the feature waves; **E20 release gates on it.** |
 
-**Tasks: 203 task files across E01–E20 (142 original E01–E14; 61 retro-authored
-for E15–E20 on 2026-07-10). E01–E19 built; E20 unbuilt.**
+**Tasks: 203 committed task files across E01–E20 (142 original E01–E14; 61
+retro-authored for E15–E20 on 2026-07-10), plus E21 (9 tasks, authored as it is
+built). E01–E19 built; E21 in progress (2026-07-11); E20 unbuilt.**
 
 ## Dependency graph — build waves
 
