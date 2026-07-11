@@ -16,10 +16,10 @@ import 'constants.dart';
 /// to [farCycleDays] — this type is the engine's view, the persisted row stays
 /// in `models`.
 ///
-/// Fields are added by the dependency-ordered E04 tasks: E04-T10 lands
-/// [weights]; E04-T07 adds the cycle ceilings; E04-T08/T09 add the day budget
-/// and intake. All are named with defaults so a later field never breaks a
-/// construction site.
+/// Fields are added by the dependency-ordered tasks: E04-T10 lands [weights];
+/// E04-T07 adds the cycle ceilings; E04-T08 adds the day budget; **E21-T01 fills
+/// the reserved sabaq-intake slot ([newLinesPerDay])**. All are named with
+/// defaults so a later field never breaks a construction site.
 @immutable
 class EngineConfig {
   /// The FSRS-4.5 weight vector. Length asserted `== kFsrsWeightCount` where it
@@ -50,6 +50,15 @@ class EngineConfig {
   /// never dropping manzil. A plain minute count, not a retention dial.
   final int dailyBudgetMinutes;
 
+  /// The daily new-memorization (sabaq) intake allotment in **new lines/day**
+  /// (PRD §7.8, §15.1). **Default 0**: the app ships as pure maintenance; a value
+  /// is opt-in via the Custom cycle. The feature layer (E16) maps the persisted
+  /// `CycleConfig.newLinesPerDay` onto this, and the load balancer (E21-T03)
+  /// reads it to pace the daily New load — old before new, budget first, manzil
+  /// never dropped. A plain count, never a retention dial; no recommended number
+  /// is shown (no registered CLAIMS row exists for one).
+  final int newLinesPerDay;
+
   /// Creates an engine configuration. [weights] defaults to the published
   /// flashcard-average prior [kDefaultWeights45]; the cycle defaults are a
   /// one-juz-a-day shape the feature layer overrides per profile.
@@ -59,9 +68,11 @@ class EngineConfig {
     this.nearCeilingDays = 7,
     this.pureCycleMode = false,
     this.dailyBudgetMinutes = 30,
+    this.newLinesPerDay = 0,
   })  : assert(farCycleDays > 0, 'farCycleDays must be positive'),
         assert(nearCeilingDays > 0, 'nearCeilingDays must be positive'),
         assert(dailyBudgetMinutes >= 0, 'dailyBudgetMinutes must be ≥ 0'),
+        assert(newLinesPerDay >= 0, 'newLinesPerDay must be ≥ 0'),
         assert(
           nearCeilingDays <= farCycleDays,
           'nearCeilingDays must never be looser than farCycleDays (06 §6).',
