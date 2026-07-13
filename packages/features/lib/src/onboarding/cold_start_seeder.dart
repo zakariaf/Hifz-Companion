@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import 'package:data/data.dart' show ColdStartRepository, ReferenceRepository;
-import 'package:engine/engine.dart' show CardSeed, ColdStart, SchedulingEngine;
+import 'package:engine/engine.dart'
+    show CalendarDate, CardSeed, ColdStart, JuzConfidence, SchedulingEngine;
 import 'package:models/models.dart'
     show
         CycleConfig,
@@ -52,29 +53,14 @@ class ColdStartSeeder {
   /// republish the active profile until this resolves.
   Future<ProfileId> commitPlacement(PlacementInput input) async {
     final profileId = ProfileId(_newId());
-    final orderedJuz = input.coverage.toList()..sort();
-    // The per-juz page-span reads are independent — run them concurrently and
-    // keep juz order (Future.wait preserves input order). The engine is the sole
-    // source of (D, S, track); a held-but-unrated juz yields no card.
-    final seedGroups = await Future.wait(
-      orderedJuz.map((juz) async {
-        final juzConfidence = input.confidence[juz];
-        if (juzConfidence == null) return const <CardSeed>[];
-        final pageIds = await _reference.pageIdsForJuz(juz);
-        return [
-          // One coldStartCard call per PAGE (a juz spans ~20 pages), threading
-          // the optional captured memorizedOn for stale-time decay.
-          for (final pageId in pageIds)
-            _engine.coldStartCard(
-              pageId,
-              juzConfidence,
-              input.today,
-              memorizedOn: input.memorizedOn[juz],
-            ),
-        ];
-      }),
+    // The engine is the sole source of (D, S, track); a held-but-unrated juz
+    // yields no card. Shared with per-profile placement (E21-T05) via _seedsFor.
+    final seeds = await _seedsFor(
+      coverage: input.coverage,
+      confidence: input.confidence,
+      today: input.today,
+      memorizedOn: input.memorizedOn,
     );
-    final seeds = [for (final group in seedGroups) ...group];
     final profile = Profile(
       profileId: profileId,
       displayName: 'self',
@@ -93,6 +79,59 @@ class ColdStartSeeder {
       seeds,
     );
     return profileId;
+  }
+
+  /// Seeds the held pages of an **existing** [profile] (E21-T05) — the per-profile
+  /// placement for an in-app-created student/child that was born with no cards
+  /// (F04). It reuses the profile's existing [cycle] (no new preset step) and the
+  /// same conservative engine priors as onboarding; a held-but-unrated juz yields
+  /// no card. One all-or-nothing [ColdStartRepository.seedColdStart] transaction,
+  /// committed before the caller republishes — intended for a profile with no
+  /// cards yet (fresh placement, not a re-seed over live state).
+  Future<void> placeExistingProfile(
+    Profile profile,
+    CycleConfig cycle, {
+    required Set<int> coverage,
+    required Map<int, JuzConfidence> confidence,
+    required CalendarDate today,
+    Map<int, CalendarDate> memorizedOn = const <int, CalendarDate>{},
+  }) async {
+    final seeds = await _seedsFor(
+      coverage: coverage,
+      confidence: confidence,
+      today: today,
+      memorizedOn: memorizedOn,
+    );
+    await _coldStart.seedColdStart(profile, cycle, seeds);
+  }
+
+  /// The conservative per-page seeds for the held+rated juz (the pure engine is
+  /// the sole source of `(D, S, track)`). Shared by onboarding and per-profile
+  /// placement so the seed rule lives in exactly one place.
+  Future<List<CardSeed>> _seedsFor({
+    required Set<int> coverage,
+    required Map<int, JuzConfidence> confidence,
+    required CalendarDate today,
+    required Map<int, CalendarDate> memorizedOn,
+  }) async {
+    final orderedJuz = coverage.toList()..sort();
+    final seedGroups = await Future.wait(
+      orderedJuz.map((juz) async {
+        final juzConfidence = confidence[juz];
+        if (juzConfidence == null) return const <CardSeed>[];
+        final pageIds = await _reference.pageIdsForJuz(juz);
+        return [
+          for (final pageId in pageIds)
+            _engine.coldStartCard(
+              pageId,
+              juzConfidence,
+              today,
+              memorizedOn: memorizedOn[juz],
+            ),
+        ];
+      }),
+    );
+    return [for (final group in seedGroups) ...group];
   }
 }
 

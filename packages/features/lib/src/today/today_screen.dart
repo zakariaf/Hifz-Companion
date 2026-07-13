@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import 'package:composition/composition.dart' show activeCycleConfigProvider;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,7 +9,9 @@ import 'package:go_router/go_router.dart';
 import 'package:l10n/l10n.dart';
 
 import '../a11y/reduce_motion_substitution.dart';
+import '../design_system/theme/spacing_tokens.dart';
 import '../recite/recite_route.dart';
+import '../sabaq/sabaq_pace.dart';
 import 'today_providers.dart';
 import 'today_session.dart';
 import 'widgets/budget_feedback_line.dart';
@@ -37,7 +40,8 @@ class TodayScreen extends ConsumerWidget {
     // Each state carries a distinct key so the calm content cross-fade (instant
     // under the OS Reduce Motion flag, E08-T05) is detected on transition.
     final content = session.when(
-      loading: () => const SessionSkeleton(key: ValueKey<String>('today.loading')),
+      loading: () =>
+          const SessionSkeleton(key: ValueKey<String>('today.loading')),
       error: (error, _) => TodayRetryView(
         key: const ValueKey<String>('today.error'),
         message: l10n.commonRetry,
@@ -94,19 +98,31 @@ class _TodayDay extends ConsumerWidget {
           juzOf: (pageId) => juzMap[pageId] ?? 0,
           onOpen: (pageId) => context.push(reciteLocation(pageId)),
         );
+        // The calm "start a new lesson" affordance shows only when new
+        // memorization is on (newLinesPerDay > 0) — it opens the reader, where
+        // the ḥāfiẓ marks the page memorized (E21-T06/T07). Gated on the pace,
+        // unlike the always-available reader control; "pause new sabaq" hides it.
+        final config = ref.watch(activeCycleConfigProvider).asData?.value;
+        final startLesson = config != null && sabaqIntakeActive(config)
+            ? _StartNewLessonPrompt(onStart: () => context.push('/mushaf'))
+            : null;
         // The honest budget-feedback line sits above the still-complete day —
-        // FAR/manzil is never dropped to fit (E12-T04). The choices deep-link to
-        // the E16-owned settings (a single settings surface until E16 splits it).
-        if (!session.budgetOverflow) return list;
-        void toSettings() => context.push('/settings');
+        // FAR/manzil is never dropped to fit (E12-T04). The three choices
+        // deep-link to the Cycle settings group (named cycle, daily budget,
+        // new-lesson cadence) — the control that actually changes the load —
+        // rather than the top of Settings.
+        if (!session.budgetOverflow && startLesson == null) return list;
+        void toCycleSettings() => context.push('/settings?focus=cycle');
         return Column(
           children: <Widget>[
-            BudgetFeedbackLine(
-              onRaiseBudget: toSettings,
-              onLengthenCycle: toSettings,
-              onPauseNewSabaq: toSettings,
-            ),
+            if (session.budgetOverflow)
+              BudgetFeedbackLine(
+                onRaiseBudget: toCycleSettings,
+                onLengthenCycle: toCycleSettings,
+                onPauseNewSabaq: toCycleSettings,
+              ),
             Expanded(child: list),
+            if (startLesson != null) startLesson,
           ],
         );
       },
@@ -114,10 +130,39 @@ class _TodayDay extends ConsumerWidget {
   }
 }
 
+/// The calm "start a new lesson" affordance (E21-T06): a quiet button that opens
+/// the muṣḥaf reader, where a newly-memorized page is marked. Shown only when new
+/// memorization is on (the sabaq pace > 0); never a number, badge, or celebration.
+class _StartNewLessonPrompt extends StatelessWidget {
+  const _StartNewLessonPrompt({required this.onStart});
+
+  final VoidCallback onStart;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final space = Theme.of(context).extension<SpacingTokens>()!;
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(
+        space.space4,
+        space.space2,
+        space.space4,
+        space.space4,
+      ),
+      child: OutlinedButton.icon(
+        key: const ValueKey<String>('today.startNewLesson'),
+        onPressed: onStart,
+        icon: const Icon(Icons.bookmark_add_outlined),
+        label: Text(l10n.todayStartNewLesson),
+      ),
+    );
+  }
+}
+
 /// The catch-up state: the calm re-spread banner after a gap. Accepting or
 /// deferring the plan resumes into the ordinary day for this slice (the
 /// persisted accept-state lands with E16/E04 wiring); accept fires only the calm
-/// `haptic.confirm`, never a celebration. Adjust deep-links to settings.
+/// `haptic.confirm`, never a celebration. Adjust deep-links to the cycle settings.
 class _CatchUpView extends ConsumerStatefulWidget {
   const _CatchUpView({required this.session, super.key});
 
@@ -159,7 +204,7 @@ class _CatchUpViewState extends ConsumerState<_CatchUpView> {
           HapticFeedback.lightImpact();
           setState(() => _dismissed = true);
         },
-        onAdjust: () => context.push('/settings'),
+        onAdjust: () => context.push('/settings?focus=cycle'),
         onDefer: () => setState(() => _dismissed = true),
       ),
     );

@@ -31,7 +31,8 @@ void main() {
     });
 
     test('the parser accepts every grade tag in the legend', () {
-      // "covering every grade": the parser maps each of the seven legend tags.
+      // "covering every grade": the parser maps each legend tag — the seven
+      // evidence grades and the non-evidence [RULE].
       for (final grade in EvidenceGrade.values) {
         final tag = grade.name.toUpperCase();
         final json = '{"version":1,"claims":[{"id":"C-900","group":"A",'
@@ -41,12 +42,14 @@ void main() {
       }
     });
 
-    test('the register spans the empirical + traditional grades it uses', () {
+    test('the register spans the empirical + traditional + rule grades it uses',
+        () {
       final used = {
         for (final row in claimsRegister) ...row.grades,
       };
       // The legend lists [RCT] but no Hifz claim rests on a randomized trial;
-      // the register spans the other six grades.
+      // the register spans the other six evidence grades plus the non-evidence
+      // [RULE] (C-048's offline/no-microphone covenant).
       expect(
         used,
         containsAll(const [
@@ -56,6 +59,7 @@ void main() {
           EvidenceGrade.obs,
           EvidenceGrade.text,
           EvidenceGrade.trad,
+          EvidenceGrade.rule,
         ]),
       );
       expect(EvidenceGrade.values, containsAll(used),
@@ -74,9 +78,11 @@ void main() {
       expect(decay.sources.first.label, contains('Bukhārī'));
     });
 
-    test('C-048 TRAD-equivalent project rule loads as a trad row, no URL', () {
+    test('C-048 loads as a non-evidence [RULE] project-rule row, no URL', () {
       final offline = claimsRegister.firstWhere((r) => r.id == 'C-048');
-      expect(offline.grades, [EvidenceGrade.trad]);
+      // The offline/no-microphone covenant is a product rule, never coerced to
+      // TRAD ("traditional scholarship") — it carries the non-evidence RULE grade.
+      expect(offline.grades, [EvidenceGrade.rule]);
       expect(offline.sources.single.url, isNull,
           reason: 'a project-rule source has no external link',);
     });

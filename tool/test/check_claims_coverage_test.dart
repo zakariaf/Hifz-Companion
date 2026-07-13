@@ -37,10 +37,10 @@ void main() {
       expect(grades['C-035'], {'trad'});
     });
 
-    test('reduces "[TRAD-equivalent project rule]" to {trad}', () {
+    test('reads C-048\'s non-evidence project-rule grade [RULE] as {rule}', () {
       const md = '| ID | C | V | S | Grade | A | N |\n'
-          '| C-048 | offline | rule | (design) | [TRAD-equivalent project rule] | S | n |';
-      expect(docGrades(md)['C-048'], {'trad'});
+          '| C-048 | offline | rule | (design) | [RULE] | S | n |';
+      expect(docGrades(md)['C-048'], {'rule'});
     });
   });
 

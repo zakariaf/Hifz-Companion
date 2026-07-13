@@ -106,6 +106,65 @@ void main() {
     });
   });
 
+  group('the from-zero beginner branch (E21-T04; F02)', () {
+    test('a zero-juz beginner is blocked at coverage until "just starting"', () {
+      final c = makeContainer();
+      advanceTo(c, OnboardingStep.coverage);
+      // No held juz and not "just starting" → the coverage step still blocks.
+      expect(read(c).coverage, isEmpty);
+      expect(ctrl(c).canAdvance, isFalse);
+      // Choosing "I'm just starting" unblocks it (F02).
+      ctrl(c).setJustStarting(value: true);
+      expect(read(c).justStarting, isTrue);
+      expect(ctrl(c).canAdvance, isTrue);
+    });
+
+    test('a beginner advances coverage → cyclePreset, skipping confidence', () {
+      final c = makeContainer();
+      advanceTo(c, OnboardingStep.coverage);
+      ctrl(c)
+        ..setJustStarting(value: true)
+        ..next();
+      // The (empty) confidence step is skipped — a beginner has nothing to rate.
+      expect(read(c).cursor, OnboardingStep.cyclePreset);
+      // …and back symmetrically returns to coverage, never the empty confidence.
+      ctrl(c).back();
+      expect(read(c).cursor, OnboardingStep.coverage);
+    });
+
+    test('a beginner commits into an empty, ready-to-grow schedule', () {
+      final c = makeContainer();
+      advanceTo(c, OnboardingStep.coverage);
+      ctrl(c).setJustStarting(value: true);
+      final s = read(c);
+      // Nothing to seed — the placement is empty (cold-start seeds zero cards).
+      expect(s.coverage, isEmpty);
+      expect(s.confidence, isEmpty);
+    });
+
+    test('holding any juz clears the beginner branch (mutually exclusive)', () {
+      final c = makeContainer();
+      advanceTo(c, OnboardingStep.coverage);
+      ctrl(c).setJustStarting(value: true);
+      expect(read(c).justStarting, isTrue);
+      ctrl(c).toggleJuz(5);
+      expect(read(c).justStarting, isFalse);
+      expect(read(c).coverage, {5});
+    });
+
+    test('choosing "just starting" clears any held juz + ratings', () {
+      final c = makeContainer();
+      ctrl(c)
+        ..toggleJuz(3)
+        ..setJuzConfidence(3, JuzConfidence.solid)
+        ..setJustStarting(value: true);
+      final s = read(c);
+      expect(s.coverage, isEmpty);
+      expect(s.confidence, isEmpty);
+      expect(s.justStarting, isTrue);
+    });
+  });
+
   group('cursor + guards', () {
     test('next() from language does not advance without a locale', () {
       final c = makeContainer();

@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hifz Companion — Full-App Audit (2026-07-10)</title>
+<style>
+  :root {
+    --paper: #f7f5ef;
+    --ink: #22301f;
+    --ink-2: #5a6653;
+    --line: #dcd9cc;
+    --accent: #2e6b4f;
+    --accent-soft: #e3ede6;
+    --card: #fdfcf8;
+    --blocker: #8c3b2e;
+    --blocker-soft: #f3e4e0;
+    --major: #8a6a1f;
+    --major-soft: #f2ead6;
+    --minor: #5a6653;
+    --minor-soft: #e9e7dd;
+    --good: #2e6b4f;
+    --mono: "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #171c15;
+      --ink: #e4e6da;
+      --ink-2: #9aa48e;
+      --line: #333b2e;
+      --accent: #7fb89a;
+      --accent-soft: #24312a;
+      --card: #1e241b;
+      --blocker: #d98d7c;
+      --blocker-soft: #35231f;
+      --major: #d4b46a;
+      --major-soft: #322a18;
+      --minor: #9aa48e;
+      --minor-soft: #262b22;
+      --good: #7fb89a;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #171c15; --ink: #e4e6da; --ink-2: #9aa48e; --line: #333b2e;
+    --accent: #7fb89a; --accent-soft: #24312a; --card: #1e241b;
+    --blocker: #d98d7c; --blocker-soft: #35231f;
+    --major: #d4b46a; --major-soft: #322a18;
+    --minor: #9aa48e; --minor-soft: #262b22; --good: #7fb89a;
+  }
+  :root[data-theme="light"] {
+    --paper: #f7f5ef; --ink: #22301f; --ink-2: #5a6653; --line: #dcd9cc;
+    --accent: #2e6b4f; --accent-soft: #e3ede6; --card: #fdfcf8;
+    --blocker: #8c3b2e; --blocker-soft: #f3e4e0;
+    --major: #8a6a1f; --major-soft: #f2ead6;
+    --minor: #5a6653; --minor-soft: #e9e7dd; --good: #2e6b4f;
+  }
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: var(--serif);
+    line-height: 1.6; margin: 0; padding: 0 20px 80px;
+    font-size: 17px;
+  }
+  main { max-width: 72ch; margin: 0 auto; }
+  header.report { padding: 56px 0 8px; border-bottom: 2px solid var(--ink); margin-bottom: 8px; }
+  .eyebrow {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--accent); margin: 0 0 14px;
+  }
+  h1 { font-size: 34px; line-height: 1.15; margin: 0 0 10px; text-wrap: balance; font-weight: 600; }
+  .sub { color: var(--ink-2); margin: 0 0 26px; font-size: 16px; }
+  .statrow { display: flex; flex-wrap: wrap; gap: 10px 26px; padding: 14px 0 18px; font-variant-numeric: tabular-nums; }
+  .stat { display: flex; flex-direction: column; gap: 2px; }
+  .stat b { font-size: 24px; font-weight: 600; line-height: 1; }
+  .stat span { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+  .stat.blocker b { color: var(--blocker); }
+  .stat.major b { color: var(--major); }
+  .stat.good b { color: var(--good); }
+  h2 {
+    font-size: 22px; margin: 44px 0 12px; font-weight: 600; text-wrap: balance;
+    padding-top: 18px; border-top: 1px solid var(--line);
+  }
+  h2 .k { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: .12em; display: block; margin-bottom: 6px; text-transform: uppercase; font-weight: 400; }
+  p { margin: 0 0 14px; }
+  .verdict {
+    background: var(--accent-soft); border-inline-start: 3px solid var(--accent);
+    padding: 16px 20px; margin: 20px 0; border-radius: 2px;
+  }
+  .verdict p { margin: 0; font-size: 18px; }
+  .finding {
+    background: var(--card); border: 1px solid var(--line);
+    border-inline-start: 4px solid var(--minor);
+    border-radius: 3px; padding: 14px 18px; margin: 0 0 12px;
+  }
+  .finding.sev-blocker { border-inline-start-color: var(--blocker); }
+  .finding.sev-major { border-inline-start-color: var(--major); }
+  .finding h3 { margin: 0 0 6px; font-size: 16.5px; font-weight: 600; line-height: 1.35; }
+  .finding p { margin: 0; font-size: 15px; color: var(--ink-2); }
+  .tag {
+    display: inline-block; font-family: var(--mono); font-size: 11px;
+    letter-spacing: .08em; padding: 2px 8px; border-radius: 10px;
+    vertical-align: 2px; margin-inline-end: 8px;
+  }
+  .tag.blocker { background: var(--blocker-soft); color: var(--blocker); }
+  .tag.major { background: var(--major-soft); color: var(--major); }
+  .tag.minor { background: var(--minor-soft); color: var(--minor); }
+  code { font-family: var(--mono); font-size: .85em; background: var(--minor-soft); padding: 1px 5px; border-radius: 3px; }
+  ol.prio { padding-inline-start: 22px; }
+  ol.prio li { margin-bottom: 10px; }
+  ul.compact { padding-inline-start: 22px; }
+  ul.compact li { margin-bottom: 6px; font-size: 15px; }
+  .envbox { background: var(--card); border: 1px solid var(--line); border-radius: 3px; padding: 16px 20px; margin: 16px 0; }
+  .envbox h3 { margin: 0 0 8px; font-size: 16px; }
+  .envbox p, .envbox li { font-size: 15px; }
+  .foot { margin-top: 56px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--ink-2); font-size: 13.5px; font-family: var(--mono); line-height: 1.7; }
+  strong { font-weight: 600; }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+<header class="report">
+  <p class="eyebrow">Hifz Companion · Product &amp; Code Audit</p>
+  <h1>The foundations are solid. The growth half of the product was never built.</h1>
+  <p class="sub">Branch <code>epic/redesign-mihrab-architecture</code> · audited 2026-07-10 · 12 audit lanes, merged &amp; adversarially verified · durable copy in <code>docs/audits/2026-07-10-full-app-audit.md</code></p>
+  <div class="statrow">
+    <div class="stat blocker"><b>5</b><span>Blockers</span></div>
+    <div class="stat major"><b>13</b><span>Major</span></div>
+    <div class="stat"><b>16</b><span>Minor</span></div>
+    <div class="stat"><b>0</b><span>Refuted on re-check</span></div>
+    <div class="stat good"><b>1,438</b><span>Tests green</span></div>
+    <div class="stat good"><b>0</b><span>Analyzer issues</span></div>
+  </div>
+</header>
+
+<div class="verdict">
+  <p><strong>A full refactor is not warranted.</strong> The engine math, persistence, backup format, and recite→grade spine are verified-solid. What's wrong is specific and listable: capabilities built but never wired, and the entire new-memorization loop missing. Your instinct about beginners was right — confirmed at blocker severity by seven independent auditors.</p>
+</div>
+
+<h2><span class="k">Environment</span>Why it "didn't work" on this laptop — before any code finding</h2>
+<div class="envbox">
+  <h3>Two machine-local causes, one fixed, one confirmed as blocker F03</h3>
+  <p><strong>1. SDK (fixed).</strong> The migrated Flutter 3.24.3 couldn't resolve this repo at all. Now upgraded and pinned to 3.41.2 — CI parity, zero lockfile drift; the app builds and launches in the iOS simulator.</p>
+  <p><strong>2. Muṣḥaf assets (F03).</strong> The 604 KFGQPC fonts + 3 data files are deliberately gitignored, the app is bundle-first (the downloader is dead code), and the fetch tool writes the wrong formats to the wrong directory. On any fresh checkout, onboarding dead-ends at Core setup with a Retry that can never succeed. Your old laptop worked because the files sat untracked in its working tree. <strong>Quick unblock: copy <code>app/assets/quran/</code> from the old laptop.</strong></p>
+</div>
+
+<h2><span class="k">Findings</span>Blockers — each survived adversarial verification</h2>
+
+<div class="finding sev-blocker"><h3><span class="tag blocker">F01</span>No new-memorization (sabaq) intake exists anywhere</h3>
+<p>No way to record "I memorized a new page" — ever. <code>sabaqLines</code> (required by PRD §7.8 and E04-T08's own acceptance criteria) has zero hits in the codebase; <code>EngineConfig</code> has no intake field; the card repository is read-only; grading a card-less page throws. A beginner can never start, and an existing ḥāfiẓ's schedule can never grow.</p></div>
+
+<div class="finding sev-blocker"><h3><span class="tag blocker">F02</span>Onboarding hard-blocks a zero-juz beginner</h3>
+<p>The coverage step requires marking at least one juz as held (<code>onboarding_view_model.dart:541</code>) — no "I'm just starting" branch, no explanation, Continue permanently disabled. The only escape is lying, which seeds retrieval cards for unmemorized pages — explicitly wrong per the project's own science docs.</p></div>
+
+<div class="finding sev-blocker"><h3><span class="tag blocker">F03</span>A from-source build dead-ends at Core setup</h3>
+<p>Assets gitignored by design + bundle-first runtime that never downloads + a broken fetch tool = no reproducible route from this repo to a runnable app. Fail-closed behavior working exactly as designed, with no path forward.</p></div>
+
+<div class="finding sev-blocker"><h3><span class="tag blocker">F04</span>Profiles created in-app are permanently empty</h3>
+<p><code>profiles_controller.dart:57</code> seeds zero cards; no placement path exists for an existing profile (the re-onboarding controller designed for this is unreachable dead code). A teacher's students and a parent's child profiles sit on "all done" forever — nothing to sign off.</p></div>
+
+<div class="finding sev-blocker"><h3><span class="tag blocker">F05</span>The Mutashābihāt trainer ships with no dataset</h3>
+<p>Loader, parser, tables, drill UI, and the engine's confusion-bump all built and tested — but no confusables data file exists in the repo, none is in the pinned manifest, and the loader has zero production callers. A headline nav tab is a permanent empty state.</p></div>
+
+<h2><span class="k">Findings</span>Major — confirmed</h2>
+
+<div class="finding sev-major"><h3><span class="tag major">F06</span>Mutashābihāt scheduling never fires in the live app</h3><p>Sibling massing isn't injected into <code>buildToday</code>, the confusion D-bump has zero callers, swaps are never logged from real flows.</p></div>
+<div class="finding sev-major"><h3><span class="tag major">F07</span>Cold start makes the entire held Quran due on day one</h3><p>Up to 604 pages, all mandatory, permanent overflow — the <code>dueFar</code> union defeats the PRD's own "nobody can grade 604 pages on day one" calibration spread.</p></div>
+<div class="finding sev-major"><h3><span class="tag major">F08</span>Graduation gates and the recent-juz window have no scheduling effect</h3><p><code>phaseOf</code> reads the stability band and ignores the stored track; <code>recentWindow</code> is never injected; the "near window (juz)" setting is inert.</p></div>
+<div class="finding sev-major"><h3><span class="tag major">F09</span>"7-Manzil weekly khatm" never recites a contiguous manzil</h3><p>Index-modulo scatter re-sorted weakest-first — unrecognizable as the manzil system to the audience this app serves. The juz map needed to fix it already exists, unused.</p></div>
+<div class="finding sev-major"><h3><span class="tag major">F10</span>The missed-day catch-up plan is cosmetic</h3><p>Accept/defer is local widget state; the engine's re-spread is computed and thrown away; the backlog stays fully due.</p></div>
+<div class="finding sev-major"><h3><span class="tag major">F11</span>Dead controls: "new lines per day" and "pause new sabaq"</h3><p>Persisted values that nothing reads — the user-facing face of F01. Reads as broken, not missing.</p></div>
+<div class="finding sev-major"><h3><span class="tag major">F12</span>Active profile silently reverts to the first-created profile on relaunch</h3><p>The <code>app_meta.active_profile</code> key is documented and specced (E16-T08) but never implemented — on a teacher device, reviews land in the wrong student's append-only sanad log.</p></div>
+<div class="finding sev-major"><h3><span class="tag major">F13</span>Cross-device teacher↔student merge duplicates the student</h3><p>Profiles get fresh UUIDs per device and merge keys on UUID — the union machinery is sound, the identity model that would make it useful is missing.</p></div>
+<div class="finding sev-major"><h3><span class="tag major">F14</span>No single-student export</h3><p>Only export-all exists; sharing one student's file discloses every other student's record. E16 and E17 each assigned this to the other.</p></div>
+<div class="finding sev-major"><h3><span class="tag major">F15</span>No profile switcher or active-profile indicator anywhere in the chrome</h3><p>Specced in E16-T09/T10, skipped — a teacher never sees whose log they're signing.</p></div>
+<div class="finding sev-major"><h3><span class="tag major">F16</span>"Mark my memorized range" is absent</h3><p>Coverage is write-once at onboarding, forever. E11 defers the tool to E13; E13 defers it back to E11.</p></div>
+<div class="finding sev-major"><h3><span class="tag major">F17</span>"Start revision here" from the reader is absent</h3><p>Recite is reachable only from a Today due-row; any page not due today is un-revisable on demand.</p></div>
+<div class="finding sev-major"><h3><span class="tag major">F18</span>The prayer-critical retention tier is inert</h3><p>The 0.97 floor for Fātiḥa, Mulk, Kahf etc. is honored by the math, but no card is ever marked prayer-critical — no seeding, no UI.</p></div>
+
+<h2><span class="k">Findings</span>Minor (16, includes 2 downgraded on verification)</h2>
+<ul class="compact">
+  <li><span class="tag minor">F19</span>Solo users' <em>stored track</em> never graduates (teacher-gated) — masked today because scheduling ignores the track; needs an explicit design decision. <em>Downgraded from major.</em></li>
+  <li><span class="tag minor">F20</span>The advertised asset downloader is deliberate dormant code, but the in-repo README still promises a runtime download. <em>Docs drift.</em></li>
+  <li><span class="tag minor">F21</span>Weekly-khatm budget is mathematically unsatisfiable (~86 pages × 2 min &gt; 120-min cap) — "raise budget" is a non-solution offered daily.</li>
+  <li><span class="tag minor">F22</span>Catch-up page cards look tappable but do nothing (empty handler).</li>
+  <li><span class="tag minor">F23</span>Backup-merge replay derives days from UTC instants instead of stored <code>elapsedDays</code> — ±1-day drift risk.</li>
+  <li><span class="tag minor">F24</span>Chronically-weak-line channel unwired — per-review stumbles passed instead of the persistent tally; line blocks never persisted.</li>
+  <li><span class="tag minor">F25</span>Teacher manual-lock honored by the engine, settable nowhere.</li>
+  <li><span class="tag minor">F26</span>No first-run "getting started" surface — a zero-work day-1 user sees "Today's revision is complete."</li>
+  <li><span class="tag minor">F27</span>Today's section headers ignore the chosen sabaq/sabqi/manzil term-set.</li>
+  <li><span class="tag minor">F28</span>The reader shows the riwāyah in hardcoded Latin transliteration, unlike every other surface.</li>
+  <li><span class="tag minor">F29</span>Settings is missing the numeral-system picker and Quran font-size control promised in PRD §15.2.</li>
+  <li><span class="tag minor">F30</span>The optional reciter-audio pack is unimplemented with no build-plan home.</li>
+  <li><span class="tag minor">F31</span><code>app_meta.schema_version</code> written once, never bumped or read.</li>
+  <li><span class="tag minor">F32</span>Orphaned walking-skeleton placeholder widgets still exported.</li>
+  <li><span class="tag minor">F33</span>~2/3 of religious copy still "provisional — needs native + scholarly review" (a documented E20 launch gate, not yet satisfied).</li>
+  <li><span class="tag minor">F34</span>Reminder opt-in lives in Settings, not onboarding — <strong>verified as working-as-designed; no gap.</strong></li>
+</ul>
+
+<h2><span class="k">Diagnosis</span>The pattern behind the findings</h2>
+<p>Almost every serious finding is one of three shapes:</p>
+<ul class="compact">
+  <li><strong>Engine-ready, app-unwired</strong> (F06, F08, F10, F18, F24, F25): the pure layer was built and tested to spec; the composition layer never passed the data or called the function.</li>
+  <li><strong>Fell between two epics</strong> (F01's entry surface, F14, F16): each epic's EPIC.md defers ownership to the other; no task file ever owned it.</li>
+  <li><strong>Silently resolved doc conflicts</strong> (F07, F09, F19): the PRD and task files disagree, and the code picked a side quietly — exactly what CLAUDE.md says must be surfaced instead.</li>
+</ul>
+<p>None of this indicts the architecture. The fix is wiring, intake, and a handful of missing surfaces — ordered task work, not a rewrite.</p>
+
+<h2><span class="k">Plan</span>Recommended priority order</h2>
+<ol class="prio">
+  <li><strong>F03 — a reproducible runnable build.</strong> Fix the asset fetch/normalize tooling. Nothing else can be verified end-to-end until a fresh clone runs.</li>
+  <li><strong>F01 + F02 + F11 + F04 — the new-memorization loop.</strong> Sabaq intake, a beginner path through onboarding, wire <code>newLinesPerDay</code>, placement for in-app profiles. One coherent epic; your core complaint.</li>
+  <li><strong>F07 — day-one calibration spread</strong> so a complete ḥāfiẓ doesn't face 604 mandatory pages on first launch.</li>
+  <li><strong>F05 + F06 — mutashābihāt data + wiring</strong> (scholar-reviewed dataset, massing, confusion logging).</li>
+  <li><strong>F12 + F15 + F14 + F13 — the teacher/halaqa loop</strong> (persist active profile, switcher chip, single-student export, cross-device identity).</li>
+  <li><strong>F09, F10, F16, F17, F18</strong> — tradition-true manzil slicing, real catch-up persistence, coverage editing, reader hand-off, prayer-critical seeding.</li>
+</ol>
+
+<h2><span class="k">Companion</span>E15–E20 build-vs-spec comparison (separate report)</h2>
+<p>The five "built blind" epics were audited against their retro-authored task specs (61 new task files; per-task verdicts, adversarially adjudicated). Consistent result: <strong>the non-negotiables held; the breadth didn't</strong> — E15 8 partial/2 divergent/1 not-built, E16 4 met/8 short, E17 format core faithful but the import path coerces hostile Argon2 params instead of refusing, E18 behaviorally faithful under a different architecture, E19 real but with a <strong>blocker: the C-048 grade coercion labels the app's own design rule as "traditional scholarship" on the trust screen</strong>, E20 fully unbuilt. Two remove-from-code honesty items (E19 coercion, E15's crisp ۸۷٪ percentage) jump the queue. Full detail: <code>docs/audits/2026-07-10-e15-e20-build-vs-spec.md</code>.</p>
+
+<p class="foot">Method: 12 Opus audit lanes (5 persona journeys + 7 subsystem deep-dives) → cross-auditor merge → one adversarial verifier per blocker/major finding (each instructed to refute; 0 refuted in the final pass, 1 claim refuted in an earlier pass and corrected). Two persona lanes returned degraded output during a rate-limit window; their ground was covered by the other ten. Companion checks: analyzer clean, 1,438 tests green on Flutter 3.41.2, app built and launched on iOS simulator. Durable copies: docs/audits/2026-07-10-full-app-audit.md and docs/audits/2026-07-10-e15-e20-build-vs-spec.md · Full file:line evidence: workflow journals wf_ab471aff-ffd and wf_726ad15b-910.</p>
+</main>
+</body>
+</html>

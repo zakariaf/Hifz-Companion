@@ -12,9 +12,9 @@
 //      vice-versa (no orphan rendered claim, no silently-dropped row).
 //   2. Grade fidelity — for every claim, the bundled grades exactly match the
 //      standard grade tags in the doc's Grade column (no invented, no dropped
-//      grade). C-048's "[TRAD-equivalent project rule]" reduces to {TRAD}.
+//      grade). C-048 carries the non-evidence project-rule grade [RULE].
 //   3. Structural integrity — every bundled claim carries ≥1 source and ≥1
-//      known grade (MA/RCT/EXP/CS/OBS/TEXT/TRAD), never an unknown tag.
+//      known grade (MA/RCT/EXP/CS/OBS/TEXT/TRAD/RULE), never an unknown tag.
 //
 // A violation is a release-blocking defect, not a copy nit. Dependency-free
 // (dart:convert + dart:io). Usage: dart run tool/check_claims_coverage.dart.
@@ -26,7 +26,8 @@ const String _defaultClaimsMd = 'docs/science/CLAIMS.md';
 const String _defaultRegisterDart =
     'packages/features/lib/src/science/claims_register_data.dart';
 
-/// The seven evidence-grade names (lower-case), mirroring `EvidenceGrade`.
+/// The known grade names (lower-case), mirroring `EvidenceGrade`: the seven
+/// evidence grades plus the non-evidence `rule` (a hard product-rule claim).
 const Set<String> gradeNames = <String>{
   'ma',
   'rct',
@@ -35,6 +36,7 @@ const Set<String> gradeNames = <String>{
   'obs',
   'text',
   'trad',
+  'rule',
 };
 
 /// Extracts the bundled register JSON from its Dart raw-string literal. The data

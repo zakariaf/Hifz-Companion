@@ -9,6 +9,8 @@ import 'package:l10n/l10n.dart';
 import 'package:models/models.dart' show ConfusionEdge;
 
 import '../../design_system/banners/empty_state.dart';
+import '../../design_system/theme/mihrab_colors.dart';
+import '../../design_system/theme/spacing_tokens.dart';
 import '../discrimination_drill_route.dart';
 import '../mutashabihat_providers.dart';
 
@@ -27,6 +29,7 @@ class ConfusionHotspotsView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final space = Theme.of(context).extension<SpacingTokens>()!;
     final profile = ref.watch(activeProfileProvider);
     if (profile == null) return _empty(l10n);
     final hotspots = ref.watch(confusionHotspotsProvider(profile));
@@ -41,6 +44,10 @@ class ConfusionHotspotsView extends ConsumerWidget {
       data: (rows) => rows.isEmpty
           ? _empty(l10n)
           : ListView.builder(
+              padding: EdgeInsetsDirectional.only(
+                top: space.space2,
+                bottom: space.space6,
+              ),
               itemCount: rows.length,
               itemBuilder: (context, index) =>
                   _ConfusionHotspotRow(edge: rows[index]),
@@ -59,8 +66,10 @@ class ConfusionHotspotsView extends ConsumerWidget {
 }
 
 /// One confusion pair, named by its two āyah identities in locale numerals; the
-/// whole row taps into the pair's whole-group drill (group-not-node). A flat,
-/// label-only tile — no Quran glyph, no track chip, no decay gauge, no number.
+/// whole row taps into the pair's whole-group drill (group-not-node). A calm
+/// cream card with a quiet terracotta reading-start spine and the pair shown as
+/// two glazed-tile pills joined by a swap glyph (concept 05) — no Quran glyph,
+/// no track chip, no decay gauge, and **no swap count / weight / score** (adab).
 class _ConfusionHotspotRow extends ConsumerWidget {
   const _ConfusionHotspotRow({required this.edge});
 
@@ -70,23 +79,67 @@ class _ConfusionHotspotRow extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final locale = Localizations.localeOf(context);
+    final scheme = Theme.of(context).colorScheme;
+    final colors = Theme.of(context).extension<MihrabColors>()!;
+    final space = Theme.of(context).extension<SpacingTokens>()!;
     final first = _ayahRef(l10n, locale, edge.ayahA);
     final second = _ayahRef(l10n, locale, edge.ayahB);
+    final cornerRadius = Radius.circular(space.space4);
+
     return MergeSemantics(
       child: Semantics(
         button: true,
         label: l10n.mutashabihatHotspotSemantic(first, second),
-        child: ListTile(
-          leading: const ExcludeSemantics(
-            child: Icon(Icons.compare_arrows_outlined),
+        child: Card(
+          margin: EdgeInsetsDirectional.symmetric(
+            horizontal: space.space4,
+            vertical: space.space2,
           ),
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [Text(first), Text(second)],
+          clipBehavior: Clip.antiAlias,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadiusDirectional.all(cornerRadius),
+            side: BorderSide(color: scheme.outlineVariant),
           ),
-          trailing: const Icon(Icons.chevron_left), // mirrors under RTL
-          onTap: () => _openDrill(context, ref),
+          child: DecoratedBox(
+            // A quiet terracotta spine down the reading-start (right in RTL)
+            // edge marks a confusion pair — a calm marker, never an alarm bar.
+            decoration: BoxDecoration(
+              border: BorderDirectional(
+                start: BorderSide(
+                  color: colors.semanticWarning,
+                  width: space.space2,
+                ),
+              ),
+            ),
+            child: ListTile(
+              contentPadding: EdgeInsetsDirectional.only(
+                start: space.space4,
+                end: space.space3,
+                top: space.space2,
+                bottom: space.space2,
+              ),
+              title: Row(
+                children: [
+                  Flexible(child: _AyahPill(label: first)),
+                  Padding(
+                    padding: EdgeInsetsDirectional.symmetric(
+                      horizontal: space.space2,
+                    ),
+                    child: ExcludeSemantics(
+                      child: Icon(
+                        Icons.swap_horiz,
+                        color: scheme.onSurfaceVariant,
+                        size: space.space5,
+                      ),
+                    ),
+                  ),
+                  Flexible(child: _AyahPill(label: second)),
+                ],
+              ),
+              trailing: const Icon(Icons.chevron_left), // mirrors under RTL
+              onTap: () => _openDrill(context, ref),
+            ),
+          ),
         ),
       ),
     );
@@ -116,6 +169,42 @@ class _ConfusionHotspotRow extends ConsumerWidget {
     return l10n.ayahRefLabel(
       isolateLtr(localeDigits(surah, locale)),
       isolateLtr(localeDigits(ayah, locale)),
+    );
+  }
+}
+
+/// One glazed-tile pill naming an āyah identity — a calm, non-interactive label
+/// in the green track-chip family (03 §2). Draws no glyph and carries no state.
+class _AyahPill extends StatelessWidget {
+  const _AyahPill({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<MihrabColors>()!;
+    final space = Theme.of(context).extension<SpacingTokens>()!;
+    final text = Theme.of(context).textTheme;
+    return DecoratedBox(
+      decoration: ShapeDecoration(
+        color: colors.trackChipSurface,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadiusDirectional.all(
+            Radius.circular(space.space2),
+          ),
+        ),
+      ),
+      child: Padding(
+        padding: EdgeInsetsDirectional.symmetric(
+          horizontal: space.space3,
+          vertical: space.space2,
+        ),
+        child: Text(
+          label,
+          textAlign: TextAlign.center,
+          style: text.labelLarge?.copyWith(color: colors.trackChipText),
+        ),
+      ),
     );
   }
 }

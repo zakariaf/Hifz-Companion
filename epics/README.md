@@ -14,12 +14,20 @@ the three doc sets (`docs/design-system/`, `docs/engineering/`,
   these are **not** phased releases. The whole gift ships at once, or not at all;
   nothing ships until E20 says every covenant is proven.
 
-> **Plan status.** Epics **E01–E14** carry their full per-task files. Epics
-> **E15–E20** are drafted to the same standard at the `EPIC.md` level — mission,
-> scope, dependencies, acceptance criteria — but their per-task `E##-T##-*.md`
-> files are **deferred** (marked *deferred* in the index below) and will be
-> written when their wave is reached. The plan is complete and honest at the
-> epic level end to end; it is task-complete through E14.
+> **Plan status.** Every epic **E01–E20** carries its full per-task files.
+> E15–E19 were *built before* their task files existed ("built blind" against
+> the EPIC.md + design docs); their `E##-T##-*.md` files were retro-authored
+> from the governing docs on 2026-07-10 and the build was then audited against
+> them — see `docs/audits/2026-07-10-e15-e20-build-vs-spec.md` for the per-task
+> verdicts and the add/amend/remove/defer adjustments, and
+> `docs/audits/2026-07-10-full-app-audit.md` for the whole-app audit. **E20
+> remains unbuilt** (specs ready, release never attempted).
+>
+> **E21 (added 2026-07-11)** is the audit's top remediation: the
+> new-memorization (sabaq) loop and beginner path that the original E01–E20 plan
+> never assigned an owner (audit F01/F02/F04). It is a **feature** epic — it
+> builds in the feature waves and E20 release gates on it. Its `EPIC.md` is
+> approved; its nine task files are authored as each task is built.
 
 ## Epic index
 
@@ -39,15 +47,17 @@ the three doc sets (`docs/design-system/`, `docs/engineering/`,
 | [E12](E12-today-and-recite-grade/EPIC.md) | Today & Recite-Grade Loop | feature | E07, E08, E09, E10, E04 | 9 | The daily front door and core loop: the finite, time-budget-capped Far→Near→New revision list, the reveal-on-tap recite flow with the four-level grade band and optional teacher sign-off, the calm catch-up banner, and calm receipt motion — no celebration. |
 | [E13](E13-mushaf-reader/EPIC.md) | Muṣḥaf Reader | feature | E05, E07, E10 | 10 | The immutable muṣḥaf reader: per-page glyph-font rendering, markers as coordinate overlays on the glyph layer, zoom/sepia/dark applied to the rendered layer (never the text), faithful page navigation, and the always-named riwāyah. |
 | [E14](E14-mutashabihat-trainer/EPIC.md) | Mutashābihāt Trainer | feature | E04, E05, E13 | 12 | The similar-verse interference subsystem: the scholar-reviewed confusables dataset, discrimination drills presenting whole confusable groups with anchor words highlighted as overlays, the personal confusion log, confusion-aware grading, and interference difficulty bumps. |
-| [E15](E15-progress-and-heatmap/EPIC.md) | Progress & Heat-map | feature | E04, E07, E08, E09, E10 | *deferred* | The whole-Quran retention heat-map — the 604-page / 30-juz cluster grid in muṣḥaf order, a calm green-receding-to-neutral ramp (never red), VSUP-muted uncertain pages, and a min-leaning juz roll-up — rendered read-only from streamed engine state; informs, never a streak, score, or scoreboard. |
-| [E16](E16-settings-profiles-teacher/EPIC.md) | Settings, Profiles & Teacher Sign-off | feature | E07, E08, E09, E10, E04 | *deferred* | The grouped Settings surface and device-local multi-profile system: the language/calendar/numeral/term-set/theme/muṣḥaf pickers and named cycle-preset controls (display transforms that never perturb a `due_at`), the self/student/child profiles, and the halaqa "switch student → sign off → next" loop — offline, account-free, no microphone. |
-| [E17](E17-backup-and-restore/EPIC.md) | Backup & Restore | feature | E03, E07, E10, E16 | *deferred* | The local, offline "never trapped" promise in bytes: the pure-Dart `.hifzbackup` container (magic + version + body SHA-256), the truth-only versioned JSON payload, replace-vs-merge restore as a set-union over the append-only `review_log`, optional Argon2id→ChaCha20-Poly1305 encryption, and the honest no-cloud tradeoff copy — the app never transmits the file. |
-| [E18](E18-reminders/EPIC.md) | Reminders | feature | E02, E07, E09, E16 | *deferred* | One calm, opt-in, off-by-default daily local notification — "Your revision for today is ready" — plus an optional framed-as-help catch-up note, as a rebuildable derived cache keyed off the injected local civil day; no guilt/fear/loss/streak framing, no escalation, no push, no server. |
-| [E19](E19-science-screen-and-claims/EPIC.md) | Science Screen & Claims | feature | E07, E09, E10, E04 | *deferred* | The offline "The science we follow" screen and the bundled CLAIMS register it renders read-only: each `C-NNN` claim a calm source row with a plain headline, a neutral evidence-certainty label, and a named/dated on-device source — no claim ships unsourced, every `[TRAD]` row names its source and issues no fiqh ruling. |
-| [E20](E20-release-readiness/EPIC.md) | Release Readiness | release | E08–E19 | *deferred* | No new feature work — the gate that decides whether the gift may ship: every PRD §20 release-blocking check green in one suite, the airplane-mode acceptance run, the two human sign-offs (scholarly muṣḥaf proof + mutashābihāt review) and the adab checkpoint, the OSS trust pack, and the multi-channel release from one signed, provenance-attested tag. |
+| [E15](E15-progress-and-heatmap/EPIC.md) | Progress & Heat-map | feature | E04, E07, E08, E09, E10 | 10 | The whole-Quran retention heat-map — the 604-page / 30-juz cluster grid in muṣḥaf order, a calm green-receding-to-neutral ramp (never red), VSUP-muted uncertain pages, and a min-leaning juz roll-up — rendered read-only from streamed engine state; informs, never a streak, score, or scoreboard. |
+| [E16](E16-settings-profiles-teacher/EPIC.md) | Settings, Profiles & Teacher Sign-off | feature | E07, E08, E09, E10, E04 | 12 | The grouped Settings surface and device-local multi-profile system: the language/calendar/numeral/term-set/theme/muṣḥaf pickers and named cycle-preset controls (display transforms that never perturb a `due_at`), the self/student/child profiles, and the halaqa "switch student → sign off → next" loop — offline, account-free, no microphone. |
+| [E17](E17-backup-and-restore/EPIC.md) | Backup & Restore | feature | E03, E07, E10, E16 | 9 | The local, offline "never trapped" promise in bytes: the pure-Dart `.hifzbackup` container (magic + version + body SHA-256), the truth-only versioned JSON payload, replace-vs-merge restore as a set-union over the append-only `review_log`, optional Argon2id→ChaCha20-Poly1305 encryption, and the honest no-cloud tradeoff copy — the app never transmits the file. |
+| [E18](E18-reminders/EPIC.md) | Reminders | feature | E02, E07, E09, E16 | 11 | One calm, opt-in, off-by-default daily local notification — "Your revision for today is ready" — plus an optional framed-as-help catch-up note, as a rebuildable derived cache keyed off the injected local civil day; no guilt/fear/loss/streak framing, no escalation, no push, no server. |
+| [E19](E19-science-screen-and-claims/EPIC.md) | Science Screen & Claims | feature | E07, E09, E10, E04 | 10 | The offline "The science we follow" screen and the bundled CLAIMS register it renders read-only: each `C-NNN` claim a calm source row with a plain headline, a neutral evidence-certainty label, and a named/dated on-device source — no claim ships unsourced, every `[TRAD]` row names its source and issues no fiqh ruling. |
+| [E20](E20-release-readiness/EPIC.md) | Release Readiness | release | E08–E19, E21 | 9 | No new feature work — the gate that decides whether the gift may ship: every PRD §20 release-blocking check green in one suite, the airplane-mode acceptance run, the two human sign-offs (scholarly muṣḥaf proof + mutashābihāt review) and the adab checkpoint, the OSS trust pack, and the multi-channel release from one signed, provenance-attested tag. |
+| [E21](E21-new-memorization-sabaq-loop/EPIC.md) | New-Memorization (Sabaq) Loop & Beginner Path | feature | E04, E11, E12, E13, E16 | 9 | The missing "growing your hifz" half — sabaq intake (a newly-memorized page → a scheduled NEW card via a seed primitive + transactional write path), reader/Today "start memorizing" surfaces, the zero-juz beginner onboarding branch, per-profile placement, wired new-lines/pause, and prayer-critical seeding. Closes audit blockers F01/F02/F04 and majors F11/F18. Builds in the feature waves; **E20 release gates on it.** |
 
-**Tasks: 142 task files across E01–E14; E15–E20 are epic-complete with their
-per-task files deferred.**
+**Tasks: 203 committed task files across E01–E20 (142 original E01–E14; 61
+retro-authored for E15–E20 on 2026-07-10), plus E21 (9 tasks, authored as it is
+built). E01–E19 built; E21 in progress (2026-07-11); E20 unbuilt.**
 
 ## Dependency graph — build waves
 
@@ -93,7 +103,7 @@ Wave 8                            ┌─────┐
                                   │ E14 │ mutashābihāt (needs E04+E05+E13)
                                   └──┬──┘
         ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┼ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─
-        deferred per-task; epics drafted at EPIC.md level
+        built before their task files; specs retro-authored 2026-07-10
                           ┌──────────┼──────────┐
                           ▼          ▼          ▼
 Wave 9 · (parallel)    ┌─────┐    ┌─────┐    ┌─────┐

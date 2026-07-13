@@ -70,5 +70,6 @@ export 'src/review_update.dart'
         nextDifficulty,
         postLapseStability,
         stabilityOnSuccess;
+export 'src/sabaq_intake.dart' show SabaqIntake;
 export 'src/scheduling_engine.dart' show SchedulingEngine;
 export 'src/trust_clamp.dart' show TrustClamp, cycleCeilingDays;

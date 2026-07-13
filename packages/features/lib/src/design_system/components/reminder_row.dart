@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:l10n/l10n.dart';
 
 import '../theme/spacing_tokens.dart';
+import '../widgets/mihrab_note_card.dart';
 
 /// The reminder configuration a [ReminderRow] reflects — display data only.
 @immutable
@@ -78,7 +79,6 @@ class ReminderRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final scheme = Theme.of(context).colorScheme;
     final space = Theme.of(context).extension<SpacingTokens>()!;
     final text = Theme.of(context).textTheme;
 
@@ -86,40 +86,117 @@ class ReminderRow extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        SwitchListTile.adaptive(
-          value: state.enabled,
-          onChanged: callbacks.onEnabledChanged,
-          title: Text(l10n.reminderToggleLabel),
-        ),
-        if (state.enabled) ...[
-          ListTile(
-            title: Text(l10n.reminderTimeLabel),
-            trailing: Text(_timeLabel(context), style: text.bodyLarge),
-            onTap: () async {
-              final picked = await showTimePicker(
-                context: context,
-                initialTime: state.time,
-              );
-              if (picked != null) callbacks.onTimeChanged(picked);
-            },
+        SizedBox(height: space.space2),
+        _SettingCard(
+          child: SwitchListTile.adaptive(
+            value: state.enabled,
+            onChanged: callbacks.onEnabledChanged,
+            title: Text(l10n.reminderToggleLabel),
           ),
-          SwitchListTile.adaptive(
-            value: state.catchUpNote,
-            onChanged: callbacks.onCatchUpNoteChanged,
-            title: Text(l10n.reminderCatchUpNoteLabel),
+        ),
+        // The time + catch-up toggle are absent when off and revealed only when
+        // on — opt-in is one tap, nothing configured until then.
+        if (state.enabled) ...[
+          SizedBox(height: space.space2),
+          _SettingCard(
+            child: ListTile(
+              title: Text(l10n.reminderTimeLabel),
+              trailing: Text(_timeLabel(context), style: text.bodyLarge),
+              onTap: () async {
+                final picked = await showTimePicker(
+                  context: context,
+                  initialTime: state.time,
+                );
+                if (picked != null) callbacks.onTimeChanged(picked);
+              },
+            ),
+          ),
+          SizedBox(height: space.space2),
+          _SettingCard(
+            child: SwitchListTile.adaptive(
+              value: state.catchUpNote,
+              onChanged: callbacks.onCatchUpNoteChanged,
+              title: Text(l10n.reminderCatchUpNoteLabel),
+            ),
           ),
         ],
+        SizedBox(height: space.space3),
+        // A calm preview of exactly what the one daily reminder says — neutral,
+        // never a nag or a streak.
+        _NotificationPreview(body: l10n.reminderNotificationBody),
+        SizedBox(height: space.space3),
+        // The honest local-only line — an important disclosure kept plainly
+        // legible (privacy 10 §9), in a calm privacy-shield note.
         Padding(
-          padding: EdgeInsetsDirectional.all(space.space4),
-          // The honest local-only line is `type.body` in `color.text.primary`
-          // (privacy 10 §9 allows primary/secondary) — an important disclosure
-          // that stays plainly legible (not a faint 12.5dp aside).
-          child: Text(
-            l10n.reminderHonestLine,
-            style: text.bodyMedium?.copyWith(color: scheme.onSurface),
+          padding: EdgeInsetsDirectional.symmetric(horizontal: space.space4),
+          child: MihrabNoteCard(
+            text: l10n.reminderHonestLine,
+            icon: Icons.shield_outlined,
           ),
         ),
+        SizedBox(height: space.space4),
       ],
+    );
+  }
+}
+
+/// A calm limestone card wrapping one reminder control, on the screen-edge grid.
+class _SettingCard extends StatelessWidget {
+  const _SettingCard({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final space = Theme.of(context).extension<SpacingTokens>()!;
+    return Padding(
+      padding: EdgeInsetsDirectional.symmetric(horizontal: space.space4),
+      child: Card(clipBehavior: Clip.antiAlias, child: child),
+    );
+  }
+}
+
+/// A quiet illustration of the single daily reminder — a glazed-teal app tile
+/// beside the exact neutral notification line. Purely display: non-interactive,
+/// no bell/alarm framing, no count.
+class _NotificationPreview extends StatelessWidget {
+  const _NotificationPreview({required this.body});
+
+  final String body;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final space = Theme.of(context).extension<SpacingTokens>()!;
+    final text = Theme.of(context).textTheme;
+    return Padding(
+      padding: EdgeInsetsDirectional.symmetric(horizontal: space.space4),
+      child: Card(
+        color: scheme.surfaceContainerLowest,
+        clipBehavior: Clip.antiAlias,
+        child: Padding(
+          padding: EdgeInsetsDirectional.all(space.space4),
+          child: Row(
+            children: [
+              Container(
+                width: space.space7,
+                height: space.space7,
+                decoration: BoxDecoration(
+                  color: scheme.primary,
+                  borderRadius: BorderRadius.all(Radius.circular(space.space3)),
+                ),
+                child: Icon(
+                  Icons.menu_book_outlined,
+                  color: scheme.onPrimary,
+                  size: space.space5,
+                ),
+              ),
+              SizedBox(width: space.space3),
+              Expanded(child: Text(body, style: text.bodyLarge)),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

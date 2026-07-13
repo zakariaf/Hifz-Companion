@@ -24,6 +24,7 @@ import 'package:models/models.dart'
         Profile,
         ProfileId,
         ProfileLocale,
+        ProfileRole,
         kKfgqpcHafsMadaniV2Edition;
 
 import '../test_setup.dart';
@@ -139,6 +140,52 @@ void main() {
     // Calibration: every held page due now, last-reviewed the injected today.
     expect(coldStart.seeds!.every((s) => s.dueAt == today), isTrue);
     expect(coldStart.profile!.mushafId, kKfgqpcHafsMadaniV2Edition.mushafId);
+  });
+
+  test('placeExistingProfile seeds an existing profile verbatim (E21-T05)',
+      () async {
+    final coldStart = _RecordingColdStart();
+    final seeder = ColdStartSeeder(
+      reference: _FakeReference({
+        1: [1, 2],
+        2: [22],
+      }),
+      coldStart: coldStart,
+      engine: engine,
+    );
+    final existing = Profile(
+      profileId: const ProfileId('student-1'),
+      displayName: 'Zayd',
+      role: ProfileRole.student,
+      locale: ProfileLocale.fa,
+      mushafId: kKfgqpcHafsMadaniV2Edition.mushafId,
+      createdAtInstant: DateTime.utc(2026, 6),
+    );
+    const cycle = CycleConfig(
+      profileId: ProfileId('student-1'),
+      cycleType: '7_manzil',
+      nearWindowJuz: 3,
+      farTargetPerDay: 4,
+      cycleCeilingDays: 7,
+      dailyBudgetMinutes: 30,
+      termLabelSet: 'classical',
+    );
+
+    await seeder.placeExistingProfile(
+      existing,
+      cycle,
+      coverage: {1, 2},
+      confidence: {1: JuzConfidence.solid, 2: JuzConfidence.rusty},
+      today: today,
+    );
+
+    expect(coldStart.calls, 1);
+    // The EXISTING profile + its cycle pass through — no new profile minted.
+    expect(coldStart.profile, existing);
+    expect(coldStart.cycleConfig, cycle);
+    // One conservative seed per held+rated page, all due on the injected today.
+    expect(coldStart.seeds!.map((s) => s.pageId).toList(), [1, 2, 22]);
+    expect(coldStart.seeds!.every((s) => s.dueAt == today), isTrue);
   });
 
   test('un-held and held-but-unrated juz produce no card', () async {

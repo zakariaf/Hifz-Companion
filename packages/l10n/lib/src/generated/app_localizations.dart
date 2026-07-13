@@ -403,6 +403,30 @@ abstract class AppLocalizations {
   /// **'الإعدادات'**
   String get navSettings;
 
+  /// Subtitle under the Today tab's mihrab-niche header. PROVISIONAL — best-effort fa/ckb, review pending.
+  ///
+  /// In ar, this message translates to:
+  /// **'مراجعة اليوم — هادئة وقصيرة'**
+  String get headerSubtitleToday;
+
+  /// Subtitle under the Mutashābihāt tab's header. PROVISIONAL — best-effort fa/ckb, review pending.
+  ///
+  /// In ar, this message translates to:
+  /// **'المواضع التي يكثر الخلط بينها'**
+  String get headerSubtitleMutashabihat;
+
+  /// Subtitle under the Progress tab's header. PROVISIONAL — best-effort fa/ckb, review pending.
+  ///
+  /// In ar, this message translates to:
+  /// **'القرآن كله، جدارٌ من الفسيفساء'**
+  String get headerSubtitleProgress;
+
+  /// Subtitle under the Settings tab's header. PROVISIONAL — best-effort fa/ckb, review pending.
+  ///
+  /// In ar, this message translates to:
+  /// **'تفضيلات هادئة للعرض'**
+  String get headerSubtitleSettings;
+
   /// Appearance switcher: follow the OS light/dark setting. Best-effort fa/ckb pending E09.
   ///
   /// In ar, this message translates to:
@@ -571,6 +595,24 @@ abstract class AppLocalizations {
   /// **'إضافة ملف'**
   String get profilesAddButton;
 
+  /// Per-profile action (E21-T05; F04): open placement for an in-app-created student/child that has no cards yet, to rate its held juz and seed its schedule. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعداد المراجعة'**
+  String get profileSetUpPlacement;
+
+  /// Title of the per-profile placement screen (E21-T05): rate the profile's held juz (Solid/Shaky/Rusty) to seed its schedule. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعداد المراجعة'**
+  String get profilePlacementTitle;
+
+  /// Calm confirmation after per-profile placement seeds the schedule (E21-T05). No number, no celebration. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم إعداد المراجعة.'**
+  String get profilePlacementSaved;
+
   /// Text-field hint for a new profile's display name — the only PII. Best-effort fa/ckb pending native + scholarly review.
   ///
   /// In ar, this message translates to:
@@ -636,6 +678,18 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'اختر الأجزاء التي تحفظها.'**
   String get onboardingCoverageInstruction;
+
+  /// Coverage-step affordance for a from-zero beginner who holds no juz yet (E21-T04; F02). Calm and non-judgemental — starting is never 'behind' or '0%'. Choosing it clears any held juz and lets onboarding finish into an empty, ready-to-grow schedule. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'أنا في البداية — لم أحفظ أي جزء بعد'**
+  String get onboardingJustStarting;
+
+  /// Calm reassurance shown when the 'I'm just starting' beginner branch is chosen: pages join the revision as the user memorizes them (the sabaq intake surfaces). No guilt, no 'behind', no number. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا حرج في ذلك. ستضيف الصفحات إلى مراجعتك كلما حفظتها.'**
+  String get onboardingJustStartingNote;
 
   /// Title of the per-juz confidence step (Solid/Shaky/Rusty self-report). No score, no praise. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///
@@ -991,6 +1045,12 @@ abstract class AppLocalizations {
   /// **'تأجيل السبق الجديد'**
   String get budgetPauseNewSabaq;
 
+  /// Calm Today affordance shown only when new memorization is on (newLinesPerDay > 0): opens the muṣḥaf reader to mark a newly-memorized page (E21-T06). No number, no streak/score/celebration. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'ابدأ سبقاً جديداً'**
+  String get todayStartNewLesson;
+
   /// Generic calm retry action for a failed local read (e.g. the Today queue) — never a guilt/error-shame message. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///
   /// In ar, this message translates to:
@@ -1219,6 +1279,12 @@ abstract class AppLocalizations {
   /// **'علم نقلي، مصدره مذكور أدناه'**
   String get certaintyTradPhrase;
 
+  /// Lay phrase for the NON-evidence grade [RULE] (C-048) — 'a rule the app guarantees'. Marks a hard product commitment (offline-by-design, no microphone) backed by design + CI, NOT empirical evidence and NOT a fiqh ruling; announced without the certaintyEvidencePrefix. Never 'proven'/a star/a percentage/a Quran promise. Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'قاعدة يضمنها التطبيق'**
+  String get certaintyRulePhrase;
+
   /// Title of the always-reachable plain-words evidence-certainty legend (science 11 §3, §5). 'The strength of the evidence we rely on.' Consumed by E19. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
   ///
   /// In ar, this message translates to:
@@ -1381,6 +1447,30 @@ abstract class AppLocalizations {
   /// **'الانتقال إلى'**
   String get mushafJumpTitle;
 
+  /// Reader control that records the current page as newly memorized (page-granular sabaq intake, E21-T07): it enters the page into the revision schedule. Calm and factual, never a streak/score/celebration. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'حفظتُ هذه الصفحة'**
+  String get mushafMemorizedThisPage;
+
+  /// Calm confirmation after a page is marked memorized (E21): it joins the revision schedule and appears in Today. No number, no celebration. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'أُضيفت إلى مراجعتك — ستظهر ضمن مراجعة اليوم.'**
+  String get sabaqStartedNote;
+
+  /// Calm note when the page is already in the revision schedule (E21) — never a failure or a scold. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذه الصفحة موجودة في مراجعتك بالفعل.'**
+  String get sabaqAlreadyInRevision;
+
+  /// Calm retry note when recording a newly-memorized page failed and rolled back (E21). No guilt. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذّر الحفظ الآن. حاوِل مرة أخرى.'**
+  String get sabaqIntakeFailedNote;
+
   /// Jump-to unit label: juz. PROVISIONAL — best-effort fa/ckb, review in T09.
   ///
   /// In ar, this message translates to:
@@ -1416,6 +1506,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'المتشابهات'**
   String get mushafOverlayMutashabihat;
+
+  /// Reader overlay toggle tooltip shown while that overlay is disabled because it has nothing to show on the current page — no weak-line/mutashābihāt data or per-word geometry yet. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا شيء لعرضه في هذه الصفحة'**
+  String get mushafOverlayUnavailableOnPage;
 
   /// Reader zoom-in (+) control. PROVISIONAL — best-effort fa/ckb, review in T09.
   ///
@@ -1573,6 +1669,18 @@ abstract class AppLocalizations {
   /// **'آخر المراجعات'**
   String get progressHistoryTitle;
 
+  /// Page-detail toggle (E21-T08): the user marks this page as one they rely on in ṣalāh, so it is revised to a higher retention floor. A user preference the user chooses, NEVER a fiqh ruling or a bundled list. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'صفحة أعتمد عليها في الصلاة'**
+  String get progressPrayerCritical;
+
+  /// Subtitle under the prayer-critical toggle (E21-T08): a page marked this way is revised to a higher standard. No number, no ruling. PROVISIONAL — needs native + scholarly review; best-effort fa/ckb.
+  ///
+  /// In ar, this message translates to:
+  /// **'تُراجَع بمعيار أعلى للحفاظ عليها.'**
+  String get progressPrayerCriticalNote;
+
   /// E15 page-detail: no review history yet (calm, never a nag). PROVISIONAL — pending native + scholarly review.
   ///
   /// In ar, this message translates to:
@@ -1608,6 +1716,18 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'الأيام القادمة'**
   String get progressForecastTitle;
+
+  /// Progress tile-wall section banner heading — the whole-Quran heat-map framed as one mosaic (zellige) wall of your memorization. Calm, never a scoreboard. PROVISIONAL — pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'جدار فسيفساء حفظك'**
+  String get progressTileWallTitle;
+
+  /// Progress tile-wall explanatory line: each tile is one page, a deeper glaze means more firmly held, and the tile texture speaks alongside the colour (never colour alone — the a11y redundant-encoding rule). PROVISIONAL — pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'كل بلاطة صفحة؛ كلما كان الطلاء أغمق كان الحفظ أرسخ. ونقش البلاطة يتحدّث مع اللون — لا اللون وحده.'**
+  String get progressTileWallHint;
 
   /// E17 backup card: states BOTH halves of ownership — a local file the app moves nowhere, and the user holds the only copy (no cloud). PROVISIONAL — pending native + scholarly review.
   ///

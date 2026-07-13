@@ -1,11 +1,14 @@
 // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import 'dart:math' as math;
+
 import 'package:engine/engine.dart' show Card, ReviewTrack;
 import 'package:flutter/material.dart' hide Card;
 import 'package:l10n/l10n.dart';
 
 import '../../design_system/page_card/page_card.dart';
+import '../../design_system/theme/mihrab_colors.dart';
 import '../../design_system/theme/spacing_tokens.dart';
 import '../../l10n/term_set.dart';
 import 'page_card_data.dart';
@@ -66,10 +69,7 @@ class SessionSection extends StatelessWidget {
             bottom: space.space2,
           ),
           sliver: SliverToBoxAdapter(
-            child: Semantics(
-              header: true,
-              child: Text(header, style: theme.textTheme.titleMedium),
-            ),
+            child: _SessionSectionBand(header: header),
           ),
         ),
         SliverList.separated(
@@ -106,4 +106,160 @@ class SessionSection extends StatelessWidget {
       ],
     );
   }
+}
+
+/// The section's glazed-teal tile band (concept 02): the localized term-set
+/// [header] in cream, right-aligned on a faint eight-point zellige star
+/// watermark, with a gold khatam star on the trailing edge and a thin
+/// terracotta rule at the foot. Purely decorative chrome around the heading —
+/// it draws no Quran glyph and carries no state; the term text is the one
+/// heading node the screen reader announces.
+class _SessionSectionBand extends StatelessWidget {
+  const _SessionSectionBand({required this.header});
+
+  /// The already-localized section term (e.g. «منزل · دور»).
+  final String header;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final space = theme.extension<SpacingTokens>()!;
+    final mihrab = theme.extension<MihrabColors>()!;
+    return Semantics(
+      header: true,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(space.space3),
+        child: CustomPaint(
+          painter: _SectionBandPainter(
+            ground: scheme.primary,
+            star: scheme.onPrimary,
+            rule: mihrab.semanticWarning,
+          ),
+          child: Padding(
+            padding: EdgeInsetsDirectional.symmetric(
+              horizontal: space.space4,
+              vertical: space.space3,
+            ),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    header,
+                    textAlign: TextAlign.start,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: scheme.onPrimary,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                SizedBox(width: space.space3),
+                SizedBox(
+                  width: space.space5,
+                  height: space.space5,
+                  child: CustomPaint(
+                    painter: _LeadingStarPainter(color: mihrab.accentGold),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Builds an eight-point khatam-star outline centred on [center] with the given
+/// [outerRadius] (the Mihrab ornament used across the tile band).
+Path _khatamStarPath(Offset center, double outerRadius) {
+  const points = 8;
+  final innerRadius = outerRadius * 0.52;
+  final path = Path();
+  for (var i = 0; i < points * 2; i++) {
+    final radius = i.isEven ? outerRadius : innerRadius;
+    final angle = (i * math.pi / points) - math.pi / 2;
+    final point = Offset(
+      center.dx + radius * math.cos(angle),
+      center.dy + radius * math.sin(angle),
+    );
+    i == 0 ? path.moveTo(point.dx, point.dy) : path.lineTo(point.dx, point.dy);
+  }
+  return path..close();
+}
+
+/// Paints the band background: the glazed-teal [ground], a faint tiled
+/// eight-point [star] watermark (cream at low opacity), and a thin terracotta
+/// [rule] along the lower edge.
+class _SectionBandPainter extends CustomPainter {
+  const _SectionBandPainter({
+    required this.ground,
+    required this.star,
+    required this.rule,
+  });
+
+  final Color ground;
+  final Color star;
+  final Color rule;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    canvas.drawRect(Offset.zero & size, Paint()..color = ground);
+
+    // A staggered lattice of faint eight-point stars — a low-opacity cream
+    // watermark, clipped by the parent to the band's rounded corners.
+    final watermark = Paint()
+      ..color = star.withValues(alpha: 0.10)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.0
+      ..strokeJoin = StrokeJoin.round;
+    final outer = size.height * 0.36;
+    final stepX = outer * 1.9;
+    final stepY = outer * 1.7;
+    final cols = (size.width / stepX).ceil() + 2;
+    final rows = (size.height / stepY).ceil() + 2;
+    for (var row = -1; row < rows; row++) {
+      final cy = row * stepY;
+      final indent = row.isEven ? 0.0 : stepX / 2;
+      for (var col = -1; col < cols; col++) {
+        canvas.drawPath(
+          _khatamStarPath(Offset(col * stepX + indent, cy), outer),
+          watermark,
+        );
+      }
+    }
+
+    final ruleHeight = size.height * 0.06;
+    canvas.drawRect(
+      Rect.fromLTWH(0, size.height - ruleHeight, size.width, ruleHeight),
+      Paint()..color = rule,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_SectionBandPainter oldDelegate) =>
+      oldDelegate.ground != ground ||
+      oldDelegate.star != star ||
+      oldDelegate.rule != rule;
+}
+
+/// Paints the small solid gold khatam star on the band's trailing edge.
+class _LeadingStarPainter extends CustomPainter {
+  const _LeadingStarPainter({required this.color});
+
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    canvas.drawPath(
+      _khatamStarPath(size.center(Offset.zero), size.shortestSide / 2),
+      Paint()
+        ..color = color
+        ..style = PaintingStyle.fill,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_LeadingStarPainter oldDelegate) =>
+      oldDelegate.color != color;
 }

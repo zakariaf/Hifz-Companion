@@ -1,14 +1,21 @@
 // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-/// The seven evidence grades from `CLAIMS.md`, parsed once from the register
-/// (never the raw `[..]` tag at the widget layer).
+/// The grades from `CLAIMS.md`, parsed once from the register (never the raw
+/// `[..]` tag at the widget layer): the seven **evidence** grades, plus [rule]
+/// — the one non-evidence member.
 ///
-/// Ordered best→weakest among the empirical grades, with [trad] **last** —
-/// named scholarship paired with a source, NOT ranked above the empirical
-/// grades and issuing no fiqh ruling (CLAIMS scope clause; C-046). The grade
-/// describes the strength of the evidence behind a claim, kept strictly separate
-/// from any certainty about the user's own Quran (C-047).
+/// The empirical grades are ordered best→weakest, with [trad] **last among the
+/// evidence grades** — named scholarship paired with a source, NOT ranked above
+/// the empirical grades and issuing no fiqh ruling (CLAIMS scope clause; C-046).
+/// An evidence grade describes the strength of the evidence behind a claim, kept
+/// strictly separate from any certainty about the user's own Quran (C-047).
+///
+/// [rule] sits **after** every evidence grade because it is categorically not
+/// evidence: it marks a hard product rule the app itself guarantees (e.g.
+/// offline-by-design, no microphone — C-048), a commitment backed by design + CI,
+/// never dressed up as research or scholarship. It is rendered without the
+/// "strength of evidence" framing (see `certainty_label.dart`).
 enum EvidenceGrade {
   /// `[MA]` — a meta-analysis (among the best-established findings).
   ma,
@@ -29,7 +36,12 @@ enum EvidenceGrade {
   text,
 
   /// `[TRAD]` — traditional scholarship, named below; methodology, not a ruling.
-  trad;
+  trad,
+
+  /// `[RULE]` — NOT an evidence grade: a hard product rule the app itself
+  /// guarantees (offline-by-design, no microphone — C-048), a commitment, never
+  /// research, scholarship, or a fiqh ruling.
+  rule;
 
   /// Parses a register tag (`"[MA]"`, `"MA"`, `" ma "`) to its grade.
   ///

@@ -336,6 +336,18 @@ class AppLocalizationsAr extends AppLocalizations {
   String get navSettings => 'الإعدادات';
 
   @override
+  String get headerSubtitleToday => 'مراجعة اليوم — هادئة وقصيرة';
+
+  @override
+  String get headerSubtitleMutashabihat => 'المواضع التي يكثر الخلط بينها';
+
+  @override
+  String get headerSubtitleProgress => 'القرآن كله، جدارٌ من الفسيفساء';
+
+  @override
+  String get headerSubtitleSettings => 'تفضيلات هادئة للعرض';
+
+  @override
   String get appearanceFollowSystem => 'تلقائي';
 
   @override
@@ -423,6 +435,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profilesAddButton => 'إضافة ملف';
 
   @override
+  String get profileSetUpPlacement => 'إعداد المراجعة';
+
+  @override
+  String get profilePlacementTitle => 'إعداد المراجعة';
+
+  @override
+  String get profilePlacementSaved => 'تم إعداد المراجعة.';
+
+  @override
   String get profilesNameHint => 'الاسم الظاهر';
 
   @override
@@ -456,6 +477,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get onboardingCoverageInstruction => 'اختر الأجزاء التي تحفظها.';
+
+  @override
+  String get onboardingJustStarting => 'أنا في البداية — لم أحفظ أي جزء بعد';
+
+  @override
+  String get onboardingJustStartingNote =>
+      'لا حرج في ذلك. ستضيف الصفحات إلى مراجعتك كلما حفظتها.';
 
   @override
   String get onboardingConfidenceTitle => 'ما مدى رسوخ كل جزء؟';
@@ -687,6 +715,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get budgetPauseNewSabaq => 'تأجيل السبق الجديد';
 
   @override
+  String get todayStartNewLesson => 'ابدأ سبقاً جديداً';
+
+  @override
   String get commonRetry => 'إعادة المحاولة';
 
   @override
@@ -805,6 +836,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get certaintyTradPhrase => 'علم نقلي، مصدره مذكور أدناه';
 
   @override
+  String get certaintyRulePhrase => 'قاعدة يضمنها التطبيق';
+
+  @override
   String get certaintyLegendTitle => 'قوة الأدلة التي نستند إليها';
 
   @override
@@ -916,6 +950,18 @@ class AppLocalizationsAr extends AppLocalizations {
   String get mushafJumpTitle => 'الانتقال إلى';
 
   @override
+  String get mushafMemorizedThisPage => 'حفظتُ هذه الصفحة';
+
+  @override
+  String get sabaqStartedNote => 'أُضيفت إلى مراجعتك — ستظهر ضمن مراجعة اليوم.';
+
+  @override
+  String get sabaqAlreadyInRevision => 'هذه الصفحة موجودة في مراجعتك بالفعل.';
+
+  @override
+  String get sabaqIntakeFailedNote => 'تعذّر الحفظ الآن. حاوِل مرة أخرى.';
+
+  @override
   String get mushafUnitJuz => 'جزء';
 
   @override
@@ -932,6 +978,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get mushafOverlayMutashabihat => 'المتشابهات';
+
+  @override
+  String get mushafOverlayUnavailableOnPage => 'لا شيء لعرضه في هذه الصفحة';
 
   @override
   String get mushafZoomIn => 'تكبير';
@@ -1026,6 +1075,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get progressHistoryTitle => 'آخر المراجعات';
 
   @override
+  String get progressPrayerCritical => 'صفحة أعتمد عليها في الصلاة';
+
+  @override
+  String get progressPrayerCriticalNote => 'تُراجَع بمعيار أعلى للحفاظ عليها.';
+
+  @override
   String get progressNoHistory => 'لا مراجعات مسجّلة بعد';
 
   @override
@@ -1045,6 +1100,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get progressForecastTitle => 'الأيام القادمة';
+
+  @override
+  String get progressTileWallTitle => 'جدار فسيفساء حفظك';
+
+  @override
+  String get progressTileWallHint =>
+      'كل بلاطة صفحة؛ كلما كان الطلاء أغمق كان الحفظ أرسخ. ونقش البلاطة يتحدّث مع اللون — لا اللون وحده.';
 
   @override
   String get backupOwnershipLine =>

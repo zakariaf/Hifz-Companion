@@ -41,3 +41,36 @@ final pageConfusablesProvider =
     Provider.autoDispose.family<List<ConfusableAnchor>, int>(
   (ref, pageNumber) => const [],
 );
+
+/// Whether the **weak-line** overlay would paint at least one marker on
+/// [pageNumber] — the active profile has a weak `line_block` there **and** the
+/// bundled per-word [mushafPageGeometryProvider] can place it. The reader's
+/// weak-line toggle is enabled only when this is true, so the control never
+/// flips a state that paints nothing: until the data + geometry land it stays an
+/// honest, disabled-with-a-reason affordance, then lights up by itself.
+/// **Bundle-first:** false on every page today (the geometry is empty).
+final weakLineOverlayAvailableProvider = Provider.autoDispose.family<bool, int>(
+  (ref, pageNumber) {
+    if (ref.watch(mushafPageGeometryProvider(pageNumber)).wordBoxes.isEmpty) {
+      return false;
+    }
+    return ref.watch(profileWeakLinesProvider(pageNumber)).isNotEmpty;
+  },
+);
+
+/// Whether the **mutashābihāt** overlay would paint at least one anchor on
+/// [pageNumber] — the scholar-reviewed dataset names a distinguishing word here
+/// **and** the bundled geometry can place it. Gates the reader's mutashābihāt
+/// toggle for the same honesty reason as [weakLineOverlayAvailableProvider].
+/// **Bundle-first:** false on every page today (no dataset, empty geometry).
+final mutashabihatOverlayAvailableProvider =
+    Provider.autoDispose.family<bool, int>(
+  (ref, pageNumber) {
+    if (ref.watch(mushafPageGeometryProvider(pageNumber)).wordBoxes.isEmpty) {
+      return false;
+    }
+    return ref
+        .watch(pageConfusablesProvider(pageNumber))
+        .any((anchor) => anchor.words.isNotEmpty);
+  },
+);

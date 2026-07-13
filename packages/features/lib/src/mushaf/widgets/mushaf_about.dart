@@ -42,24 +42,26 @@ class MushafAboutCredits extends StatelessWidget {
     final fine = theme.textTheme.bodySmall
         ?.copyWith(color: theme.colorScheme.onSurfaceVariant);
     return SafeArea(
-      child: Padding(
-        padding: EdgeInsetsDirectional.all(space.space5),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: space.space3,
-          children: [
-            Text(l10n.mushafAboutTitle, style: theme.textTheme.titleMedium),
-            // The named riwāyah — never "the Quran" absolutely.
-            Text(edition.displayName, style: theme.textTheme.titleSmall),
-            const Divider(),
-            Text(l10n.mushafAboutTanzil, style: body),
-            Text(l10n.mushafAboutQul, style: body),
-            Text(l10n.mushafAboutFonts, style: body),
-            const Divider(),
-            Text(l10n.mushafAboutChecksum, style: fine),
-            Text(l10n.mushafAboutOffline, style: fine),
-          ],
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsetsDirectional.all(space.space5),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: space.space3,
+            children: [
+              Text(l10n.mushafAboutTitle, style: theme.textTheme.titleMedium),
+              // The named riwāyah — never "the Quran" absolutely.
+              Text(edition.displayName, style: theme.textTheme.titleSmall),
+              const Divider(),
+              Text(l10n.mushafAboutTanzil, style: body),
+              Text(l10n.mushafAboutQul, style: body),
+              Text(l10n.mushafAboutFonts, style: body),
+              const Divider(),
+              Text(l10n.mushafAboutChecksum, style: fine),
+              Text(l10n.mushafAboutOffline, style: fine),
+            ],
+          ),
         ),
       ),
     );

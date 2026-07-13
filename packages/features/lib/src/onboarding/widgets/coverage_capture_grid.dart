@@ -4,15 +4,22 @@
 import 'package:flutter/material.dart';
 import 'package:l10n/l10n.dart';
 
+import '../../design_system/theme/mihrab_colors.dart';
 import '../../design_system/theme/spacing_tokens.dart';
+import 'onboarding_glyphs.dart';
 
 /// The first cold-start capture pass (E11-T05): a juz-level tap grid of 30 cells
 /// in **muṣḥaf order** (juz ۱ at the start/right under RTL, juz ۳۰ at the end),
 /// one tap = held / not-held. A held juz is membership in [heldJuz]; an un-held
 /// juz is **absence** — drawn calm and un-emphasised, never alarm-red / "missing"
-/// / "0%". Held vs un-held is carried by shape + glyph + label, never hue alone
-/// (SC 1.4.1). Each cell is a ≥48 dp `toggled` Semantics node with a visible
-/// focus ring and a locale-numeral juz label.
+/// / "0%". Held vs un-held is carried by shape (a filled zellige star vs a dashed
+/// ring) + glyph + label, never hue alone (SC 1.4.1). Each cell is a ≥48 dp
+/// `toggled` Semantics node with a visible focus ring and a locale-numeral label.
+///
+/// The Mihrab surface (owner-directed design amendment, concept 01): a glazed
+/// teal title band watermarked with faint eight-point stars over a terracotta
+/// ground-line, held cells rendered as glazed teal zellige tiles and un-held
+/// cells as bare limestone.
 ///
 /// A dumb View: it takes [heldJuz] + [onToggle] and renders. It holds no local
 /// capture state, opens no `db.transaction`/DAO, reads no clock, and draws no
@@ -23,6 +30,8 @@ class CoverageCaptureGrid extends StatelessWidget {
   const CoverageCaptureGrid({
     required this.heldJuz,
     required this.onToggle,
+    required this.justStarting,
+    required this.onJustStarting,
     super.key,
   });
 
@@ -32,10 +41,17 @@ class CoverageCaptureGrid extends StatelessWidget {
   /// Called with the tapped juz to toggle its membership.
   final ValueChanged<int> onToggle;
 
+  /// Whether the from-zero beginner branch is selected (E21-T04; F02).
+  final bool justStarting;
+
+  /// Called to select/clear the "I'm just starting" beginner branch.
+  final ValueChanged<bool> onJustStarting;
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
     final space = theme.extension<SpacingTokens>()!;
     final locale = Localizations.localeOf(context);
     return Column(
@@ -51,47 +67,127 @@ class CoverageCaptureGrid extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                l10n.onboardingCoverageTitle,
-                style: theme.textTheme.titleLarge,
-              ),
-              SizedBox(height: space.space1),
+              _CoverageTitleBanner(title: l10n.onboardingCoverageTitle),
+              SizedBox(height: space.space2),
               Text(
                 l10n.onboardingCoverageInstruction,
                 style: theme.textTheme.bodyMedium
-                    ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                    ?.copyWith(color: scheme.onSurfaceVariant),
+              ),
+              SizedBox(height: space.space3),
+              _JustStartingToggle(
+                selected: justStarting,
+                label: l10n.onboardingJustStarting,
+                onChanged: onJustStarting,
+              ),
+              if (justStarting) ...[
+                SizedBox(height: space.space2),
+                Text(
+                  l10n.onboardingJustStartingNote,
+                  style: theme.textTheme.bodyMedium
+                      ?.copyWith(color: scheme.onSurfaceVariant),
+                ),
+              ],
+            ],
+          ),
+        ),
+        // Dimmed but still tappable when "just starting" — tapping a juz holds
+        // it and exits the beginner branch (never a hard lock).
+        Expanded(
+          child: Opacity(
+            opacity: justStarting ? 0.4 : 1,
+            child: GridView.builder(
+              padding: EdgeInsetsDirectional.fromSTEB(
+                space.space4,
+                space.space2,
+                space.space4,
+                space.space4,
+              ),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                // 5 columns — square cells stay well over the 48 dp tap floor.
+                crossAxisCount: 5,
+                mainAxisSpacing: space.space2,
+                crossAxisSpacing: space.space2,
+              ),
+              itemCount: 30,
+              itemBuilder: (context, index) {
+                // index 0 = juz ۱ at the start (right) under RTL; index 29 = juz ۳۰.
+                final juz = index + 1;
+                final held = heldJuz.contains(juz);
+                final numeral = formatLocaleNumber(locale, juz);
+                return _JuzCell(
+                  numeral: numeral,
+                  held: held,
+                  label: l10n.onboardingCoverageCellLabel(
+                    numeral,
+                    held ? l10n.onboardingHeld : l10n.onboardingNotHeld,
+                  ),
+                  onTap: () => onToggle(juz),
+                );
+              },
+            ),
+          ),
+        ),
+        _CoverageLegend(
+          heldLabel: l10n.onboardingHeld,
+          notHeldLabel: l10n.onboardingNotHeld,
+        ),
+      ],
+    );
+  }
+}
+
+/// The glazed-teal title band: a leading zellige star, the [title] in the
+/// on-primary ink, a faint eight-point-star watermark, and a terracotta
+/// ground-line — the concept's miḥrāb band, in miniature. Non-interactive.
+class _CoverageTitleBanner extends StatelessWidget {
+  const _CoverageTitleBanner({required this.title});
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final space = theme.extension<SpacingTokens>()!;
+    final mihrab = theme.extension<MihrabColors>()!;
+    final radius = BorderRadius.circular(space.space3);
+    return ClipRRect(
+      borderRadius: radius,
+      child: CustomPaint(
+        painter: _BandPainter(
+          band: scheme.primary,
+          star: scheme.onPrimary.withValues(alpha: 0.1),
+          terracotta: mihrab.semanticWarning,
+        ),
+        child: Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(
+            space.space4,
+            space.space3,
+            space.space4,
+            space.space3 + space.space1,
+          ),
+          child: Row(
+            children: [
+              MihrabGlyph(
+                kind: MihrabGlyphKind.filledStar,
+                color: mihrab.accentGold,
+                size: space.space5,
+              ),
+              SizedBox(width: space.space3),
+              Expanded(
+                child: Text(
+                  title,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: scheme.onPrimary,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
               ),
             ],
           ),
         ),
-        Expanded(
-          child: GridView.builder(
-            padding: EdgeInsetsDirectional.all(space.space4),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              // 5 columns — square cells stay well over the 48 dp tap floor.
-              crossAxisCount: 5,
-              mainAxisSpacing: space.space2,
-              crossAxisSpacing: space.space2,
-            ),
-            itemCount: 30,
-            itemBuilder: (context, index) {
-              // index 0 = juz ۱ at the start (right) under RTL; index 29 = juz ۳۰.
-              final juz = index + 1;
-              final held = heldJuz.contains(juz);
-              final numeral = formatLocaleNumber(locale, juz);
-              return _JuzCell(
-                numeral: numeral,
-                held: held,
-                label: l10n.onboardingCoverageCellLabel(
-                  numeral,
-                  held ? l10n.onboardingHeld : l10n.onboardingNotHeld,
-                ),
-                onTap: () => onToggle(juz),
-              );
-            },
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
@@ -114,6 +210,7 @@ class _JuzCell extends StatelessWidget {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     final space = theme.extension<SpacingTokens>()!;
+    final mihrab = theme.extension<MihrabColors>()!;
     final radius = BorderRadius.circular(space.space3);
     // One merged node carrying the composed "Juz N, held/not held" label + the
     // toggle state + the tap action; the inner glyph/numeral are excluded so the
@@ -131,9 +228,9 @@ class _JuzCell extends StatelessWidget {
             child: DecoratedBox(
               decoration: BoxDecoration(
                 borderRadius: radius,
-                color: held
-                    ? scheme.primaryContainer
-                    : scheme.surfaceContainerHighest,
+                // Held reads as a glazed teal zellige tile; un-held as bare
+                // limestone — calm absence, never an alarm state.
+                color: held ? scheme.primary : scheme.surfaceContainerHighest,
                 border: Border.all(
                   color: held ? scheme.primary : scheme.outlineVariant,
                 ),
@@ -145,15 +242,17 @@ class _JuzCell extends StatelessWidget {
                   Text(
                     numeral,
                     style: theme.textTheme.titleMedium?.copyWith(
-                      color:
-                          held ? scheme.onPrimaryContainer : scheme.onSurface,
+                      color: held ? scheme.onPrimary : scheme.onSurface,
                     ),
                   ),
-                  // Redundant non-colour encoding: a present check when held, an
-                  // empty ring when not — readable in grayscale / for CVD.
-                  Icon(
-                    held ? Icons.check_circle : Icons.circle_outlined,
-                    color: held ? scheme.primary : scheme.outline,
+                  // Redundant non-colour encoding: a solid zellige star when
+                  // held, a dashed ring when not — readable in grayscale / CVD.
+                  MihrabGlyph(
+                    kind: held
+                        ? MihrabGlyphKind.filledStar
+                        : MihrabGlyphKind.dashedRing,
+                    color: held ? mihrab.accentGold : scheme.outline,
+                    size: space.space5,
                   ),
                 ],
               ),
@@ -163,4 +262,214 @@ class _JuzCell extends StatelessWidget {
       ),
     );
   }
+}
+
+/// The quiet held / not-held key beneath the grid — the same glyph language the
+/// cells use, so the shape encoding is legible without relying on hue.
+class _CoverageLegend extends StatelessWidget {
+  const _CoverageLegend({required this.heldLabel, required this.notHeldLabel});
+
+  final String heldLabel;
+  final String notHeldLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final space = theme.extension<SpacingTokens>()!;
+    final mihrab = theme.extension<MihrabColors>()!;
+    // A visual key only — the cells carry their own state to the screen reader.
+    return ExcludeSemantics(
+      child: Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(
+          space.space4,
+          space.space1,
+          space.space4,
+          space.space4,
+        ),
+        child: Wrap(
+          alignment: WrapAlignment.center,
+          spacing: space.space5,
+          runSpacing: space.space2,
+          children: [
+            _LegendItem(
+              kind: MihrabGlyphKind.filledStar,
+              color: mihrab.accentGold,
+              label: heldLabel,
+            ),
+            _LegendItem(
+              kind: MihrabGlyphKind.dashedRing,
+              color: scheme.outline,
+              label: notHeldLabel,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _LegendItem extends StatelessWidget {
+  const _LegendItem({
+    required this.kind,
+    required this.color,
+    required this.label,
+  });
+
+  final MihrabGlyphKind kind;
+  final Color color;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final space = theme.extension<SpacingTokens>()!;
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        MihrabGlyph(kind: kind, color: color, size: space.space4),
+        SizedBox(width: space.space2),
+        Text(
+          label,
+          style: theme.textTheme.labelMedium
+              ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+        ),
+      ],
+    );
+  }
+}
+
+/// The from-zero beginner affordance on the coverage step: a calm, selectable
+/// "I'm just starting" toggle (E21-T04; F02). Choosing it clears any held juz
+/// and lets a beginner finish onboarding into an empty, ready-to-grow schedule.
+/// Selected vs not is carried by shape (filled star vs dashed ring) + label, not
+/// hue alone; a ≥48 dp toggle Semantics node.
+class _JustStartingToggle extends StatelessWidget {
+  const _JustStartingToggle({
+    required this.selected,
+    required this.label,
+    required this.onChanged,
+  });
+
+  final bool selected;
+  final String label;
+  final ValueChanged<bool> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final space = theme.extension<SpacingTokens>()!;
+    final mihrab = theme.extension<MihrabColors>()!;
+    final radius = BorderRadius.circular(space.space3);
+    return Semantics(
+      button: true,
+      toggled: selected,
+      label: label,
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          onTap: () => onChanged(!selected),
+          borderRadius: radius,
+          child: ExcludeSemantics(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: space.space8),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  borderRadius: radius,
+                  color: selected
+                      ? scheme.primary
+                      : scheme.surfaceContainerHighest,
+                  border: Border.all(
+                    color: selected ? scheme.primary : scheme.outlineVariant,
+                  ),
+                ),
+                child: Padding(
+                  padding: EdgeInsetsDirectional.symmetric(
+                    horizontal: space.space4,
+                    vertical: space.space3,
+                  ),
+                  child: Row(
+                    children: [
+                      MihrabGlyph(
+                        kind: selected
+                            ? MihrabGlyphKind.filledStar
+                            : MihrabGlyphKind.dashedRing,
+                        color: selected ? mihrab.accentGold : scheme.outline,
+                        size: space.space5,
+                      ),
+                      SizedBox(width: space.space3),
+                      Expanded(
+                        child: Text(
+                          label,
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color:
+                                selected ? scheme.onPrimary : scheme.onSurface,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Paints the glazed-teal band: a solid ground, a faint eight-point-star
+/// watermark tiled on a straight grid, and a terracotta ground-line along the
+/// lower edge — echoing [MihrabArchHeader] in a compact section band.
+class _BandPainter extends CustomPainter {
+  const _BandPainter({
+    required this.band,
+    required this.star,
+    required this.terracotta,
+  });
+
+  final Color band;
+  final Color star;
+  final Color terracotta;
+
+  static const double _cell = 40;
+  static const double _starOuter = 10;
+  static const double _starInnerRatio = 0.5;
+  static const double _terracottaThickness = 4;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final bounds = Offset.zero & size;
+    canvas.drawRect(bounds, Paint()..color = band);
+
+    final starPaint = Paint()..color = star;
+    for (var y = _cell / 2; y < size.height + _cell; y += _cell) {
+      for (var x = _cell / 2; x < size.width + _cell; x += _cell) {
+        canvas.drawPath(
+          eightPointStarPath(
+            Offset(x, y),
+            _starOuter,
+            _starOuter * _starInnerRatio,
+          ),
+          starPaint,
+        );
+      }
+    }
+
+    canvas.drawRect(
+      Rect.fromLTWH(
+        0,
+        size.height - _terracottaThickness,
+        size.width,
+        _terracottaThickness,
+      ),
+      Paint()..color = terracotta,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_BandPainter old) =>
+      old.band != band || old.star != star || old.terracotta != terracotta;
 }

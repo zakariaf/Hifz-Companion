@@ -7,6 +7,7 @@
 
 import 'package:app/composition/router.dart';
 import 'package:composition/composition.dart';
+import 'package:composition/testing.dart' show FakeNotificationScheduler;
 import 'package:data/testing.dart';
 import 'package:features/features.dart'
     show MihrabAppearance, MihrabNavigationBar, mihrabThemeFor;
@@ -30,6 +31,11 @@ void main() {
         persistenceProvider.overrideWithValue(handle),
         coreVerifiedProvider.overrideWith((ref) async => true),
         initialActiveProfileProvider.overrideWithValue(const ProfileId('p1')),
+        // Settings now eagerly builds the reminders section (its list became a
+        // SingleChildScrollView+Column), which reads the scheduler boundary
+        // that is wired only in main; a no-op fake keeps the shell test offline.
+        notificationSchedulerProvider
+            .overrideWithValue(FakeNotificationScheduler()),
       ],
     );
     addTearDown(container.dispose);

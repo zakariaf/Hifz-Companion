@@ -16,10 +16,13 @@ import 'constants.dart';
 /// to [farCycleDays] — this type is the engine's view, the persisted row stays
 /// in `models`.
 ///
-/// Fields are added by the dependency-ordered E04 tasks: E04-T10 lands
-/// [weights]; E04-T07 adds the cycle ceilings; E04-T08/T09 add the day budget
-/// and intake. All are named with defaults so a later field never breaks a
-/// construction site.
+/// Fields are added by the dependency-ordered tasks: E04-T10 lands [weights];
+/// E04-T07 adds the cycle ceilings; E04-T08 adds the day budget. There is
+/// deliberately **no** new-lines/day field: the daily new-memorization (sabaq)
+/// **pace** is a feature-layer *intake* concern (E21), not an engine scheduling
+/// input — the New band is the *consolidating* pages, which the time budget
+/// already bounds, and a pace cap on it would starve consolidation. All fields
+/// are named with defaults so a later field never breaks a construction site.
 @immutable
 class EngineConfig {
   /// The FSRS-4.5 weight vector. Length asserted `== kFsrsWeightCount` where it

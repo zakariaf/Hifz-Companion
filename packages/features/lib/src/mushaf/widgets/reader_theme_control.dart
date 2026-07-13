@@ -5,14 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:l10n/l10n.dart';
 
+import '../../design_system/theme/mihrab_colors.dart';
+import '../../design_system/theme/spacing_tokens.dart';
 import '../mushaf_providers.dart';
 import '../reader_theme.dart';
 
-/// The reader's light/sepia/dark theme control — a single-choice
-/// `SegmentedButton<ReaderTheme>` over exactly the three [ReaderTheme] values
-/// (the design system's *Night* appearance is out of this control's contract).
-/// The selected state is the segment **check icon + the localized text label**,
-/// never colour alone (WCAG 2.2 SC 1.4.1).
+/// The reader's light/sepia/dark theme control — three tappable paper-preview
+/// **dots**, one per [ReaderTheme] value (the design system's *Night* appearance
+/// is out of this control's contract). Each dot previews that appearance's paper
+/// (limestone / warm sepia / dim night); the selected dot is marked by a teal
+/// ring **and** a check glyph **and** its heavier localized label — never colour
+/// alone (WCAG 2.2 SC 1.4.1) — so both sighted and screen-reader users can tell
+/// which surface is active.
 ///
 /// It writes only the E13-T02 reader-state `theme`; the value selects E05's
 /// single `ColorFilter` over the whole rendered layer — **no per-theme font
@@ -32,10 +36,13 @@ class ReaderThemeControl extends ConsumerWidget {
         ReaderTheme.dark => l10n.mushafThemeDark,
       };
 
-  IconData _icon(ReaderTheme theme) => switch (theme) {
-        ReaderTheme.light => Icons.light_mode_outlined,
-        ReaderTheme.sepia => Icons.wb_sunny_outlined,
-        ReaderTheme.dark => Icons.dark_mode_outlined,
+  // The paper each appearance would render on — a faithful preview, read from
+  // the scheme / Mihrab tokens (never a raw hex).
+  Color _paper(ColorScheme scheme, MihrabColors mihrab, ReaderTheme theme) =>
+      switch (theme) {
+        ReaderTheme.light => scheme.surface,
+        ReaderTheme.sepia => mihrab.readerSurfaceSepia,
+        ReaderTheme.dark => scheme.inverseSurface,
       };
 
   @override
@@ -45,18 +52,106 @@ class ReaderThemeControl extends ConsumerWidget {
       mushafReaderStateProvider(entryPage).select((state) => state.theme),
     );
     final notifier = ref.read(mushafReaderStateProvider(entryPage).notifier);
-    return SegmentedButton<ReaderTheme>(
-      segments: [
+    final scheme = Theme.of(context).colorScheme;
+    final mihrab = Theme.of(context).extension<MihrabColors>()!;
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
         for (final value in ReaderTheme.values)
-          ButtonSegment<ReaderTheme>(
-            value: value,
-            // Shape (icon + selected check) AND text — never colour alone.
-            icon: Icon(_icon(value)),
-            label: Text(_label(l10n, value)),
+          _ThemeSwatch(
+            label: _label(l10n, value),
+            paper: _paper(scheme, mihrab, value),
+            // Shape (ring + check) AND text — never colour alone.
+            selected: value == theme,
+            onTap: () => notifier.setTheme(value),
           ),
       ],
-      selected: {theme},
-      onSelectionChanged: (selection) => notifier.setTheme(selection.first),
+    );
+  }
+}
+
+/// One theme option: a paper-preview dot over its localized name, the whole
+/// column a single ≥48dp labelled tap target (the nav-bar semantics idiom — one
+/// merged button node, the visual excluded so it is not read twice).
+class _ThemeSwatch extends StatelessWidget {
+  const _ThemeSwatch({
+    required this.label,
+    required this.paper,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final Color paper;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final space = theme.extension<SpacingTokens>()!;
+    final mihrab = theme.extension<MihrabColors>()!;
+    // The check glyph reads on whichever paper the dot previews.
+    final onPaper = ThemeData.estimateBrightnessForColor(paper) == Brightness.dark
+        ? scheme.surface
+        : scheme.onSurface;
+    return MergeSemantics(
+      child: Semantics(
+        button: true,
+        selected: selected,
+        label: label,
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: onTap,
+          child: ExcludeSemantics(
+            child: ConstrainedBox(
+              constraints:
+                  BoxConstraints(minWidth: space.space8, minHeight: space.space8),
+              child: Padding(
+                padding: EdgeInsetsDirectional.symmetric(
+                  horizontal: space.space1,
+                  vertical: space.space1,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: space.space6,
+                      height: space.space6,
+                      alignment: AlignmentDirectional.center,
+                      decoration: ShapeDecoration(
+                        color: paper,
+                        shape: CircleBorder(
+                          side: BorderSide(
+                            color:
+                                selected ? scheme.primary : scheme.outlineVariant,
+                          ),
+                        ),
+                      ),
+                      child: selected
+                          ? Icon(Icons.check, size: space.space4, color: onPaper)
+                          : null,
+                    ),
+                    SizedBox(height: space.space1),
+                    Text(
+                      label,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.labelMedium?.copyWith(
+                        color: selected ? scheme.primary : mihrab.textTertiary,
+                        fontWeight:
+                            selected ? FontWeight.w600 : FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

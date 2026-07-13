@@ -1,0 +1,87 @@
+# E16-T06 — Muṣḥaf / riwāyah picker: name the edition, state the riwāyah, store only the choice
+
+| | |
+|---|---|
+| **Epic** | [E16 — Settings, Profiles & Teacher Sign-off](EPIC.md) |
+| **Size** | S (≈0.5–1 day) |
+| **Depends on** | E16-T02 |
+| **Skills** | ui-settings-picker, domain-mushaf-text-integrity, domain-adab-and-religious-integrity, eng-write-dart-test |
+
+## Goal
+
+The Display section gains the **muṣḥaf / riwāyah picker** — an instantiation of the E16-T02 single-choice primitive that lists whichever muṣḥaf editions are **installed as verified assets** (the bundled Ḥafṣ Madani 15-line core always; an alternative riwāyah such as Warsh only once the asset-pack flow has installed and verified it) as named radiogroup rows, each label **stating the riwāyah explicitly** ("Ḥafṣ ʿan ʿĀṣim — Madani muṣḥaf"), and persists exactly one thing: the active profile's `mushaf_id`. It is a *naming* choice, never a rendering act: the picker draws no glyph, previews no page, registers no font, re-typesets/mirrors/translates nothing, introduces no tafsīr or translation, touches no engine state or schedule, and never presents the muṣḥaf as "the Quran" in the absolute (PRD R2). Applying the chosen edition to a page is E13 (mushaf-reader) / E05 (quran-data-and-rendering); downloading an alternative pack is the asset-pack flow (`domain-asset-pack-integrity`, PRD §11.1) — neither happens here.
+
+## Context & references
+
+| Reference | What to take from it |
+|---|---|
+| `docs/PRD.md` R2 | The governing rule this picker exists to satisfy: the muṣḥaf in use is shown as **"Ḥafṣ ʿan ʿĀṣim — Madani muṣḥaf," never "the Quran" in the absolute**; the scheduler is **text-agnostic** and the muṣḥaf a **swappable asset**; **zero bundled tafsīr/translation/commentary** — this surface introduces none |
+| `docs/PRD.md` §15.2 | The settings spec being implemented verbatim: "Muṣḥaf selector (riwāyah shown; swappable per R2)" — one row of the Terminology & display group |
+| `docs/PRD.md` §10.1–§10.2 | The data: the read-only `mushaf` reference table (`mushaf_id, riwayah, name, line_count, page_count, font_family, checksum_sha256`) supplies the option set; **`profile.mushaf_id FK` is the single field this picker writes** |
+| `docs/PRD.md` §11.2 (+ §11.1, §11.1.1) | The rendering rules the picker must never re-implement (dedicated per-page glyph fonts, fixed layout, coordinate overlays) and the install boundary: alt-muṣḥaf packs are optional, downloaded and SHA-256-verified **fail-closed** by the asset-pack flow — the picker lists only already-installed, verified editions and never triggers a fetch |
+| `docs/design-system/12-localization-and-rtl.md` §8 (+ §2) | **The Quran is never localized — only the chrome is**: the picker's labels are ARB/`intl` chrome; no UI numerals, UI fonts, or mirroring ever reach the glyph page; the riwāyah statement is localized chrome *around* the immutable page, never the page; the muṣḥaf is never mirrored |
+| `docs/design-system/07-components.md` §6 | The M3 single-select state model the T02 primitive already implements: selected = shape + text via state layers over role colors, visible focus ring (`color.outline`), `Semantics` enabled/selected flags, states mirror under RTL — this task inherits it, not rebuilds it |
+| `docs/design-system/13-islamic-identity-and-adab.md` §5 | The adab of the naming convention: stating the riwāyah (in Settings and onboarding) is honesty and neutrality; attribution is both adab and a Tanzil-license obligation; never imply one transmission is the only valid one; neutrality preserved by omission of tafsīr |
+| Skill `ui-settings-picker` (+ `template.dart`) | Pattern 4 (the muṣḥaf picker **only names the edition** — riwāyah stated, never localized/re-typeset; applying it is ui-mushaf-page-view / domain-mushaf-text-integrity), Pattern 6 (one controller method, persist-before-republish, no View write), Patterns 9–10 (no recommendation, no celebration, no inference, no socket) |
+| Skill `domain-mushaf-text-integrity` | Cited as the **boundary this picker must not cross, not work it performs**: glyph fonts, QUL layout, and overlays live behind that skill in E05/E13; the picker stores a name and imports nothing from that path — pinned by a boundary test |
+| Skill `domain-adab-and-religious-integrity` | The conscience pass on every label: riwāyah named, no absolute "the Quran", no praise/recommendation of an edition ("most authentic" is a sectarian slip), no fiqh implication, quiet factual switching |
+| `docs/science/CLAIMS.md` | **No CLAIMS id is surfaced by this task — deliberately.** The riwāyah statement is an R2 identity/attribution string governed by `domain-adab-and-religious-integrity` + `domain-mushaf-text-integrity`, not a graded science claim; do not invent a CLAIMS row for it |
+| Sibling **E16-T02** | Supplies the single-choice picker primitive (named radiogroup, selected = shape+text, ≥48dp + focus ring, persist-before-republish) this task instantiates — no radiogroup anatomy is rebuilt here |
+| Sibling **E16-T01** | Supplies the grouped Settings scaffold; this row lands in its Display section slot |
+| Sibling **E16-T03** | Owns the **theme and Quran font-size/zoom** pickers — the §11.2 "transform the rendered layer, not the text" pair; this picker carries no zoom/theme control, and neither picker reaches the other's preference |
+| Sibling **E16-T12** | Consumes this picker's fa/ckb/ar ARB coverage, per-locale RTL goldens, and the offline guard into the consolidated suite |
+| Cross-epic **E13 / E05** | Own reading `profile.mushaf_id` and rendering the chosen edition's immutable glyph pages; this task ends at the persisted id |
+| Cross-epic **E11 / E19** | Per 13-islamic-identity §5 the riwāyah statement also appears at **onboarding** (E11's surface) and the Tanzil/QUL/KFGQPC **attribution + integrity statement** lives on About/Credits (E19); this task covers only the Settings row and duplicates neither |
+| `docs/PRD.md` §17 | Privacy posture the picker inherits: no telemetry on which edition was chosen — the choice is a local field that never leaves the device |
+| Skill `eng-write-dart-test` | The harness conventions: recording repository doubles, `matchesGoldenFile` on real bundled fonts, and the `HttpOverrides` offline guard this task's suite is built on |
+
+## Implementation notes
+
+This task is a thin, presentation-only instantiation: one options-builder + one persisted field over the T02 primitive. The invariants that matter are negative — what the picker must *not* do — so they are pinned mechanically (boundary + adab tests written first), not left as convention.
+
+1. **Files** (in the `features` umbrella package, `lib/src/settings/`, per eng-add-feature-module): `widgets/mushaf_riwayah_picker.dart` — a dumb widget instantiating the E16-T02 primitive (`SettingsSinglePicker<String>` per the ui-settings-picker template) keyed by `mushaf_id`; the option list is built in the settings view-model from the read-only `mushaf` reference DAO (E03) — installed rows only. Wire the row into T01's Display section. Build **no** new radiogroup, state layer, or focus handling.
+2. **Option set = installed, verified editions only.** The bundled Ḥafṣ Madani 15-line core is always present and is the default; an alternative riwāyah appears only after the asset-pack flow has installed and hash-verified it (§11.1.1). The picker never triggers a download, shows no "get more muṣḥafs" store affordance, and opens no socket. With a single installed edition it **still renders** as a one-row radiogroup, selected, stating the riwāyah — R2's statement is unconditional, not contingent on there being a choice.
+3. **The label is chrome, not scripture.** The bundled edition's label is an ARB string (e.g. `mushafEditionHafsMadani` → "Ḥafṣ ʿan ʿĀṣim — Madani muṣḥaf") transcreated for fa/ckb/ar; a future pack's label comes from its `mushaf` row's `riwayah`/`name` metadata rendered as plain chrome. Labels render in UI type tokens (`type.body`) — **never** in a QPC glyph font, never as an āyah sample, never as a page thumbnail. Arabic proper-noun runs embedded in fa/ckb chrome are FSI/PDI-isolated (localization-and-rtl §3, §8).
+4. **Store exactly one field.** Selection routes through one settings-controller method that persists `profile.mushaf_id` transactionally **before** republishing (the T02 wiring; eng-create-riverpod-store). The write touches **no** `card`, `review_log`, `cycle_config`, or `due_at` — the scheduler is text-agnostic (R2). Attempt **no** card/page remapping on switch; if a future alt layout ever needs a page-mapping migration, that is a decision-log amendment in the alt-pack work, not this picker.
+5. **Never cross the rendering boundary.** The picker file imports nothing from the Quran-rendering path (no glyph-font registration, no page/line/layout widget, no glyph codepoints, no `quran` rendering module); it never re-typesets, mirrors, reflows, translates, or applies UI numerals/fonts to a glyph page — that is E13/E05 behind `domain-mushaf-text-integrity`. Pin this with a source-level boundary test, not a comment.
+6. **Adab of the naming.** The section row title reads "Muṣḥaf" (localized); each option is its named edition + riwāyah. No option is "recommended", praised, starred, or ranked; no copy implies one transmission is the only valid one (13-islamic-identity §5); switching is quiet — no confetti, chime, badge, or haptic fanfare (07-components §6, Pillar 2). No tafsīr, translation, or commentary text appears anywhere on this surface.
+7. **Strings via the ARB pipeline, transcreated for fa/ckb/ar** (eng-add-localized-string): the row title, each edition label/statement, and `Semantics` labels are `l10n.*` keys in `app_ar.arb` (base) + `fa`/`ckb`; no hardcoded user-facing string. The riwāyah statement is religious-adjacent copy — it does not ship without scholarly review of the wording in all three locales.
+8. **RTL + accessibility are inherited from T02 — assert, don't rebuild:** `EdgeInsetsDirectional` geometry, ≥48dp `touch.min` rows, radiogroup `Semantics` (`inMutuallyExclusiveGroup`) whose per-row label is the **full edition statement** (a screen-reader user must hear the riwāyah, not "option 1"), visible focus ring, OS text scale never shrinking a row below 48dp.
+9. **Attribution stays where it lives.** The Tanzil/QUL/KFGQPC source attribution and the integrity ("checksum-verified, byte-for-byte") statement belong to the About/Credits surface (13-islamic-identity §5; routed by T01's About section to E19) — this picker states the riwāyah and edition name only, and does not duplicate license or checksum copy into option rows.
+10. **Pitfalls to avoid:** a glyph/page preview inside an option row (re-enters the rendering path); a download/"more editions" affordance (opens the socket this epic bans); writing any field beside `mushaf_id`, or writing it from the View; a bare absolute "Quran"/"قرآن" as an edition name or header; "most authentic"/"recommended" praise on an edition; remapping cards or touching a `due_at` on switch; hardcoding the statement in one language; applying `font_family` from the `mushaf` row to the label text (that column belongs to the renderer, not the chrome).
+
+## Acceptance criteria
+
+- [ ] `settings/widgets/mushaf_riwayah_picker.dart` exists in the `features` package as an instantiation of the E16-T02 primitive — no new radiogroup anatomy, no `Slider`, no switch, no free text (verifiable by grep over the file).
+- [ ] The row sits in the T01 Display section slot; it carries no zoom/theme control (T03's), no attribution/checksum copy (E19's About), and no onboarding surface (E11's).
+- [ ] The option set is exactly the installed, verified `mushaf` reference rows; the bundled Ḥafṣ Madani 15-line core is always present and is the default; no download or "more editions" affordance exists; with one installed edition the picker still renders one selected row stating the riwāyah.
+- [ ] Every option label names the edition **and states the riwāyah** ("Ḥafṣ ʿan ʿĀṣim — Madani muṣḥaf"); no label, header, or `Semantics` string presents the muṣḥaf as "the Quran" in the absolute; no tafsīr/translation text appears on the surface.
+- [ ] Selecting an edition persists **exactly** `profile.mushaf_id` through the one controller method (persist-before-republish); no other table or field is written; no `card`, `review_log`, `cycle_config`, `due_at`, or engine state changes.
+- [ ] The picker tree renders **no** muṣḥaf glyph, page preview, or QPC-font text, and the widget imports no glyph-font/rendering module (pinned by the boundary test).
+- [ ] Every user-facing string is an `l10n.*` ARB key present in fa/ckb/ar; Arabic proper-noun runs inside fa/ckb chrome are FSI/PDI-isolated; no hardcoded label; the statement's wording is flagged for scholarly review before ship.
+- [ ] Layout is RTL by geometry (`EdgeInsetsDirectional`, no `left`/`right`); rows are ≥48dp with radiogroup `Semantics` whose selected value carries the full edition statement; a visible focus ring renders.
+- [ ] Switching is quiet and factual — no confetti/streak/badge/praise/recommendation/urgency/`!`; the adab conscience pass over all three locales is recorded.
+
+## Tests
+
+All deterministic, offline by construction, seeded `mushaf` fixtures, injected clock only (never `DateTime.now()`). The boundary and adab invariants are written first.
+
+- `features/test/settings/mushaf_riwayah_picker_test.dart` (widget): selecting an edition routes through the controller — a recording repository asserts **exactly one write, to `mushaf_id`**, persisted before the republished state, and **zero** writes to cards/`review_log`/`cycle_config`; the rendered options mirror the seeded installed `mushaf` rows (an uninstalled edition does not appear); a single-edition fixture still renders the selected row with the riwāyah statement; no `Slider` exists in the tree.
+- `features/test/settings/mushaf_picker_boundary_test.dart` (unit/source) — **written first**: asserts the picker's source imports no glyph-font/rendering path (grep over the file's imports) and the pumped tree contains no muṣḥaf-page/glyph widget type — the "stores a name, never re-typesets" invariant pinned mechanically.
+- `features/test/settings/mushaf_label_adab_test.dart` (unit) — **written first**: every edition-label ARB value in fa/ckb/ar contains the riwāyah statement and never the bare absolute "Quran"/"قرآن" as an edition name; the never-ship banned-phrase lint passes over all added strings (no praise/"recommended"/"most authentic", no guilt/fear/urgency, no `!`, no emoji).
+- `features/test/settings/mushaf_picker_golden_test.dart` (golden): per-locale (fa/ckb/ar) RTL goldens of the picker rows on the real bundled **UI** fonts — proving the statement renders as chrome and no QPC glyph surface appears.
+- Offline guard: the suite runs under an `HttpOverrides` that fails any socket open (eng-write-dart-test) — selecting and switching editions makes no network call.
+
+## Definition of Done
+
+- [ ] All acceptance criteria met; the boundary and adab tests were written first and are green; the per-locale goldens run in CI on the real bundled fonts.
+- [ ] **Offline / no-network**: the picker lists installed editions only and opens no socket — no download, no store, no fetch; the `HttpOverrides` guard passes; alt-pack installation stays in the asset-pack flow (§11.1.1).
+- [ ] **No AI / no microphone**: nothing here records, infers, or recommends; the option set is static installed data; no "recommended for you" (R5, epic DoD).
+- [ ] **Quran text fidelity (R1/R2 — the headline invariant)**: the picker stores a *named* edition and states the riwāyah; it never re-typesets, mirrors, reflows, translates, or applies UI numerals/fonts to the glyph page; it renders no glyph and imports no rendering path; it never calls the muṣḥaf "the Quran" in the absolute; zero tafsīr/translation is introduced.
+- [ ] **No schedule mutation / never "safe to drop"**: switching the edition mutates only `profile.mushaf_id` — no `due_at`, card, or engine state moves; no copy frames an edition or the switch as making revision "lighter", "safe", or "done" (§7.12 register).
+- [ ] **No gamification / no shame (R3)**: the switch is a quiet factual state change — no confetti, chime, streak, badge, praise, or ranking of editions; no urgency to switch.
+- [ ] **Single write path / dumb View**: the mutation is one controller method persisting transactionally **before** republishing; the View never writes; the option list is a pre-built read model over the `mushaf` DAO.
+- [ ] **RTL + fa/ckb/ar localization**: every string ships through the ARB pipeline in all three locales, transcreated not literally translated; layout is RTL by geometry; mixed Arabic-proper-noun runs are FSI/PDI-isolated; the riwāyah statement's wording passed scholarly review.
+- [ ] **Accessibility (WCAG 2.2 AA)**: ≥48dp rows, radiogroup `Semantics` announcing the full edition statement + selected value, visible focus ring, states mirrored under RTL, OS text scale respected.
+- [ ] **Sect-neutral adab**: labels name the transmission without adjudicating between riwāyāt (13-islamic-identity §5); the conscience pass is recorded; **no CLAIMS id is cited — deliberately** (the statement is R2 attribution, not a graded science claim; the science screen is E19's).
+- [ ] **Deterministic tests**: seeded `mushaf` fixtures, injected clock, no network; goldens byte-stable on the pinned fonts; all gates stay green.

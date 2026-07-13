@@ -325,6 +325,18 @@ class AppLocalizationsFa extends AppLocalizations {
   String get navSettings => 'تنظیمات';
 
   @override
+  String get headerSubtitleToday => 'مرورِ امروز — آرام و کوتاه';
+
+  @override
+  String get headerSubtitleMutashabihat => 'جاهایی که زیاد جابه‌جا می‌شوند';
+
+  @override
+  String get headerSubtitleProgress => 'کلِ قرآن، یک دیوارِ کاشی';
+
+  @override
+  String get headerSubtitleSettings => 'ترجیح‌های آرام و نمایشی';
+
+  @override
   String get appearanceFollowSystem => 'سیستم';
 
   @override
@@ -412,6 +424,15 @@ class AppLocalizationsFa extends AppLocalizations {
   String get profilesAddButton => 'افزودن نمایه';
 
   @override
+  String get profileSetUpPlacement => 'تنظیم مرور';
+
+  @override
+  String get profilePlacementTitle => 'تنظیم مرور';
+
+  @override
+  String get profilePlacementSaved => 'مرور تنظیم شد.';
+
+  @override
   String get profilesNameHint => 'نام نمایشی';
 
   @override
@@ -446,6 +467,14 @@ class AppLocalizationsFa extends AppLocalizations {
   @override
   String get onboardingCoverageInstruction =>
       'اجزایی را که حفظ دارید انتخاب کنید.';
+
+  @override
+  String get onboardingJustStarting =>
+      'من تازه شروع کرده‌ام — هنوز هیچ جزئی را حفظ نکرده‌ام';
+
+  @override
+  String get onboardingJustStartingNote =>
+      'اشکالی ندارد. هر صفحه‌ای را که حفظ می‌کنید به‌تدریج به مرور شما افزوده می‌شود.';
 
   @override
   String get onboardingConfidenceTitle => 'هر جزء چقدر استوار است؟';
@@ -677,6 +706,9 @@ class AppLocalizationsFa extends AppLocalizations {
   String get budgetPauseNewSabaq => 'به تعویق انداختن سبق تازه';
 
   @override
+  String get todayStartNewLesson => 'شروع سبق تازه';
+
+  @override
   String get commonRetry => 'تلاش دوباره';
 
   @override
@@ -795,6 +827,9 @@ class AppLocalizationsFa extends AppLocalizations {
   String get certaintyTradPhrase => 'دانش نقلی؛ منبعش در زیر آمده است';
 
   @override
+  String get certaintyRulePhrase => 'قاعده‌ای که برنامه تضمین می‌کند';
+
+  @override
   String get certaintyLegendTitle => 'استواری شواهدی که بر آن تکیه می‌کنیم';
 
   @override
@@ -899,6 +934,19 @@ class AppLocalizationsFa extends AppLocalizations {
   String get mushafJumpTitle => 'رفتن به';
 
   @override
+  String get mushafMemorizedThisPage => 'این صفحه را حفظ کردم';
+
+  @override
+  String get sabaqStartedNote =>
+      'به مرور شما افزوده شد — در مرور امروز نمایان می‌شود.';
+
+  @override
+  String get sabaqAlreadyInRevision => 'این صفحه از پیش در مرور شماست.';
+
+  @override
+  String get sabaqIntakeFailedNote => 'فعلاً ذخیره نشد. دوباره تلاش کنید.';
+
+  @override
   String get mushafUnitJuz => 'جزء';
 
   @override
@@ -915,6 +963,10 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get mushafOverlayMutashabihat => 'متشابهات';
+
+  @override
+  String get mushafOverlayUnavailableOnPage =>
+      'چیزی برای نمایش در این صفحه نیست';
 
   @override
   String get mushafZoomIn => 'بزرگ‌نمایی';
@@ -1009,6 +1061,13 @@ class AppLocalizationsFa extends AppLocalizations {
   String get progressHistoryTitle => 'مرورهای اخیر';
 
   @override
+  String get progressPrayerCritical => 'صفحه‌ای که در نماز به آن تکیه دارم';
+
+  @override
+  String get progressPrayerCriticalNote =>
+      'با معیاری بالاتر مرور می‌شود تا حفظ بماند.';
+
+  @override
   String get progressNoHistory => 'هنوز مروری ثبت نشده';
 
   @override
@@ -1028,6 +1087,13 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get progressForecastTitle => 'روزهای پیشِ‌رو';
+
+  @override
+  String get progressTileWallTitle => 'دیوارِ کاشیِ حفظِ تو';
+
+  @override
+  String get progressTileWallHint =>
+      'هر کاشی یک صفحه؛ لعابِ پررنگ‌تر یعنی استوارتر. بافتِ کاشی هم با رنگ می‌گوید — نه فقط رنگ.';
 
   @override
   String get backupOwnershipLine =>

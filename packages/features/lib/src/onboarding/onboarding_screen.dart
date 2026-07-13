@@ -101,6 +101,8 @@ class OnboardingScreen extends ConsumerWidget {
         OnboardingStep.coverage => CoverageCaptureGrid(
             heldJuz: state.coverage,
             onToggle: controller.toggleJuz,
+            justStarting: state.justStarting,
+            onJustStarting: (value) => controller.setJustStarting(value: value),
           ),
         OnboardingStep.confidence => ConfidenceStep(
             heldJuz: state.coverage,

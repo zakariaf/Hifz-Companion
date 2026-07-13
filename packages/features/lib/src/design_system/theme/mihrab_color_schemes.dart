@@ -96,13 +96,26 @@ ColorScheme _seeded(Brightness brightness) => ColorScheme.fromSeed(
       contrastLevel: contrastLevelStandard,
     );
 
+// Mihrab-architecture appearance (owner-directed design amendment): a limestone
+// plaster surface, glazed-teal primary, and a deep tile-shadow ink — the palette
+// of a serene tiled mosque (concept 03). Every text/accent role is tuned to clear
+// the WCAG 2.2 AA floors re-audited in 03 §7 (the teal is deepened from the
+// concept's #1F7A6D so it holds 4.5:1 as chip/label text on the limestone).
 final ColorScheme _lightScheme = _seeded(Brightness.light).copyWith(
-  surface: const Color(0xFFF3F6F1),
-  surfaceContainer: const Color(0xFFE7ECE4),
-  onSurface: const Color(0xFF1A211E),
-  onSurfaceVariant: const Color(0xFF46514B),
-  primary: const Color(0xFF18745A),
+  surface: const Color(0xFFEFEBE3),
+  surfaceContainer: const Color(0xFFE5DECD),
+  onSurface: const Color(0xFF233230),
+  onSurfaceVariant: const Color(0xFF4C5A54),
+  primary: const Color(0xFF1C7062),
   onPrimary: const Color(0xFFFFFFFF),
+  // The three lifecycle-track chips read as glazed tiles: far/near a teal glaze,
+  // the new-lesson (sabaq) a warm sand tile (no seed-derived blue).
+  primaryContainer: const Color(0xFFC6E2D9),
+  onPrimaryContainer: const Color(0xFF16342C),
+  secondaryContainer: const Color(0xFFD6E4DB),
+  onSecondaryContainer: const Color(0xFF2A4038),
+  tertiaryContainer: const Color(0xFFE8DCC2),
+  onTertiaryContainer: const Color(0xFF4A3F2C),
 );
 
 final ColorScheme _sepiaScheme = _seeded(Brightness.light).copyWith(

@@ -71,6 +71,14 @@ class CycleConfigWriter {
         (config) => config.copyWith(dailyBudgetMinutes: minutes),
       );
 
+  /// Pauses new memorization — sets the daily sabaq pace to 0, so the intake
+  /// surfaces offer no new lesson (E21). Framed as **protecting what is already
+  /// earned**, never a failure; resume by setting a positive pace in the Custom
+  /// cycle. Touches only `newLinesPerDay` — no `due_at` moves, no page is
+  /// dropped, nothing is ever "safe to stop revising".
+  Future<void> pauseNewSabaq() =>
+      mutateActiveConfig((config) => config.copyWith(newLinesPerDay: 0));
+
   /// Writes the four bounded Custom fields (cycle_type → 'custom'); each maps 1:1
   /// to a cycle_config field — no retention target, no fifth field.
   Future<void> setCustomCycle({

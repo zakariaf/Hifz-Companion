@@ -1,0 +1,87 @@
+# E16-T01 — Grouped Settings screen scaffold + sectioned one-handed template
+
+| | |
+|---|---|
+| **Epic** | [E16 — Settings, Profiles & Teacher Sign-off](EPIC.md) |
+| **Size** | M (≈1-2 days) |
+| **Depends on** | E07, E10 |
+| **Skills** | eng-add-feature-module, ui-settings-picker, eng-create-riverpod-store, eng-rtl-and-bidi-layout, eng-write-dart-test |
+
+## Goal
+
+The Settings tab lands on a calm, one-handed, vertically-scrolling **grouped surface** — a dumb View (`settings_screen.dart`) + a 1:1 view-model (`settings_view_model.dart`) in the `features/settings` module — sectioned **Display / Cycle / Profiles / Backup / About**, with rare/destructive controls placed in the hard-to-reach **top-start corner** (thumb-zone safety, not friction theatre). This task establishes ONLY the shell: the five section containers, the one-handed template, the entry rows as route/placeholder rows, and the `go_router` sub-route slots later tasks hang controls off. It builds **no** picker, toggle, profile flow, or destination — the Backup entry routes toward E17, the About entry toward E19's science screen, and E18's reminder row lands in this surface later; T01 places the entries and builds none of those destinations. No preference is read or written; the View mutates nothing.
+
+## Context & references
+
+| Reference | What to take from it |
+|---|---|
+| `docs/PRD.md` §15, §12.6 | The settings inventory this shell must house: cycle presets + Pure-cycle + budget (§15.1 → the Cycle section), term-set / calendar / numerals / language / muṣḥaf / theme / zoom (§15.2 → the Display section), local multi-profile + halaqa (§15.3 → the Profiles section); §12.6 pins the screen's scope as "§15 and §16" — Backup (§16) is an entry here, its surfaces are E17's |
+| `docs/PRD.md` §18 | Accessibility floor: large tap targets, full RTL correctness, respect OS text-scale, semantic labels on all controls in each locale — the shell's rows honor these before any control exists |
+| `docs/PRD.md` §17 | The privacy posture the shell must not betray: no account, no login, no PII, no telemetry; a profile is just a typed display name — so the Profiles section renders no per-profile score, rank, or completion %, and the surface carries no outward-pointing UI |
+| `docs/design-system/07-components.md` §1 | The register: calm, flat, book-like, "no dashboard" chrome; quiet section headers in `type.title` separated by `space.6`, rows `space.2` apart; no counters, no celebration, never a feed |
+| `docs/design-system/07-components.md` §6 | The explicit row/tile state model: enabled/pressed/disabled/focused/selected via M3 **state layers** over role colors (never ad-hoc opacity); a visible focus ring (`color.outline`, WCAG 2.2 SC 2.4.7); states mirror under RTL and are announced via `Semantics` flags |
+| `docs/design-system/05-layout-spacing-touch.md` §4, §5 | ≥48×48dp `touch.min` targets ≥8dp apart; the one-handed screen template — calm content scrolls, primary actions in the bottom band, **destructive/rare actions in the hard-to-reach top-start corner** as a natural safety margin |
+| `docs/design-system/12-localization-and-rtl.md` §1 | RTL by geometry, not a flipped flag: logical start/end only (`EdgeInsetsDirectional`/`AlignmentDirectional`), never physical left/right; one template serves fa/ckb/ar; RTL drives focus/traversal order |
+| `docs/engineering/02-project-structure.md` §3.4 | The fixed feature folder anatomy: `settings_screen.dart` (dumb entry View), `settings_view_model.dart` (1:1 ViewModel), `widgets/`, `settings_providers.dart` (scoped, never global) |
+| `docs/engineering/02-project-structure.md` §5 | The machine-checked downward-only dependency set: `features` depends on engine/data/quran/l10n/profiles + `flutter_riverpod`/`go_router` only; no `http`/`dio`, no `drift`/DAO import, no sideways import of another feature's `src/` |
+| `docs/engineering/04-flutter-and-state-patterns.md` §1.1, §1.2 | State ownership: per-feature presentation state lives in one `Notifier` exposing an immutable UI-state value; the composition root wires live services; `activeProfileProvider` is the app-scope profile gate — this shell creates **no** "current user" singleton of its own |
+| `docs/engineering/04-flutter-and-state-patterns.md` §6 | Navigation: the `/settings` `GoRoute` already sits under the single `ShellRoute` (E07, RTL nav order Today · Muṣḥaf · Mutashābihāt · Progress · Settings); sub-screens are **nested typed `GoRoute`s** under it; no imperative `Navigator.push`; controllers never navigate — the View does |
+| Skill `eng-add-feature-module` | The scaffold checklist this task IS: dumb `ConsumerWidget` View reading exactly one controller; downward deps; tokens by name only; ARB strings; no gamified affordances; ViewModel tested by `ProviderContainer` + overrides, View by widget/golden tests |
+| Skill `ui-settings-picker` (Pattern 7) | The grouped Settings template this shell provides: ≥48dp rows in a calm grouped list, content scrolls, destructive controls out of easy thumb reach; OS text scale never shrinks a row below 48dp. The picker **primitive itself is T02** — nothing single-select is built here |
+| Skill `eng-create-riverpod-store` | The `Notifier` shape for `settings_view_model.dart` — immutable state, scoped provider; T01's notifier has **no mutation method** (nothing to persist yet); the persist-before-republish discipline arrives with T02+ |
+| CLAIMS | **None surfaced by this task.** The shell renders no user-facing factual number, scheduling claim, or methodology copy — only localized section headers and entry labels. Claim-bearing copy arrives with the surfaces that own it (e.g. E19's science screen behind the About entry); no claim text is rendered here |
+| Sibling **E16-T02** | Owns the reusable single-choice picker primitive (named radiogroup, selected = shape+text, persist-before-republish) that T03–T07 instantiate inside the sub-route slots this task declares |
+| Siblings **E16-T03…T07** | Own the concrete Display controls (language/theme/zoom, calendar/numerals, term-set, muṣḥaf/riwāyah) and the Cycle controls (preset + Pure-cycle + budget); T01 only places their entry rows and route slots |
+| Siblings **E16-T08/T09/T11** | Own the Profile model/notifier, the switcher, and the delete-profile confirm; T01 renders the Profiles section container and its placeholder entry only — no profile data is read here |
+| Sibling **E16-T12** | Consolidates fa/ckb/ar ARB coverage, per-locale RTL goldens, and the epic-wide offline guard across every Settings surface; T01 ships its own labels localized and its own shell-level tests |
+| Dependency (out of scope here) **E10 mihrab-component-library** | Owns the leaf row/section anatomy, states, and goldens the shell composes; this task arranges those leaves into the grouped one-handed template — it does not build leaf anatomy |
+
+## Implementation notes
+
+This task is pure chrome: no repository call, no engine call, no `DateTime.now()`, no persisted read or write. It fixes the geometry, grouping, and routing contract every later E16 task builds against.
+
+1. **Files** (in the `features` umbrella package, `lib/src/settings/`, per eng-add-feature-module / 02 §3.4): `settings_screen.dart` — the dumb `ConsumerWidget` entry View reading exactly one controller and rendering the grouped list; `settings_view_model.dart` — the 1:1 `Notifier` exposing an immutable `SettingsShellState` (the ordered section → entries read model, static in T01); `widgets/settings_section.dart` — one section container (quiet `type.title` header + its rows); `widgets/settings_entry_row.dart` — the ≥48dp placeholder entry row (label at start, chevron at end, navigates on tap); `settings_providers.dart` — the screen's scoped providers. One primary type per file; nothing global.
+2. **Five sections, fixed order, top-to-bottom: Display → Cycle → Profiles → Backup → About.** Section headers in `type.title`, `space.6` between sections, rows `space.2` apart on the `space.*` grid, flat calm surfaces (07 §1). Entry rows per section: Display → language, theme, Quran font-size/zoom, calendar, numerals, term-set, muṣḥaf/riwāyah (T03–T06); Cycle → cycle preset, Pure-cycle, daily budget (T07); Profiles → profiles list/switcher entry (T08/T09); Backup → one entry toward E17; About → one entry toward E19. No sixth section; E18's reminder row later joins an existing section without re-templating.
+3. **One-handed template (05 §5):** the section list scrolls in the content zone; the bottom band belongs to the `ShellRoute` nav bar (E07) — this screen adds **no** bottom primary action; the **top-start corner is the reserved rare/destructive region** where T11's delete-profile and E17's erase affordances will land. T01 reserves the slot in the template (a top-start app-bar action region); no destructive affordance may ever render in the bottom thumb zone.
+4. **Routing (04 §6):** add nested `GoRoute` slots under the existing `/settings` route — `language`, `theme`, `zoom`, `calendar`, `numerals`, `term-set`, `mushaf`, `cycle`, `profiles`, `backup`, `about` — each building a minimal placeholder destination a later task replaces (a titled empty scaffold; no content promise). Entry rows navigate via `context.go`/typed routes; never an imperative `Navigator.push` of a `MaterialPageRoute`; the onboarding redirect guard is inherited, not bypassed; the controller never navigates.
+5. **Entry rows are the E10 leaf composed, not re-invented:** label at **start**, mirrored chevron at **end** (`EdgeInsetsDirectional` only), ≥48dp `touch.min`, M3 state layers for pressed/focused (07 §6), a visible `color.outline` focus ring, `Semantics` button with the localized label. Rows show **no value/subtitle** in T01 — current-choice values arrive with the controls (T03+).
+6. **The view-model writes nothing.** T01's `Notifier` exposes only the static ordered read model; it has no mutation method, calls no repository, reads no DAO. The single-write-path discipline (persist-before-republish) is T02+'s contract; T01's job is to make it structurally impossible for the View to write — the View binds to zero commands.
+7. **No gamification, no rank, anywhere in the surface:** no streak, badge, score, completion %, "N days", or per-profile rank renders in any section or placeholder — the Profiles section is names-only territory (PRD §17: no PII, no score). No exclamation marks in any label.
+8. **Strings via the ARB pipeline:** every section header and entry label is an `l10n.*` key in `app_ar.arb` (template) + transcreated `fa`/`ckb` (eng-add-localized-string); no hardcoded user-facing string; the shell renders no numbers, so no numeral path is exercised here (that starts with T03's option labels via `intl`).
+9. **Tokens by name only:** `type.title`, `space.*`, `touch.min`, `color.outline`, role colors — a raw hex/px/ms in the shell is a lint failure (CLAUDE.md #12).
+10. **Pitfalls to avoid:** building any actual picker/toggle/profile flow here (T02–T11 own them); rendering a preference's current value from a store T01 must not read; a physical `left`/`right` inset or `Alignment.centerLeft`; a destructive affordance in the bottom band; navigating from the notifier; a screen-level scroll that traps the section list in nested scrollables; inventing a sixth section for reminders (E18 slots into the template); hardcoded English section names.
+
+## Acceptance criteria
+
+- [ ] `settings_screen.dart`, `settings_view_model.dart`, `widgets/settings_section.dart`, `widgets/settings_entry_row.dart`, `settings_providers.dart` exist under `packages/features/lib/src/settings/` per the 02 §3.4 anatomy; the View is a dumb `ConsumerWidget` reading exactly one controller.
+- [ ] The five sections render in the fixed order Display → Cycle → Profiles → Backup → About, each with a quiet `type.title` header, `space.6` between sections, rows `space.2` apart, on flat calm chrome — no dashboard, counter, card-stat, or celebration element anywhere.
+- [ ] Every entry row is ≥48dp (`touch.min`), keeps ≥48dp under enlarged OS text scale, shows M3 state-layer pressed/focused states with a visible `color.outline` focus ring, and exposes a localized `Semantics` label + button role.
+- [ ] The template is one-handed: content scrolls; no bottom primary action is added; the rare/destructive slot is reserved in the top-start corner and nothing destructive exists in the bottom thumb zone.
+- [ ] Nested `GoRoute` slots exist under `/settings` for every entry (language, theme, zoom, calendar, numerals, term-set, mushaf, cycle, profiles, backup, about), each resolving to a placeholder destination; entries navigate through typed routes, never `Navigator.push`; the redirect guard is not bypassed.
+- [ ] The view-model exposes an immutable static read model with zero mutation methods; grep over `lib/src/settings/` finds no repository/DAO call, no `DateTime.now()`, no `http`/`dio`/`drift` import, no import of another feature's `src/`.
+- [ ] Every section header and entry label is an `l10n.*` ARB key present in fa/ckb/ar; no hardcoded user-facing string; layout uses `EdgeInsetsDirectional`/`AlignmentDirectional` only (no physical left/right).
+- [ ] No streak, badge, score, completion %, rank, or "N days" widget/string exists anywhere in the task's files; no `!` in any label.
+
+## Tests
+
+All deterministic, offline by construction, real bundled fonts; the shell has no clock, no seed data, no network (eng-write-dart-test).
+
+- `features/test/settings/settings_screen_test.dart` (widget) — pumped under RTL `Directionality` per locale (fa/ckb/ar): the five sections render in order Display → Cycle → Profiles → Backup → About with headers at the **start** edge; every entry row's hit target is ≥48dp (and stays ≥48dp under a raised `textScaleFactor`); a focused row shows a visible focus ring; asserts **no** streak/badge/score/completion-% widget and no `!` in any rendered text.
+- `features/test/settings/settings_nav_test.dart` (widget) — a fake `go_router` records pushes: tapping each entry row pushes exactly its expected `/settings/<slot>` sub-route (all eleven slots covered); no route escapes the `ShellRoute`; no imperative `Navigator.push` is recorded; a recording repository double asserts **zero** persisted reads/writes occur across every tap.
+- `features/test/settings/settings_l10n_test.dart` (widget/unit) — every rendered section header and entry label resolves through `AppLocalizations` (no hardcoded English literal in the tree); the keys exist in all three ARB locales (`nullable-getter: false` coverage holds).
+- `features/test/settings/settings_view_model_test.dart` (unit) — `ProviderContainer` + overrides: the notifier's state is the fixed ordered section model; the notifier type declares no mutation/command method (pinned so a later write path must arrive via T02's reviewed contract, not drift into T01's shell).
+- Offline guard: the suite runs under an `HttpOverrides` that fails any socket open — opening Settings, scrolling, and tapping every entry opens **no** socket. (Per-locale golden screenshots of the full surface are aggregated by E16-T12.)
+
+## Definition of Done
+
+- [ ] All acceptance criteria met; all tests above green in CI on the pinned runner with the real bundled fonts.
+- [ ] **Offline / no-network:** the shell performs no network call; the `HttpOverrides` guard passes; no `http`/`dio` import exists in the module (02 §5 ban).
+- [ ] **No AI / no microphone:** nothing here records, infers, or recommends; the shell is static localized chrome (PRD R5, C2).
+- [ ] **Quran text fidelity (R1):** no surface in this task renders, masks, or re-typesets any āyah or glyph — the muṣḥaf entry is a label routing to a slot; the glyph layer is untouched.
+- [ ] **Never "safe to drop" / engine untouched:** no copy or affordance here describes retention, decay, or schedule state; the shell reads and writes no engine or card state, so no invariant can be misstated (§7.12 untouched by construction).
+- [ ] **No gamification / no shame (R3):** no streak, badge, score, rank, completion %, or guilt/fear string anywhere; the Profiles section surfaces no per-profile metric; entering Settings celebrates nothing.
+- [ ] **The View is dumb / single write path preserved:** the View binds zero commands; the notifier has no mutation method; no persisted state is read or written anywhere in the task; no `DateTime.now()` in the module.
+- [ ] **RTL + fa/ckb/ar localization:** every label ships through the ARB pipeline in all three locales (transcreated, not literal); layout is RTL by geometry (logical insets only); the one template serves fa/ckb/ar unchanged with ckb's longer labels reflowing within the same insets.
+- [ ] **Accessibility (WCAG 2.2 AA):** ≥48dp targets that survive OS text-scale, visible focus rings (SC 2.4.7), `Semantics` labels + roles per row and header, focus/traversal order matches the RTL visual order.
+- [ ] **Sect-neutral adab:** the section headers and entry labels (the only copy this task ships) pass the **domain-adab-and-religious-integrity** conscience check in all three locales — factual naming, no fiqh ruling, no urgency, no reassurance about decay; religious-terminology labels (muṣḥaf/riwāyah, term-set) defer their claim-bearing copy to the tasks that own them.
+- [ ] **Deterministic tests:** no clock, no randomness, no network in any test; the fake router and recording repository doubles are injected via provider overrides; all gates stay green.

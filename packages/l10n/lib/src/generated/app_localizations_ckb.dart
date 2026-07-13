@@ -325,6 +325,18 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get navSettings => 'ڕێکخستنەکان';
 
   @override
+  String get headerSubtitleToday => 'پێداچوونەوەی ئەمڕۆ — هێمن و کورت';
+
+  @override
+  String get headerSubtitleMutashabihat => 'ئەو شوێنانەی زۆر تێکەڵ دەکرێن';
+
+  @override
+  String get headerSubtitleProgress => 'هەموو قورئان، دیوارێکی کاشی';
+
+  @override
+  String get headerSubtitleSettings => 'هەڵبژاردنە هێمنەکانی پیشاندان';
+
+  @override
   String get appearanceFollowSystem => 'سیستەم';
 
   @override
@@ -412,6 +424,15 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get profilesAddButton => 'زیادکردنی پرۆفایل';
 
   @override
+  String get profileSetUpPlacement => 'ڕێکخستنی پێداچوونەوە';
+
+  @override
+  String get profilePlacementTitle => 'ڕێکخستنی پێداچوونەوە';
+
+  @override
+  String get profilePlacementSaved => 'پێداچوونەوە ڕێکخرا.';
+
+  @override
   String get profilesNameHint => 'ناوی پیشاندان';
 
   @override
@@ -445,6 +466,14 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get onboardingCoverageInstruction => 'ئەو جوزانە هەڵبژێرە کە لەبەرتە.';
+
+  @override
+  String get onboardingJustStarting =>
+      'من تازە دەستم پێکردووە — هێشتا هیچ جوزئێکم لەبەر نەکردووە';
+
+  @override
+  String get onboardingJustStartingNote =>
+      'کێشە نییە. هەر لاپەڕەیەک کە لەبەری بکەیت، بۆ پێداچوونەوەکەت زیاد دەکرێت.';
 
   @override
   String get onboardingConfidenceTitle => 'هەر جوزێک چەند جێگیرە؟';
@@ -680,6 +709,9 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get budgetPauseNewSabaq => 'دواخستنی سەبەقی نوێ';
 
   @override
+  String get todayStartNewLesson => 'دەستپێکردنی سەبەقی نوێ';
+
+  @override
   String get commonRetry => 'هەوڵدانەوە';
 
   @override
@@ -800,6 +832,9 @@ class AppLocalizationsCkb extends AppLocalizations {
       'زانستی نەقلی؛ سەرچاوەکەی لە خوارەوە ناوبراوە';
 
   @override
+  String get certaintyRulePhrase => 'بنەمایەک کە ئەپەکە مسۆگەری دەکات';
+
+  @override
   String get certaintyLegendTitle => 'هێزی ئەو بەڵگانەی پشتی پێدەبەستین';
 
   @override
@@ -906,6 +941,21 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get mushafJumpTitle => 'بڕۆ بۆ';
 
   @override
+  String get mushafMemorizedThisPage => 'ئەم لاپەڕەیەم لەبەرکردووە';
+
+  @override
+  String get sabaqStartedNote =>
+      'بۆ پێداچوونەوەکەت زیادکرا — لە پێداچوونەوەی ئەمڕۆدا دەردەکەوێت.';
+
+  @override
+  String get sabaqAlreadyInRevision =>
+      'ئەم لاپەڕەیە پێشتر لە پێداچوونەوەکەتدایە.';
+
+  @override
+  String get sabaqIntakeFailedNote =>
+      'ئێستا پاشەکەوت نەکرا. دووبارە هەوڵبدەوە.';
+
+  @override
   String get mushafUnitJuz => 'جزء';
 
   @override
@@ -922,6 +972,10 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get mushafOverlayMutashabihat => 'هاوشێوەکان';
+
+  @override
+  String get mushafOverlayUnavailableOnPage =>
+      'هیچ شتێک نییە بۆ پیشاندان لەم پەڕەیەدا';
 
   @override
   String get mushafZoomIn => 'گەورەکردن';
@@ -1016,6 +1070,13 @@ class AppLocalizationsCkb extends AppLocalizations {
   String get progressHistoryTitle => 'دوایین پێداچوونەوەکان';
 
   @override
+  String get progressPrayerCritical => 'لاپەڕەیەک کە لە نوێژدا پشتی پێدەبەستم';
+
+  @override
+  String get progressPrayerCriticalNote =>
+      'بە پێوەرێکی بەرزتر پێداچوونەوەی بۆ دەکرێت.';
+
+  @override
   String get progressNoHistory => 'هێشتا هیچ پێداچوونەوەیەک تۆمار نەکراوە';
 
   @override
@@ -1035,6 +1096,13 @@ class AppLocalizationsCkb extends AppLocalizations {
 
   @override
   String get progressForecastTitle => 'ڕۆژانی داهاتوو';
+
+  @override
+  String get progressTileWallTitle => 'دیواری کاشیی حیفزت';
+
+  @override
+  String get progressTileWallHint =>
+      'هەر خشتێک یەک لاپەڕەیە؛ لووکی تۆختر واتە جێگیرتر. ڕووکاری خشتەکەش لەگەڵ ڕەنگدا دەیڵێت — نەک تەنها ڕەنگ.';
 
   @override
   String get backupOwnershipLine =>

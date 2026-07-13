@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hifz Companion — E15–E20 Build vs Spec (2026-07-10)</title>
+<style>
+  :root {
+    --paper: #f7f5ef; --ink: #22301f; --ink-2: #5a6653; --line: #dcd9cc;
+    --accent: #2e6b4f; --accent-soft: #e3ede6; --card: #fdfcf8;
+    --met: #2e6b4f; --met-soft: #e0ebe3;
+    --partial: #8a6a1f; --partial-soft: #f2ead6;
+    --divergent: #3f5d78; --divergent-soft: #e2e9f0;
+    --missing: #8c3b2e; --missing-soft: #f3e4e0;
+    --neutral: #5a6653; --neutral-soft: #e9e7dd;
+    --mono: "SF Mono","Cascadia Code",Menlo,Consolas,monospace;
+    --serif: "Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #171c15; --ink: #e4e6da; --ink-2: #9aa48e; --line: #333b2e;
+      --accent: #7fb89a; --accent-soft: #24312a; --card: #1e241b;
+      --met: #7fb89a; --met-soft: #22302a;
+      --partial: #d4b46a; --partial-soft: #322a18;
+      --divergent: #8ba9c6; --divergent-soft: #1f2833;
+      --missing: #d98d7c; --missing-soft: #35231f;
+      --neutral: #9aa48e; --neutral-soft: #262b22;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #171c15; --ink: #e4e6da; --ink-2: #9aa48e; --line: #333b2e;
+    --accent: #7fb89a; --accent-soft: #24312a; --card: #1e241b;
+    --met: #7fb89a; --met-soft: #22302a; --partial: #d4b46a; --partial-soft: #322a18;
+    --divergent: #8ba9c6; --divergent-soft: #1f2833; --missing: #d98d7c; --missing-soft: #35231f;
+    --neutral: #9aa48e; --neutral-soft: #262b22;
+  }
+  :root[data-theme="light"] {
+    --paper: #f7f5ef; --ink: #22301f; --ink-2: #5a6653; --line: #dcd9cc;
+    --accent: #2e6b4f; --accent-soft: #e3ede6; --card: #fdfcf8;
+    --met: #2e6b4f; --met-soft: #e0ebe3; --partial: #8a6a1f; --partial-soft: #f2ead6;
+    --divergent: #3f5d78; --divergent-soft: #e2e9f0; --missing: #8c3b2e; --missing-soft: #f3e4e0;
+    --neutral: #5a6653; --neutral-soft: #e9e7dd;
+  }
+  * { box-sizing: border-box; }
+  body { background: var(--paper); color: var(--ink); font-family: var(--serif); line-height: 1.6; margin: 0; padding: 0 20px 80px; font-size: 17px; }
+  main { max-width: 76ch; margin: 0 auto; }
+  header.report { padding: 56px 0 8px; border-bottom: 2px solid var(--ink); margin-bottom: 8px; }
+  .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin: 0 0 14px; }
+  h1 { font-size: 33px; line-height: 1.16; margin: 0 0 10px; text-wrap: balance; font-weight: 600; }
+  .sub { color: var(--ink-2); margin: 0 0 24px; font-size: 16px; }
+  p { margin: 0 0 14px; }
+  .verdict { background: var(--accent-soft); border-inline-start: 3px solid var(--accent); padding: 16px 20px; margin: 22px 0; border-radius: 2px; }
+  .verdict p { margin: 0; font-size: 17.5px; }
+  .remove-box { background: var(--missing-soft); border: 1px solid var(--missing); border-radius: 3px; padding: 16px 20px; margin: 22px 0; }
+  .remove-box h3 { margin: 0 0 10px; font-size: 16px; color: var(--missing); font-family: var(--mono); letter-spacing: .04em; text-transform: uppercase; }
+  .remove-box ol { margin: 0; padding-inline-start: 20px; }
+  .remove-box li { margin-bottom: 8px; font-size: 15.5px; }
+  h2.epic { font-size: 23px; margin: 40px 0 4px; font-weight: 600; padding-top: 20px; border-top: 1px solid var(--line); display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  h2.epic .id { font-family: var(--mono); font-size: 14px; color: var(--accent); letter-spacing: .06em; }
+  .distro { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 12px; font-variant-numeric: tabular-nums; }
+  .pill { font-family: var(--mono); font-size: 11.5px; letter-spacing: .04em; padding: 3px 9px; border-radius: 11px; white-space: nowrap; }
+  .pill.met { background: var(--met-soft); color: var(--met); }
+  .pill.partial { background: var(--partial-soft); color: var(--partial); }
+  .pill.divergent { background: var(--divergent-soft); color: var(--divergent); }
+  .pill.missing { background: var(--missing-soft); color: var(--missing); }
+  .epic p { font-size: 15.5px; color: var(--ink-2); }
+  .epic p strong { color: var(--ink); }
+  .adj { margin: 12px 0 4px; }
+  .adj h4 { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); margin: 0 0 8px; font-weight: 400; }
+  ul.adjlist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  ul.adjlist li { font-size: 14.5px; display: flex; gap: 8px; align-items: baseline; }
+  .chip { font-family: var(--mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; margin-top: 1px; }
+  .chip.add { background: var(--met-soft); color: var(--met); }
+  .chip.amend { background: var(--partial-soft); color: var(--partial); }
+  .chip.remove { background: var(--missing-soft); color: var(--missing); }
+  .chip.defer { background: var(--neutral-soft); color: var(--neutral); }
+  code { font-family: var(--mono); font-size: .85em; background: var(--neutral-soft); padding: 1px 5px; border-radius: 3px; }
+  .foot { margin-top: 52px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--ink-2); font-size: 13.5px; font-family: var(--mono); line-height: 1.7; }
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 8px 0 4px; font-size: 13px; color: var(--ink-2); }
+  .legend span { display: inline-flex; align-items: center; gap: 5px; }
+  .dot { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+</style>
+</head>
+<body>
+<main>
+<header class="report">
+  <p class="eyebrow">Hifz Companion · Build-vs-Spec · Companion to the full-app audit</p>
+  <h1>What the "built-blind" epics kept, and where they drifted from their own specs</h1>
+  <p class="sub">E15–E19 were built <em>before</em> their per-task files existed. On 2026-07-10 the 61 missing task files were retro-authored from the design docs, then the build was audited against them — one comparison auditor per epic, then an adversarial adjudicator who re-verified every claimed gap. E20 was never built.</p>
+  <div class="legend">
+    <span><i class="dot" style="background:var(--met)"></i>met</span>
+    <span><i class="dot" style="background:var(--partial)"></i>partial</span>
+    <span><i class="dot" style="background:var(--divergent)"></i>divergent (built differently)</span>
+    <span><i class="dot" style="background:var(--missing)"></i>missing / not-built</span>
+  </div>
+</header>
+
+<div class="verdict">
+  <p>Built blind, the epics consistently got the <strong>non-negotiables right</strong> — engine-honest data, min-leaning aggregates, persist-before-republish, append-only logs, calm adab copy, offline — and consistently fell short on <strong>breadth</strong>: secondary surfaces, cross-feature handoffs, and above all <strong>tests</strong>. Most architectural divergences are defensible simplifications to <em>amend into the specs</em>, not rebuild. Two built details violate the project's own honesty posture and must be removed.</p>
+</div>
+
+<div class="remove-box">
+  <h3>Remove from code — two honesty violations</h3>
+  <ol>
+    <li><strong>E19 (blocker): the C-048 grade coercion.</strong> The build coerces the register's deliberate <code>[TRAD-equivalent project rule]</code> grade into <code>[TRAD]</code> in both the register and the drift gate (whose own test pins the coercion) — so the science screen labels the app's <em>own design rule</em> as "traditional scholarship," on the very surface built to earn scholars' trust. Remove it; raise the CLAIMS.md amendment instead.</li>
+    <li><strong>E15 (major): the crisp per-page percentage</strong> (e.g. ۸۷٪) on zoom-sheet cells — more precise than the detail sheet's own range-in-words, exactly what C-025 forbids.</li>
+  </ol>
+</div>
+
+<h2 class="epic"><span class="id">E15</span> Progress &amp; Heat-map</h2>
+<div class="distro"><span class="pill partial">7 partial</span><span class="pill divergent">2 divergent</span><span class="pill missing">1 not-built</span></div>
+<p>The hardest parts are real: R computed on read via the pure engine, a genuinely min-leaning juz roll-up pinned by test, VSUP muting from provenance, glyph-free, offline, no scoreboard. But the mihrab reskin replaced the doc-mandated <strong>604-cell whole-Quran overview</strong> with a 30-juz tile wall + per-juz zoom — the "keep your Quran green" at-a-glance map never appears on one screen. The detail sheet is a navigational dead end (no recite/reader handoff, hardcoded Gregorian), the forecast is a single 7-day total, and T10's golden/CVD/offline suite doesn't exist.</p>
+<div class="adj"><h4>Key adjustments (17)</h4>
+<ul class="adjlist">
+  <li><span class="chip remove">remove</span>the crisp per-page percentage from cells</li>
+  <li><span class="chip add">add</span>restore the 604-cell whole-Quran overview as faithful small multiples</li>
+  <li><span class="chip add">add</span>recite (E12) + open-in-reader (E13) handoffs and real calendar wiring in the detail sheet</li>
+  <li><span class="chip add">add</span>build T10's consolidated golden/CVD/offline suite (its own not-built task)</li>
+  <li><span class="chip add">add</span>per-day forecast rows; move weakest-first sorting out of the widget; re-key providers to family+autoDispose</li>
+  <li><span class="chip amend">amend</span>bless the reskin's tile-wall banner, legend, and star aesthetic in the specs</li>
+</ul></div>
+
+<h2 class="epic"><span class="id">E16</span> Settings, Profiles &amp; Teacher</h2>
+<div class="distro"><span class="pill met">4 met</span><span class="pill partial">6 partial</span><span class="pill divergent">2 divergent</span></div>
+<p>Built to a materially different shape (one scrolling Settings surface, shared picker primitive, full profiles screen instead of a chip) — but the core disciplines hold: persist-before-republish writers, a structural display-transform boundary, halaqa write-isolation proven by test, riwāyah named, per-locale goldens + adab lint. The real losses are functional: the <strong>active profile is never persisted</strong> (every cold start reverts to the first profile — the top fix), the PRD §15.2 numeral picker was silently dropped, there's no stored Quran font-size preference, and the headline "calendar flip leaves due_at byte-identical" test is vacuous as written.</p>
+<div class="adj"><h4>Key adjustments (14)</h4>
+<ul class="adjlist">
+  <li><span class="chip add">add</span>persist/restore the active profile to <code>app_meta.active_profile</code></li>
+  <li><span class="chip add">add</span>write the real display-transform invariant test; delete the vacuous stand-in</li>
+  <li><span class="chip add">add</span>a quick profile affordance outside Settings; persist Quran zoom per profile</li>
+  <li><span class="chip amend">amend</span>ratify-or-reverse the dropped numeral picker via an explicit decision-log amendment</li>
+  <li><span class="chip remove">remove</span>the dead <code>packages/profiles</code> stub package</li>
+</ul></div>
+
+<h2 class="epic"><span class="id">E17</span> Backup &amp; Restore</h2>
+<div class="distro"><span class="pill met">1 met</span><span class="pill partial">7 partial</span><span class="pill divergent">1 divergent</span></div>
+<p>The format core is high-fidelity (container byte-for-byte per spec, canonical payload, true set-union merge, 44 tests green under the TZ matrix). The shell layer falls short: no backup controller/status line/stale nudge, Argon2id on the UI isolate, <strong>a full-history temp <code>.hifzbackup</code> survives "Erase everything,"</strong> and double-tap erase instead of the specced hold-to-confirm. The safety-critical divergence: <strong>import coerces hostile Argon2 params into range and derives anyway</strong> (spec demands validate-and-refuse, zero KDF calls); and an unspecced honesty defect — encryption-ON with an empty passphrase silently exports plaintext.</p>
+<div class="adj"><h4>Key adjustments (15)</h4>
+<ul class="adjlist">
+  <li><span class="chip add">add</span>validate-and-refuse hostile Argon2 params (zero derivations); map unknown KDF id to <code>newerFormat</code></li>
+  <li><span class="chip add">add</span>require a passphrase when encryption is on — never silently downgrade to plaintext</li>
+  <li><span class="chip add">add</span>off-isolate export/import; backup controller + dated status line; temp-file sweep; hold-to-confirm erase</li>
+  <li><span class="chip amend">amend</span>the merge-weight rule to the built idempotence-preserving <code>max</code> (not summed)</li>
+</ul></div>
+
+<h2 class="epic"><span class="id">E18</span> Reminders</h2>
+<div class="distro"><span class="pill partial">4 partial</span><span class="pill divergent">7 divergent</span></div>
+<p>Behaviorally faithful, architecturally different. Everything the DoD actually gates is present and tested: off-by-default opt-in, persist-before-schedule, cancel-then-arm convergence, pure DST-safe fire-time math, locale-numeral RTL goldens, calm traced copy behind the CI adab gate. Almost no task's specified <em>shape</em> exists (mostly post-hoc over-specification — amend). The one substantive question: <strong>enabling commits the pref regardless of the OS grant</strong> — the switch can read "on" while the OS blocks. Decide and codify the permission-honesty model.</p>
+<div class="adj"><h4>Key adjustments (14)</h4>
+<ul class="adjlist">
+  <li><span class="chip amend">amend</span>codify the permission model: pref-records-intent + denied note, or grant-gated enable</li>
+  <li><span class="chip add">add</span>seeded stale-state convergence proof; DST gap/ambiguity vectors; a real failure path</li>
+  <li><span class="chip amend">amend</span>most task shapes to the built settings-JSON prefs + body-swap catch-up model</li>
+</ul></div>
+
+<h2 class="epic"><span class="id">E19</span> Science Screen &amp; Claims</h2>
+<div class="distro"><span class="pill partial">3 partial</span><span class="pill divergent">5 divergent</span><span class="pill missing">2 missing</span></div>
+<p>A leaner but real trust surface: a typed, fail-closed 47-claim register parity-gated against CLAIMS.md on every PR, calm source rows, correct mounting, full fa/ckb/ar, a quarantined link launcher. Structural substitutions are defensible (amend). The blocker is the <strong>C-048 grade coercion</strong> (above). Also genuine: the specced referenced-claim-id scan (the machine-checkable half of non-negotiable 7) was never built, T10's a11y/golden closure is mostly absent, and the grade legend sits below the fold of a 47-row scroll.</p>
+<div class="adj"><h4>Key adjustments (16)</h4>
+<ul class="adjlist">
+  <li><span class="chip remove">remove</span>the C-048 grade coercion (register + gate + gate test); raise the CLAIMS.md amendment</li>
+  <li><span class="chip add">add</span>the referenced-claim-id scan over app source + all ARB files</li>
+  <li><span class="chip add">add</span>the deferred a11y/golden/offline closure; make the legend reachable without scrolling the register</li>
+  <li><span class="chip amend">amend</span>the specs to the shipped projection architecture (JSON register + ARB copy + parity gate)</li>
+</ul></div>
+
+<h2 class="epic"><span class="id">E20</span> Release Readiness <span style="font-family:var(--mono);font-size:13px;color:var(--missing);letter-spacing:.04em">· all 9 not-built</span></h2>
+<div class="distro"><span class="pill missing">9 not-built</span></div>
+<p>Nothing of E20's own deliverables exists, though earlier epics laid real scaffolding (five-job <code>ci.yml</code>, the <code>tool/</code> gate scripts, LICENSE §7 exception, DCO text, REUSE wiring, throwing-HttpOverrides bootstrap). <code>release.yml</code> is a stub — subset gate re-run, build/sign/attest still commented TODO, release builds debug-signed. No airplane-mode acceptance test, no SECURITY/PRIVACY.md, no PrivacyInfo.xcprivacy, no fastlane tree, no verify-yourself doc, no release sign-off records. Gate 7 is fail-closed HOLD by construction — no mutashābihāt dataset ships (files against E14).</p>
+<div class="adj"><h4>Key adjustments (10)</h4>
+<ul class="adjlist">
+  <li><span class="chip add">add</span>complete <code>release.yml</code> — the keystone: gate-parity re-run, needs-gated build-sign-attest, secrets-only signing, SLSA verify</li>
+  <li><span class="chip add">add</span>airplane-mode acceptance journey; trust pack; privacy posture; store metadata; verify-yourself.md</li>
+  <li><span class="chip defer">defer</span>the human checkpoints (adab pass, scholarly muṣḥaf proof, dataset sign-off) until a release candidate exists</li>
+</ul></div>
+
+<h2 class="epic" style="border-top:2px solid var(--ink)">Where this feeds the backlog</h2>
+<p>The two <strong>remove-from-code</strong> honesty items slot in right after the runnable-build fix (cheap, reputation-critical). E16's active-profile persistence joins the teacher-loop cluster; E17's import-hardening is its own safety item; the test backfills (E15-T10, E19-T10, per-task suites) gate E20; and E20 itself is the final wave — now with actionable specs.</p>
+
+<p class="foot">Method: 6 comparison auditors (Opus, every acceptance criterion, file:line evidence) → 6 adversarial adjudicators (each re-verified every claimed gap before accepting it; 5 auditor claims rejected on re-check and excluded). Companion to <code>2026-07-10-full-app-audit.md</code>. Full per-task verdicts: workflow journal wf_726ad15b-910. Durable copy: docs/audits/2026-07-10-e15-e20-build-vs-spec.md.</p>
+</main>
+</body>
+</html>

@@ -9,6 +9,8 @@ import '../../design_system/theme/spacing_tokens.dart';
 import '../progress_cell_data.dart';
 import '../progress_overview.dart';
 import 'juz_pages_sheet.dart';
+import 'progress_legend.dart';
+import 'progress_tile_wall_banner.dart';
 import 'upcoming_load_forecast.dart';
 import 'weakest_pages_list.dart';
 
@@ -28,12 +30,26 @@ class ProgressOverviewView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final locale = Localizations.localeOf(context);
-    final space = Theme.of(context).extension<SpacingTokens>()!;
+    final theme = Theme.of(context);
+    final space = theme.extension<SpacingTokens>()!;
 
     return ListView(
       padding: EdgeInsetsDirectional.all(space.space4),
       children: [
         const UpcomingLoadForecast(),
+        SizedBox(height: space.space5),
+        // The tile-wall section: the glazed-teal banner, its plain-words note
+        // (what a tile says, and that the texture speaks too — not colour alone),
+        // the legend key, then the 30 juz roll-up tiles.
+        const ProgressTileWallBanner(),
+        SizedBox(height: space.space3),
+        Text(
+          l10n.progressTileWallHint,
+          style: theme.textTheme.bodyMedium
+              ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+        ),
+        SizedBox(height: space.space4),
+        const ProgressLegend(),
         SizedBox(height: space.space4),
         // The 30 juz roll-up tiles in muṣḥaf order; the Wrap lays out start→end
         // under the inherited RTL directionality.

@@ -4,6 +4,8 @@
 import 'package:flutter/material.dart';
 import 'package:l10n/l10n.dart';
 
+import '../theme/spacing_tokens.dart';
+
 /// The on-device teacher (talaqqī) sign-off toggle (design-system 07 §7) — a
 /// labelled `Switch.adaptive` ("Teacher present"), **off by default**, with
 /// autonomy-supportive copy ("for your teacher to confirm").
@@ -28,21 +30,37 @@ class TeacherSignoffToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final scheme = Theme.of(context).colorScheme;
-    final text = Theme.of(context).textTheme;
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final text = theme.textTheme;
+    final space = theme.extension<SpacingTokens>()!;
 
     // A `SwitchListTile` (not a custom Row + `MergeSemantics`) so the WHOLE row
     // is one ≥48dp tap target with correct merged semantics — a screen-reader
-    // double-tap toggles it (the Switch is non-directional, never mirrored).
-    return SwitchListTile.adaptive(
-      value: teacherPresent,
-      onChanged: onChanged,
-      title: Text(l10n.teacherSignoffLabel, style: text.titleMedium),
-      subtitle: Text(
-        l10n.teacherSignoffSupporting,
-        style: text.bodySmall?.copyWith(color: scheme.onSurfaceVariant),
+    // double-tap toggles it (the Switch is non-directional, never mirrored). It
+    // sits in a calm limestone tile (a `surfaceContainer` fill with a hairline
+    // outline) so the sign-off reads as its own quiet surface, not app chrome.
+    return DecoratedBox(
+      decoration: ShapeDecoration(
+        color: scheme.surfaceContainer,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(space.space4),
+          side: BorderSide(color: scheme.outlineVariant),
+        ),
       ),
-      contentPadding: EdgeInsets.zero,
+      child: Padding(
+        padding: EdgeInsetsDirectional.symmetric(horizontal: space.space3),
+        child: SwitchListTile.adaptive(
+          value: teacherPresent,
+          onChanged: onChanged,
+          title: Text(l10n.teacherSignoffLabel, style: text.titleMedium),
+          subtitle: Text(
+            l10n.teacherSignoffSupporting,
+            style: text.bodySmall?.copyWith(color: scheme.onSurfaceVariant),
+          ),
+          contentPadding: EdgeInsets.zero,
+        ),
+      ),
     );
   }
 }

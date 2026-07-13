@@ -28,6 +28,7 @@ class PageHealth {
     required this.everReviewed,
     required this.sourceConfidence,
     this.dueAt,
+    this.isPrayerCritical = false,
   });
 
   /// The 1-based muṣḥaf page.
@@ -57,6 +58,11 @@ class PageHealth {
   /// null for a non-memorized page or one with no scheduled due yet.
   final CalendarDate? dueAt;
 
+  /// Whether the user has marked this page **prayer-critical** — revised to a
+  /// higher retention floor (PRD §7.2/§7.5; the engine's 0.97 target). A user
+  /// preference the page-detail sheet toggles (E21-T08), never a fiqh ruling.
+  final bool isPrayerCritical;
+
   @override
   bool operator ==(Object other) =>
       other is PageHealth &&
@@ -67,7 +73,8 @@ class PageHealth {
       other.band == band &&
       other.everReviewed == everReviewed &&
       other.sourceConfidence == sourceConfidence &&
-      other.dueAt == dueAt;
+      other.dueAt == dueAt &&
+      other.isPrayerCritical == isPrayerCritical;
 
   @override
   int get hashCode => Object.hash(
@@ -79,6 +86,7 @@ class PageHealth {
         everReviewed,
         sourceConfidence,
         dueAt,
+        isPrayerCritical,
       );
 }
 
@@ -225,5 +233,6 @@ PageHealth _healthFor(int pageId, int juz, Card? card, CalendarDate today) {
     everReviewed: card.reps > 0,
     sourceConfidence: sourceConfidenceOf(card),
     dueAt: card.dueAt,
+    isPrayerCritical: card.isPrayerCritical,
   );
 }

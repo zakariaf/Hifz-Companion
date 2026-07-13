@@ -43,7 +43,11 @@ class OnboardingStepProgress extends StatelessWidget {
                 color:
                     i <= currentIndex ? scheme.primary : scheme.outlineVariant,
               ),
-              child: SizedBox.square(dimension: space.space2),
+              // The reached step reads a touch larger — a quiet "you are here",
+              // never a number or score.
+              child: SizedBox.square(
+                dimension: i == currentIndex ? space.space3 : space.space2,
+              ),
             ),
         ],
       ),

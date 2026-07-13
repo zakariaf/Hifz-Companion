@@ -11,6 +11,7 @@ import 'package:features/features.dart'
         ProgressScreen,
         ReciteGradeScreen,
         ScienceScreen,
+        SettingsFocus,
         SettingsScreen,
         TodayScreen,
         kMutashabihatDrillPathPrefix,
@@ -152,7 +153,13 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/settings',
-            builder: (context, state) => const SettingsScreen(),
+            // Today's budget-feedback / catch-up choices deep-link here with
+            // `?focus=cycle` so the ḥāfiẓ lands on the cycle & budget controls,
+            // not the top of the list (E12-T04). An unknown value is ignored.
+            builder: (context, state) => SettingsScreen(
+              focus:
+                  SettingsFocus.fromQuery(state.uri.queryParameters['focus']),
+            ),
           ),
           GoRoute(
             path: kProfilesPath,

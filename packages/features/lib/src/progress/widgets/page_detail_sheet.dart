@@ -8,6 +8,7 @@ import 'package:l10n/l10n.dart';
 import 'package:models/models.dart' show ReviewLog;
 
 import '../../design_system/theme/spacing_tokens.dart';
+import '../prayer_critical_controller.dart';
 import '../progress_cell_data.dart' show bandRange;
 import '../progress_overview.dart';
 import '../progress_providers.dart' show reviewLogForPageProvider;
@@ -78,6 +79,12 @@ class PageDetailSheet extends ConsumerWidget {
               style: theme.textTheme.bodyMedium
                   ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
             ),
+            // A held page can be marked prayer-critical — revised to a higher
+            // retention floor (E21-T08). A user preference, never a fiqh ruling.
+            if (page.memorized) ...[
+              SizedBox(height: space.space3),
+              _PrayerCriticalToggle(page: page),
+            ],
             SizedBox(height: space.space4),
             Text(l10n.progressHistoryTitle, style: theme.textTheme.titleSmall),
             SizedBox(height: space.space1),
@@ -152,6 +159,50 @@ class _History extends StatelessWidget {
         ReviewGrade.good => l10n.gradeGood,
         ReviewGrade.easy => l10n.gradeEasy,
       };
+}
+
+/// The prayer-critical toggle (E21-T08): the user marks a page they rely on in
+/// ṣalāh, so the engine revises it to a higher retention floor (PRD §7.2/§7.5).
+/// A **user preference** — never a fiqh ruling, never a bundled list. Local state
+/// gives immediate feedback; the durable write rides the single write path, and
+/// the heat-map read model re-emits after the commit.
+class _PrayerCriticalToggle extends ConsumerStatefulWidget {
+  const _PrayerCriticalToggle({required this.page});
+
+  final PageHealth page;
+
+  @override
+  ConsumerState<_PrayerCriticalToggle> createState() =>
+      _PrayerCriticalToggleState();
+}
+
+class _PrayerCriticalToggleState extends ConsumerState<_PrayerCriticalToggle> {
+  late bool _value = widget.page.isPrayerCritical;
+
+  Future<void> _set(bool value) async {
+    setState(() => _value = value);
+    await ref
+        .read(prayerCriticalControllerProvider)
+        .setPrayerCritical(widget.page.pageId, value: value);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    return SwitchListTile.adaptive(
+      value: _value,
+      onChanged: _set,
+      contentPadding: EdgeInsets.zero,
+      title:
+          Text(l10n.progressPrayerCritical, style: theme.textTheme.bodyMedium),
+      subtitle: Text(
+        l10n.progressPrayerCriticalNote,
+        style: theme.textTheme.bodySmall
+            ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+      ),
+    );
+  }
 }
 
 /// The calendar the Progress dates render in. E16 (Settings) will inject the

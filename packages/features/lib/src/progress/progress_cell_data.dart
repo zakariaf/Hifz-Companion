@@ -42,12 +42,14 @@ String bandLabel(AppLocalizations l10n, RetentionBand band) => switch (band) {
     };
 
 /// The display data for one **page** cell. A non-memorized page reads as "not
-/// started"; a memorized-but-never-recited page shows no optimistic percent (the
-/// VSUP muting carries the uncertainty) — only a confirmed, recited page shows a
-/// percentage. Never a raw `R`/D/S.
+/// started"; a memorized-but-never-recited page is muted (the VSUP muting carries
+/// the uncertainty). No page cell shows a retention percentage: a crisp per-page
+/// percent is a false-precise retention promise the map must never make anywhere
+/// (C-025; E15-T04 §3) — the ramp + the plain band **label** carry the state, and
+/// the honest range-in-words with its basis lives behind the tap in the
+/// page-detail sheet (E15-T06). Never a raw `R`/D/S.
 HeatmapCellData pageCellData(
   AppLocalizations l10n,
-  Locale locale,
   PageHealth page,
 ) {
   final String value;
@@ -60,8 +62,9 @@ HeatmapCellData pageCellData(
     value = l10n.progressNoValue;
     label = l10n.progressBandFaded;
   } else {
-    final pct = (page.retrievability * 100).round();
-    value = l10n.progressPercent(isolateLtr(localeDigits(pct, locale)));
+    // A recited page: the ramp + band label are its non-colour channels; no crisp
+    // per-page percentage (C-025 — the range-in-words + basis is the T06 sheet's).
+    value = l10n.progressNoValue;
     label = bandLabel(l10n, page.band);
   }
   return HeatmapCellData(
