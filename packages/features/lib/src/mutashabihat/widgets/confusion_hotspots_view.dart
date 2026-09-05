@@ -80,7 +80,6 @@ class _ConfusionHotspotRow extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final locale = Localizations.localeOf(context);
     final scheme = Theme.of(context).colorScheme;
-    final colors = Theme.of(context).extension<MihrabColors>()!;
     final space = Theme.of(context).extension<SpacingTokens>()!;
     final first = _ayahRef(l10n, locale, edge.ayahA);
     final second = _ayahRef(l10n, locale, edge.ayahB);
@@ -100,45 +99,33 @@ class _ConfusionHotspotRow extends ConsumerWidget {
             borderRadius: BorderRadiusDirectional.all(cornerRadius),
             side: BorderSide(color: scheme.outlineVariant),
           ),
-          child: DecoratedBox(
-            // A quiet terracotta spine down the reading-start (right in RTL)
-            // edge marks a confusion pair — a calm marker, never an alarm bar.
-            decoration: BoxDecoration(
-              border: BorderDirectional(
-                start: BorderSide(
-                  color: colors.semanticWarning,
-                  width: space.space2,
-                ),
-              ),
+          child: ListTile(
+            contentPadding: EdgeInsetsDirectional.only(
+              start: space.space4,
+              end: space.space3,
+              top: space.space2,
+              bottom: space.space2,
             ),
-            child: ListTile(
-              contentPadding: EdgeInsetsDirectional.only(
-                start: space.space4,
-                end: space.space3,
-                top: space.space2,
-                bottom: space.space2,
-              ),
-              title: Row(
-                children: [
-                  Flexible(child: _AyahPill(label: first)),
-                  Padding(
-                    padding: EdgeInsetsDirectional.symmetric(
-                      horizontal: space.space2,
-                    ),
-                    child: ExcludeSemantics(
-                      child: Icon(
-                        Icons.swap_horiz,
-                        color: scheme.onSurfaceVariant,
-                        size: space.space5,
-                      ),
+            title: Row(
+              children: [
+                Flexible(child: _AyahPill(label: first)),
+                Padding(
+                  padding: EdgeInsetsDirectional.symmetric(
+                    horizontal: space.space2,
+                  ),
+                  child: ExcludeSemantics(
+                    child: Icon(
+                      Icons.swap_horiz,
+                      color: scheme.onSurfaceVariant,
+                      size: space.space5,
                     ),
                   ),
-                  Flexible(child: _AyahPill(label: second)),
-                ],
-              ),
-              trailing: const Icon(Icons.chevron_left), // mirrors under RTL
-              onTap: () => _openDrill(context, ref),
+                ),
+                Flexible(child: _AyahPill(label: second)),
+              ],
             ),
+            trailing: const Icon(Icons.chevron_left), // mirrors under RTL
+            onTap: () => _openDrill(context, ref),
           ),
         ),
       ),

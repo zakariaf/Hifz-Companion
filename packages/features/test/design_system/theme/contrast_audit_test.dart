@@ -16,7 +16,7 @@ import '../../test_setup.dart';
 const _textFloor = 4.5; // SC 1.4.3 normal text / accent
 const _graphicalFloor = 3.0; // SC 1.4.11 graphical anchor
 
-enum _Kind { textAccent, anchor, atmosphere, ornament }
+enum _Kind { textAccent, anchor, atmosphere }
 
 typedef _Resolve = Color Function(ColorScheme scheme, MihrabColors colors);
 
@@ -44,7 +44,6 @@ Color _primary(ColorScheme s, MihrabColors c) => s.primary;
 Color _onPrimary(ColorScheme s, MihrabColors c) => s.onPrimary;
 Color _tertiary(ColorScheme s, MihrabColors c) => c.textTertiary;
 Color _warning(ColorScheme s, MihrabColors c) => c.semanticWarning;
-Color _gold(ColorScheme s, MihrabColors c) => c.accentGold;
 Color _strong(ColorScheme s, MihrabColors c) => c.heatmapStrong;
 
 const _all = MihrabAppearance.values;
@@ -80,10 +79,6 @@ final List<_Case> _registry = [
       ('heatmap.faded', (s, c) => c.heatmapFaded),
     ])
       _Case(a, '${entry.$1}/bg', entry.$2, _surface, _Kind.atmosphere),
-  // the muted gold ornament accent (Mihrab amendment) — a visible graphical
-  // mark, audited ≥3:1 against the surface in every appearance.
-  for (final a in _all)
-    _Case(a, 'accent.gold/bg', _gold, _surface, _Kind.ornament),
 ];
 
 void main() {
@@ -132,14 +127,6 @@ void main() {
     }
   });
 
-  group('the gold ornament mark clears the 3:1 graphical floor', () {
-    for (final c in _registry.where((c) => c.kind == _Kind.ornament)) {
-      test('${c.appearance.name}: ${c.label}', () {
-        expect(c.ratio, greaterThanOrEqualTo(_graphicalFloor));
-      });
-    }
-  });
-
   group('Sepia/Night are measured independently (not inherited)', () {
     test('Sepia bg.primary differs from Light, so its ratios are its own', () {
       expect(
@@ -185,14 +172,14 @@ void main() {
     test('each appearance carries its expected audited-cell count', () {
       int countFor(MihrabAppearance a) =>
           _registry.where((c) => c.appearance == a).length;
-      // Light/Dark: 7 text/accent + 1 anchor + 4 atmosphere + 1 gold = 13.
+      // Light/Dark: 7 text/accent + 1 anchor + 4 atmosphere = 12.
       // Sepia/Night: 3 text/accent (primary, secondary, accent.green) + 1
-      // anchor + 1 gold = 5 (§7 lists no container/tertiary/on-accent/warning
+      // anchor = 4 (§7 lists no container/tertiary/on-accent/warning
       // /atmosphere rows for them).
-      expect(countFor(MihrabAppearance.light), 13);
-      expect(countFor(MihrabAppearance.dark), 13);
-      expect(countFor(MihrabAppearance.sepia), 5);
-      expect(countFor(MihrabAppearance.night), 5);
+      expect(countFor(MihrabAppearance.light), 12);
+      expect(countFor(MihrabAppearance.dark), 12);
+      expect(countFor(MihrabAppearance.sepia), 4);
+      expect(countFor(MihrabAppearance.night), 4);
     });
 
     test('every pinned text/accent role is audited in Light and Dark', () {

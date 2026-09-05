@@ -56,6 +56,7 @@ class MushafReaderPage extends StatelessWidget {
             lineNumber: ref.lineNumber,
             type: ref.lineType,
             glyphCodes: ref.textGlyphRef,
+            headerText: ref.surahName,
           ),
       ],
     );

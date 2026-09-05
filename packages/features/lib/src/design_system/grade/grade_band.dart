@@ -60,7 +60,7 @@ class GradeBand extends StatelessWidget {
         l10n.gradeHard,
         l10n.gradeHardVerb(region),
         l10n.gradeHardSemantics,
-        colors.accentGold,
+        scheme.onSurfaceVariant,
       ),
       (
         GradeChoice.good,

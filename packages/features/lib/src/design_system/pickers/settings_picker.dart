@@ -4,7 +4,6 @@
 import 'package:flutter/material.dart';
 
 import '../state/mihrab_state_layer.dart';
-import '../theme/mihrab_colors.dart';
 import '../theme/spacing_tokens.dart';
 
 /// One mutually-exclusive choice in a [SettingsPicker] — display data only.
@@ -84,7 +83,6 @@ class SettingsPicker<T> extends StatelessWidget {
     required double maxWidth,
   }) {
     final scheme = Theme.of(context).colorScheme;
-    final colors = Theme.of(context).extension<MihrabColors>()!;
     final space = Theme.of(context).extension<SpacingTokens>()!;
     final text = Theme.of(context).textTheme;
     final isSelected = option.value == selected;
@@ -107,19 +105,15 @@ class SettingsPicker<T> extends StatelessWidget {
             customBorder: const StadiumBorder(),
             overlayColor: MihrabStateLayer.overlayColor(onTile),
             child: DecoratedBox(
-              // Shape (the check glyph) AND colour (the filled teal tile) both
-              // carry selection; an unchosen pill is a light limestone tile with
-              // a soft brass rim.
+              // Shape (the check glyph) AND colour (the filled tile) both
+              // carry selection; an unchosen pill is a white tile on a hairline.
               decoration: ShapeDecoration(
-                color: isSelected
-                    ? scheme.primary
-                    : scheme.surfaceContainerLowest,
+                color:
+                    isSelected ? scheme.primary : scheme.surfaceContainerLowest,
                 shape: StadiumBorder(
                   side: isSelected
                       ? BorderSide.none
-                      : BorderSide(
-                          color: colors.accentGold.withValues(alpha: 0.55),
-                        ),
+                      : BorderSide(color: scheme.outlineVariant),
                 ),
               ),
               child: ConstrainedBox(

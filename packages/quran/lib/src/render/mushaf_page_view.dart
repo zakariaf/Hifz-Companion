@@ -40,32 +40,22 @@ class _GlyphLayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Lines render at their natural glyph-advance width (every QPC page line is
-    // justified to the same width by the font; a surah's last line is naturally
-    // shorter and sits centred). The frame scales the whole column uniformly to
-    // fill the page — so `center`, not `stretch`, which would force an infinite
-    // width inside that fit and break the uniform page scale.
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      // Default cross-axis is `center` (a surah's short last line sits centred);
-      // NOT `stretch`, which would force an infinite width inside the frame's
-      // page-filling FittedBox and break the uniform scale.
-      children: [
-        for (final line in glyphPage.lines) buildGlyphLine(line),
-      ],
+    // justified to the same width by the font). `IntrinsicWidth` bounds the
+    // column to the widest line so the sūrah-header band can stretch to the
+    // page's text width, while the frame still scales the whole column
+    // uniformly; a surah's short last line is centred by its text alignment.
+    return IntrinsicWidth(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          for (final line in glyphPage.lines) buildGlyphLine(line),
+        ],
+      ),
     );
   }
 }
 
-/// Draws one muṣḥaf line: the opaque glyph codes in the page's dedicated family,
-/// RTL, with **`fontFamilyFallback: const []`** so a missing glyph fails loud as
-/// visible tofu instead of being silently re-shaped by a fallback font
-/// (engineering 08 §2). No soft-wrap / `TextPainter` line-breaking on Quran
-/// text. Visible for the E05-T11 golden harness.
-/// Renders a single muṣḥaf line from a plain [MushafLineRef] — the opaque glyph
-/// codes drawn in [pageNumber]'s dedicated KFGQPC family (never the OS shaper,
-/// never re-typeset). Used where the reader composes lines individually (e.g. the
-/// recite flow's reveal-on-tap surface), so the feature layer never names the
-/// glyph surface. Width/zoom fitting is the caller's concern.
 class MushafGlyphLineView extends StatelessWidget {
   /// Creates the line view for [line] on [pageNumber].
   const MushafGlyphLineView({
@@ -93,9 +83,13 @@ class MushafGlyphLineView extends StatelessWidget {
 
 @visibleForTesting
 Widget buildGlyphLine(GlyphLine line) {
+  if (line.type == LineType.surahName) {
+    return _SurahHeaderBand(name: line.headerText, pageNumber: line.pageNumber);
+  }
   return Text(
     line.glyphCodes, // opaque QPC codes — NEVER normalise/split/search/log
     textDirection: TextDirection.rtl,
+    textAlign: TextAlign.center,
     softWrap: false,
     maxLines: 1,
     style: TextStyle(
@@ -104,4 +98,61 @@ Widget buildGlyphLine(GlyphLine line) {
       fontFamilyFallback: const <String>[], // no fallback on the sacred path
     ),
   );
+}
+
+/// The sūrah-name header band: a plain hairline frame, one line tall, with the
+/// sūrah name lettered in the ambient UI text style (chrome, resolved from the
+/// read-only `surah` table — never a Quran glyph, never re-typeset text). It
+/// inherits the ambient ink colour so the reader's theme filter treats it like
+/// the glyphs. A header whose name is unknown (bundle-first, or a reference
+/// without the `surah` table) keeps its blank line so the layout never shifts.
+class _SurahHeaderBand extends StatelessWidget {
+  const _SurahHeaderBand({required this.name, required this.pageNumber});
+
+  final String? name;
+  final int pageNumber;
+
+  @override
+  Widget build(BuildContext context) {
+    // Size the band to the page's own line height so the layout holds: an
+    // empty run in the page font measures one glyph line.
+    final lineStyle = TextStyle(
+      fontFamily: qpcFontFamily(pageNumber),
+      fontFamilyFallback: const <String>[],
+    );
+    final ink = DefaultTextStyle.of(context).style.color;
+    final text = name;
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Text('', style: lineStyle, textDirection: TextDirection.rtl),
+        if (text != null)
+          Positioned.fill(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 1),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  border: Border.all(color: ink ?? const Color(0xFF000000)),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+                child: Center(
+                  child: Text(
+                    text,
+                    textDirection: TextDirection.rtl,
+                    maxLines: 1,
+                    softWrap: false,
+                    style: TextStyle(
+                      fontFamily: 'Vazirmatn',
+                      fontWeight: FontWeight.w600,
+                      height: 1,
+                      color: ink,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
 }

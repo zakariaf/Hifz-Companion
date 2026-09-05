@@ -4,22 +4,18 @@
 import 'package:flutter/material.dart';
 import 'package:l10n/l10n.dart';
 
-import '../../design_system/theme/mihrab_colors.dart';
 import '../../design_system/theme/spacing_tokens.dart';
-import 'onboarding_glyphs.dart';
 
 /// The first cold-start capture pass (E11-T05): a juz-level tap grid of 30 cells
 /// in **muṣḥaf order** (juz ۱ at the start/right under RTL, juz ۳۰ at the end),
 /// one tap = held / not-held. A held juz is membership in [heldJuz]; an un-held
 /// juz is **absence** — drawn calm and un-emphasised, never alarm-red / "missing"
-/// / "0%". Held vs un-held is carried by shape (a filled zellige star vs a dashed
-/// ring) + glyph + label, never hue alone (SC 1.4.1). Each cell is a ≥48 dp
+/// / "0%". Held vs un-held is carried by shape (a check vs an empty circle)
+/// + label, never hue alone (SC 1.4.1). Each cell is a ≥48 dp
 /// `toggled` Semantics node with a visible focus ring and a locale-numeral label.
 ///
-/// The Mihrab surface (owner-directed design amendment, concept 01): a glazed
-/// teal title band watermarked with faint eight-point stars over a terracotta
-/// ground-line, held cells rendered as glazed teal zellige tiles and un-held
-/// cells as bare limestone.
+/// Plain redesign (2026-09-05): a plain title, filled tiles for held juz and
+/// white tiles on a hairline for un-held, a check / empty-circle key.
 ///
 /// A dumb View: it takes [heldJuz] + [onToggle] and renders. It holds no local
 /// capture state, opens no `db.transaction`/DAO, reads no clock, and draws no
@@ -110,59 +106,15 @@ class CoverageCaptureGrid extends StatelessWidget {
   }
 }
 
-/// The glazed-teal title band: a leading zellige star, the [title] in the
-/// on-primary ink, a faint eight-point-star watermark, and a terracotta
-/// ground-line — the concept's miḥrāb band, in miniature. Non-interactive.
+/// The plain step title. Non-interactive.
 class _CoverageTitleBanner extends StatelessWidget {
   const _CoverageTitleBanner({required this.title});
 
   final String title;
 
   @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final scheme = theme.colorScheme;
-    final space = theme.extension<SpacingTokens>()!;
-    final mihrab = theme.extension<MihrabColors>()!;
-    final radius = BorderRadius.circular(space.space3);
-    return ClipRRect(
-      borderRadius: radius,
-      child: CustomPaint(
-        painter: _BandPainter(
-          band: scheme.primary,
-          star: scheme.onPrimary.withValues(alpha: 0.1),
-          terracotta: mihrab.semanticWarning,
-        ),
-        child: Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(
-            space.space4,
-            space.space3,
-            space.space4,
-            space.space3 + space.space1,
-          ),
-          child: Row(
-            children: [
-              MihrabGlyph(
-                kind: MihrabGlyphKind.filledStar,
-                color: mihrab.accentGold,
-                size: space.space5,
-              ),
-              SizedBox(width: space.space3),
-              Expanded(
-                child: Text(
-                  title,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    color: scheme.onPrimary,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  Widget build(BuildContext context) =>
+      Text(title, style: Theme.of(context).textTheme.titleLarge);
 }
 
 class _JuzCell extends StatelessWidget {
@@ -183,7 +135,6 @@ class _JuzCell extends StatelessWidget {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     final space = theme.extension<SpacingTokens>()!;
-    final mihrab = theme.extension<MihrabColors>()!;
     final radius = BorderRadius.circular(space.space3);
     // One merged node carrying the composed "Juz N, held/not held" label + the
     // toggle state + the tap action; the inner glyph/numeral are excluded so the
@@ -201,9 +152,9 @@ class _JuzCell extends StatelessWidget {
             child: DecoratedBox(
               decoration: BoxDecoration(
                 borderRadius: radius,
-                // Held reads as a glazed teal zellige tile; un-held as bare
-                // limestone — calm absence, never an alarm state.
-                color: held ? scheme.primary : scheme.surfaceContainerHighest,
+                // Held reads as a filled tile; un-held as a plain white tile
+                // — calm absence, never an alarm state.
+                color: held ? scheme.primary : scheme.surfaceContainer,
                 border: Border.all(
                   color: held ? scheme.primary : scheme.outlineVariant,
                 ),
@@ -218,13 +169,11 @@ class _JuzCell extends StatelessWidget {
                       color: held ? scheme.onPrimary : scheme.onSurface,
                     ),
                   ),
-                  // Redundant non-colour encoding: a solid zellige star when
-                  // held, a dashed ring when not — readable in grayscale / CVD.
-                  MihrabGlyph(
-                    kind: held
-                        ? MihrabGlyphKind.filledStar
-                        : MihrabGlyphKind.dashedRing,
-                    color: held ? mihrab.accentGold : scheme.outline,
+                  // Redundant non-colour encoding: a check when held, an empty
+                  // circle when not — readable in grayscale / CVD.
+                  Icon(
+                    held ? Icons.check_circle : Icons.circle_outlined,
+                    color: held ? scheme.onPrimary : scheme.outline,
                     size: space.space5,
                   ),
                 ],
@@ -250,7 +199,6 @@ class _CoverageLegend extends StatelessWidget {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     final space = theme.extension<SpacingTokens>()!;
-    final mihrab = theme.extension<MihrabColors>()!;
     // A visual key only — the cells carry their own state to the screen reader.
     return ExcludeSemantics(
       child: Padding(
@@ -266,12 +214,12 @@ class _CoverageLegend extends StatelessWidget {
           runSpacing: space.space2,
           children: [
             _LegendItem(
-              kind: MihrabGlyphKind.filledStar,
-              color: mihrab.accentGold,
+              icon: Icons.check_circle,
+              color: scheme.primary,
               label: heldLabel,
             ),
             _LegendItem(
-              kind: MihrabGlyphKind.dashedRing,
+              icon: Icons.circle_outlined,
               color: scheme.outline,
               label: notHeldLabel,
             ),
@@ -284,12 +232,12 @@ class _CoverageLegend extends StatelessWidget {
 
 class _LegendItem extends StatelessWidget {
   const _LegendItem({
-    required this.kind,
+    required this.icon,
     required this.color,
     required this.label,
   });
 
-  final MihrabGlyphKind kind;
+  final IconData icon;
   final Color color;
   final String label;
 
@@ -300,7 +248,7 @@ class _LegendItem extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        MihrabGlyph(kind: kind, color: color, size: space.space4),
+        Icon(icon, color: color, size: space.space4),
         SizedBox(width: space.space2),
         Text(
           label,
@@ -310,58 +258,4 @@ class _LegendItem extends StatelessWidget {
       ],
     );
   }
-}
-
-/// Paints the glazed-teal band: a solid ground, a faint eight-point-star
-/// watermark tiled on a straight grid, and a terracotta ground-line along the
-/// lower edge — in a compact section band.
-class _BandPainter extends CustomPainter {
-  const _BandPainter({
-    required this.band,
-    required this.star,
-    required this.terracotta,
-  });
-
-  final Color band;
-  final Color star;
-  final Color terracotta;
-
-  static const double _cell = 40;
-  static const double _starOuter = 10;
-  static const double _starInnerRatio = 0.5;
-  static const double _terracottaThickness = 4;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final bounds = Offset.zero & size;
-    canvas.drawRect(bounds, Paint()..color = band);
-
-    final starPaint = Paint()..color = star;
-    for (var y = _cell / 2; y < size.height + _cell; y += _cell) {
-      for (var x = _cell / 2; x < size.width + _cell; x += _cell) {
-        canvas.drawPath(
-          eightPointStarPath(
-            Offset(x, y),
-            _starOuter,
-            _starOuter * _starInnerRatio,
-          ),
-          starPaint,
-        );
-      }
-    }
-
-    canvas.drawRect(
-      Rect.fromLTWH(
-        0,
-        size.height - _terracottaThickness,
-        size.width,
-        _terracottaThickness,
-      ),
-      Paint()..color = terracotta,
-    );
-  }
-
-  @override
-  bool shouldRepaint(_BandPainter old) =>
-      old.band != band || old.star != star || old.terracotta != terracotta;
 }

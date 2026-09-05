@@ -5,9 +5,7 @@ import 'package:engine/engine.dart' show CalendarDate, JuzConfidence;
 import 'package:flutter/material.dart';
 import 'package:l10n/l10n.dart';
 
-import '../../design_system/theme/mihrab_colors.dart';
 import '../../design_system/theme/spacing_tokens.dart';
-import 'onboarding_glyphs.dart';
 import 'when_memorized_input.dart';
 
 /// The per-juz confidence rater (E11-T06): for each **held** juz (in muṣḥaf
@@ -16,17 +14,9 @@ import 'when_memorized_input.dart';
 /// any seeded `D`/`S`/`R` — the engine owns the `_coldStartSeed` table; this View
 /// only captures the chosen [JuzConfidence] and hands it on unchanged.
 ///
-/// The three picks read as miḥrāb pill-tiles carrying a zellige-star glyph
-/// (solid → filled, shaky → hollow, rusty → dashed) **and** a text label — the
-/// state is never hue alone (SC 1.4.1). A chosen pick fills with the one calm
-/// glazed-teal selected tone (Rusty is never alarm-red); the warm-clay hint sits
-/// only in Rusty's resting glyph.
-///
-/// A dumb View: it takes the ordered held juz + the current [confidence] map +
-/// [onPick] and renders. It reads no clock, seeds nothing, and persists nothing
-/// (the seed is E11-T09's single write path). The optional "when memorized"
-/// sub-control (E11-T07) renders beneath each row, and a calm bias note (C-009)
-/// closes the step.
+/// The three picks read as plain pill-tiles carrying a circle glyph (filled /
+/// half / empty) beside the word — shape and word carry the level, never a
+/// traffic-light hue; the chosen pill fills with the one accent.
 class ConfidenceStep extends StatelessWidget {
   /// Creates the rater for the [heldJuz].
   const ConfidenceStep({
@@ -114,35 +104,15 @@ class ConfidenceStep extends StatelessWidget {
   }
 }
 
-/// The step title with a quiet leading zellige star.
+/// The step title.
 class _ConfidenceTitle extends StatelessWidget {
   const _ConfidenceTitle({required this.title});
 
   final String title;
 
   @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final space = theme.extension<SpacingTokens>()!;
-    final mihrab = theme.extension<MihrabColors>()!;
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsetsDirectional.only(top: space.space1),
-          child: MihrabGlyph(
-            kind: MihrabGlyphKind.filledStar,
-            color: mihrab.accentGold,
-            size: space.space4,
-          ),
-        ),
-        SizedBox(width: space.space2),
-        Expanded(
-          child: Text(title, style: theme.textTheme.titleLarge),
-        ),
-      ],
-    );
-  }
+  Widget build(BuildContext context) =>
+      Text(title, style: Theme.of(context).textTheme.titleLarge);
 }
 
 /// The three mutually-exclusive confidence pills for one juz.
@@ -156,18 +126,20 @@ class _ConfidencePills extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final mihrab = theme.extension<MihrabColors>()!;
     final space = theme.extension<SpacingTokens>()!;
+    // Shape carries the level (a filled, a half, an empty circle); colour is
+    // the same calm neutral for every resting pill — never a traffic light.
+    final resting = theme.colorScheme.onSurfaceVariant;
     return Row(
       spacing: space.space2,
       children: [
         Expanded(
           child: _ConfidencePill(
             value: JuzConfidence.solid,
-            kind: MihrabGlyphKind.filledStar,
+            icon: Icons.circle,
             label: l10n.confidenceSolid,
             semanticsLabel: l10n.confidenceSolidSemantics,
-            restingGlyph: mihrab.accentGold,
+            restingGlyph: resting,
             selected: selected == JuzConfidence.solid,
             onPick: onPick,
           ),
@@ -175,10 +147,10 @@ class _ConfidencePills extends StatelessWidget {
         Expanded(
           child: _ConfidencePill(
             value: JuzConfidence.shaky,
-            kind: MihrabGlyphKind.outlineStar,
+            icon: Icons.contrast,
             label: l10n.confidenceShaky,
             semanticsLabel: l10n.confidenceShakySemantics,
-            restingGlyph: theme.colorScheme.primary,
+            restingGlyph: resting,
             selected: selected == JuzConfidence.shaky,
             onPick: onPick,
           ),
@@ -186,12 +158,10 @@ class _ConfidencePills extends StatelessWidget {
         Expanded(
           child: _ConfidencePill(
             value: JuzConfidence.rusty,
-            kind: MihrabGlyphKind.dashedStar,
+            icon: Icons.circle_outlined,
             label: l10n.confidenceRusty,
             semanticsLabel: l10n.confidenceRustySemantics,
-            // A warm-clay resting hint — never an alarm; the chosen tone is the
-            // same calm teal as the others.
-            restingGlyph: mihrab.semanticWarning,
+            restingGlyph: resting,
             selected: selected == JuzConfidence.rusty,
             onPick: onPick,
           ),
@@ -204,7 +174,7 @@ class _ConfidencePills extends StatelessWidget {
 class _ConfidencePill extends StatelessWidget {
   const _ConfidencePill({
     required this.value,
-    required this.kind,
+    required this.icon,
     required this.label,
     required this.semanticsLabel,
     required this.restingGlyph,
@@ -213,7 +183,7 @@ class _ConfidencePill extends StatelessWidget {
   });
 
   final JuzConfidence value;
-  final MihrabGlyphKind kind;
+  final IconData icon;
   final String label;
   final String semanticsLabel;
   final Color restingGlyph;
@@ -244,7 +214,8 @@ class _ConfidencePill extends StatelessWidget {
               ),
             ),
             child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: space.space8 + space.space2),
+              constraints:
+                  BoxConstraints(minHeight: space.space8 + space.space2),
               child: Padding(
                 padding: EdgeInsetsDirectional.symmetric(
                   vertical: space.space2,
@@ -255,8 +226,8 @@ class _ConfidencePill extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   spacing: space.space1,
                   children: [
-                    MihrabGlyph(
-                      kind: kind,
+                    Icon(
+                      icon,
                       color: selected ? scheme.onPrimary : restingGlyph,
                       size: space.space5,
                     ),

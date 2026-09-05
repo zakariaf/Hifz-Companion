@@ -4,9 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:l10n/l10n.dart';
 
-import '../../design_system/theme/mihrab_colors.dart';
 import '../../design_system/theme/spacing_tokens.dart';
-import 'onboarding_glyphs.dart';
 
 /// The first onboarding step (E11-T02): intent + the perceptible privacy
 /// covenant + the servant-to-the-teacher framing, then one calm Continue.
@@ -92,10 +90,8 @@ class WelcomeStep extends StatelessWidget {
   }
 }
 
-/// A calm miḥrāb rosette (owner-directed design amendment, concept 01): a
-/// limestone disc ringed in glazed teal, bearing a single gold eight-point
-/// zellige star. Purely decorative chrome — no glyph, no state, no number,
-/// hidden from the screen reader (the intent below carries the heading).
+/// A plain circular badge with the book icon — quiet chrome, no state, no
+/// number, hidden from the screen reader (the intent below carries the heading).
 class _MihrabMedallion extends StatelessWidget {
   const _MihrabMedallion();
 
@@ -104,19 +100,17 @@ class _MihrabMedallion extends StatelessWidget {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     final space = theme.extension<SpacingTokens>()!;
-    final mihrab = theme.extension<MihrabColors>()!;
     return ExcludeSemantics(
       child: DecoratedBox(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: scheme.surfaceContainer,
-          border: Border.all(color: scheme.primary),
+          color: scheme.primaryContainer,
         ),
         child: Padding(
           padding: EdgeInsetsDirectional.all(space.space5),
-          child: MihrabGlyph(
-            kind: MihrabGlyphKind.filledStar,
-            color: mihrab.accentGold,
+          child: Icon(
+            Icons.menu_book_outlined,
+            color: scheme.primary,
             size: space.space7,
           ),
         ),

@@ -82,80 +82,67 @@ class MihrabPageCard extends StatelessWidget {
           child: InkWell(
             onTap: onOpen,
             overlayColor: MihrabStateLayer.overlayColor(scheme.onSurface),
-            child: DecoratedBox(
-              // The calm teal spine down the reading-start (trailing in the
-              // concept, right in RTL) edge — a quiet track marker drawn as a
-              // full-height start border, clipped to the card corner. Decorative.
-              decoration: BoxDecoration(
-                border: BorderDirectional(
-                  start: BorderSide(
-                    color: scheme.primary,
-                    width: space.space2,
-                  ),
-                ),
-              ),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: space.space8),
-                child: Padding(
-                  padding: EdgeInsetsDirectional.all(space.space4),
-                  child: Row(
-                    children: [
-                      // Leading (right in RTL): the headline over the track
-                      // chip — "Page N · Juz M" then the manzil/sabqi badge.
-                      Expanded(
-                        flex: 3,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: space.space8),
+              child: Padding(
+                padding: EdgeInsetsDirectional.all(space.space4),
+                child: Row(
+                  children: [
+                    // Leading (right in RTL): the headline over the track
+                    // chip — "Page N · Juz M" then the manzil/sabqi badge.
+                    Expanded(
+                      flex: 3,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            headline,
+                            style: text.titleMedium?.copyWith(
+                              color: headlineColor,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          if (hint != null) ...[
+                            SizedBox(height: space.space1),
                             Text(
-                              headline,
-                              style: text.titleMedium?.copyWith(
-                                color: headlineColor,
-                                fontWeight: FontWeight.w700,
+                              hint,
+                              style: text.bodySmall?.copyWith(
+                                color: scheme.onSurfaceVariant,
                               ),
-                            ),
-                            if (hint != null) ...[
-                              SizedBox(height: space.space1),
-                              Text(
-                                hint,
-                                style: text.bodySmall?.copyWith(
-                                  color: scheme.onSurfaceVariant,
-                                ),
-                              ),
-                            ],
-                            SizedBox(height: space.space2),
-                            TrackChip(
-                              family: data.track,
-                              label: data.trackLabel,
                             ),
                           ],
-                        ),
+                          SizedBox(height: space.space2),
+                          TrackChip(
+                            family: data.track,
+                            label: data.trackLabel,
+                          ),
+                        ],
                       ),
-                      SizedBox(width: space.space3),
-                      // Trailing (far left in RTL): the decay star + word, and
-                      // any done/locked marker.
-                      Expanded(
-                        flex: 2,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Flexible(
-                              child: DecayIndicator(
-                                level: data.decay,
-                                label: data.decayLabel,
-                              ),
+                    ),
+                    SizedBox(width: space.space3),
+                    // Trailing (far left in RTL): the decay star + word, and
+                    // any done/locked marker.
+                    Expanded(
+                      flex: 2,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Flexible(
+                            child: DecayIndicator(
+                              level: data.decay,
+                              label: data.decayLabel,
                             ),
-                            _StateMarker(
-                              state: data.state,
-                              word: _stateWord(l10n, data.state),
-                            ),
-                          ],
-                        ),
+                          ),
+                          _StateMarker(
+                            state: data.state,
+                            word: _stateWord(l10n, data.state),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),

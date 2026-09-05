@@ -23,7 +23,6 @@ const _sentinel = MihrabColors(
   readerSurfaceSepia: Color(0xFF090909),
   readerSurfaceNight: Color(0xFF0A0A0A),
   semanticWarning: Color(0xFF0B0B0B),
-  accentGold: Color(0xFF0C0C0C),
   textTertiary: Color(0xFF0D0D0D),
 );
 
@@ -32,27 +31,27 @@ void main() {
 
   test('copyWith() preserves every field; copyWith(x) overrides only x', () {
     expect(_sentinel.copyWith().heatmapStrong, _sentinel.heatmapStrong);
-    final out = _sentinel.copyWith(accentGold: const Color(0xFFFFFFFF));
-    expect(out.accentGold, const Color(0xFFFFFFFF));
+    final out = _sentinel.copyWith(textTertiary: const Color(0xFFFFFFFF));
+    expect(out.textTertiary, const Color(0xFFFFFFFF));
     expect(out.heatmapStrong, _sentinel.heatmapStrong);
     expect(out.semanticWarning, _sentinel.semanticWarning);
   });
 
   test('lerp(other, 0)==this and (other, 1)==other per field; null->this', () {
-    final other = _sentinel.copyWith(accentGold: const Color(0xFF808080));
-    expect(_sentinel.lerp(other, 0).accentGold, _sentinel.accentGold);
-    expect(_sentinel.lerp(other, 1).accentGold, other.accentGold);
-    expect(_sentinel.lerp(null, 0.5).accentGold, _sentinel.accentGold);
+    final other = _sentinel.copyWith(textTertiary: const Color(0xFF808080));
+    expect(_sentinel.lerp(other, 0).textTertiary, _sentinel.textTertiary);
+    expect(_sentinel.lerp(other, 1).textTertiary, other.textTertiary);
+    expect(_sentinel.lerp(null, 0.5).textTertiary, _sentinel.textTertiary);
   });
 
   test('lerp interpolates every field (no field snaps/un-lerped)', () {
     final other = _sentinel.copyWith(
       heatmapStrong: const Color(0xFFFFFFFF),
-      accentGold: const Color(0xFFFFFFFF),
+      textTertiary: const Color(0xFFFFFFFF),
     );
     final mid = _sentinel.lerp(other, 0.5);
     expect(mid.heatmapStrong, isNot(_sentinel.heatmapStrong));
     expect(mid.heatmapStrong, isNot(other.heatmapStrong));
-    expect(mid.accentGold, isNot(_sentinel.accentGold));
+    expect(mid.textTertiary, isNot(_sentinel.textTertiary));
   });
 }

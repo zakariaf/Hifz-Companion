@@ -103,9 +103,8 @@ MihrabColors mihrabColorsFor(MihrabAppearance appearance) =>
 // tile-wall — a rich teal glaze receding through turquoise to bare limestone —
 // and the track chip is a light glazed tile. Owner-directed design amendment.
 const _lightColors = MihrabColors(
-  // Plain redesign (2026-09-05): a single-hue accent ramp for the juz grid,
-  // neutral chips, and no gold. `accentGold` is retained as a token name only
-  // (mapped to a quiet neutral) until the last ornament consumer is removed.
+  // Plain redesign (2026-09-05): a single-hue accent ramp for the juz grid and
+  // neutral chips. There is no ornament accent.
   heatmapStrong: Color(0xFF157A63),
   heatmapGood: Color(0xFF5FA892),
   heatmapFair: Color(0xFF8FC4B5),
@@ -117,7 +116,6 @@ const _lightColors = MihrabColors(
   readerSurfaceSepia: Color(0xFFFBF7EE),
   readerSurfaceNight: Color(0xFF14110C),
   semanticWarning: Color(0xFF8A4A2C),
-  accentGold: Color(0xFF8A8E8C),
   textTertiary: Color(0xFF6B6F6D),
 );
 
@@ -133,7 +131,6 @@ const _sepiaColors = MihrabColors(
   readerSurfaceSepia: Color(0xFFF3EAD8),
   readerSurfaceNight: Color(0xFF14110C),
   semanticWarning: Color(0xFF8A5A00),
-  accentGold: Color(0xFF9A742B),
   textTertiary: Color(0xFF6E6353),
 );
 
@@ -149,7 +146,6 @@ const _darkColors = MihrabColors(
   readerSurfaceSepia: Color(0xFFF3EAD8),
   readerSurfaceNight: Color(0xFF14110C),
   semanticWarning: Color(0xFFE8B23C),
-  accentGold: Color(0xFFD8BC7E),
   textTertiary: Color(0xFF828B83),
 );
 
@@ -165,6 +161,5 @@ const _nightColors = MihrabColors(
   readerSurfaceSepia: Color(0xFFF3EAD8),
   readerSurfaceNight: Color(0xFF14110C),
   semanticWarning: Color(0xFFE8B23C),
-  accentGold: Color(0xFFD8BC7E),
   textTertiary: Color(0xFF8A7C62),
 );

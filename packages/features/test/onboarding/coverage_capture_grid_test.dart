@@ -8,7 +8,6 @@
 
 import 'package:features/features.dart';
 import 'package:features/src/onboarding/widgets/coverage_capture_grid.dart';
-import 'package:features/src/onboarding/widgets/onboarding_glyphs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:l10n/l10n.dart';
@@ -76,14 +75,14 @@ void main() {
       (t) async {
     await pump(t, held: const {3}, onToggle: (_) {});
     // Scope to the interactive cells so the banner/legend glyphs don't count.
-    Finder cellGlyph(MihrabGlyphKind kind) => find.descendant(
+    Finder cellGlyph(IconData icon) => find.descendant(
           of: find.byType(InkWell),
           matching: find.byWidgetPredicate(
-            (w) => w is MihrabGlyph && w.kind == kind,
+            (w) => w is Icon && w.icon == icon,
           ),
         );
-    expect(cellGlyph(MihrabGlyphKind.filledStar), findsOneWidget); // held juz 3
-    expect(cellGlyph(MihrabGlyphKind.dashedRing), findsNWidgets(29));
+    expect(cellGlyph(Icons.check_circle), findsOneWidget); // held juz 3
+    expect(cellGlyph(Icons.circle_outlined), findsNWidgets(29));
   });
 
   testWidgets('each cell is a toggled, labelled, ≥48 dp target', (t) async {

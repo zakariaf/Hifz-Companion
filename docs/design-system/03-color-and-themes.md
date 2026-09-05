@@ -203,13 +203,13 @@ The §7 tables and pinned-hex/contrast tests (`mihrab_color_schemes_test.dart`, 
 
 ### Amendment (plain redesign, 2026-09-05): neutral ground, one accent, no ornament
 
-**Statement.** Owner-directed reversal of the mihrab-architecture pass. After using the reskinned app the owner rejected the ornamental language outright ("too difficult, too ugly") and chose a **plain, native-style** UI: a neutral near-white ground, white grouped cards on a hairline, one green accent, large-title screens, three tabs (Today · Muṣḥaf · Progress) with Settings behind a gear, and a continuous revision *session* in place of the list-driven loop. Every arch, zellige star, gold point, terracotta rule, tile band and curved nav is removed. Sepia, Dark, and Night are unchanged for now. Every Light text/accent role was re-run through the §7 audit and Passes.
+**Statement.** Owner-directed reversal of the mihrab-architecture pass. After using the reskinned app the owner rejected the ornamental language outright ("too difficult, too ugly") and chose a **plain, native-style** UI: a neutral near-white ground, white grouped cards on a hairline, one green accent, large-title screens, three tabs (Today · Muṣḥaf · Progress) with Settings behind a gear, and a continuous revision *session* in place of the list-driven loop. Every arch, zellige star, gold point, terracotta rule, tile band and curved nav is removed. Sepia, Dark, and Night keep their pinned ink/accent pairs and gain the same shape (a near-white/one-step-lighter card, one hairline `outline.variant`, a `primary.container` pair). Every Light text/accent role was re-run through the §7 audit and Passes.
 
 Pinned Light hexes (superseding the mihrab-architecture values above):
 
 - **Surface / ink** — `bg.primary` `#EFEBE3 → #F4F4F2`, `surface.container` `#E5DECD → #FFFFFF` (white cards), `outline.variant` → `#E6E6E2` (the one hairline), `text.primary` `#233230 → #1A1C1B` (**15.56:1**), `text.secondary`/`text.tertiary` → `#6B6F6D` (**4.63:1**).
 - **`accent.green`** — `#1C7062 → #157A63`, the single interactive tint and the heat anchor (**4.77:1** on the ground, white on it **5.26:1**); `primary.container` `#E3F1EC` / on-container `#0F4F40` (**8.16:1**).
-- **`accent.gold`** — no longer drawn anywhere. The token is retained as a name only (mapped to the neutral `#8A8E8C`, 3.01:1) until its last consumer is removed; it must not gain a new one.
+- **`accent.gold`** — removed. The token (`MihrabColors.accentGold`) and every consumer (the nav lamp, the section stars, the medallion, the hard-grade strip, the sign-off chip, the anchor overlay) are gone; the E06 gold amendment above is superseded.
 - **`semantic.warning`** — unchanged (`#8A4A2C`, 6.16:1); still the rare integrity notice, never a comment on revision.
 - **Heat-map ramp** — a single-hue green→white ramp: strong `#157A63`, good `#5FA892`, fair `#8FC4B5`, weak `#D7ECE5`, faded `#FFFFFF` (an outlined, not-started tile). The juz grid carries the number **and** the band word inside every tile, so colour is never the sole channel.
 - **Track chips** — neutral (`#EEF0EE` / `#3A423F`); the three tracks are told apart by their word, not a hue family.

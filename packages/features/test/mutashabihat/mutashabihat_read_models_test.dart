@@ -29,6 +29,9 @@ class _FakeReferenceRepository implements ReferenceRepository {
   final Map<String, MutashabihGroupView> views;
 
   @override
+  Future<List<Surah>> surahsStartingOnPage(int pageNumber) async => const [];
+
+  @override
   Future<List<MutashabihGroup>> allMutashabihGroups() async => groups;
 
   @override

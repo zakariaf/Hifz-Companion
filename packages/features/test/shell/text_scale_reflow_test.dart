@@ -8,14 +8,18 @@
 // and assert ZERO RenderFlex/overflow exceptions. This fails on a clipping
 // layout before the reflow/clamp fix lands.
 
-import 'package:engine/engine.dart'
-    show CalendarDate, Card, ReviewGrade, ReviewTrack;
 import 'package:features/features.dart'
-    show MihrabAppearance, PageCard, mihrabThemeFor;
-import 'package:flutter/material.dart' hide Card;
+    show
+        CardState,
+        DecayLevel,
+        MihrabAppearance,
+        MihrabPageCard,
+        PageCardViewData,
+        TrackFamily,
+        mihrabThemeFor;
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:l10n/l10n.dart';
-import 'package:models/models.dart' show ProfileId;
 
 import '../test_setup.dart';
 
@@ -23,15 +27,14 @@ const _locales = [Locale('fa'), Locale('ckb'), Locale('ar')];
 // 2.0 = the WCAG 1.4.4 (200%) bar; 3.2 = an iOS AX-extreme size.
 const _scales = [2.0, 3.2];
 
-Card _card() => Card(
-      profileId: const ProfileId('p1'),
-      pageId: 134,
-      track: ReviewTrack.far,
-      difficulty: 5,
-      stabilityDays: 30,
-      lastReviewedDay: CalendarDate.ymd(2026, 5, 1),
-      dueAt: CalendarDate.ymd(2026, 6, 19),
-      isWeak: true,
+PageCardViewData _card() => const PageCardViewData(
+      page: 134,
+      juz: 7,
+      track: TrackFamily.far,
+      trackLabel: 'TRACK',
+      decay: DecayLevel.needsRevision,
+      decayLabel: 'DECAY',
+      state: CardState.weak,
     );
 
 Future<void> _pumpAtScale(
@@ -57,7 +60,7 @@ Future<void> _pumpAtScale(
         child: Scaffold(
           body: SafeArea(
             child: ListView(
-              children: [PageCard(card: _card(), onGrade: (_) async {})],
+              children: [MihrabPageCard(data: _card(), onOpen: () {})],
             ),
           ),
         ),
@@ -73,7 +76,7 @@ void main() {
   for (final locale in _locales) {
     for (final scale in _scales) {
       final code = locale.languageCode;
-      testWidgets('page-card + grade band reflow at ${scale}x ($code)', (
+      testWidgets('page-card reflows at ${scale}x ($code)', (
         tester,
       ) async {
         await _pumpAtScale(tester, locale, scale);
@@ -82,13 +85,6 @@ void main() {
           isNull,
           reason: 'no RenderFlex/overflow at ${scale}x in $code',
         );
-        // The four grade buttons stay present (no row collapse/clip).
-        for (final g in ReviewGrade.values) {
-          expect(
-            find.byKey(ValueKey<String>('grade.${g.wireValue}')),
-            findsOneWidget,
-          );
-        }
       });
     }
   }

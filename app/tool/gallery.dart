@@ -193,7 +193,6 @@ class _Colours extends StatelessWidget {
       ('onSurface', scheme.onSurface),
       ('onSurfaceVar', scheme.onSurfaceVariant),
       ('error', scheme.error),
-      ('accentGold', mc.accentGold),
       ('warning', mc.semanticWarning),
       ('heat·strong', mc.heatmapStrong),
       ('heat·good', mc.heatmapGood),

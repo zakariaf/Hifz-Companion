@@ -10,7 +10,7 @@ import '../theme/spacing_tokens.dart';
 import 'page_card_view_data.dart';
 
 /// A tiny decay indicator that encodes the same fact **redundantly** (design-
-/// system 07 §4; 08 §3): a calm 8-point star glyph coloured by the retention
+/// system 07 §4; 08 §3): a plain circle glyph shaped by the retention
 /// band **plus** the localized [label] beside it — meaning survives a
 /// grayscale / colour-blind render, never colour alone.
 ///
@@ -64,7 +64,7 @@ class DecayIndicator extends StatelessWidget {
           children: [
             CustomPaint(
               size: Size.square(space.space4),
-              painter: _EightPointStarPainter(color: color),
+              painter: _DecayDotPainter(level: level, color: color),
             ),
             SizedBox(width: space.space1),
             Flexible(child: Text(label, style: labelStyle)),
@@ -75,41 +75,43 @@ class DecayIndicator extends StatelessWidget {
   }
 }
 
-/// Paints a calm, symmetric 8-point star (an Islamic *khātam* motif) filled with
-/// [color]. Radially symmetric, so it is direction-neutral and never mirrors in
-/// RTL (the bidi mirror policy). Purely decorative — the label carries meaning.
-class _EightPointStarPainter extends CustomPainter {
-  const _EightPointStarPainter({required this.color});
+/// Paints a plain circle glyph whose *shape* carries the level — filled for
+/// solid, half-filled for holding, an outline ring for needs-revision — so the
+/// meaning survives a grayscale render. Radially symmetric, so it never
+/// mirrors in RTL. Purely decorative — the label carries meaning.
+class _DecayDotPainter extends CustomPainter {
+  const _DecayDotPainter({required this.level, required this.color});
 
+  final DecayLevel level;
   final Color color;
 
   @override
   void paint(Canvas canvas, Size size) {
     final center = size.center(Offset.zero);
-    final outer = size.shortestSide / 2;
-    final inner = outer * 0.42;
-    const points = 8;
-    final path = Path();
-    for (var i = 0; i < points * 2; i++) {
-      final radius = i.isEven ? outer : inner;
-      final angle = (math.pi / points) * i - math.pi / 2;
-      final point = Offset(
-        center.dx + radius * math.cos(angle),
-        center.dy + radius * math.sin(angle),
-      );
-      i == 0 ? path.moveTo(point.dx, point.dy) : path.lineTo(point.dx, point.dy);
+    final radius = size.shortestSide / 2 - 1;
+    final stroke = Paint()
+      ..color = color
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.5;
+    final fill = Paint()..color = color;
+    switch (level) {
+      case DecayLevel.solid:
+        canvas.drawCircle(center, radius, fill);
+      case DecayLevel.holding:
+        canvas.drawCircle(center, radius, stroke);
+        canvas.drawArc(
+          Rect.fromCircle(center: center, radius: radius),
+          -math.pi / 2,
+          math.pi,
+          true,
+          fill,
+        );
+      case DecayLevel.needsRevision:
+        canvas.drawCircle(center, radius, stroke);
     }
-    path.close();
-    canvas.drawPath(
-      path,
-      Paint()
-        ..color = color
-        ..isAntiAlias = true
-        ..style = PaintingStyle.fill,
-    );
   }
 
   @override
-  bool shouldRepaint(_EightPointStarPainter oldDelegate) =>
-      oldDelegate.color != color;
+  bool shouldRepaint(_DecayDotPainter oldDelegate) =>
+      oldDelegate.level != level || oldDelegate.color != color;
 }

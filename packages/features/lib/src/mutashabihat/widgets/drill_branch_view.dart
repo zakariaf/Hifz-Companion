@@ -13,7 +13,6 @@ import 'package:quran/quran.dart'
         OverlayMarker,
         OverlayStyle;
 
-import '../../design_system/theme/mihrab_colors.dart';
 import '../../design_system/theme/motion_tokens.dart';
 import '../../design_system/theme/spacing_tokens.dart';
 import '../discrimination_drill_view_model.dart' show BranchPhase;
@@ -131,7 +130,6 @@ class DrillBranchView extends ConsumerWidget {
     final words = ref.watch(drillAnchorWordsProvider)(member);
     if (words.isEmpty) return null; // E14-T09 supplies the real WordRefs
     final theme = Theme.of(context);
-    final colors = theme.extension<MihrabColors>()!;
     final space = theme.extension<SpacingTokens>()!;
     return MushafOverlayPainter(
       markers: [
@@ -142,7 +140,7 @@ class DrillBranchView extends ConsumerWidget {
         // A calm low-alpha gold over the divergence — never a red shame mark.
         fillColors: {
           OverlayKind.mutashabihAnchor:
-              colors.accentGold.withValues(alpha: 0.18),
+              theme.colorScheme.primary.withValues(alpha: 0.18),
         },
         cornerRadius: space.space1,
       ),
