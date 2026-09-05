@@ -314,7 +314,7 @@ class _LegendItem extends StatelessWidget {
 
 /// Paints the glazed-teal band: a solid ground, a faint eight-point-star
 /// watermark tiled on a straight grid, and a terracotta ground-line along the
-/// lower edge — echoing [MihrabArchHeader] in a compact section band.
+/// lower edge — in a compact section band.
 class _BandPainter extends CustomPainter {
   const _BandPainter({
     required this.band,

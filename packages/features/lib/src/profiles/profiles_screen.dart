@@ -10,7 +10,6 @@ import 'package:models/models.dart' show Profile, ProfileRole;
 import '../design_system/components/destructive_confirm.dart';
 import '../design_system/pickers/settings_picker.dart';
 import '../design_system/theme/spacing_tokens.dart';
-import '../design_system/widgets/mihrab_arch_header.dart';
 import 'profiles_providers.dart';
 
 /// The Profiles screen (PRD §15.3): the device-local multi-profile switcher and
@@ -35,59 +34,49 @@ class ProfilesScreen extends ConsumerWidget {
       container: true,
       label: l10n.profilesScreenTitle,
       explicitChildNodes: true,
-      child: Column(
-        children: [
-          // The pushed screens carry their own miḥrāb niche (there is no shared
-          // arch header outside the tab shell). Purely decorative chrome.
-          MihrabArchHeader(
-            title: l10n.profilesScreenTitle,
-            subtitle: l10n.profilesManageSubtitle,
-          ),
-          Expanded(
-            child: SafeArea(
-              top: false,
-              child: profiles.when(
-                loading: () => const Center(
-                  child: CircularProgressIndicator.adaptive(),
-                ),
-                error: (_, __) => Center(
-                  child: TextButton(
-                    onPressed: () => ref.invalidate(profilesListProvider),
-                    child: Text(l10n.commonRetry),
-                  ),
-                ),
-                data: (list) => ListView(
-                  padding: EdgeInsetsDirectional.all(space.space4),
-                  children: [
-                    for (final profile in list)
-                      Padding(
-                        padding:
-                            EdgeInsetsDirectional.only(bottom: space.space3),
-                        child: _ProfileRow(
-                          profile: profile,
-                          isActive: profile.profileId == activeId,
-                          onTap: () => ref
-                              .read(activeProfileProvider.notifier)
-                              .select(profile.profileId),
-                          onRename: () => _renameProfile(context, ref, profile),
-                          // The active profile can't be deleted — switch away
-                          // first (avoids deleting the scoped-to profile).
-                          onDelete: profile.profileId == activeId
-                              ? null
-                              : () => _deleteProfile(context, ref, profile),
-                        ),
-                      ),
-                    SizedBox(height: space.space1),
-                    _AddProfileButton(
-                      label: l10n.profilesAddButton,
-                      onTap: () => _createProfile(context, ref),
-                    ),
-                  ],
-                ),
+      child: Scaffold(
+        appBar: AppBar(title: Text(l10n.profilesScreenTitle)),
+        body: SafeArea(
+          top: false,
+          child: profiles.when(
+            loading: () => const Center(
+              child: CircularProgressIndicator.adaptive(),
+            ),
+            error: (_, __) => Center(
+              child: TextButton(
+                onPressed: () => ref.invalidate(profilesListProvider),
+                child: Text(l10n.commonRetry),
               ),
             ),
+            data: (list) => ListView(
+              padding: EdgeInsetsDirectional.all(space.space4),
+              children: [
+                for (final profile in list)
+                  Padding(
+                    padding: EdgeInsetsDirectional.only(bottom: space.space3),
+                    child: _ProfileRow(
+                      profile: profile,
+                      isActive: profile.profileId == activeId,
+                      onTap: () => ref
+                          .read(activeProfileProvider.notifier)
+                          .select(profile.profileId),
+                      onRename: () => _renameProfile(context, ref, profile),
+                      // The active profile can't be deleted — switch away
+                      // first (avoids deleting the scoped-to profile).
+                      onDelete: profile.profileId == activeId
+                          ? null
+                          : () => _deleteProfile(context, ref, profile),
+                    ),
+                  ),
+                SizedBox(height: space.space1),
+                _AddProfileButton(
+                  label: l10n.profilesAddButton,
+                  onTap: () => _createProfile(context, ref),
+                ),
+              ],
+            ),
           ),
-        ],
+        ),
       ),
     );
   }

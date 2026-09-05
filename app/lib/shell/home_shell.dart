@@ -2,19 +2,19 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import 'package:features/features.dart'
-    show MihrabArchHeader, MihrabNavigationBar, MihrabScaffold;
+    show MihrabNavigationBar, MihrabScaffold;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:l10n/l10n.dart';
 
-/// The persistent chrome around the five bottom-nav tabs, hosted by the router's
-/// `ShellRoute` (04 §6). It wires only: it derives the selected tab from the
-/// current location and routes a tap with `context.go` — no imperative
-/// `Navigator.push`, no business logic, no Quran glyph.
+/// The persistent chrome around the three bottom-nav tabs, hosted by the
+/// router's `ShellRoute` (04 §6). It wires only: it derives the selected tab
+/// from the current location and routes a tap with `context.go` — no imperative
+/// `Navigator.push`, no business logic, no Quran glyph, no header (each tab
+/// draws its own large title).
 ///
-/// The nav items are declared in logical order Today · Muṣḥaf · Mutashābihāt ·
-/// Progress · Settings; under the app-wide RTL `Directionality` the bar renders
-/// Today rightmost as the geometric result — never a manual `.reversed`.
+/// The nav items are declared in logical order Today · Muṣḥaf · Progress; under
+/// the app-wide RTL `Directionality` the bar renders Today rightmost as the
+/// geometric result — never a manual `.reversed`.
 class HomeShell extends StatelessWidget {
   /// Wraps the active tab's [child] in the shell chrome.
   const HomeShell({required this.child, super.key});
@@ -26,68 +26,20 @@ class HomeShell extends StatelessWidget {
   static const List<String> _tabPaths = <String>[
     '/today',
     '/mushaf',
-    '/mutashabihat',
     '/progress',
-    '/settings',
   ];
 
   @override
   Widget build(BuildContext context) {
     final location = GoRouterState.of(context).uri.path;
-    final header = _headerFor(location, AppLocalizations.of(context));
-    // Reuse the design-system scaffold (calm body + a MihrabNavigationBar slot)
-    // rather than re-assembling Scaffold + nav here. The four content tabs get a
-    // mihrab arch header; the Muṣḥaf reader keeps its own riwāyah chrome and
-    // pushed sub-routes carry their own AppBars, so both are left header-less.
     return MihrabScaffold(
-      body: header == null
-          ? child
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                MihrabArchHeader(
-                  title: header.title,
-                  subtitle: header.subtitle,
-                ),
-                Expanded(
-                  child: MediaQuery.removePadding(
-                    context: context,
-                    removeTop: true,
-                    child: child,
-                  ),
-                ),
-              ],
-            ),
+      body: child,
       bottomNavigationBar: MihrabNavigationBar(
         selectedIndex: _selectedIndex(location),
         onDestinationSelected: (index) => context.go(_tabPaths[index]),
       ),
     );
   }
-
-  /// The arch-header title + subtitle for a top-level content tab, or null for
-  /// the reader and pushed sub-routes (which supply their own chrome).
-  /// Exact-match, so a sub-path like `/settings/profiles` is left header-less.
-  ({String title, String subtitle})? _headerFor(
-    String location,
-    AppLocalizations l10n,
-  ) =>
-      switch (location) {
-        '/today' => (title: l10n.navToday, subtitle: l10n.headerSubtitleToday),
-        '/mutashabihat' => (
-            title: l10n.navMutashabihat,
-            subtitle: l10n.headerSubtitleMutashabihat,
-          ),
-        '/progress' => (
-            title: l10n.navProgress,
-            subtitle: l10n.headerSubtitleProgress,
-          ),
-        '/settings' => (
-            title: l10n.navSettings,
-            subtitle: l10n.headerSubtitleSettings,
-          ),
-        _ => null,
-      };
 
   /// The tab whose path is the longest prefix of [location] (so a sub-path under
   /// a tab keeps that tab selected); defaults to Today.

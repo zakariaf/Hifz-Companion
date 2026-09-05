@@ -3,7 +3,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:l10n/l10n.dart';
+
+import '../design_system/widgets/plain_screen_header.dart';
 
 import 'progress_view_model.dart';
 import 'widgets/progress_empty_state.dart';
@@ -51,7 +54,25 @@ class ProgressScreen extends ConsumerWidget {
       container: true,
       label: l10n.navProgress,
       explicitChildNodes: true,
-      child: SafeArea(child: content),
+      child: SafeArea(
+        bottom: false,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            PlainScreenHeader(
+              title: l10n.navProgress,
+              actions: <Widget>[
+                IconButton(
+                  icon: const Icon(Icons.settings_outlined),
+                  tooltip: l10n.navSettings,
+                  onPressed: () => context.push('/settings'),
+                ),
+              ],
+            ),
+            Expanded(child: content),
+          ],
+        ),
+      ),
     );
   }
 }

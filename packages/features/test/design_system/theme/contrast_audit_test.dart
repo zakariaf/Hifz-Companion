@@ -165,14 +165,14 @@ void main() {
     test('representative cells track the prose within ±0.1', () {
       const light = MihrabAppearance.light;
       const dark = MihrabAppearance.dark;
-      // Light values re-audited for the mihrab-architecture amendment (03 §7):
-      // ink #233230 on limestone #EFEBE3, glazed-teal #1C7062, heat anchor
-      // #167C6D. Dark is unchanged from the original audit.
+      // Light values re-audited for the plain-redesign amendment (03 §7,
+      // 2026-09-05): ink #1A1C1B on the neutral ground #F4F4F2, the one green
+      // accent #157A63 (also the heat anchor). Dark is unchanged.
       final cells = <(MihrabAppearance, _Resolve, _Resolve, double)>[
-        (light, _onSurface, _surface, 11.25),
-        (light, _primary, _surface, 4.99),
+        (light, _onSurface, _surface, 15.56),
+        (light, _primary, _surface, 4.77),
         (dark, _primary, _surface, 8.77),
-        (light, _strong, _surface, 4.27),
+        (light, _strong, _surface, 4.77),
       ];
       for (final cell in cells) {
         expect(ratioOf(cell.$1, cell.$2, cell.$3), closeTo(cell.$4, 0.1));

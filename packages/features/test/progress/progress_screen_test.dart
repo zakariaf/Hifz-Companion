@@ -9,7 +9,6 @@
 import 'package:engine/engine.dart' show RetentionBand;
 import 'package:features/features.dart'
     show
-        HeatmapCell,
         JuzSummary,
         MihrabAppearance,
         PageHealth,
@@ -94,7 +93,8 @@ void main() {
     final l10n = await l10nAr();
     // The overview rendered (heat-map tiles present), not the empty state.
     expect(find.text(l10n.progressEmptyTitle), findsNothing);
-    expect(find.byType(HeatmapCell), findsWidgets);
+    expect(find.byType(GridView), findsOneWidget);
+    expect(find.text(l10n.progressBandWeak), findsWidgets);
   });
 
   testWidgets('no scoreboard: no streak/trophy/score iconography', (tester) async {

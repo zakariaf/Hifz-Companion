@@ -362,5 +362,22 @@
   "scienceClaimC046Headline": "این یاریگرِ مرور و خدمتگزارِ استادِ شماست — نه جایگزینِ تصحیحِ شفاهی، و نه فتوا.",
   "scienceClaimC047Headline": "هرجا دانش قطعی نباشد یا برنامه ساده‌سازی کند، آن را می‌گوییم — و نام و سالِ هر منبع را می‌آوریم.",
   "scienceClaimC047Caveat": "هر ساده‌سازی را آشکار می‌گوییم: «برنامه چنین به کار می‌برد؛ پژوهش چنین تا چنان نشان می‌دهد».",
-  "scienceClaimC048Headline": "برنامه به‌طور کامل بدون اینترنت کار می‌کند و هرگز صدای شما را ضبط یا داده‌هایتان را به جایی ارسال نمی‌کند."
+  "scienceClaimC048Headline": "برنامه به‌طور کامل بدون اینترنت کار می‌کند و هرگز صدای شما را ضبط یا داده‌هایتان را به جایی ارسال نمی‌کند.",
+  "todayStartSession": "شروع مرور",
+  "todayPagesCount": "{count, plural, one{{count} صفحه} other{{count} صفحه}}",
+  "todayAboutMinutes": "{count, plural, one{حدود {count} دقیقه} other{حدود {count} دقیقه}}",
+  "todayLastReviewedDaysAgo": "{count, plural, =0{آخرین مرور امروز} =1{آخرین مرور دیروز} other{آخرین مرور {count} روز پیش}}",
+  "todayNotYetReviewed": "هنوز مرور نشده",
+  "sessionSemanticTitle": "جلسهٔ مرور",
+  "sessionPosition": "{position} از {total}",
+  "sessionReciteFirst": "نخست از حفظ بخوانید",
+  "sessionShowPage": "نمایش صفحه",
+  "sessionStumbleHint": "روی سطری که لغزیدید بزنید",
+  "sessionStumbleCount": "{count, plural, =0{سطری علامت نخورده} other{{count} سطر علامت خورد}}",
+  "sessionDoneTitle": "مرور امروز تمام شد",
+  "sessionPagesReviewed": "{count, plural, one{{count} صفحه مرور شد} other{{count} صفحه مرور شد}}",
+  "sessionMinutesSpent": "{count, plural, =0{کمتر از یک دقیقه} other{{count} دقیقه}}",
+  "sessionComesBackSooner": "زودتر برمی‌گردند",
+  "sessionTomorrow": "فردا",
+  "sessionBackToToday": "بازگشت"
 }

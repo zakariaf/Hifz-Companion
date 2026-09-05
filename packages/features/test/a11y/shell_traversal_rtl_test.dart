@@ -28,13 +28,11 @@ void main() {
       await pumpShellUnderTest(tester, locale: locale);
       final l10n = await localizationsFor(locale);
 
-      // The five destinations in LOGICAL order (Today first).
+      // The three destinations in LOGICAL order (Today first).
       final logical = [
         l10n.navToday,
         l10n.navMushaf,
-        l10n.navMutashabihat,
         l10n.navProgress,
-        l10n.navSettings,
       ];
       final centresX = [
         for (final label in logical)

@@ -68,6 +68,7 @@ class TodaySession {
     List<Card> newSabaq = const <Card>[],
     this.budgetOverflow = false,
     this.catchUp,
+    this.reviewedTodayCount = 0,
   })  : far = List<Card>.unmodifiable(far),
         near = List<Card>.unmodifiable(near),
         newSabaq = List<Card>.unmodifiable(newSabaq);
@@ -78,7 +79,8 @@ class TodaySession {
         near = const <Card>[],
         newSabaq = const <Card>[],
         budgetOverflow = false,
-        catchUp = null;
+        catchUp = null,
+        reviewedTodayCount = 0;
 
   /// The Far (manzil) section, in the engine's recitation order.
   final List<Card> far;
@@ -95,6 +97,10 @@ class TodaySession {
 
   /// The pre-built catch-up plan after a gap, or null when there is none.
   final TodayCatchUp? catchUp;
+
+  /// How many pages were recited and graded today (their `lastReviewedDay` is
+  /// today) — the filled part of the Today ring. A neutral count, never a score.
+  final int reviewedTodayCount;
 
   /// True when no section holds a due page.
   bool get isEmpty => far.isEmpty && near.isEmpty && newSabaq.isEmpty;
@@ -115,6 +121,7 @@ class TodaySession {
     List<Card>? newSabaq,
     bool? budgetOverflow,
     TodayCatchUp? catchUp,
+    int? reviewedTodayCount,
   }) =>
       TodaySession(
         far: far ?? this.far,
@@ -122,6 +129,7 @@ class TodaySession {
         newSabaq: newSabaq ?? this.newSabaq,
         budgetOverflow: budgetOverflow ?? this.budgetOverflow,
         catchUp: catchUp ?? this.catchUp,
+        reviewedTodayCount: reviewedTodayCount ?? this.reviewedTodayCount,
       );
 
   @override
@@ -131,7 +139,8 @@ class TodaySession {
       listEquals(other.near, near) &&
       listEquals(other.newSabaq, newSabaq) &&
       other.budgetOverflow == budgetOverflow &&
-      other.catchUp == catchUp;
+      other.catchUp == catchUp &&
+      other.reviewedTodayCount == reviewedTodayCount;
 
   @override
   int get hashCode => Object.hash(
@@ -140,5 +149,6 @@ class TodaySession {
         Object.hashAll(newSabaq),
         budgetOverflow,
         catchUp,
+        reviewedTodayCount,
       );
 }

@@ -33,7 +33,7 @@ ThemeData mihrabThemeFor(MihrabAppearance appearance) {
       elevation: 0,
       color: scheme.surfaceContainer,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(14),
         side: BorderSide(
           color: scheme.outlineVariant.withValues(alpha: 0.5),
         ),
@@ -103,22 +103,22 @@ MihrabColors mihrabColorsFor(MihrabAppearance appearance) =>
 // tile-wall — a rich teal glaze receding through turquoise to bare limestone —
 // and the track chip is a light glazed tile. Owner-directed design amendment.
 const _lightColors = MihrabColors(
-  heatmapStrong: Color(0xFF167C6D),
-  heatmapGood: Color(0xFF3AA6A0),
-  heatmapFair: Color(0xFF93C4BC),
-  heatmapWeak: Color(0xFFC6C0AF),
-  heatmapFaded: Color(0xFFE0D8C6),
-  trackChipSurface: Color(0xFFD5E2DB),
-  trackChipText: Color(0xFF2E463F),
-  decayCalm: Color(0xFFC6C0AF),
-  readerSurfaceSepia: Color(0xFFF3EAD8),
+  // Plain redesign (2026-09-05): a single-hue accent ramp for the juz grid,
+  // neutral chips, and no gold. `accentGold` is retained as a token name only
+  // (mapped to a quiet neutral) until the last ornament consumer is removed.
+  heatmapStrong: Color(0xFF157A63),
+  heatmapGood: Color(0xFF5FA892),
+  heatmapFair: Color(0xFF8FC4B5),
+  heatmapWeak: Color(0xFFD7ECE5),
+  heatmapFaded: Color(0xFFFFFFFF),
+  trackChipSurface: Color(0xFFEEF0EE),
+  trackChipText: Color(0xFF3A423F),
+  decayCalm: Color(0xFF8FC4B5),
+  readerSurfaceSepia: Color(0xFFFBF7EE),
   readerSurfaceNight: Color(0xFF14110C),
-  // Terracotta + gold are deepened from the concept's #B5623C / brighter gold to
-  // the darker clay/ochre it also uses, so the warning reads at 4.5:1 and the
-  // gold ornament mark at 3:1 on the limestone surface (03 §7 re-audit).
   semanticWarning: Color(0xFF8A4A2C),
-  accentGold: Color(0xFF9E7A2B),
-  textTertiary: Color(0xFF5A655F),
+  accentGold: Color(0xFF8A8E8C),
+  textTertiary: Color(0xFF6B6F6D),
 );
 
 const _sepiaColors = MihrabColors(

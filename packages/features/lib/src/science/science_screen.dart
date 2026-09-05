@@ -11,7 +11,6 @@ import 'package:l10n/l10n.dart';
 import '../design_system/certainty/certainty_label.dart';
 import '../design_system/certainty/certainty_strings.dart';
 import '../design_system/theme/spacing_tokens.dart';
-import '../design_system/widgets/mihrab_arch_header.dart';
 import '../design_system/widgets/mihrab_note_card.dart';
 import 'science_copy.dart';
 import 'science_providers.dart';
@@ -47,48 +46,42 @@ class ScienceScreen extends ConsumerWidget {
       container: true,
       label: l10n.scienceTitle,
       explicitChildNodes: true,
-      child: Column(
-        children: [
-          // A pushed screen carries its own miḥrāb niche (no shared header
-          // outside the tab shell). Decorative chrome only.
-          MihrabArchHeader(title: l10n.scienceTitle),
-          Expanded(
-            child: SafeArea(
-              top: false,
-              child: ListView(
-                padding: EdgeInsetsDirectional.only(bottom: space.space8),
-                children: [
-                  SizedBox(height: space.space4),
-                  // The no-promise / honesty framing, up front and calm, in a
-                  // calm-keyline note (science §5/§6).
-                  Padding(
-                    padding: EdgeInsetsDirectional.symmetric(
-                      horizontal: space.space4,
-                    ),
-                    child: MihrabNoteCard(text: l10n.scienceIntro),
-                  ),
-                  SizedBox(height: space.space2),
-                  for (final section in sections) ...[
-                    _GroupHeader(
-                      label: scienceGroupLabel(l10n, section.group),
-                    ),
-                    for (final claim in section.claims)
-                      ScienceSourceRow(claim: claim, onOpenSource: openSource),
-                  ],
-                  SizedBox(height: space.space6),
-                  // The grade legend in plain words — always reachable (§4).
-                  Padding(
-                    padding: EdgeInsetsDirectional.all(space.space4),
-                    child: CertaintyLegend(
-                      strings: strings,
-                      title: l10n.certaintyLegendTitle,
-                    ),
-                  ),
-                ],
+      child: Scaffold(
+        appBar: AppBar(title: Text(l10n.scienceTitle)),
+        body: SafeArea(
+          top: false,
+          child: ListView(
+            padding: EdgeInsetsDirectional.only(bottom: space.space8),
+            children: [
+              SizedBox(height: space.space4),
+              // The no-promise / honesty framing, up front and calm, in a
+              // calm-keyline note (science §5/§6).
+              Padding(
+                padding: EdgeInsetsDirectional.symmetric(
+                  horizontal: space.space4,
+                ),
+                child: MihrabNoteCard(text: l10n.scienceIntro),
               ),
-            ),
+              SizedBox(height: space.space2),
+              for (final section in sections) ...[
+                _GroupHeader(
+                  label: scienceGroupLabel(l10n, section.group),
+                ),
+                for (final claim in section.claims)
+                  ScienceSourceRow(claim: claim, onOpenSource: openSource),
+              ],
+              SizedBox(height: space.space6),
+              // The grade legend in plain words — always reachable (§4).
+              Padding(
+                padding: EdgeInsetsDirectional.all(space.space4),
+                child: CertaintyLegend(
+                  strings: strings,
+                  title: l10n.certaintyLegendTitle,
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

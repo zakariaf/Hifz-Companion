@@ -201,6 +201,25 @@ The §7 tables and pinned-hex/contrast tests (`mihrab_color_schemes_test.dart`, 
 
 ---
 
+### Amendment (plain redesign, 2026-09-05): neutral ground, one accent, no ornament
+
+**Statement.** Owner-directed reversal of the mihrab-architecture pass. After using the reskinned app the owner rejected the ornamental language outright ("too difficult, too ugly") and chose a **plain, native-style** UI: a neutral near-white ground, white grouped cards on a hairline, one green accent, large-title screens, three tabs (Today · Muṣḥaf · Progress) with Settings behind a gear, and a continuous revision *session* in place of the list-driven loop. Every arch, zellige star, gold point, terracotta rule, tile band and curved nav is removed. Sepia, Dark, and Night are unchanged for now. Every Light text/accent role was re-run through the §7 audit and Passes.
+
+Pinned Light hexes (superseding the mihrab-architecture values above):
+
+- **Surface / ink** — `bg.primary` `#EFEBE3 → #F4F4F2`, `surface.container` `#E5DECD → #FFFFFF` (white cards), `outline.variant` → `#E6E6E2` (the one hairline), `text.primary` `#233230 → #1A1C1B` (**15.56:1**), `text.secondary`/`text.tertiary` → `#6B6F6D` (**4.63:1**).
+- **`accent.green`** — `#1C7062 → #157A63`, the single interactive tint and the heat anchor (**4.77:1** on the ground, white on it **5.26:1**); `primary.container` `#E3F1EC` / on-container `#0F4F40` (**8.16:1**).
+- **`accent.gold`** — no longer drawn anywhere. The token is retained as a name only (mapped to the neutral `#8A8E8C`, 3.01:1) until its last consumer is removed; it must not gain a new one.
+- **`semantic.warning`** — unchanged (`#8A4A2C`, 6.16:1); still the rare integrity notice, never a comment on revision.
+- **Heat-map ramp** — a single-hue green→white ramp: strong `#157A63`, good `#5FA892`, fair `#8FC4B5`, weak `#D7ECE5`, faded `#FFFFFF` (an outlined, not-started tile). The juz grid carries the number **and** the band word inside every tile, so colour is never the sole channel.
+- **Track chips** — neutral (`#EEF0EE` / `#3A423F`); the three tracks are told apart by their word, not a hue family.
+
+**Riwāyah placement.** The edition ("Ḥafṣ ʿan ʿĀṣim — Madani muṣḥaf") is still stated explicitly in-app (PRD R2; [01 §"State the riwāyah"](01-design-principles.md)) — in onboarding, in Settings › Muṣḥaf, and in the reader's About/credits sheet — but is **no longer printed over every page**. Naming it once where a reader looks for the edition is the practice every muṣḥaf app shares; repeating it above the sacred text was chrome, not adab.
+
+The §7 tables and pinned-hex/contrast tests (`mihrab_color_schemes_test.dart`, `contrast_audit_test.dart`) are updated to these values.
+
+---
+
 ## 7. WCAG 2.2 AA is a hard floor, re-audited in every appearance
 
 **Statement.** Every appearance — Light, Sepia, Dark, Night — independently clears **WCAG 2.2 AA**: body text ≥ **4.5:1**, large text and non-text/graphical objects ≥ **3:1**. A palette that passes in Light is **not** assumed to pass when re-toned for Sepia/Dark/Night; the luminance math is redone for each. The audit below is recomputed whenever any `color.*` value changes.

@@ -89,56 +89,59 @@ class _SettingsScreenState extends State<SettingsScreen> {
       container: true,
       label: l10n.navSettings,
       explicitChildNodes: true,
-      child: SafeArea(
-        // A SingleChildScrollView (not a lazy ListView) builds every section
-        // eagerly, so a `focus` deep-link can reliably scroll a section below the
-        // fold (e.g. Cycle, which sits under the tall Display group) into view —
-        // a lazy list would leave that section unbuilt and the scroll a no-op.
-        // The bounded ~6-section form pays no real cost for eager layout.
-        child: SingleChildScrollView(
-          padding: EdgeInsetsDirectional.only(bottom: space.space7),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const DisplaySettingsSection(),
-              CycleSettingsSection(key: _cycleSectionKey),
-              const RemindersSettingsSection(),
-              SettingsSection(
-                title: l10n.settingsSectionProfiles,
-                children: [
-                  Padding(
-                    padding: EdgeInsetsDirectional.symmetric(
-                      horizontal: space.space4,
+      child: Scaffold(
+        appBar: AppBar(title: Text(l10n.navSettings)),
+        body: SafeArea(
+          // A SingleChildScrollView (not a lazy ListView) builds every section
+          // eagerly, so a `focus` deep-link can reliably scroll a section below the
+          // fold (e.g. Cycle, which sits under the tall Display group) into view —
+          // a lazy list would leave that section unbuilt and the scroll a no-op.
+          // The bounded ~6-section form pays no real cost for eager layout.
+          child: SingleChildScrollView(
+            padding: EdgeInsetsDirectional.only(bottom: space.space7),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const DisplaySettingsSection(),
+                CycleSettingsSection(key: _cycleSectionKey),
+                const RemindersSettingsSection(),
+                SettingsSection(
+                  title: l10n.settingsSectionProfiles,
+                  children: [
+                    Padding(
+                      padding: EdgeInsetsDirectional.symmetric(
+                        horizontal: space.space4,
+                      ),
+                      child: MihrabCard(
+                        title: l10n.profilesManageSubtitle,
+                        leading: Icons.people_outline,
+                        // Literal path (kProfilesPath lives in the profiles
+                        // feature, which Settings must not import sideways).
+                        onTap: () => context.go('/settings/profiles'),
+                      ),
                     ),
-                    child: MihrabCard(
-                      title: l10n.profilesManageSubtitle,
-                      leading: Icons.people_outline,
-                      // Literal path (kProfilesPath lives in the profiles
-                      // feature, which Settings must not import sideways).
-                      onTap: () => context.go('/settings/profiles'),
+                  ],
+                ),
+                const BackupSettingsSection(),
+                SettingsSection(
+                  title: l10n.settingsSectionAbout,
+                  children: [
+                    Padding(
+                      padding: EdgeInsetsDirectional.symmetric(
+                        horizontal: space.space4,
+                      ),
+                      child: MihrabCard(
+                        title: l10n.scienceTitle,
+                        leading: Icons.science_outlined,
+                        // Literal path (kSciencePath lives in the science feature,
+                        // which Settings must not import sideways).
+                        onTap: () => context.go('/settings/science'),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const BackupSettingsSection(),
-              SettingsSection(
-                title: l10n.settingsSectionAbout,
-                children: [
-                  Padding(
-                    padding: EdgeInsetsDirectional.symmetric(
-                      horizontal: space.space4,
-                    ),
-                    child: MihrabCard(
-                      title: l10n.scienceTitle,
-                      leading: Icons.science_outlined,
-                      // Literal path (kSciencePath lives in the science feature,
-                      // which Settings must not import sideways).
-                      onTap: () => context.go('/settings/science'),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

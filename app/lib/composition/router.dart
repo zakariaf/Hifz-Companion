@@ -11,13 +11,14 @@ import 'package:features/features.dart'
         ProgressScreen,
         ReciteGradeScreen,
         ScienceScreen,
+        SessionScreen,
         SettingsFocus,
         SettingsScreen,
         TodayScreen,
         kMutashabihatDrillPathPrefix,
-        kProfilesPath,
         kRecitePathPrefix,
-        kSciencePath,
+        kSessionPath,
+        kSessionStartQuery,
         mushafReaderRouteFromUri;
 import 'package:composition/composition.dart';
 import 'package:flutter/material.dart';
@@ -30,22 +31,22 @@ import '../shell/home_shell.dart';
 /// `autoDispose`d. It reads the readiness gates and enforces the redirect guard;
 /// it observes no connectivity, fetches no route, and opens no socket.
 ///
-/// Route table: one top-level `/onboarding` outside the shell, then one
-/// `ShellRoute` hosting the five tabs in RTL order — `/today`, `/mushaf` (the
-/// reader, with optional range-validated `page`/`juz`/`hizb`/`surah` query
-/// deep-links), `/mutashabihat`, `/progress`, `/settings`. `initialLocation` is
-/// `/today`.
+/// Route table (plain redesign, 2026-09-05): one top-level `/onboarding`
+/// outside the shell; one `ShellRoute` hosting the three tabs in RTL order —
+/// `/today`, `/mushaf` (the reader, with optional range-validated
+/// `page`/`juz`/`hizb`/`surah` query deep-links), `/progress`; and full-screen
+/// top-level routes that cover the tab bar — the revision `/session`, the
+/// single-page `/recite/:pageId`, `/mutashabihat` (+ its drill), and `/settings`
+/// (+ profiles, science). `initialLocation` is `/today`.
 ///
 /// Redirect guard (R1 in code): the shell needs a profile, so a fresh device is
-/// routed to `/onboarding` first; a Quran-rendering route (`/mushaf…`) resolves
-/// only once [appReadyProvider] is true (the core pack is verified **and** a
-/// profile exists), otherwise it falls back to the calm `/today` home. The
-/// `refreshListenable` re-runs the guard when the active profile or the
-/// verified-core state changes, so an in-flight location (a notification or
-/// deep-link tap) re-resolves after the gate flips — it can never bypass it.
-///
-/// Destination builders are minimal keyed stubs in this task; E07-T04 supplies
-/// the real `HomeShell` chrome and the inert placeholder/Today screens.
+/// routed to `/onboarding` first; a Quran-rendering route (`/mushaf…`, the
+/// drill, the session, the recite page) resolves only once [appReadyProvider]
+/// is true (the core pack is verified **and** a profile exists), otherwise it
+/// falls back to the calm `/today` home. The `refreshListenable` re-runs the
+/// guard when the active profile or the verified-core state changes, so an
+/// in-flight location (a notification or deep-link tap) re-resolves after the
+/// gate flips — it can never bypass it.
 final routerProvider = Provider<GoRouter>((ref) {
   // Bump on any readiness change so go_router re-runs the guard (no polling).
   final refresh = ValueNotifier<int>(0);
@@ -64,13 +65,13 @@ final routerProvider = Provider<GoRouter>((ref) {
       final appReady = ref.read(appReadyProvider); // profile AND core-verified
       final location = state.matchedLocation;
       final onOnboarding = location.startsWith('/onboarding');
-      // The Muṣḥaf tab now *is* the glyph-rendering reader (E13), so the whole
-      // `/mushaf` subtree is gated on the verified core — not just a nested
-      // reader path. The mutashābihāt discrimination drill (E14) also composes
-      // the immutable glyph page, so its subtree is gated identically. The
-      // reader renders only behind this gate (R1).
+      // Every route that composes the immutable glyph page is gated on the
+      // verified core: the reader subtree, the mutashābihāt drill, the revision
+      // session, and the single-page recite route (R1).
       final isQuranReader = location.startsWith('/mushaf') ||
-          location.startsWith(kMutashabihatDrillPathPrefix);
+          location.startsWith(kMutashabihatDrillPathPrefix) ||
+          location.startsWith(kSessionPath) ||
+          location.startsWith(kRecitePathPrefix);
 
       // The shell needs a profile; a fresh device sets one up first (PRD R1).
       if (!hasProfile) return onOnboarding ? null : '/onboarding';
@@ -87,8 +88,8 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       ShellRoute(
         builder: (context, state, child) => HomeShell(child: child),
-        // RTL order: Today · Muṣḥaf · Mutashābihāt · Progress · Settings
-        // (rightmost = home Today under the app-wide RTL Directionality).
+        // RTL order: Today · Muṣḥaf · Progress (rightmost = home Today under
+        // the app-wide RTL Directionality).
         routes: <RouteBase>[
           GoRoute(
             path: '/today',
@@ -111,26 +112,42 @@ final routerProvider = Provider<GoRouter>((ref) {
             },
           ),
           GoRoute(
-            // The recite/grade route, opened from a Today page-card tap
-            // (E12-T07). It masks the (E13) reader surface; a malformed id
-            // fails closed to a calm not-found, never an exception.
-            path: '$kRecitePathPrefix/:pageId',
-            builder: (context, state) {
-              final pageId = int.tryParse(state.pathParameters['pageId']!);
-              if (pageId == null) return const _RouteStub('not-found-stub');
-              return ReciteGradeScreen(pageId: pageId);
-            },
+            path: '/progress',
+            builder: (context, state) => const ProgressScreen(),
           ),
-          GoRoute(
-            path: '/mutashabihat',
-            builder: (context, state) => const MutashabihatTrainerScreen(),
-          ),
+        ],
+      ),
+      GoRoute(
+        // The continuous revision session (plain redesign): the day's pages in
+        // recitation order, optionally started from `?start=<pageId>` (a Today
+        // row tap). Full-screen — it covers the tab bar.
+        path: kSessionPath,
+        builder: (context, state) => SessionScreen(
+          startPageId:
+              int.tryParse(state.uri.queryParameters[kSessionStartQuery] ?? ''),
+        ),
+      ),
+      GoRoute(
+        // The single-page recite/grade route (E12-T07), kept for deep links;
+        // a malformed id fails closed to a calm not-found, never an exception.
+        path: '$kRecitePathPrefix/:pageId',
+        builder: (context, state) {
+          final pageId = int.tryParse(state.pathParameters['pageId']!);
+          if (pageId == null) return const _RouteStub('not-found-stub');
+          return ReciteGradeScreen(pageId: pageId);
+        },
+      ),
+      GoRoute(
+        // The mutashābihāt trainer, reached from Progress (no longer a tab).
+        path: '/mutashabihat',
+        builder: (context, state) => const MutashabihatTrainerScreen(),
+        routes: <RouteBase>[
           GoRoute(
             // The discrimination-drill route, opened from a trainer group tap
             // (E14-T08). It composes the immutable glyph page (gated on the
             // verified core above); a missing group id fails closed to a calm
             // not-found, never an exception.
-            path: '$kMutashabihatDrillPathPrefix/:groupId',
+            path: 'drill/:groupId',
             builder: (context, state) {
               final groupId = state.pathParameters['groupId'];
               if (groupId == null || groupId.isEmpty) {
@@ -147,29 +164,26 @@ final routerProvider = Provider<GoRouter>((ref) {
               }
             },
           ),
+        ],
+      ),
+      GoRoute(
+        // Settings sits behind the gear on each tab — a pushed full-screen
+        // route with its own app bar. Today's budget-feedback / catch-up
+        // choices deep-link here with `?focus=cycle` so the ḥāfiẓ lands on the
+        // cycle & budget controls, not the top of the list (E12-T04).
+        path: '/settings',
+        builder: (context, state) => SettingsScreen(
+          focus: SettingsFocus.fromQuery(state.uri.queryParameters['focus']),
+        ),
+        routes: <RouteBase>[
           GoRoute(
-            path: '/progress',
-            builder: (context, state) => const ProgressScreen(),
-          ),
-          GoRoute(
-            path: '/settings',
-            // Today's budget-feedback / catch-up choices deep-link here with
-            // `?focus=cycle` so the ḥāfiẓ lands on the cycle & budget controls,
-            // not the top of the list (E12-T04). An unknown value is ignored.
-            builder: (context, state) => SettingsScreen(
-              focus:
-                  SettingsFocus.fromQuery(state.uri.queryParameters['focus']),
-            ),
-          ),
-          GoRoute(
-            path: kProfilesPath,
+            path: 'profiles', // = kProfilesPath under /settings
             builder: (context, state) => const ProfilesScreen(),
           ),
           GoRoute(
-            // "The science we follow" — reached from Settings/About; a sibling
-            // under /settings so the Settings tab stays selected. Not a Quran
-            // route, so it is ungated (renders from the bundled register).
-            path: kSciencePath,
+            // "The science we follow" — reached from Settings/About. Not a
+            // Quran route, so it is ungated (renders from the bundled register).
+            path: 'science', // = kSciencePath under /settings
             builder: (context, state) => const ScienceScreen(),
           ),
         ],
@@ -178,9 +192,8 @@ final routerProvider = Provider<GoRouter>((ref) {
   );
 });
 
-/// A minimal keyed destination sentinel for the E07-T03 route table — the
-/// redirect-guard test finds it by key/text. Replaced by real screens in
-/// E07-T04 / E07-T07.
+/// A minimal keyed destination sentinel — the redirect-guard test finds it by
+/// key/text when a deep link carries a malformed id.
 class _RouteStub extends StatelessWidget {
   const _RouteStub(this.id);
 

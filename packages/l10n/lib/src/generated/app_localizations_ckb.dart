@@ -1426,4 +1426,106 @@ class AppLocalizationsCkb extends AppLocalizations {
   @override
   String get scienceClaimC048Headline =>
       'بەرنامەکە بە تەواوی بێ ئینتەرنێت کار دەکات و هەرگیز دەنگت تۆمار ناکات یان داتاکانت بۆ هیچ شوێنێک نانێرێت.';
+
+  @override
+  String get todayStartSession => 'دەستپێکردنی پێداچوونەوە';
+
+  @override
+  String todayPagesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count پەڕە',
+      one: '$count پەڕە',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String todayAboutMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'نزیکەی $count خولەک',
+      one: 'نزیکەی $count خولەک',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String todayLastReviewedDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'دوا پێداچوونەوە $count ڕۆژ لەمەوبەر',
+      one: 'دوا پێداچوونەوە دوێنێ',
+      zero: 'دوا پێداچوونەوە ئەمڕۆ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get todayNotYetReviewed => 'هێشتا پێداچوونەوە نەکراوە';
+
+  @override
+  String get sessionSemanticTitle => 'دانیشتنی پێداچوونەوە';
+
+  @override
+  String sessionPosition(String position, String total) {
+    return '$position لە $total';
+  }
+
+  @override
+  String get sessionReciteFirst => 'سەرەتا لە بیرەوە بخوێنە';
+
+  @override
+  String get sessionShowPage => 'پەڕەکە پیشان بدە';
+
+  @override
+  String get sessionStumbleHint => 'دەست بنێ بە ئەو دێڕەی تێیدا هەڵەت کرد';
+
+  @override
+  String sessionStumbleCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count دێڕ نیشانە کرا',
+      zero: 'هیچ دێڕێک نیشانە نەکراوە',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sessionDoneTitle => 'پێداچوونەوەی ئەمڕۆ تەواو بوو';
+
+  @override
+  String sessionPagesReviewed(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count پەڕە پێداچوونەوە کرا',
+      one: '$count پەڕە پێداچوونەوە کرا',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sessionMinutesSpent(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count خولەک',
+      zero: 'کەمتر لە خولەکێک',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sessionComesBackSooner => 'زووتر دەگەڕێنەوە';
+
+  @override
+  String get sessionTomorrow => 'سبەینێ';
+
+  @override
+  String get sessionBackToToday => 'گەڕانەوە';
 }

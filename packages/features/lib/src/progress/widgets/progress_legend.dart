@@ -8,16 +8,13 @@ import '../../design_system/heatmap/heat_level.dart';
 import '../../design_system/heatmap/heatmap_cell.dart' show heatRampColor;
 import '../../design_system/theme/mihrab_colors.dart';
 import '../../design_system/theme/spacing_tokens.dart';
-import 'zellige_star_glyph.dart';
 
-/// The calm Progress legend (redesign §8 gap: the heat-map had no on-screen key):
-/// three glaze steps of the single-hue retention ramp, each keyed by a zellige
-/// star swatch AND a plain word, so the tile-wall is read by shape + colour +
-/// label — never colour alone (08-data-visualization §5). It is a quiet key, not
-/// a score, a scale, or a legend of alarms; the words reuse the same band labels
-/// the tiles speak.
+/// The grid legend (plain redesign): a row of small swatches with the calm
+/// band words — the single-hue ramp from strong to faded, plus the outlined
+/// not-started tile. Colour is keyed to a word here and to the label inside
+/// every tile, so the grid is never colour alone (08 §5; WCAG 1.4.1).
 class ProgressLegend extends StatelessWidget {
-  /// Creates the tile-wall legend.
+  /// Creates the legend.
   const ProgressLegend({super.key});
 
   @override
@@ -28,67 +25,73 @@ class ProgressLegend extends StatelessWidget {
     final colors = theme.extension<MihrabColors>()!;
     final space = theme.extension<SpacingTokens>()!;
 
-    return Card(
-      elevation: 0,
-      margin: EdgeInsets.zero,
-      color: scheme.surfaceContainerLow,
-      surfaceTintColor: Colors.transparent,
-      shape: RoundedRectangleBorder(
-        borderRadius:
-            BorderRadiusDirectional.all(Radius.circular(space.space4)),
-        side: BorderSide(color: scheme.outlineVariant),
-      ),
-      child: Padding(
-        padding: EdgeInsetsDirectional.all(space.space4),
-        child: Wrap(
-          spacing: space.space5,
-          runSpacing: space.space3,
-          children: [
-            _LegendChip(
-              color: heatRampColor(colors, HeatLevel.strong),
-              label: l10n.progressBandStrong,
-            ),
-            _LegendChip(
-              color: heatRampColor(colors, HeatLevel.fair),
-              label: l10n.progressBandFair,
-            ),
-            _LegendChip(
-              color: heatRampColor(colors, HeatLevel.faded),
-              label: l10n.progressBandFaded,
-            ),
-          ],
-        ),
+    return Padding(
+      padding: EdgeInsetsDirectional.symmetric(horizontal: space.space1),
+      child: Wrap(
+        spacing: space.space4,
+        runSpacing: space.space2,
+        children: [
+          _LegendChip(
+            color: heatRampColor(colors, HeatLevel.strong),
+            outline: heatRampColor(colors, HeatLevel.strong),
+            label: l10n.progressBandStrong,
+          ),
+          _LegendChip(
+            color: heatRampColor(colors, HeatLevel.fair),
+            outline: heatRampColor(colors, HeatLevel.fair),
+            label: l10n.progressBandFair,
+          ),
+          _LegendChip(
+            color: heatRampColor(colors, HeatLevel.weak),
+            outline: heatRampColor(colors, HeatLevel.weak),
+            label: l10n.progressBandWeak,
+          ),
+          _LegendChip(
+            color: heatRampColor(colors, HeatLevel.faded),
+            outline: scheme.outlineVariant,
+            label: l10n.progressNotStarted,
+          ),
+        ],
       ),
     );
   }
 }
 
-/// One legend entry: a tile-bedded star swatch beside its plain word, merged into
-/// a single node so the screen reader speaks the word once (the swatch is mute).
 class _LegendChip extends StatelessWidget {
-  const _LegendChip({required this.color, required this.label});
+  const _LegendChip({
+    required this.color,
+    required this.outline,
+    required this.label,
+  });
 
   final Color color;
+  final Color outline;
   final String label;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final scheme = theme.colorScheme;
     final space = theme.extension<SpacingTokens>()!;
     return MergeSemantics(
       child: Row(
         mainAxisSize: MainAxisSize.min,
+        spacing: space.space2,
         children: [
           ExcludeSemantics(
-            child: ZelligeStarGlyph(
-              color: color,
-              size: space.space4,
-              outline: scheme.outlineVariant,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: color,
+                borderRadius: BorderRadius.circular(space.space1),
+                border: Border.all(color: outline),
+              ),
+              child: SizedBox(width: space.space3, height: space.space3),
             ),
           ),
-          SizedBox(width: space.space2),
-          Text(label, style: theme.textTheme.labelMedium),
+          Text(
+            label,
+            style: theme.textTheme.labelMedium
+                ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+          ),
         ],
       ),
     );

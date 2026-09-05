@@ -32,38 +32,38 @@ MihrabNavigationBar _bar() =>
 void main() {
   useOfflineTestPolicy();
 
-  testWidgets('RTL: Today sits at the trailing/right edge, Settings at left', (
+  testWidgets('RTL: Today sits at the trailing/right edge, Progress at left', (
     tester,
   ) async {
     await tester.pumpWidget(_host(TextDirection.rtl, _bar()));
     await tester.pumpAndSettle();
 
-    final today = _iconX(tester, Icons.wb_sunny_outlined);
-    final settings = _iconX(tester, Icons.settings_outlined);
-    expect(today, greaterThan(settings));
+    final today = _iconX(tester, Icons.wb_sunny);
+    final progress = _iconX(tester, Icons.grid_view_outlined);
+    expect(today, greaterThan(progress));
   });
 
   testWidgets('LTR mirrors: Today sits at the left edge', (tester) async {
     await tester.pumpWidget(_host(TextDirection.ltr, _bar()));
     await tester.pumpAndSettle();
 
-    final today = _iconX(tester, Icons.wb_sunny_outlined);
-    final settings = _iconX(tester, Icons.settings_outlined);
-    expect(today, lessThan(settings));
+    final today = _iconX(tester, Icons.wb_sunny);
+    final progress = _iconX(tester, Icons.grid_view_outlined);
+    expect(today, lessThan(progress));
   });
 
-  testWidgets('the active tab lifts into the filled bubble', (tester) async {
+  testWidgets('the active tab shows its filled icon; the rest outlined',
+      (tester) async {
     await tester.pumpWidget(_host(TextDirection.rtl, _bar()));
     await tester.pumpAndSettle();
 
-    // Today is selected: its filled icon shows once (in the floating bubble),
-    // and the other four render their outlined icons.
+    // Today is selected: its filled icon shows, and the other two render their
+    // outlined icons (shape carries the selection, never colour alone).
     expect(find.byIcon(Icons.wb_sunny), findsOneWidget);
+    expect(find.byIcon(Icons.wb_sunny_outlined), findsNothing);
     for (final icon in const [
       Icons.menu_book_outlined,
-      Icons.compare_arrows_outlined,
       Icons.grid_view_outlined,
-      Icons.settings_outlined,
     ]) {
       expect(find.byIcon(icon), findsOneWidget);
     }
@@ -95,9 +95,9 @@ void main() {
     await tester.pumpAndSettle();
     observer.pushes = 0; // ignore MaterialApp's initial home-route push
 
-    await tester.tap(find.byIcon(Icons.grid_view_outlined)); // Progress (idx 3)
+    await tester.tap(find.byIcon(Icons.grid_view_outlined)); // Progress (idx 2)
     await tester.pumpAndSettle();
-    expect(tapped, 3);
+    expect(tapped, 2);
     expect(observer.pushes, 0); // tapping a tab pushes no real route
   });
 
@@ -107,8 +107,8 @@ void main() {
     // The tappable cell is as tall as the bar body; assert that floor.
     final cell = tester.getSize(
       find.ancestor(
-        of: find.byIcon(Icons.settings_outlined),
-        matching: find.byType(GestureDetector),
+        of: find.byIcon(Icons.grid_view_outlined),
+        matching: find.byType(InkResponse),
       ),
     );
     expect(cell.height, greaterThanOrEqualTo(48));
@@ -119,9 +119,10 @@ void main() {
     await tester.pumpWidget(_host(TextDirection.rtl, _bar(), locale: ckb));
     await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);
-    // Five tabs present (their outlined icons, the active one faded but laid out)
-    expect(find.byIcon(Icons.wb_sunny_outlined), findsOneWidget);
-    expect(find.byIcon(Icons.settings_outlined), findsOneWidget);
+    // Three tabs present.
+    expect(find.byIcon(Icons.wb_sunny), findsOneWidget);
+    expect(find.byIcon(Icons.menu_book_outlined), findsOneWidget);
+    expect(find.byIcon(Icons.grid_view_outlined), findsOneWidget);
   });
 }
 

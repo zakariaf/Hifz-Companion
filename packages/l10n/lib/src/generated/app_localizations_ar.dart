@@ -1432,4 +1432,129 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get scienceClaimC048Headline =>
       'يعمل التطبيقُ بلا إنترنت تمامًا، ولا يسجِّل صوتَك ولا يُرسِل بياناتِك إلى أيِّ مكان.';
+
+  @override
+  String get todayStartSession => 'ابدأ المراجعة';
+
+  @override
+  String todayPagesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count صفحة',
+      many: '$count صفحة',
+      few: '$count صفحات',
+      two: 'صفحتان',
+      one: 'صفحة واحدة',
+      zero: 'لا صفحات',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String todayAboutMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'نحو $count دقيقة',
+      many: 'نحو $count دقيقة',
+      few: 'نحو $count دقائق',
+      two: 'نحو دقيقتين',
+      one: 'نحو دقيقة واحدة',
+      zero: 'أقل من دقيقة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String todayLastReviewedDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'آخر مراجعة قبل $count يوم',
+      many: 'آخر مراجعة قبل $count يوماً',
+      few: 'آخر مراجعة قبل $count أيام',
+      two: 'آخر مراجعة قبل يومين',
+      one: 'آخر مراجعة أمس',
+      zero: 'آخر مراجعة اليوم',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get todayNotYetReviewed => 'لم تُراجَع بعد';
+
+  @override
+  String get sessionSemanticTitle => 'جلسة المراجعة';
+
+  @override
+  String sessionPosition(String position, String total) {
+    return '$position من $total';
+  }
+
+  @override
+  String get sessionReciteFirst => 'اقرأ من الحفظ أولاً';
+
+  @override
+  String get sessionShowPage => 'أظهر الصفحة';
+
+  @override
+  String get sessionStumbleHint => 'انقر على السطر الذي تعثّرت فيه';
+
+  @override
+  String sessionStumbleCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'عُلِّم $count سطر',
+      many: 'عُلِّم $count سطراً',
+      few: 'عُلِّمت $count أسطر',
+      two: 'عُلِّم سطران',
+      one: 'عُلِّم سطر واحد',
+      zero: 'لم يُعلَّم أي سطر',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sessionDoneTitle => 'انتهت مراجعة اليوم';
+
+  @override
+  String sessionPagesReviewed(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'رُوجعت $count صفحة',
+      many: 'رُوجعت $count صفحة',
+      few: 'رُوجعت $count صفحات',
+      two: 'رُوجعت صفحتان',
+      one: 'رُوجعت صفحة واحدة',
+      zero: 'لم تُراجَع صفحات',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sessionMinutesSpent(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count دقيقة',
+      many: '$count دقيقة',
+      few: '$count دقائق',
+      two: 'دقيقتان',
+      one: 'دقيقة واحدة',
+      zero: 'أقل من دقيقة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sessionComesBackSooner => 'تعود قريباً';
+
+  @override
+  String get sessionTomorrow => 'غداً';
+
+  @override
+  String get sessionBackToToday => 'رجوع';
 }

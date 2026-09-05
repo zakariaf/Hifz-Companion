@@ -102,20 +102,25 @@ ColorScheme _seeded(Brightness brightness) => ColorScheme.fromSeed(
 // the WCAG 2.2 AA floors re-audited in 03 §7 (the teal is deepened from the
 // concept's #1F7A6D so it holds 4.5:1 as chip/label text on the limestone).
 final ColorScheme _lightScheme = _seeded(Brightness.light).copyWith(
-  surface: const Color(0xFFEFEBE3),
-  surfaceContainer: const Color(0xFFE5DECD),
-  onSurface: const Color(0xFF233230),
-  onSurfaceVariant: const Color(0xFF4C5A54),
-  primary: const Color(0xFF1C7062),
+  // Plain redesign (2026-09-05 owner amendment): a neutral near-white ground,
+  // white cards, one hairline, one accent. No ornament tokens are read.
+  surface: const Color(0xFFF4F4F2),
+  surfaceContainer: const Color(0xFFFFFFFF),
+  surfaceContainerLow: const Color(0xFFFFFFFF),
+  surfaceContainerHigh: const Color(0xFFFFFFFF),
+  surfaceContainerHighest: const Color(0xFFEFEFEC),
+  onSurface: const Color(0xFF1A1C1B),
+  onSurfaceVariant: const Color(0xFF6B6F6D),
+  outline: const Color(0xFFC9CBC8),
+  outlineVariant: const Color(0xFFE6E6E2),
+  primary: const Color(0xFF157A63),
   onPrimary: const Color(0xFFFFFFFF),
-  // The three lifecycle-track chips read as glazed tiles: far/near a teal glaze,
-  // the new-lesson (sabaq) a warm sand tile (no seed-derived blue).
-  primaryContainer: const Color(0xFFC6E2D9),
-  onPrimaryContainer: const Color(0xFF16342C),
-  secondaryContainer: const Color(0xFFD6E4DB),
-  onSecondaryContainer: const Color(0xFF2A4038),
-  tertiaryContainer: const Color(0xFFE8DCC2),
-  onTertiaryContainer: const Color(0xFF4A3F2C),
+  primaryContainer: const Color(0xFFE3F1EC),
+  onPrimaryContainer: const Color(0xFF0F4F40),
+  secondaryContainer: const Color(0xFFEEF0EE),
+  onSecondaryContainer: const Color(0xFF3A423F),
+  tertiaryContainer: const Color(0xFFF0EFEA),
+  onTertiaryContainer: const Color(0xFF4A473F),
 );
 
 final ColorScheme _sepiaScheme = _seeded(Brightness.light).copyWith(

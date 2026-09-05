@@ -17,7 +17,7 @@ import 'recite_test_harness.dart';
 void main() {
   useOfflineTestPolicy();
 
-  testWidgets('reveals exactly the next line (no teleprompter), marks stumbles',
+  testWidgets('one tap reveals the whole page after the attempt, marks stumbles',
       (t) async {
     final container = reciteContainer(
       cards: StubCards(reciteCard()),
@@ -43,10 +43,11 @@ void main() {
     // Hidden initially — nothing revealed.
     expect(container.read(reciteControllerProvider(42)).revealedLineCount, 0);
 
-    // One reveal tap reveals exactly ONE line (no auto-reveal ahead).
+    // One reveal tap shows the whole page — after the recall attempt, never
+    // before (the mask is not a teleprompter that runs ahead).
     await t.tap(find.bySemanticsLabel(l10n.reciteRevealHint).first);
     await t.pumpAndSettle();
-    expect(container.read(reciteControllerProvider(42)).revealedLineCount, 1);
+    expect(container.read(reciteControllerProvider(42)).revealedLineCount, 15);
 
     // Tapping the now-revealed line 1 marks a stumble + raises the guard flag.
     final lineLabel =
