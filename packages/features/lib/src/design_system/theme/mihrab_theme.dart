@@ -33,7 +33,7 @@ ThemeData mihrabThemeFor(MihrabAppearance appearance) {
       elevation: 0,
       color: scheme.surfaceContainer,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(14),
         side: BorderSide(
           color: scheme.outlineVariant.withValues(alpha: 0.5),
         ),
@@ -99,20 +99,24 @@ MihrabColors mihrabColorsFor(MihrabAppearance appearance) =>
     };
 
 // Heat-map ramp + bespoke tints per 03 §5/§6. (T02/T03/T10 finalise + audit.)
+// Mihrab-architecture (concept 03): the heat-map reads as a glazed zellige
+// tile-wall — a rich teal glaze receding through turquoise to bare limestone —
+// and the track chip is a light glazed tile. Owner-directed design amendment.
 const _lightColors = MihrabColors(
-  heatmapStrong: Color(0xFF1B8A5A),
-  heatmapGood: Color(0xFF49A074),
-  heatmapFair: Color(0xFF93BFA6),
-  heatmapWeak: Color(0xFFB9C3BC),
-  heatmapFaded: Color(0xFFD2D8D2),
-  trackChipSurface: Color(0xFFDCE6DF),
-  trackChipText: Color(0xFF46514B),
-  decayCalm: Color(0xFFB9C3BC),
-  readerSurfaceSepia: Color(0xFFF3EAD8),
+  // Plain redesign (2026-09-05): a single-hue accent ramp for the juz grid and
+  // neutral chips. There is no ornament accent.
+  heatmapStrong: Color(0xFF157A63),
+  heatmapGood: Color(0xFF5FA892),
+  heatmapFair: Color(0xFF8FC4B5),
+  heatmapWeak: Color(0xFFD7ECE5),
+  heatmapFaded: Color(0xFFFFFFFF),
+  trackChipSurface: Color(0xFFEEF0EE),
+  trackChipText: Color(0xFF3A423F),
+  decayCalm: Color(0xFF8FC4B5),
+  readerSurfaceSepia: Color(0xFFFBF7EE),
   readerSurfaceNight: Color(0xFF14110C),
-  semanticWarning: Color(0xFF8A5A00),
-  accentGold: Color(0xFFA57F33),
-  textTertiary: Color(0xFF5C665F),
+  semanticWarning: Color(0xFF8A4A2C),
+  textTertiary: Color(0xFF6B6F6D),
 );
 
 const _sepiaColors = MihrabColors(
@@ -127,7 +131,6 @@ const _sepiaColors = MihrabColors(
   readerSurfaceSepia: Color(0xFFF3EAD8),
   readerSurfaceNight: Color(0xFF14110C),
   semanticWarning: Color(0xFF8A5A00),
-  accentGold: Color(0xFF9A742B),
   textTertiary: Color(0xFF6E6353),
 );
 
@@ -143,7 +146,6 @@ const _darkColors = MihrabColors(
   readerSurfaceSepia: Color(0xFFF3EAD8),
   readerSurfaceNight: Color(0xFF14110C),
   semanticWarning: Color(0xFFE8B23C),
-  accentGold: Color(0xFFD8BC7E),
   textTertiary: Color(0xFF828B83),
 );
 
@@ -159,6 +161,5 @@ const _nightColors = MihrabColors(
   readerSurfaceSepia: Color(0xFFF3EAD8),
   readerSurfaceNight: Color(0xFF14110C),
   semanticWarning: Color(0xFFE8B23C),
-  accentGold: Color(0xFFD8BC7E),
   textTertiary: Color(0xFF8A7C62),
 );

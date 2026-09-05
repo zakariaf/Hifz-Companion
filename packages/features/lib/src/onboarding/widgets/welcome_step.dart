@@ -37,6 +37,8 @@ class WelcomeStep extends StatelessWidget {
             child: ListView(
               padding: EdgeInsetsDirectional.all(space.space5),
               children: [
+                const Center(child: _MihrabMedallion()),
+                SizedBox(height: space.space5),
                 Semantics(
                   header: true,
                   child: Text(
@@ -83,6 +85,35 @@ class WelcomeStep extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// A plain circular badge with the book icon — quiet chrome, no state, no
+/// number, hidden from the screen reader (the intent below carries the heading).
+class _MihrabMedallion extends StatelessWidget {
+  const _MihrabMedallion();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final space = theme.extension<SpacingTokens>()!;
+    return ExcludeSemantics(
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: scheme.primaryContainer,
+        ),
+        child: Padding(
+          padding: EdgeInsetsDirectional.all(space.space5),
+          child: Icon(
+            Icons.menu_book_outlined,
+            color: scheme.primary,
+            size: space.space7,
+          ),
+        ),
       ),
     );
   }

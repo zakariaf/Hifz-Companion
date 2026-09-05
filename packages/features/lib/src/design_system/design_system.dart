@@ -41,5 +41,7 @@ export 'theme/wcag_contrast.dart';
 export 'widgets/appearance_switcher.dart';
 export 'widgets/mihrab_buttons.dart';
 export 'widgets/mihrab_card.dart';
+export 'widgets/mihrab_note_card.dart';
+export 'widgets/plain_screen_header.dart';
 export 'widgets/mihrab_navigation_bar.dart';
 export 'widgets/mihrab_scaffold.dart';

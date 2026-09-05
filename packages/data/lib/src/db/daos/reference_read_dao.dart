@@ -103,6 +103,21 @@ class ReferenceReadDao extends DatabaseAccessor<HifzDatabase>
     return rows.map(_lineToModel).toList();
   }
 
+  /// The sūrahs whose first āyah (`ayah = 1`) sits on [pageNumber], ascending
+  /// by sūrah number — one per `surah_header` line on the page, in order.
+  Future<List<Surah>> surahsStartingOnPage(int pageNumber) async {
+    final firstAyat = select(ayat)
+      ..where((a) => a.pageId.equals(pageNumber) & a.ayah.equals(1))
+      ..orderBy([(a) => OrderingTerm.asc(a.surah)]);
+    final starts = await firstAyat.get();
+    if (starts.isEmpty) return const <Surah>[];
+    final query = select(surahs)
+      ..where((s) => s.surahId.isIn([for (final a in starts) a.surah]))
+      ..orderBy([(s) => OrderingTerm.asc(s.surahId)]);
+    final rows = await query.get();
+    return rows.map(_surahToModel).toList();
+  }
+
   /// The āyāt on [pageNumber].
   Future<List<Ayah>> ayatForPage(int pageNumber) async {
     final query = select(ayat)..where((a) => a.pageId.equals(pageNumber));

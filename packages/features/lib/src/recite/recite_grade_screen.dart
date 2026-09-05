@@ -9,6 +9,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:l10n/l10n.dart';
 
+import '../design_system/theme/mihrab_colors.dart';
+import '../design_system/theme/spacing_tokens.dart';
 import '../today/today_providers.dart' show pageJuzProvider, reviewRecorderProvider;
 import 'recite_providers.dart';
 import 'widgets/grade_band.dart';
@@ -31,6 +33,9 @@ class ReciteGradeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final space = theme.extension<SpacingTokens>()!;
+    final colors = theme.extension<MihrabColors>()!;
     final locale = Localizations.localeOf(context);
     final juz = ref.watch(pageJuzProvider).asData?.value;
     final title = juz != null && juz[pageId] != null
@@ -83,6 +88,22 @@ class ReciteGradeScreen extends ConsumerWidget {
       body: SafeArea(
         child: Column(
           children: <Widget>[
+            // The riwāyah is named explicitly on the recite surface (sect
+            // neutrality) — the edition the glyphs belong to, never "the Quran"
+            // in the absolute. Chrome only; it reaches no muṣḥaf glyph.
+            Padding(
+              padding: EdgeInsetsDirectional.only(
+                top: space.space3,
+                start: space.space4,
+                end: space.space4,
+              ),
+              child: Text(
+                l10n.mushafRiwayahLabel,
+                textAlign: TextAlign.center,
+                style: theme.textTheme.bodySmall
+                    ?.copyWith(color: colors.textTertiary),
+              ),
+            ),
             Expanded(child: ReciteSurface(pageId: pageId)),
             ReciteGradeBand(pageId: pageId, onGrade: onGrade),
           ],

@@ -7,6 +7,7 @@
 
 import 'package:app/composition/router.dart';
 import 'package:composition/composition.dart';
+import 'package:composition/testing.dart' show FakeNotificationScheduler;
 import 'package:data/testing.dart';
 import 'package:features/features.dart'
     show MihrabAppearance, MihrabNavigationBar, mihrabThemeFor;
@@ -30,6 +31,11 @@ void main() {
         persistenceProvider.overrideWithValue(handle),
         coreVerifiedProvider.overrideWith((ref) async => true),
         initialActiveProfileProvider.overrideWithValue(const ProfileId('p1')),
+        // Settings now eagerly builds the reminders section (its list became a
+        // SingleChildScrollView+Column), which reads the scheduler boundary
+        // that is wired only in main; a no-op fake keeps the shell test offline.
+        notificationSchedulerProvider
+            .overrideWithValue(FakeNotificationScheduler()),
       ],
     );
     addTearDown(container.dispose);
@@ -65,7 +71,7 @@ void main() {
     Locale('fa'),
     Locale('ckb'),
   ]) {
-    testWidgets('renders the five nav destinations under $locale', (t) async {
+    testWidgets('renders the three nav destinations under $locale', (t) async {
       await pumpShell(t, locale);
       final l10n = await AppLocalizations.delegate.load(locale);
 
@@ -73,12 +79,13 @@ void main() {
       for (final label in <String>[
         l10n.navToday,
         l10n.navMushaf,
-        l10n.navMutashabihat,
         l10n.navProgress,
-        l10n.navSettings,
       ]) {
         expect(navLabel(label), findsOneWidget);
       }
+      // Settings and the mutashābihāt trainer left the bar (plain redesign).
+      expect(navLabel(l10n.navSettings), findsNothing);
+      expect(navLabel(l10n.navMutashabihat), findsNothing);
     });
 
     testWidgets('tapping a nav item routes via go_router under $locale',
@@ -91,9 +98,17 @@ void main() {
       expect(location(router), '/progress');
       expect(find.byKey(const ValueKey('screen.progress')), findsOneWidget);
 
-      await t.tap(navLabel(l10n.navSettings));
+      // Settings is a pushed full-screen route behind the Today gear.
+      await t.tap(navLabel(l10n.navToday));
       await t.pumpAndSettle();
-      expect(location(router), '/settings');
+      await t.tap(find.byIcon(Icons.settings_outlined));
+      await t.pumpAndSettle();
+      // An imperative push: the top of the stack is Settings (the base uri
+      // stays the shell's), and the Settings screen is what renders.
+      expect(
+        router.routerDelegate.currentConfiguration.last.matchedLocation,
+        '/settings',
+      );
       expect(find.byKey(const ValueKey('screen.settings')), findsOneWidget);
     });
   }

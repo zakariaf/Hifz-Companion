@@ -116,8 +116,8 @@ final class LivePersistenceHandle
   Stream<List<Profile>> watchAll() => _database.profileDao.watchAll();
 
   @override
-  Future<void> delete(ProfileId profileId) =>
-      _database.transaction(() => _database.profileDao.deleteProfile(profileId));
+  Future<void> delete(ProfileId profileId) => _database
+      .transaction(() => _database.profileDao.deleteProfile(profileId));
 
   // --- ReferenceRepository reads ---
 
@@ -141,6 +141,10 @@ final class LivePersistenceHandle
       JumpUnit.surah => dao.firstPageOfSurah(target.index),
     };
   }
+
+  @override
+  Future<List<Surah>> surahsStartingOnPage(int pageNumber) =>
+      _database.referenceReadDao.surahsStartingOnPage(pageNumber);
 
   @override
   Future<List<MutashabihGroup>> allMutashabihGroups() =>

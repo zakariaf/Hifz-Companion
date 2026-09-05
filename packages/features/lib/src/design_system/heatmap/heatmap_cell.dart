@@ -44,16 +44,24 @@ Color heatFillFor(MihrabColors colors, HeatmapCellData data) {
   return muted;
 }
 
-/// One retention square (design-system 07 §8, 08) — the leaf the E15 whole-Quran
-/// grid composes 604 times.
+/// One retention tile — an 8-fold zellige khatam star (design-system 07 §8, 08) —
+/// the leaf the E15 whole-Quran mosaic tile-wall composes 604 times.
 ///
-/// It paints the calm single-hue ramp (VSUP-muted by confidence), encodes its
+/// It glazes the star with the calm single-hue ramp (VSUP-muted by confidence)
+/// on a hairline limestone tile-bed, encodes its
 /// state **three ways** (fill + a locale-numeral value/range + a plain label,
 /// plus an optional decay texture), and carries the **min-leaning** juz roll-up
 /// with its weakest-page badge at the logical start. Domain-blind: it renders the
 /// supplied [HeatmapCellData] (it recomputes no `R`/aggregate), draws no Quran
 /// glyph, shows no raw D/S/R or crisp percentage, and is never a streak/score/
 /// scoreboard tile.
+/// Whether text on [heatFillFor]'s fill should use the on-primary (light) role:
+/// true for the two darkest ramp steps when fully confident, else on-surface.
+bool heatFillIsDark(MihrabColors colors, HeatmapCellData data) {
+  final fill = heatFillFor(colors, data);
+  return fill == colors.heatmapStrong || fill == colors.heatmapGood;
+}
+
 class HeatmapCell extends StatelessWidget {
   /// Creates a cell for [data]; [onTap] makes it a drill-through button.
   const HeatmapCell({required this.data, this.onTap, super.key});
@@ -79,23 +87,26 @@ class HeatmapCell extends StatelessWidget {
       height: space.space8,
       child: Stack(
         children: [
+          // A plain rounded square (plain redesign, 2026-09-05): the ramp/VSUP
+          // fill on a hairline edge (08 §5). Colour still comes from the ramp,
+          // so the cell stays "never colour alone" (fill + value + label).
           Positioned.fill(
             child: DecoratedBox(
-              decoration: ShapeDecoration(
+              decoration: BoxDecoration(
                 color: fill,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadiusDirectional.all(
-                    Radius.circular(space.space2),
-                  ),
-                ),
+                borderRadius: BorderRadius.circular(space.space2),
+                border: Border.all(color: scheme.outlineVariant),
               ),
             ),
           ),
           if (data.showDecayTexture)
             Positioned.fill(
               child: ExcludeSemantics(
-                child: CustomPaint(
-                  painter: _DecayTexturePainter(scheme.onSurfaceVariant),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(space.space2),
+                  child: CustomPaint(
+                    painter: _DecayTexturePainter(scheme.onSurfaceVariant),
+                  ),
                 ),
               ),
             ),
@@ -158,8 +169,8 @@ class HeatmapCell extends StatelessWidget {
   }
 }
 
-/// A restrained third colour-independent channel for the decaying end — a faint
-/// diagonal hatch, never a glyph or an alarm (design-system 08 §5).
+/// The eight points of the zellige khatam star (the 8-fold Islamic geometric
+/// star the mosaic tile-wall is built from) — a fixed geometry constant.
 class _DecayTexturePainter extends CustomPainter {
   const _DecayTexturePainter(this.color);
 

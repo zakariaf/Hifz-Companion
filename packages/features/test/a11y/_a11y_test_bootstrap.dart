@@ -75,7 +75,7 @@ Future<void> loadRealUiFonts() async {
 Future<AppLocalizations> localizationsFor(Locale locale) =>
     AppLocalizations.delegate.load(locale);
 
-/// The shell chrome under audit: the five labeled nav destinations and the four
+/// The shell chrome under audit: the three labeled nav destinations and the four
 /// merged placeholder cards, themed for [appearance] and localized for [locale].
 /// Mirrors what the go_router `HomeShell` composes.
 ///

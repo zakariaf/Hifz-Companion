@@ -5,16 +5,12 @@ import 'package:flutter/material.dart';
 
 import '../../design_system/theme/spacing_tokens.dart';
 
-/// A calm Settings group: a quiet localized [title] header over its [children]
-/// rows, on the `space.*` grid with logical insets so it mirrors for fa/ckb/ar
-/// unchanged (design-system 05 §section spacing; 07 §6 grouping).
-///
-/// Domain-blind: it shows only the pre-localized [title] and whatever rows the
-/// caller supplies — it formats no number, reads no provider, and persists
-/// nothing. The E16 picker/profile tasks fill each section's [children]; the
-/// scaffold (E16-T01) seeds them with a single calm "in preparation" line.
+/// One Settings group (plain redesign, 2026-09-05): a quiet already-localized
+/// [title] above a white card on a hairline that holds the group's [children]
+/// (pickers, navigation rows, or a placeholder line). No ornament; the title is
+/// the only heading node the screen reader announces for the group.
 class SettingsSection extends StatelessWidget {
-  /// Creates a settings group titled [title] containing [children].
+  /// Creates the group for [title] over [children].
   const SettingsSection({
     required this.title,
     required this.children,
@@ -30,26 +26,49 @@ class SettingsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
     final space = theme.extension<SpacingTokens>()!;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          // Quiet section gap above the header (start/end logical insets).
-          padding: EdgeInsetsDirectional.only(
-            start: space.space4,
-            end: space.space4,
-            top: space.space6,
-            bottom: space.space2,
+    return Padding(
+      padding: EdgeInsetsDirectional.only(
+        start: space.space4,
+        end: space.space4,
+        top: space.space5,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: EdgeInsetsDirectional.only(
+              start: space.space1,
+              bottom: space.space2,
+            ),
+            child: Semantics(
+              header: true,
+              child: Text(
+                title,
+                style: theme.textTheme.labelLarge
+                    ?.copyWith(color: scheme.onSurfaceVariant),
+              ),
+            ),
           ),
-          child: Text(
-            title,
-            style: theme.textTheme.titleSmall
-                ?.copyWith(color: theme.colorScheme.primary),
+          DecoratedBox(
+            decoration: ShapeDecoration(
+              color: scheme.surfaceContainer,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(space.space4),
+                side: BorderSide(color: scheme.outlineVariant),
+              ),
+            ),
+            child: Padding(
+              padding: EdgeInsetsDirectional.symmetric(vertical: space.space3),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: children,
+              ),
+            ),
           ),
-        ),
-        ...children,
-      ],
+        ],
+      ),
     );
   }
 }

@@ -325,6 +325,18 @@ class AppLocalizationsFa extends AppLocalizations {
   String get navSettings => 'تنظیمات';
 
   @override
+  String get headerSubtitleToday => 'مرورِ امروز — آرام و کوتاه';
+
+  @override
+  String get headerSubtitleMutashabihat => 'جاهایی که زیاد جابه‌جا می‌شوند';
+
+  @override
+  String get headerSubtitleProgress => 'کلِ قرآن، یک دیوارِ کاشی';
+
+  @override
+  String get headerSubtitleSettings => 'ترجیح‌های آرام و نمایشی';
+
+  @override
   String get appearanceFollowSystem => 'سیستم';
 
   @override
@@ -917,6 +929,10 @@ class AppLocalizationsFa extends AppLocalizations {
   String get mushafOverlayMutashabihat => 'متشابهات';
 
   @override
+  String get mushafOverlayUnavailableOnPage =>
+      'چیزی برای نمایش در این صفحه نیست';
+
+  @override
   String get mushafZoomIn => 'بزرگ‌نمایی';
 
   @override
@@ -1028,6 +1044,13 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get progressForecastTitle => 'روزهای پیشِ‌رو';
+
+  @override
+  String get progressTileWallTitle => 'دیوارِ کاشیِ حفظِ تو';
+
+  @override
+  String get progressTileWallHint =>
+      'هر کاشی یک صفحه؛ لعابِ پررنگ‌تر یعنی استوارتر. بافتِ کاشی هم با رنگ می‌گوید — نه فقط رنگ.';
 
   @override
   String get backupOwnershipLine =>
@@ -1397,4 +1420,106 @@ class AppLocalizationsFa extends AppLocalizations {
   @override
   String get scienceClaimC048Headline =>
       'برنامه به‌طور کامل بدون اینترنت کار می‌کند و هرگز صدای شما را ضبط یا داده‌هایتان را به جایی ارسال نمی‌کند.';
+
+  @override
+  String get todayStartSession => 'شروع مرور';
+
+  @override
+  String todayPagesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count صفحه',
+      one: '$count صفحه',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String todayAboutMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'حدود $count دقیقه',
+      one: 'حدود $count دقیقه',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String todayLastReviewedDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'آخرین مرور $count روز پیش',
+      one: 'آخرین مرور دیروز',
+      zero: 'آخرین مرور امروز',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get todayNotYetReviewed => 'هنوز مرور نشده';
+
+  @override
+  String get sessionSemanticTitle => 'جلسهٔ مرور';
+
+  @override
+  String sessionPosition(String position, String total) {
+    return '$position از $total';
+  }
+
+  @override
+  String get sessionReciteFirst => 'نخست از حفظ بخوانید';
+
+  @override
+  String get sessionShowPage => 'نمایش صفحه';
+
+  @override
+  String get sessionStumbleHint => 'روی سطری که لغزیدید بزنید';
+
+  @override
+  String sessionStumbleCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count سطر علامت خورد',
+      zero: 'سطری علامت نخورده',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sessionDoneTitle => 'مرور امروز تمام شد';
+
+  @override
+  String sessionPagesReviewed(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count صفحه مرور شد',
+      one: '$count صفحه مرور شد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sessionMinutesSpent(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count دقیقه',
+      zero: 'کمتر از یک دقیقه',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sessionComesBackSooner => 'زودتر برمی‌گردند';
+
+  @override
+  String get sessionTomorrow => 'فردا';
+
+  @override
+  String get sessionBackToToday => 'بازگشت';
 }

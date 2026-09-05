@@ -69,16 +69,15 @@ Future<void> pumpReader(
 void main() {
   useOfflineTestPolicy();
 
-  testWidgets('embeds the RTL pager for the page and names the riwāyah',
+  testWidgets('embeds the RTL pager for the page; the riwāyah is in About',
       (tester) async {
     await pumpReader(tester, initialPage: 255);
 
     final pager = tester.widget<MushafPager>(find.byType(MushafPager));
     expect(pager.entryPage, 255);
-    expect(
-      find.textContaining('Test Riwāyah — Test muṣḥaf'),
-      findsOneWidget,
-    );
+    // Named once behind the info button, not over the page (plain redesign).
+    expect(find.textContaining('Test Riwāyah — Test muṣḥaf'), findsNothing);
+    expect(find.byIcon(Icons.info_outline), findsOneWidget);
     // The page renderer is E05's, mounted inside the pager (empty page on the
     // bundle-first reference) — the reader adds no fallback font, no width-wrap.
     expect(find.byType(MushafPageView), findsWidgets);

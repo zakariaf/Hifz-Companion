@@ -36,11 +36,11 @@ class SettingsOption<T> {
 /// only** preference (language / calendar / numerals / term-set / theme /
 /// muṣḥaf-riwāyah).
 ///
-/// Domain-blind: it renders [options], marks [selected] with a radio glyph **and**
-/// filled-emphasis label (shape AND colour, never hue alone), and emits the chosen
-/// value through [onSelected] — it stores nothing, mutates no instant/`due_at`,
-/// re-typesets no glyph, and contains **no `Slider`**. Selection is a quiet M3
-/// state layer, never a reward.
+/// Domain-blind: it renders [options] as a wrap of calm mihrab pills (concept
+/// 07), marks [selected] with a check glyph **and** a filled teal tile (shape
+/// AND colour, never hue alone), and emits the chosen value through [onSelected]
+/// — it stores nothing, mutates no instant/`due_at`, re-typesets no glyph, and
+/// contains **no `Slider`**. Selection is a quiet M3 state layer, never a reward.
 class SettingsPicker<T> extends StatelessWidget {
   /// Creates a picker over [options] with the current [selected] value.
   const SettingsPicker({
@@ -61,20 +61,40 @@ class SettingsPicker<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [for (final option in options) _row(context, option)],
+    final space = Theme.of(context).extension<SpacingTokens>()!;
+    // The wrap flows the pills from the reading-start edge (right in RTL); a
+    // long subtitle (e.g. the Hijri civil caveat) wraps within the available
+    // width rather than forcing a horizontal overflow.
+    return LayoutBuilder(
+      builder: (context, constraints) => Wrap(
+        spacing: space.space2,
+        runSpacing: space.space2,
+        children: [
+          for (final option in options)
+            _pill(context, option, maxWidth: constraints.maxWidth),
+        ],
+      ),
     );
   }
 
-  Widget _row(BuildContext context, SettingsOption<T> option) {
+  Widget _pill(
+    BuildContext context,
+    SettingsOption<T> option, {
+    required double maxWidth,
+  }) {
     final scheme = Theme.of(context).colorScheme;
     final space = Theme.of(context).extension<SpacingTokens>()!;
     final text = Theme.of(context).textTheme;
     final isSelected = option.value == selected;
     final subtitle = option.subtitle;
 
+    final onTile = isSelected ? scheme.onPrimary : scheme.onSurface;
+    final subtitleColor =
+        isSelected ? scheme.onPrimary : scheme.onSurfaceVariant;
+    final radius = BorderRadiusDirectional.all(Radius.circular(space.space6));
+
     return MihrabFocusRing(
+      borderRadius: radius,
       child: Material(
         type: MaterialType.transparency,
         child: Semantics(
@@ -82,58 +102,78 @@ class SettingsPicker<T> extends StatelessWidget {
           selected: isSelected,
           child: InkWell(
             onTap: () => onSelected(option.value),
-            overlayColor: MihrabStateLayer.overlayColor(scheme.onSurface),
-            child: Container(
-              constraints: BoxConstraints(minHeight: space.space8),
-              color: isSelected ? scheme.surfaceContainerHighest : null,
-              padding: EdgeInsetsDirectional.symmetric(
-                horizontal: space.space4,
-                vertical: space.space2,
+            customBorder: const StadiumBorder(),
+            overlayColor: MihrabStateLayer.overlayColor(onTile),
+            child: DecoratedBox(
+              // Shape (the check glyph) AND colour (the filled tile) both
+              // carry selection; an unchosen pill is a white tile on a hairline.
+              decoration: ShapeDecoration(
+                color:
+                    isSelected ? scheme.primary : scheme.surfaceContainerLowest,
+                shape: StadiumBorder(
+                  side: isSelected
+                      ? BorderSide.none
+                      : BorderSide(color: scheme.outlineVariant),
+                ),
               ),
-              child: Row(
-                children: [
-                  // Shape (filled vs hollow) AND colour carry selection.
-                  Icon(
-                    isSelected
-                        ? Icons.radio_button_checked
-                        : Icons.radio_button_unchecked,
-                    color:
-                        isSelected ? scheme.primary : scheme.onSurfaceVariant,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: space.space8,
+                  minWidth: space.space8,
+                  maxWidth: maxWidth,
+                ),
+                child: Padding(
+                  padding: EdgeInsetsDirectional.symmetric(
+                    horizontal: space.space4,
+                    vertical: space.space2,
                   ),
-                  SizedBox(width: space.space3),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          option.label,
-                          style: text.bodyLarge?.copyWith(
-                            color: scheme.onSurface,
-                            fontWeight: isSelected ? FontWeight.w600 : null,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              option.label,
+                              style: text.labelLarge?.copyWith(
+                                color: onTile,
+                                fontWeight: isSelected
+                                    ? FontWeight.w700
+                                    : FontWeight.w600,
+                              ),
+                            ),
                           ),
-                        ),
-                        if (subtitle != null) ...[
-                          SizedBox(height: space.space1),
-                          Text(
-                            subtitle,
-                            style: text.bodySmall
-                                ?.copyWith(color: scheme.onSurfaceVariant),
-                          ),
+                          if (isSelected) ...[
+                            SizedBox(width: space.space2),
+                            Icon(
+                              Icons.check,
+                              size: space.space4,
+                              color: scheme.onPrimary,
+                            ),
+                          ] else if (option.disclosure) ...[
+                            SizedBox(width: space.space1),
+                            // Auto-mirrors to the logical end in RTL.
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: space.space3,
+                              color: scheme.onSurfaceVariant,
+                            ),
+                          ],
                         ],
+                      ),
+                      if (subtitle != null) ...[
+                        SizedBox(height: space.space1),
+                        Text(
+                          subtitle,
+                          style: text.bodySmall?.copyWith(color: subtitleColor),
+                        ),
                       ],
-                    ),
+                    ],
                   ),
-                  if (option.disclosure) ...[
-                    SizedBox(width: space.space2),
-                    // Auto-mirrors to the logical end in RTL.
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: space.space4,
-                      color: scheme.onSurfaceVariant,
-                    ),
-                  ],
-                ],
+                ),
               ),
             ),
           ),

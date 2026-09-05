@@ -35,9 +35,7 @@ void main() {
       for (final label in [
         l10n.navToday,
         l10n.navMushaf,
-        l10n.navMutashabihat,
         l10n.navProgress,
-        l10n.navSettings,
       ]) {
         expect(
           tester.getSemantics(find.bySemanticsLabel(label).first),

@@ -59,7 +59,7 @@ void main() {
     expect(picked, ['b']);
   });
 
-  testWidgets('selected = radio glyph AND emphasis (shape, not hue alone)',
+  testWidgets('selected = check glyph AND filled tile (shape, not hue alone)',
       (tester) async {
     await tester.pumpWidget(
       _host<String>(
@@ -70,8 +70,9 @@ void main() {
         selected: 'a',
       ),
     );
-    expect(find.byIcon(Icons.radio_button_checked), findsOneWidget);
-    expect(find.byIcon(Icons.radio_button_unchecked), findsOneWidget);
+    // The chosen pill carries a check glyph (shape); the unchosen pill has none
+    // — selection is a shape channel, not hue alone.
+    expect(find.byIcon(Icons.check), findsOneWidget);
   });
 
   testWidgets(

@@ -78,14 +78,20 @@ AnimatedOpacity controlsLayer(WidgetTester tester) =>
 void main() {
   useOfflineTestPolicy();
 
-  testWidgets('the riwāyah is always named; no dashboard widget on the page',
+  testWidgets('the riwāyah is named in About; no dashboard widget on the page',
       (tester) async {
     await pumpChrome(tester);
-    // R2: the named edition is on screen (the label is FSI/PDI-isolated).
+    // R2: the named edition is one tap away (the About/credits sheet), not
+    // printed over every page (plain redesign, 2026-09-05).
+    expect(find.textContaining('Ḥafṣ ʿan ʿĀṣim — Madani muṣḥaf'), findsNothing);
+    await tester.tap(find.byIcon(Icons.info_outline));
+    await tester.pumpAndSettle();
     expect(
       find.textContaining('Ḥafṣ ʿan ʿĀṣim — Madani muṣḥaf'),
       findsOneWidget,
     );
+    await tester.tapAt(const Offset(10, 10)); // dismiss the sheet
+    await tester.pumpAndSettle();
 
     // No gamification / status-display surface anywhere on the reader.
     for (final widget in tester.allWidgets) {
@@ -106,24 +112,22 @@ void main() {
   testWidgets('a tap on the page toggles the controls; they return on a tap',
       (tester) async {
     await pumpChrome(tester);
-    expect(controlsLayer(tester).opacity, 1.0); // visible on entry
+    expect(controlsLayer(tester).opacity, 0.0); // hidden on entry — the page
 
-    // A tap on the page interior (center, the base layer) recedes the controls.
-    await tester.tapAt(tester.getCenter(find.byType(MushafChrome)));
-    await tester.pumpAndSettle();
-    expect(controlsLayer(tester).opacity, 0.0);
-
-    // Another tap returns them.
+    // A tap on the page interior (center, the base layer) shows the controls.
     await tester.tapAt(tester.getCenter(find.byType(MushafChrome)));
     await tester.pump();
     expect(controlsLayer(tester).opacity, 1.0);
+
+    // Another tap recedes them.
+    await tester.tapAt(tester.getCenter(find.byType(MushafChrome)));
+    await tester.pumpAndSettle();
+    expect(controlsLayer(tester).opacity, 0.0);
   });
 
   testWidgets('shown controls auto-hide on the calm timer', (tester) async {
     await pumpChrome(tester);
-    // Hide then re-show to arm the auto-hide timer.
-    await tester.tapAt(tester.getCenter(find.byType(MushafChrome)));
-    await tester.pumpAndSettle();
+    // Show to arm the auto-hide timer.
     await tester.tapAt(tester.getCenter(find.byType(MushafChrome)));
     await tester.pump();
     expect(controlsLayer(tester).opacity, 1.0);

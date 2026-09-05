@@ -57,6 +57,7 @@ class MihrabPageCard extends StatelessWidget {
         ? BorderSide(color: colors.semanticWarning) // quiet warning, not alarm
         : BorderSide(color: scheme.outlineVariant);
     final headlineColor = isDone ? scheme.onSurfaceVariant : scheme.onSurface;
+    final cornerRadius = Radius.circular(space.space4);
 
     final headline = localizedPageJuz(
       page: data.page,
@@ -66,27 +67,15 @@ class MihrabPageCard extends StatelessWidget {
     );
     final hint = data.supportingHint;
 
-    final leading = Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        TrackChip(family: data.track, label: data.trackLabel),
-        SizedBox(width: space.space2),
-        DecayIndicator(level: data.decay, label: data.decayLabel),
-      ],
-    );
-
     return MergeSemantics(
       child: MihrabFocusRing(
         // Match the card's corner radius so the focus ring aligns with it.
-        borderRadius:
-            BorderRadiusDirectional.all(Radius.circular(space.space3)),
+        borderRadius: BorderRadiusDirectional.all(cornerRadius),
         child: Card(
           elevation: 0,
           color: surface,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadiusDirectional.all(
-              Radius.circular(space.space3),
-            ),
+            borderRadius: BorderRadiusDirectional.all(cornerRadius),
             side: borderSide,
           ),
           clipBehavior: Clip.antiAlias,
@@ -96,35 +85,62 @@ class MihrabPageCard extends StatelessWidget {
             child: ConstrainedBox(
               constraints: BoxConstraints(minHeight: space.space8),
               child: Padding(
-                padding: EdgeInsetsDirectional.all(space.space3),
+                padding: EdgeInsetsDirectional.all(space.space4),
                 child: Row(
                   children: [
-                    leading,
-                    SizedBox(width: space.space3),
+                    // Leading (right in RTL): the headline over the track
+                    // chip — "Page N · Juz M" then the manzil/sabqi badge.
                     Expanded(
+                      flex: 3,
                       child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             headline,
-                            style:
-                                text.bodyLarge?.copyWith(color: headlineColor),
+                            style: text.titleMedium?.copyWith(
+                              color: headlineColor,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                           if (hint != null) ...[
                             SizedBox(height: space.space1),
                             Text(
                               hint,
-                              style: text.bodySmall
-                                  ?.copyWith(color: scheme.onSurfaceVariant),
+                              style: text.bodySmall?.copyWith(
+                                color: scheme.onSurfaceVariant,
+                              ),
                             ),
                           ],
+                          SizedBox(height: space.space2),
+                          TrackChip(
+                            family: data.track,
+                            label: data.trackLabel,
+                          ),
                         ],
                       ),
                     ),
-                    SizedBox(width: space.space2),
-                    _Trailing(
-                      state: data.state,
-                      word: _stateWord(l10n, data.state),
+                    SizedBox(width: space.space3),
+                    // Trailing (far left in RTL): the decay star + word, and
+                    // any done/locked marker.
+                    Expanded(
+                      flex: 2,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Flexible(
+                            child: DecayIndicator(
+                              level: data.decay,
+                              label: data.decayLabel,
+                            ),
+                          ),
+                          _StateMarker(
+                            state: data.state,
+                            word: _stateWord(l10n, data.state),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -148,11 +164,12 @@ class MihrabPageCard extends StatelessWidget {
       };
 }
 
-/// The trailing affordance: an auto-mirroring chevron (open), a check (done), or
-/// a lock (teacher override). Carries the calm state [word] into the merged
-/// phrase; never an alarm.
-class _Trailing extends StatelessWidget {
-  const _Trailing({required this.state, required this.word});
+/// The trailing state marker: a check (revised today) or a lock (teacher
+/// override) beside the decay word; the resting/due/weak states show no glyph
+/// (matching the concept) but still carry the calm state [word] into the merged
+/// phrase non-visually. Never an alarm, never a badge/score.
+class _StateMarker extends StatelessWidget {
+  const _StateMarker({required this.state, required this.word});
 
   final CardState state;
   final String? word;
@@ -161,17 +178,24 @@ class _Trailing extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final space = Theme.of(context).extension<SpacingTokens>()!;
-    final icon = switch (state) {
-      CardState.locked => Icons.lock_outline,
-      CardState.done => Icons.check_circle_outline,
-      // Auto-mirrors to the logical end (left in RTL).
-      _ => Icons.arrow_forward_ios,
-    };
-    final glyph =
-        Icon(icon, color: scheme.onSurfaceVariant, size: space.space5);
     final stateWord = word;
+    final icon = switch (state) {
+      CardState.done => Icons.check_circle_outline,
+      CardState.locked => Icons.lock_outline,
+      _ => null,
+    };
+    if (icon != null) {
+      final glyph = Padding(
+        padding: EdgeInsetsDirectional.only(start: space.space2),
+        child: Icon(icon, color: scheme.onSurfaceVariant, size: space.space5),
+      );
+      return stateWord == null
+          ? glyph
+          : Semantics(label: stateWord, child: ExcludeSemantics(child: glyph));
+    }
+    // Resting/due/weak: no glyph, but the spoken word still rides the phrase.
     return stateWord == null
-        ? glyph
-        : Semantics(label: stateWord, child: glyph);
+        ? const SizedBox.shrink()
+        : Semantics(label: stateWord, child: const SizedBox.shrink());
   }
 }

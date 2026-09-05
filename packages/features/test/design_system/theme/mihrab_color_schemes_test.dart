@@ -12,11 +12,13 @@ void main() {
 
   group('pinned roles equal the 03 §7 audited hexes', () {
     test('Light', () {
+      // Plain redesign amendment (2026-09-05): neutral near-white ground, ink
+      // text, one green accent (4.9:1 on the ground) — 03 §7.
       final s = colorSchemeFor(MihrabAppearance.light);
       expect(s.brightness, Brightness.light);
-      expect(s.surface, const Color(0xFFF3F6F1));
-      expect(s.onSurface, const Color(0xFF1A211E));
-      expect(s.primary, const Color(0xFF18745A));
+      expect(s.surface, const Color(0xFFF4F4F2));
+      expect(s.onSurface, const Color(0xFF1A1C1B));
+      expect(s.primary, const Color(0xFF157A63));
     });
 
     test('Dark uses off-black surface and the re-toned accent', () {

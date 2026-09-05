@@ -192,7 +192,8 @@ OverlayStyle _overlayStyle(BuildContext context) {
   return OverlayStyle(
     fillColors: {
       OverlayKind.weakLine: colors.semanticWarning.withValues(alpha: 0.18),
-      OverlayKind.mutashabihAnchor: colors.accentGold.withValues(alpha: 0.18),
+      OverlayKind.mutashabihAnchor:
+          theme.colorScheme.primary.withValues(alpha: 0.18),
     },
     cornerRadius: space.space1,
   );

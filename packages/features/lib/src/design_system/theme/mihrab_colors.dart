@@ -27,7 +27,6 @@ class MihrabColors extends ThemeExtension<MihrabColors> {
     required this.readerSurfaceSepia,
     required this.readerSurfaceNight,
     required this.semanticWarning,
-    required this.accentGold,
     required this.textTertiary,
   });
 
@@ -67,11 +66,6 @@ class MihrabColors extends ThemeExtension<MihrabColors> {
   /// with an icon and text. Never a comment on the user's revision. 03 §6.
   final Color semanticWarning;
 
-  /// A muted gold/brass secondary accent for quiet ornament (the hero rule, a
-  /// section marker) — reverent, low-chroma, never a reward or alert. A proposed
-  /// Mihrab amendment to docs/design-system 03 (re-audited in E06-T10).
-  final Color accentGold;
-
   /// The tertiary text tint (captions, the least-emphasis labels) — M3 has no
   /// third on-surface role, so it lives here (03 §7), audited ≥4.5:1.
   final Color textTertiary;
@@ -89,7 +83,6 @@ class MihrabColors extends ThemeExtension<MihrabColors> {
     Color? readerSurfaceSepia,
     Color? readerSurfaceNight,
     Color? semanticWarning,
-    Color? accentGold,
     Color? textTertiary,
   }) {
     return MihrabColors(
@@ -104,7 +97,6 @@ class MihrabColors extends ThemeExtension<MihrabColors> {
       readerSurfaceSepia: readerSurfaceSepia ?? this.readerSurfaceSepia,
       readerSurfaceNight: readerSurfaceNight ?? this.readerSurfaceNight,
       semanticWarning: semanticWarning ?? this.semanticWarning,
-      accentGold: accentGold ?? this.accentGold,
       textTertiary: textTertiary ?? this.textTertiary,
     );
   }
@@ -127,7 +119,6 @@ class MihrabColors extends ThemeExtension<MihrabColors> {
       readerSurfaceNight:
           Color.lerp(readerSurfaceNight, other.readerSurfaceNight, t)!,
       semanticWarning: Color.lerp(semanticWarning, other.semanticWarning, t)!,
-      accentGold: Color.lerp(accentGold, other.accentGold, t)!,
       textTertiary: Color.lerp(textTertiary, other.textTertiary, t)!,
     );
   }

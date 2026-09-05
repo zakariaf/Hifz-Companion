@@ -118,7 +118,7 @@ void main() {
     expect(find.byKey(const ValueKey<String>('today.allDone')), findsOneWidget);
   });
 
-  testWidgets('a catch-up session shows the banner; defer resumes the day',
+  testWidgets('a catch-up session shows the gap banner above the day',
       (t) async {
     await pump(
       t,
@@ -135,13 +135,14 @@ void main() {
     );
     await t.pumpAndSettle();
     expect(find.byKey(const ValueKey<String>('today.catchUp')), findsOneWidget);
-
-    final l10n = await AppLocalizations.delegate.load(const Locale('ar'));
-    await t.tap(find.text(l10n.catchUpDefer));
-    await t.pumpAndSettle();
+    // The plan's pages ARE the day — the list renders under the banner, and the
+    // one calm choice is to adjust the cycle (no red pile, no defer/shame).
     expect(
       find.byKey(const ValueKey<String>('today.populated')),
       findsOneWidget,
     );
+    final l10n = await AppLocalizations.delegate.load(const Locale('ar'));
+    expect(find.text(l10n.catchUpAdjust), findsOneWidget);
+    expect(find.byKey(const ValueKey<String>('today.start')), findsOneWidget);
   });
 }

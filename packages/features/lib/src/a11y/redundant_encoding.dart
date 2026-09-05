@@ -86,7 +86,7 @@ enum ChipState {
     ChipState.signOff => (
         icon: Icons.verified_outlined,
         label: l10n.stateSignedOff,
-        surface: colors.accentGold,
+        surface: theme.colorScheme.secondaryContainer,
       ),
     // Calm decay: a muted neutral, the same "needs revision" register as the
     // page-card indicator — never red, never "safe to drop".

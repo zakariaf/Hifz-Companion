@@ -29,7 +29,8 @@ import 'package:models/models.dart'
         MutashabihGroup,
         MutashabihGroupView,
         Profile,
-        ProfileId;
+        ProfileId,
+        Surah;
 
 import '../test_setup.dart';
 
@@ -44,10 +45,14 @@ class _FakeReference implements ReferenceRepository {
   Future<int?> firstPageOf(JumpTarget target) async => null;
 
   @override
+  Future<List<Surah>> surahsStartingOnPage(int pageNumber) async => const [];
+
+  @override
   Future<List<MutashabihGroup>> allMutashabihGroups() async => const [];
 
   @override
-  Future<MutashabihGroupView?> mutashabihGroupView(String groupId) async => null;
+  Future<MutashabihGroupView?> mutashabihGroupView(String groupId) async =>
+      null;
 
   @override
   Future<String?> mutashabihGroupIdForAyah(String ayahId) async => null;

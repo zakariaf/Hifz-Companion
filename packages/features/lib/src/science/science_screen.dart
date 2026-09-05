@@ -11,6 +11,7 @@ import 'package:l10n/l10n.dart';
 import '../design_system/certainty/certainty_label.dart';
 import '../design_system/certainty/certainty_strings.dart';
 import '../design_system/theme/spacing_tokens.dart';
+import '../design_system/widgets/mihrab_note_card.dart';
 import 'science_copy.dart';
 import 'science_providers.dart';
 import 'widgets/science_source_row.dart';
@@ -32,7 +33,6 @@ class ScienceScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final scheme = theme.colorScheme;
     final space = theme.extension<SpacingTokens>()!;
     final sections = ref.watch(scienceGroupsProvider);
     final strings = CertaintyStrings.of(l10n);
@@ -46,44 +46,41 @@ class ScienceScreen extends ConsumerWidget {
       container: true,
       label: l10n.scienceTitle,
       explicitChildNodes: true,
-      child: SafeArea(
-        child: ListView(
-          padding: EdgeInsetsDirectional.only(bottom: space.space8),
-          children: [
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(
-                space.space4,
-                space.space4,
-                space.space4,
-                space.space2,
+      child: Scaffold(
+        appBar: AppBar(title: Text(l10n.scienceTitle)),
+        body: SafeArea(
+          top: false,
+          child: ListView(
+            padding: EdgeInsetsDirectional.only(bottom: space.space8),
+            children: [
+              SizedBox(height: space.space4),
+              // The no-promise / honesty framing, up front and calm, in a
+              // calm-keyline note (science §5/§6).
+              Padding(
+                padding: EdgeInsetsDirectional.symmetric(
+                  horizontal: space.space4,
+                ),
+                child: MihrabNoteCard(text: l10n.scienceIntro),
               ),
-              child: Text(l10n.scienceTitle, style: theme.textTheme.headlineSmall),
-            ),
-            // The no-promise / honesty framing, up front and calm (science §5/§6).
-            Padding(
-              padding: EdgeInsetsDirectional.symmetric(horizontal: space.space4),
-              child: Text(
-                l10n.scienceIntro,
-                style: theme.textTheme.bodyMedium
-                    ?.copyWith(color: scheme.onSurfaceVariant),
+              SizedBox(height: space.space2),
+              for (final section in sections) ...[
+                _GroupHeader(
+                  label: scienceGroupLabel(l10n, section.group),
+                ),
+                for (final claim in section.claims)
+                  ScienceSourceRow(claim: claim, onOpenSource: openSource),
+              ],
+              SizedBox(height: space.space6),
+              // The grade legend in plain words — always reachable (§4).
+              Padding(
+                padding: EdgeInsetsDirectional.all(space.space4),
+                child: CertaintyLegend(
+                  strings: strings,
+                  title: l10n.certaintyLegendTitle,
+                ),
               ),
-            ),
-            SizedBox(height: space.space4),
-            for (final section in sections) ...[
-              _GroupHeader(label: scienceGroupLabel(l10n, section.group)),
-              for (final claim in section.claims)
-                ScienceSourceRow(claim: claim, onOpenSource: openSource),
             ],
-            SizedBox(height: space.space6),
-            // The grade legend in plain words — always reachable (science §4).
-            Padding(
-              padding: EdgeInsetsDirectional.all(space.space4),
-              child: CertaintyLegend(
-                strings: strings,
-                title: l10n.certaintyLegendTitle,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

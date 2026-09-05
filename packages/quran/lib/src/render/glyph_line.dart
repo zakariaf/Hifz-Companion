@@ -63,7 +63,12 @@ class GlyphLine {
     required this.lineNumber,
     required this.type,
     required this.glyphCodes,
+    this.headerText,
   });
+
+  /// For a [LineType.surahName] line: the sūrah name to letter inside the
+  /// header band (chrome, from the reference table). Null otherwise.
+  final String? headerText;
 
   /// The 1-based muṣḥaf page this line is on.
   final int pageNumber;

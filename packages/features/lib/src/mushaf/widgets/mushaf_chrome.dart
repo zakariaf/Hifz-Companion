@@ -10,30 +10,30 @@ import 'package:models/models.dart' show MushafEdition;
 
 import '../../design_system/theme/motion_tokens.dart';
 import '../../design_system/theme/spacing_tokens.dart';
+import '../../today/today_providers.dart' show pageJuzProvider;
 import '../mushaf_providers.dart';
 import 'jump_picker.dart';
+import 'mushaf_about.dart';
 import 'mushaf_pager.dart';
-import 'reader_overlay_toggles.dart';
 import 'reader_theme_control.dart';
 import 'reader_zoom_control.dart';
-import 'riwayah_chrome_label.dart';
 
-/// The "no dashboard" reader surface (design-system 13 §3): the words of the
-/// muṣḥaf dominate and the controls recede to thin edge bands over E13-T03's
-/// pager. The riwāyah/edition label is **always** present (R2 — the named
-/// edition is on screen at every moment); the transient controls (theme, zoom,
-/// jump-to, overlay toggles) auto-hide on a calm timer and a tap on the page,
-/// and return on a tap, via a single `motion.durationShort` fade — never a
-/// celebration, slide-up dashboard, glow, badge, counter, page-flip fanfare, or
-/// piety/wuḍūʾ gate. It draws **nothing** decorative over the glyph layer.
+/// The chrome around the immutable muṣḥaf page (plain redesign, 2026-09-05):
+/// a thin top bar (the juz on the start edge; jump-to, reading controls and
+/// the About/credits entry as icon buttons), the full-bleed page, and a small
+/// page-number pill at the foot — the shape every muṣḥaf app shares. The
+/// riwāyah is named in the About sheet and in Settings › Muṣḥaf (stated
+/// explicitly in-app, R2), not printed over every page. The reading controls
+/// (zoom, theme) are a transient band toggled by a page tap or the tune
+/// button, auto-hiding after a calm dwell.
 ///
-/// `StatefulWidget` only to own and dispose the auto-hide [Timer]; the
-/// visibility is display-only UI state — it mutates no engine state.
+/// The chrome never touches the glyph layer: no frame, no overlay, no decoration
+/// on or over an āyah (R1).
 class MushafChrome extends StatefulWidget {
   /// Creates the chrome over the reader opened at [page] for [edition].
   const MushafChrome({required this.edition, required this.page, super.key});
 
-  /// The active edition the riwāyah label names.
+  /// The active edition the About sheet names.
   final MushafEdition edition;
 
   /// The reader's entry page (the reader-state store family key the pager and
@@ -45,7 +45,7 @@ class MushafChrome extends StatefulWidget {
 }
 
 class _MushafChromeState extends State<MushafChrome> {
-  bool _controlsVisible = true;
+  bool _controlsVisible = false;
   Timer? _autoHide;
 
   @override
@@ -69,25 +69,60 @@ class _MushafChromeState extends State<MushafChrome> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
     final space = theme.extension<SpacingTokens>()!;
     final motion = theme.extension<MotionTokens>()!;
     // Reduce-motion (or the platform animation toggle) snaps without a fade.
-    final fade =
-        MediaQuery.disableAnimationsOf(context) ? Duration.zero : motion.durationShort;
+    final fade = MediaQuery.disableAnimationsOf(context)
+        ? Duration.zero
+        : motion.durationShort;
 
-    return Stack(
+    return Column(
       children: [
-        // The page is the base, fill layer — a tap on it toggles the controls.
-        // It carries the localized "page N" Semantics so the screen reader names
-        // the current page (it can never read the glyph layer itself, R1).
-        Positioned.fill(
+        SafeArea(
+          bottom: false,
+          child: Padding(
+            padding: EdgeInsetsDirectional.symmetric(horizontal: space.space2),
+            child: Row(
+              children: [
+                Padding(
+                  padding: EdgeInsetsDirectional.only(start: space.space3),
+                  child: _JuzLabel(page: widget.page),
+                ),
+                const Spacer(),
+                IconButton(
+                  onPressed: () =>
+                      showMushafJumpPicker(context, entryPage: widget.page),
+                  tooltip: l10n.mushafJumpTitle,
+                  icon: const Icon(Icons.menu_book_outlined),
+                ),
+                IconButton(
+                  onPressed: _toggleControls,
+                  tooltip: l10n.mushafZoomIn,
+                  isSelected: _controlsVisible,
+                  icon: const Icon(Icons.tune),
+                ),
+                IconButton(
+                  onPressed: () =>
+                      showMushafAbout(context, edition: widget.edition),
+                  tooltip: l10n.mushafAboutTitle,
+                  icon: const Icon(Icons.info_outline),
+                ),
+              ],
+            ),
+          ),
+        ),
+        // The page — the base tap layer (a tap toggles the controls). It
+        // carries the localized "page N" Semantics so the screen reader names
+        // the current page (it can never read the glyph layer, R1).
+        Expanded(
           child: GestureDetector(
             behavior: HitTestBehavior.translucent,
             onTap: _toggleControls,
             child: Consumer(
               builder: (context, ref, child) {
-                final l10n = AppLocalizations.of(context);
                 final locale = Localizations.localeOf(context);
                 final pageNumber = ref.watch(
                   mushafReaderStateProvider(widget.page)
@@ -100,54 +135,115 @@ class _MushafChromeState extends State<MushafChrome> {
                   child: child,
                 );
               },
-              child: MushafPager(entryPage: widget.page),
-            ),
-          ),
-        ),
-        // Top edge band: the always-present riwāyah/edition label (R2). It may
-        // dim with the controls but never disappears — outside the fade below.
-        PositionedDirectional(
-          top: 0,
-          start: 0,
-          end: 0,
-          child: SafeArea(
-            bottom: false,
-            child: Padding(
-              padding: EdgeInsetsDirectional.all(space.space2),
-              child: Align(
-                alignment: AlignmentDirectional.center,
-                child: RiwayahChromeLabel(edition: widget.edition),
+              child: Padding(
+                padding: EdgeInsetsDirectional.symmetric(
+                  horizontal: space.space2,
+                ),
+                child: MushafPager(entryPage: widget.page),
               ),
             ),
           ),
         ),
-        // Bottom edge band: the transient controls, fading calmly in/out. When
-        // hidden they ignore pointers so the page tap reaches the base layer.
-        PositionedDirectional(
-          bottom: 0,
-          start: 0,
-          end: 0,
-          child: SafeArea(
-            top: false,
-            child: AnimatedOpacity(
-              key: const ValueKey<String>('reader.controls'),
-              opacity: _controlsVisible ? 1 : 0,
-              duration: fade,
-              curve: motion.curveStandard,
-              child: IgnorePointer(
-                ignoring: !_controlsVisible,
-                child: _ControlsBand(page: widget.page),
+        SafeArea(
+          top: false,
+          child: Column(
+            children: [
+              // The transient reading controls, fading calmly in/out. Hidden,
+              // they ignore pointers so a page tap reaches the base layer.
+              AnimatedOpacity(
+                key: const ValueKey<String>('reader.controls'),
+                opacity: _controlsVisible ? 1 : 0,
+                duration: fade,
+                curve: motion.curveStandard,
+                child: IgnorePointer(
+                  ignoring: !_controlsVisible,
+                  child: _controlsVisible
+                      ? _ControlsBand(page: widget.page)
+                      : const SizedBox.shrink(),
+                ),
               ),
-            ),
+              Padding(
+                padding: EdgeInsetsDirectional.symmetric(
+                  vertical: space.space2,
+                ),
+                child: _PagePill(page: widget.page),
+              ),
+            ],
           ),
         ),
       ],
+    )._on(scheme.surface);
+  }
+}
+
+extension on Widget {
+  /// Paints the reader ground behind the chrome (the page slot paints its own
+  /// reader-theme paper over it).
+  Widget _on(Color color) => ColoredBox(color: color, child: this);
+}
+
+/// The juz of the page being read, on the start edge of the top bar.
+class _JuzLabel extends ConsumerWidget {
+  const _JuzLabel({required this.page});
+
+  final int page;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final locale = Localizations.localeOf(context);
+    final theme = Theme.of(context);
+    final pageNumber = ref.watch(
+      mushafReaderStateProvider(page).select((state) => state.pageNumber),
+    );
+    final juz = ref.watch(pageJuzProvider).asData?.value[pageNumber];
+    if (juz == null) return const SizedBox.shrink();
+    return Text(
+      l10n.juzLabel(isolateLtr(localeDigits(juz, locale))),
+      style: theme.textTheme.labelLarge
+          ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
     );
   }
 }
 
-/// The thin bottom band of transient reader controls (theme · zoom · overlays ·
-/// jump-to). No panel over the page interior — an edge band only.
+/// The page-number pill at the foot: the current page in locale numerals.
+class _PagePill extends ConsumerWidget {
+  const _PagePill({required this.page});
+
+  final int page;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final locale = Localizations.localeOf(context);
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final space = theme.extension<SpacingTokens>()!;
+    final pageNumber = ref.watch(
+      mushafReaderStateProvider(page).select((state) => state.pageNumber),
+    );
+    return ExcludeSemantics(
+      // The page Semantics label on the stage already names the page.
+      child: DecoratedBox(
+        decoration: ShapeDecoration(
+          color: scheme.surfaceContainer,
+          shape: StadiumBorder(side: BorderSide(color: scheme.outlineVariant)),
+        ),
+        child: Padding(
+          padding: EdgeInsetsDirectional.symmetric(
+            horizontal: space.space4,
+            vertical: space.space1,
+          ),
+          child: Text(
+            isolateLtr(localeDigits(pageNumber, locale)),
+            style: theme.textTheme.labelLarge
+                ?.copyWith(color: scheme.onSurfaceVariant),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _ControlsBand extends StatelessWidget {
   const _ControlsBand({required this.page});
 
@@ -155,26 +251,35 @@ class _ControlsBand extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
     final space = theme.extension<SpacingTokens>()!;
     return Padding(
-      padding: EdgeInsetsDirectional.all(space.space2),
-      child: Wrap(
-        alignment: WrapAlignment.center,
-        crossAxisAlignment: WrapCrossAlignment.center,
-        spacing: space.space2,
-        runSpacing: space.space2,
-        children: [
-          ReaderThemeControl(entryPage: page),
-          ReaderZoomControl(entryPage: page),
-          ReaderOverlayToggles(entryPage: page),
-          IconButton(
-            onPressed: () => showMushafJumpPicker(context, entryPage: page),
-            tooltip: l10n.mushafJumpTitle,
-            icon: const Icon(Icons.menu_book_outlined),
+      padding: EdgeInsetsDirectional.symmetric(horizontal: space.space4),
+      child: DecoratedBox(
+        decoration: ShapeDecoration(
+          color: scheme.surfaceContainer,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(space.space4),
+            side: BorderSide(color: scheme.outlineVariant),
           ),
-        ],
+        ),
+        child: Padding(
+          padding: EdgeInsetsDirectional.symmetric(
+            horizontal: space.space3,
+            vertical: space.space2,
+          ),
+          child: Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: space.space3,
+            runSpacing: space.space1,
+            children: [
+              ReaderZoomControl(entryPage: page),
+              ReaderThemeControl(entryPage: page),
+            ],
+          ),
+        ),
       ),
     );
   }

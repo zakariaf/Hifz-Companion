@@ -13,6 +13,10 @@ import 'mushaf_about.dart';
 /// absolutely, and a quiet "About this muṣḥaf" affordance opens the
 /// Tanzil/QUL/KFGQPC attribution + checksum guarantee.
 ///
+/// In the Mihrab reader that affordance is drawn as a small gold **hanging lamp**
+/// (a qandīl) suspended from the label on a thin gold cord — the lamp *is* the
+/// info/About button, echoing the muqarnas trio that crowns the arch below it.
+///
 /// It is **chrome, not scripture**: ordinary shaped UI text on the `type.*`
 /// ramp in the bundled UI font — never the QPC page font, never a `glyphCodes`
 /// string, never a `fontFamilyFallback`. It lives outside the page's
@@ -29,6 +33,7 @@ class RiwayahChromeLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -38,8 +43,10 @@ class RiwayahChromeLabel extends StatelessWidget {
             // so it reads correctly inside the RTL chrome (engineering 12 §4).
             isolate(edition.displayName),
             style: theme.textTheme.titleSmall
-                ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                ?.copyWith(color: scheme.onSurfaceVariant),
             textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
         IconButton(

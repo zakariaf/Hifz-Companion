@@ -8,25 +8,29 @@ library;
 // fonts (never Ahem) — the ckb 200%/AX frames are the binding reflow proof. CI
 // verifies, never blesses (--update-goldens local only).
 
-import 'package:engine/engine.dart' show CalendarDate, Card, ReviewTrack;
 import 'package:features/features.dart'
-    show MihrabAppearance, PageCard, mihrabThemeFor;
-import 'package:flutter/material.dart' hide Card;
+    show
+        CardState,
+        DecayLevel,
+        MihrabAppearance,
+        MihrabPageCard,
+        PageCardViewData,
+        TrackFamily,
+        mihrabThemeFor;
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:l10n/l10n.dart';
-import 'package:models/models.dart' show ProfileId;
 
 import '../a11y/_a11y_test_bootstrap.dart';
 
-Card _card() => Card(
-      profileId: const ProfileId('p1'),
-      pageId: 134,
-      track: ReviewTrack.far,
-      difficulty: 5,
-      stabilityDays: 30,
-      lastReviewedDay: CalendarDate.ymd(2026, 5, 1),
-      dueAt: CalendarDate.ymd(2026, 6, 19),
-      isWeak: true,
+PageCardViewData _card() => const PageCardViewData(
+      page: 134,
+      juz: 7,
+      track: TrackFamily.far,
+      trackLabel: 'TRACK',
+      decay: DecayLevel.needsRevision,
+      decayLabel: 'DECAY',
+      state: CardState.weak,
     );
 
 // 2.0 = the WCAG 1.4.4 (200%) bar; 3.2 = an iOS AX-extreme size.
@@ -58,7 +62,7 @@ void main() {
               child: Scaffold(
                 body: SafeArea(
                   child: ListView(
-                    children: [PageCard(card: _card(), onGrade: (_) async {})],
+                    children: [MihrabPageCard(data: _card(), onOpen: () {})],
                   ),
                 ),
               ),

@@ -98,7 +98,7 @@ This file is the single source of truth for every `color.*` token in Mihrab: the
 
 **In practice.**
 - `color.bg.primary` (Dark) = `#121413`; surface containers step up in *tone*, not via overlay opacity, so RTL surfaces stack predictably regardless of mirroring — we prefer Material 3 tone-based surface roles over translucent elevation ([Material 3: Tone-based surfaces](https://m3.material.io/blog/tone-based-surface-color-m3)).
-- Dark `color.accent.green` is *lighter and lower-chroma* than its Light counterpart (`#6FC2A8` vs `#18745A`) so it reads as text/link on the dark surface without vibration; the audit (§7) confirms 8.77:1.
+- Dark `color.accent.green` is *lighter and lower-chroma* than its Light counterpart (`#6FC2A8` vs `#1C7062`) so it reads as text/link on the dark surface without vibration; the audit (§7) confirms 8.77:1.
 - Material 3 exposes user-selectable contrast via `contrastLevel` on `ColorScheme.fromSeed` (−1.0 … 1.0); low-vision users can push past our floor without a bespoke theme ([Flutter: ColorScheme.fromSeed](https://api.flutter.dev/flutter/material/ColorScheme/ColorScheme.fromSeed.html)). See [09-accessibility-and-inclusivity.md](09-accessibility-and-inclusivity.md).
 
 **Anti-patterns — we will never:**
@@ -121,11 +121,11 @@ This file is the single source of truth for every `color.*` token in Mihrab: the
 
 | Token | Light | Dark | Meaning |
 |---|---|---|---|
-| `color.heatmap.strong` | `#1B8A5A` | `#58C495` | high retention (calm green) |
-| `color.heatmap.good` | `#49A074` | `#418C6A` | solid |
-| `color.heatmap.fair` | `#93BFA6` | `#356B55` | softening |
-| `color.heatmap.weak` | `#B9C3BC` | `#38453E` | decaying (muted neutral) |
-| `color.heatmap.faded` | `#D2D8D2` | `#262B27` | most-decayed / un-reviewed |
+| `color.heatmap.strong` | `#167C6D` | `#58C495` | high retention (glazed teal) |
+| `color.heatmap.good` | `#3AA6A0` | `#418C6A` | solid |
+| `color.heatmap.fair` | `#93C4BC` | `#356B55` | softening |
+| `color.heatmap.weak` | `#C6C0AF` | `#38453E` | decaying (bare limestone) |
+| `color.heatmap.faded` | `#E0D8C6` | `#262B27` | most-decayed / un-reviewed |
 
 - The ramp is **monotonic in relative luminance** in both appearances (Light strong→faded L = 0.16 → 0.67; Dark strong→faded L = 0.36 → 0.02), so magnitude reads correctly in greyscale and under CVD; the *direction* flips with polarity (darker = stronger in Light; lighter = stronger in Dark) so the strong end always has the most contrast against the page.
 - Each cell carries a **redundant value and label** (a localized percentage/number in the locale numerals, plus a tap-through detail) — the colour is reinforcement, never the message (PRD §12.5, §18). The visual grammar, VSUP-style uncertainty muting, and the "never a scoreboard" rule are specified in [08-data-visualization.md](08-data-visualization.md).
@@ -151,8 +151,8 @@ This file is the single source of truth for every `color.*` token in Mihrab: the
 
 | Token | Light | Dark | Paired icon | Use |
 |---|---|---|---|---|
-| `color.semantic.warning` | `#8A5A00` | `#E8B23C` | `warning` | Asset-integrity / checksum notice, "core pack not verified" (PRD §11.1.1) |
-| `color.accent.green` | `#18745A` | `#6FC2A8` | contextual | the one interactive tint; "verified / done" reads via icon + text, not a separate success-green |
+| `color.semantic.warning` | `#8A4A2C` | `#E8B23C` | `warning` | Asset-integrity / checksum notice, "core pack not verified" (PRD §11.1.1) |
+| `color.accent.green` | `#1C7062` | `#6FC2A8` | contextual | the one interactive tint; "verified / done" reads via icon + text, not a separate success-green |
 
 - Deliberate restraint: a **missed-day catch-up** banner is framed as help, not failure — it uses calm neutral surface + `color.accent.green` accent and supportive copy ("You missed 3 days — here is a 5-day catch-up plan"), never a red overdue pile (PRD §7.9, §12.2; [11-voice-and-tone.md](11-voice-and-tone.md)).
 - There is intentionally **no `color.semantic.success`** and **no `color.semantic.danger`** for routine hifz states: "saved" and "verified" are communicated by an icon + text in `color.accent.green`; the only red-adjacent token is the asset-integrity warning, which is a genuine, rare, technical failure (a corrupted Quran asset must be refused — PRD R1), not a comment on the user's revision.
@@ -165,7 +165,7 @@ This file is the single source of truth for every `color.*` token in Mihrab: the
 
 ### Amendment (E06, 2026-06-17): a muted gold *ornament* accent
 
-**Statement.** A second accent — `color.accent.gold`, a muted, low-chroma brass/old-gold (Light `#A57F33`, Sepia `#9A742B`, Dark/Night `#D8BC7E`) — is added for **quiet ornament only**: the Today hero frame and dome mark, and the small marker beside a section header. It is reverent (gold is a historically Islamic, manuscript-illumination colour), low-arousal by the §1 saturation rule, and explicitly **not** interactive and **not** semantic.
+**Statement.** A second accent — `color.accent.gold`, a muted, low-chroma brass/old-gold (Light `#9E7A2B`, Sepia `#9A742B`, Dark/Night `#D8BC7E`) — is added for **quiet ornament only**: the Today hero frame and dome mark, and the small marker beside a section header. It is reverent (gold is a historically Islamic, manuscript-illumination colour), low-arousal by the §1 saturation rule, and explicitly **not** interactive and **not** semantic.
 
 This does **not** loosen §2: `color.accent.green` remains the *single interactive tint* (links, the primary action, selected states) and the heat-map "strong" anchor. Gold never marks an action, a success, a reward, a streak, or an alert, and it is never laid over the muṣḥaf glyphs. It is decorative ground, like the green — one more quiet act of adab, not a second call-to-action.
 
@@ -185,6 +185,41 @@ The type-ramp refinements are recorded in [04-typography.md](04-typography.md).
 
 ---
 
+### Amendment (mihrab-architecture design pass, 2026-07-03): limestone-and-teal Light re-tone
+
+**Statement.** Owner-directed adoption of the *mihrab-architecture* visual language (redesign concept 03) re-tones the **Light** appearance from the cool near-white/green palette to a warm limestone-plaster surface with a glazed-teal accent and a deep tile-shadow ink — the register of a serene tiled mosque. Sepia, Dark, and Night are **unchanged**. Every Light text/accent role was re-run through the §7 WCAG 2.2 AA audit and still Passes; where the raw concept hue fell below a floor it was deepened into a tone the concept itself uses (the teal, terracotta, and gold below are the audited, contrast-safe members of the concept palette, not the brighter fill tints).
+
+Pinned Light hexes (superseding the values in the token tables above):
+
+- **Surface / ink** — `bg.primary` `#F3F6F1 → #EFEBE3` (limestone), `surface.container` `#E7ECE4 → #E5DECD`, `text.primary` `#1A211E → #233230` (tile-shadow ink, 11.25:1), `text.secondary` `#46514B → #4C5A54`, `text.tertiary` `#5C665F → #5A655F`.
+- **`accent.green` re-toned to glazed teal** — `#18745A → #1C7062`; deepened from the concept's display teal `#1F7A6D` so it holds **4.98:1** as chip/label text on the limestone (`on-accent` white now **5.93:1**).
+- **`semantic.warning` re-toned to clay** — `#8A5A00 → #8A4A2C`; the concept's darker terracotta, **5.70:1** as warning text (its brighter `#B5623C` is reserved for the non-text ground-line / banner fill).
+- **`accent.gold` ornament** — `#A57F33 → #9E7A2B`; the muted ochre clears the 3:1 graphical floor at **3.35:1**.
+- **Heat-map ramp** — glazed-zellige re-tone: strong `#1B8A5A → #167C6D` (anchor **4.27:1**), good `#49A074 → #3AA6A0`, fair `#93BFA6 → #93C4BC`, weak `#B9C3BC → #C6C0AF`, faded `#D2D8D2 → #E0D8C6` (bare limestone). The lower steps remain intentionally below 3:1 — colour is never the sole channel.
+
+The §7 tables and pinned-hex/contrast tests (`mihrab_color_schemes_test.dart`, `contrast_audit_test.dart`) are updated to these values; the audit re-runs on every merge, so the floors stay enforced.
+
+---
+
+### Amendment (plain redesign, 2026-09-05): neutral ground, one accent, no ornament
+
+**Statement.** Owner-directed reversal of the mihrab-architecture pass. After using the reskinned app the owner rejected the ornamental language outright ("too difficult, too ugly") and chose a **plain, native-style** UI: a neutral near-white ground, white grouped cards on a hairline, one green accent, large-title screens, three tabs (Today · Muṣḥaf · Progress) with Settings behind a gear, and a continuous revision *session* in place of the list-driven loop. Every arch, zellige star, gold point, terracotta rule, tile band and curved nav is removed. Sepia, Dark, and Night keep their pinned ink/accent pairs and gain the same shape (a near-white/one-step-lighter card, one hairline `outline.variant`, a `primary.container` pair). Every Light text/accent role was re-run through the §7 audit and Passes.
+
+Pinned Light hexes (superseding the mihrab-architecture values above):
+
+- **Surface / ink** — `bg.primary` `#EFEBE3 → #F4F4F2`, `surface.container` `#E5DECD → #FFFFFF` (white cards), `outline.variant` → `#E6E6E2` (the one hairline), `text.primary` `#233230 → #1A1C1B` (**15.56:1**), `text.secondary`/`text.tertiary` → `#6B6F6D` (**4.63:1**).
+- **`accent.green`** — `#1C7062 → #157A63`, the single interactive tint and the heat anchor (**4.77:1** on the ground, white on it **5.26:1**); `primary.container` `#E3F1EC` / on-container `#0F4F40` (**8.16:1**).
+- **`accent.gold`** — removed. The token (`MihrabColors.accentGold`) and every consumer (the nav lamp, the section stars, the medallion, the hard-grade strip, the sign-off chip, the anchor overlay) are gone; the E06 gold amendment above is superseded.
+- **`semantic.warning`** — unchanged (`#8A4A2C`, 6.16:1); still the rare integrity notice, never a comment on revision.
+- **Heat-map ramp** — a single-hue green→white ramp: strong `#157A63`, good `#5FA892`, fair `#8FC4B5`, weak `#D7ECE5`, faded `#FFFFFF` (an outlined, not-started tile). The juz grid carries the number **and** the band word inside every tile, so colour is never the sole channel.
+- **Track chips** — neutral (`#EEF0EE` / `#3A423F`); the three tracks are told apart by their word, not a hue family.
+
+**Riwāyah placement.** The edition ("Ḥafṣ ʿan ʿĀṣim — Madani muṣḥaf") is still stated explicitly in-app (PRD R2; [01 §"State the riwāyah"](01-design-principles.md)) — in onboarding, in Settings › Muṣḥaf, and in the reader's About/credits sheet — but is **no longer printed over every page**. Naming it once where a reader looks for the edition is the practice every muṣḥaf app shares; repeating it above the sacred text was chrome, not adab.
+
+The §7 tables and pinned-hex/contrast tests (`mihrab_color_schemes_test.dart`, `contrast_audit_test.dart`) are updated to these values.
+
+---
+
 ## 7. WCAG 2.2 AA is a hard floor, re-audited in every appearance
 
 **Statement.** Every appearance — Light, Sepia, Dark, Night — independently clears **WCAG 2.2 AA**: body text ≥ **4.5:1**, large text and non-text/graphical objects ≥ **3:1**. A palette that passes in Light is **not** assumed to pass when re-toned for Sepia/Dark/Night; the luminance math is redone for each. The audit below is recomputed whenever any `color.*` value changes.
@@ -200,25 +235,25 @@ The type-ramp refinements are recorded in [04-typography.md](04-typography.md).
 
 | Pair (token on token) | Need | Light | Sepia | Dark | Night | Result |
 |---|---|---|---|---|---|---|
-| `text.primary` on `bg.primary` | 4.5 | 15.05 | 12.54 | 15.19 | 11.75 | Pass (AAA) |
-| `text.primary` on `surface.container` | 4.5 | 13.68 | — | 13.34 | — | Pass (AAA) |
-| `text.secondary` on `bg.primary` | 4.5 | 7.59 | 6.60 | 8.30 | 6.81 | Pass (AAA) |
-| `text.tertiary` on `bg.primary` | 4.5 | 5.47 | — | 5.26 | — | Pass (AA) |
-| `accent.green` as text/link on `bg.primary` | 4.5 | 5.23 | 5.76 | 8.77 | 7.90 | Pass |
-| `text.on-accent` on `accent.green` fill | 4.5 | 5.70 | — | 8.87 | — | Pass |
-| `semantic.warning` text on `bg.primary` | 4.5 | 5.44 | — | 9.57 | — | Pass |
+| `text.primary` on `bg.primary` | 4.5 | 11.25 | 12.54 | 15.19 | 11.75 | Pass (AAA) |
+| `text.primary` on `surface.container` | 4.5 | 9.97 | — | 13.34 | — | Pass (AAA) |
+| `text.secondary` on `bg.primary` | 4.5 | 6.10 | 6.60 | 8.30 | 6.81 | Pass (AAA) |
+| `text.tertiary` on `bg.primary` | 4.5 | 5.10 | — | 5.26 | — | Pass (AA) |
+| `accent.green` as text/link on `bg.primary` | 4.5 | 4.98 | 5.76 | 8.77 | 7.90 | Pass |
+| `text.on-accent` on `accent.green` fill | 4.5 | 5.93 | — | 8.87 | — | Pass |
+| `semantic.warning` text on `bg.primary` | 4.5 | 5.70 | — | 9.57 | — | Pass |
 
-Appearance background anchors used above: Light `bg.primary` `#F3F6F1` / `surface.container` `#E7ECE4`; Sepia `bg.primary` `#F3EAD8`; Dark `bg.primary` `#121413` / `surface.container` `#1E211F`; Night `bg.primary` `#14110C`. Text/accent values per appearance: Light `text.primary` `#1A211E`, `text.secondary` `#46514B`, `text.tertiary` `#5C665F`, `accent.green` `#18745A`, `on-accent` `#FFFFFF`; Sepia `text.primary` `#2B2620`, `text.secondary` `#5A5042`, `accent.green` `#166650`; Dark `text.primary` `#E6EAE3`, `text.secondary` `#A7B0A8`, `text.tertiary` `#828B83`, `accent.green` `#6FC2A8`, `on-accent` `#0C140F`; Night `text.primary` `#D8CBB2`, `text.secondary` `#A89A80`, `accent.green` `#7FB48C`.
+Appearance background anchors used above: Light `bg.primary` `#EFEBE3` / `surface.container` `#E5DECD`; Sepia `bg.primary` `#F3EAD8`; Dark `bg.primary` `#121413` / `surface.container` `#1E211F`; Night `bg.primary` `#14110C`. Text/accent values per appearance: Light `text.primary` `#233230`, `text.secondary` `#4C5A54`, `text.tertiary` `#5A655F`, `accent.green` `#1C7062`, `on-accent` `#FFFFFF`; Sepia `text.primary` `#2B2620`, `text.secondary` `#5A5042`, `accent.green` `#166650`; Dark `text.primary` `#E6EAE3`, `text.secondary` `#A7B0A8`, `text.tertiary` `#828B83`, `accent.green` `#6FC2A8`, `on-accent` `#0C140F`; Night `text.primary` `#D8CBB2`, `text.secondary` `#A89A80`, `accent.green` `#7FB48C`.
 
 ### Heat-map ramp — graphical objects (SC 1.4.11, mark vs theme `bg.primary`)
 
 | Token | Need | Light | Dark | Result |
 |---|---|---|---|---|
-| `heatmap.strong` | 3 | 3.99 | 8.58 | Pass (the anchor clears 3:1) |
-| `heatmap.good` | 3 | 2.93 | 4.57 | By design < 3:1 in Light* |
-| `heatmap.fair` | 3 | 1.88 | 2.98 | By design < 3:1* |
-| `heatmap.weak` | 3 | 1.66 | 1.84 | By design < 3:1* |
-| `heatmap.faded` | 3 | 1.33 | 1.28 | By design < 3:1* |
+| `heatmap.strong` | 3 | 4.27 | 8.58 | Pass (the anchor clears 3:1) |
+| `heatmap.good` | 3 | 2.47 | 4.57 | By design < 3:1 in Light* |
+| `heatmap.fair` | 3 | 1.63 | 2.98 | By design < 3:1* |
+| `heatmap.weak` | 3 | 1.53 | 1.84 | By design < 3:1* |
+| `heatmap.faded` | 3 | 1.19 | 1.28 | By design < 3:1* |
 
 \*The lower steps sit below the 3:1 minimum **intentionally**: they appear only inside labelled, tap-through heat cells where a localized number and label carry the value — colour is never the sole channel, so SC 1.4.1 is satisfied and SC 1.4.11's graphical-object minimum applies to the anchor that must read at a glance (`heatmap.strong`), not to atmosphere cells ([W3C: WCAG 2.2, SC 1.4.1 & 1.4.11](https://www.w3.org/TR/WCAG22/)). The ramp is monotonic in luminance in both appearances, so magnitude order survives greyscale and CVD (§5).
 

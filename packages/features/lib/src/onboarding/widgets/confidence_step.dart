@@ -12,14 +12,11 @@ import 'when_memorized_input.dart';
 /// order), one mutually-exclusive Solid / Shaky / Rusty self-report pick. The
 /// labels are honest self-description, never praise, a score, an exclamation, or
 /// any seeded `D`/`S`/`R` — the engine owns the `_coldStartSeed` table; this View
-/// only captures the chosen [JuzConfidence] and hands it on unchanged. Rusty is
-/// calm (the same M3 selected tone), never alarm-red; each option carries colour
-/// **and** a text label (never colour alone).
+/// only captures the chosen [JuzConfidence] and hands it on unchanged.
 ///
-/// A dumb View: it takes the ordered held juz + the current [confidence] map +
-/// [onPick] and renders. It reads no clock, seeds nothing, and persists nothing
-/// (the seed is E11-T09's single write path). The optional "when memorized"
-/// sub-control (E11-T07) renders beneath each row.
+/// The three picks read as plain pill-tiles carrying a circle glyph (filled /
+/// half / empty) beside the word — shape and word carry the level, never a
+/// traffic-light hue; the chosen pill fills with the one accent.
 class ConfidenceStep extends StatelessWidget {
   /// Creates the rater for the [heldJuz].
   const ConfidenceStep({
@@ -73,17 +70,10 @@ class ConfidenceStep extends StatelessWidget {
       separatorBuilder: (context, _) => SizedBox(height: space.space4),
       itemBuilder: (context, index) {
         if (index == 0) {
-          return Text(
-            l10n.onboardingConfidenceTitle,
-            style: theme.textTheme.titleLarge,
-          );
+          return _ConfidenceTitle(title: l10n.onboardingConfidenceTitle);
         }
         if (index == ordered.length + 1) {
-          return Text(
-            l10n.confidenceBiasNote,
-            style: theme.textTheme.bodyMedium
-                ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
-          );
+          return _BiasNote(text: l10n.confidenceBiasNote);
         }
         final juz = ordered[index - 1];
         return Column(
@@ -94,38 +84,9 @@ class ConfidenceStep extends StatelessWidget {
               l10n.juzLabel(formatLocaleNumber(locale, juz)),
               style: theme.textTheme.titleMedium,
             ),
-            SegmentedButton<JuzConfidence>(
-              emptySelectionAllowed: true,
-              showSelectedIcon: false,
-              segments: <ButtonSegment<JuzConfidence>>[
-                ButtonSegment(
-                  value: JuzConfidence.solid,
-                  label: Text(
-                    l10n.confidenceSolid,
-                    semanticsLabel: l10n.confidenceSolidSemantics,
-                  ),
-                ),
-                ButtonSegment(
-                  value: JuzConfidence.shaky,
-                  label: Text(
-                    l10n.confidenceShaky,
-                    semanticsLabel: l10n.confidenceShakySemantics,
-                  ),
-                ),
-                ButtonSegment(
-                  value: JuzConfidence.rusty,
-                  label: Text(
-                    l10n.confidenceRusty,
-                    semanticsLabel: l10n.confidenceRustySemantics,
-                  ),
-                ),
-              ],
-              selected: <JuzConfidence>{
-                if (confidence[juz] != null) confidence[juz]!,
-              },
-              onSelectionChanged: (selection) {
-                if (selection.isNotEmpty) onPick(juz, selection.first);
-              },
+            _ConfidencePills(
+              selected: confidence[juz],
+              onPick: (value) => onPick(juz, value),
             ),
             // The optional "when memorized" date sits beneath the rater (E11-T07).
             WhenMemorizedInput(
@@ -139,6 +100,191 @@ class ConfidenceStep extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+}
+
+/// The step title.
+class _ConfidenceTitle extends StatelessWidget {
+  const _ConfidenceTitle({required this.title});
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) =>
+      Text(title, style: Theme.of(context).textTheme.titleLarge);
+}
+
+/// The three mutually-exclusive confidence pills for one juz.
+class _ConfidencePills extends StatelessWidget {
+  const _ConfidencePills({required this.selected, required this.onPick});
+
+  final JuzConfidence? selected;
+  final ValueChanged<JuzConfidence> onPick;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final space = theme.extension<SpacingTokens>()!;
+    // Shape carries the level (a filled, a half, an empty circle); colour is
+    // the same calm neutral for every resting pill — never a traffic light.
+    final resting = theme.colorScheme.onSurfaceVariant;
+    return Row(
+      spacing: space.space2,
+      children: [
+        Expanded(
+          child: _ConfidencePill(
+            value: JuzConfidence.solid,
+            icon: Icons.circle,
+            label: l10n.confidenceSolid,
+            semanticsLabel: l10n.confidenceSolidSemantics,
+            restingGlyph: resting,
+            selected: selected == JuzConfidence.solid,
+            onPick: onPick,
+          ),
+        ),
+        Expanded(
+          child: _ConfidencePill(
+            value: JuzConfidence.shaky,
+            icon: Icons.contrast,
+            label: l10n.confidenceShaky,
+            semanticsLabel: l10n.confidenceShakySemantics,
+            restingGlyph: resting,
+            selected: selected == JuzConfidence.shaky,
+            onPick: onPick,
+          ),
+        ),
+        Expanded(
+          child: _ConfidencePill(
+            value: JuzConfidence.rusty,
+            icon: Icons.circle_outlined,
+            label: l10n.confidenceRusty,
+            semanticsLabel: l10n.confidenceRustySemantics,
+            restingGlyph: resting,
+            selected: selected == JuzConfidence.rusty,
+            onPick: onPick,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ConfidencePill extends StatelessWidget {
+  const _ConfidencePill({
+    required this.value,
+    required this.icon,
+    required this.label,
+    required this.semanticsLabel,
+    required this.restingGlyph,
+    required this.selected,
+    required this.onPick,
+  });
+
+  final JuzConfidence value;
+  final IconData icon;
+  final String label;
+  final String semanticsLabel;
+  final Color restingGlyph;
+  final bool selected;
+  final ValueChanged<JuzConfidence> onPick;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final space = theme.extension<SpacingTokens>()!;
+    final radius = BorderRadius.circular(space.space3);
+    return Semantics(
+      button: true,
+      selected: selected,
+      inMutuallyExclusiveGroup: true,
+      label: semanticsLabel,
+      child: InkWell(
+        onTap: () => onPick(value),
+        borderRadius: radius,
+        child: ExcludeSemantics(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: radius,
+              color: selected ? scheme.primary : scheme.surface,
+              border: Border.all(
+                color: selected ? scheme.primary : scheme.outlineVariant,
+              ),
+            ),
+            child: ConstrainedBox(
+              constraints:
+                  BoxConstraints(minHeight: space.space8 + space.space2),
+              child: Padding(
+                padding: EdgeInsetsDirectional.symmetric(
+                  vertical: space.space2,
+                  horizontal: space.space2,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  spacing: space.space1,
+                  children: [
+                    Icon(
+                      icon,
+                      color: selected ? scheme.onPrimary : restingGlyph,
+                      size: space.space5,
+                    ),
+                    Text(
+                      label,
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.labelLarge?.copyWith(
+                        color: selected ? scheme.onPrimary : scheme.onSurface,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// The trailing calm bias note (C-009): a plain-spoken reassurance that nothing
+/// is judged yet, fronted by a quiet shield — never a number, score, or warning.
+class _BiasNote extends StatelessWidget {
+  const _BiasNote({required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final space = theme.extension<SpacingTokens>()!;
+    return Semantics(
+      label: text,
+      child: ExcludeSemantics(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: space.space2,
+          children: [
+            Icon(
+              Icons.shield_outlined,
+              size: space.space5,
+              color: scheme.onSurfaceVariant,
+            ),
+            Expanded(
+              child: Text(
+                text,
+                style: theme.textTheme.bodyMedium
+                    ?.copyWith(color: scheme.onSurfaceVariant),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

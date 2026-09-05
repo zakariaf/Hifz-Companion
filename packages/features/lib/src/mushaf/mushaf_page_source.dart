@@ -23,6 +23,11 @@ final mushafPageProvider =
   (ref, pageNumber) async {
     final reference = ref.watch(persistenceProvider).reference;
     final lines = await reference.linesForPage(pageNumber);
+    // The sūrahs starting on this page, in order — one per `surah_header` line,
+    // so the k-th header band is named after the k-th starting sūrah (the
+    // name is chrome from the read-only `surah` table, never a glyph).
+    final starting = await reference.surahsStartingOnPage(pageNumber);
+    var headerIndex = 0;
     return [
       for (final line in lines)
         MushafLineRef(
@@ -30,6 +35,10 @@ final mushafPageProvider =
           lineType: _toRenderLineType(line.lineType),
           // Opaque pre-shaped glyph codes — drawn straight, never as text.
           textGlyphRef: line.textGlyphRef,
+          surahName: line.lineType == models.LineType.surahHeader &&
+                  headerIndex < starting.length
+              ? starting[headerIndex++].nameAr
+              : null,
         ),
     ];
   },

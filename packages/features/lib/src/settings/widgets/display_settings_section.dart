@@ -36,6 +36,7 @@ class DisplaySettingsSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final space = Theme.of(context).extension<SpacingTokens>()!;
     final profile = ref.watch(activeProfileRecordProvider).asData?.value;
     final prefs = ref.watch(displayPreferencesProvider);
     final today = ref.watch(todayProvider);
@@ -56,60 +57,74 @@ class DisplaySettingsSection extends ConsumerWidget {
       today,
     );
 
-    return SettingsSection(
-      title: l10n.settingsSectionDisplay,
+    // Each preference is its own niche card (concept 07); the picker sits inside
+    // the card on the shared logical horizontal inset.
+    Widget padH(Widget child) => Padding(
+          padding: EdgeInsetsDirectional.symmetric(horizontal: space.space4),
+          child: child,
+        );
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _LabeledPicker(
-          label: l10n.settingsLanguageLabel,
-          child: SettingsPicker<Locale>(
-            options: [
-              SettingsOption(
-                value: const Locale('fa'),
-                label: l10n.languageNameFa,
+        SettingsSection(
+          title: l10n.settingsLanguageLabel,
+          children: [
+            padH(
+              SettingsPicker<Locale>(
+                options: [
+                  SettingsOption(
+                    value: const Locale('fa'),
+                    label: l10n.languageNameFa,
+                  ),
+                  SettingsOption(
+                    value: const Locale('ckb'),
+                    label: l10n.languageNameCkb,
+                  ),
+                  SettingsOption(
+                    value: const Locale('ar'),
+                    label: l10n.languageNameAr,
+                  ),
+                ],
+                selected: selectedLocale,
+                onSelected: (locale) => writer.mutateActiveProfile(
+                  (p) => p.copyWith(locale: _profileLocaleOf(locale)),
+                ),
               ),
-              SettingsOption(
-                value: const Locale('ckb'),
-                label: l10n.languageNameCkb,
-              ),
-              SettingsOption(
-                value: const Locale('ar'),
-                label: l10n.languageNameAr,
-              ),
-            ],
-            selected: selectedLocale,
-            onSelected: (locale) => writer.mutateActiveProfile(
-              (p) => p.copyWith(locale: _profileLocaleOf(locale)),
             ),
-          ),
+          ],
         ),
-        _LabeledPicker(
-          label: l10n.settingsThemeLabel,
-          child: SettingsPicker<MihrabAppearance>(
-            options: [
-              SettingsOption(
-                value: MihrabAppearance.light,
-                label: l10n.appearanceLight,
+        SettingsSection(
+          title: l10n.settingsThemeLabel,
+          children: [
+            padH(
+              SettingsPicker<MihrabAppearance>(
+                options: [
+                  SettingsOption(
+                    value: MihrabAppearance.light,
+                    label: l10n.appearanceLight,
+                  ),
+                  SettingsOption(
+                    value: MihrabAppearance.sepia,
+                    label: l10n.appearanceSepia,
+                  ),
+                  SettingsOption(
+                    value: MihrabAppearance.dark,
+                    label: l10n.appearanceDark,
+                  ),
+                ],
+                selected: prefs.appearance,
+                onSelected: (value) => writer.updateDisplayPreferences(
+                  (p) => p.copyWith(appearance: value),
+                ),
               ),
-              SettingsOption(
-                value: MihrabAppearance.sepia,
-                label: l10n.appearanceSepia,
-              ),
-              SettingsOption(
-                value: MihrabAppearance.dark,
-                label: l10n.appearanceDark,
-              ),
-            ],
-            selected: prefs.appearance,
-            onSelected: (value) => writer.updateDisplayPreferences(
-              (p) => p.copyWith(appearance: value),
             ),
-          ),
+          ],
         ),
-        _LabeledPicker(
-          label: l10n.settingsCalendarLabel,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+        SettingsSection(
+          title: l10n.settingsCalendarLabel,
+          children: [
+            padH(
               SettingsPicker<CalendarSystem>(
                 options: [
                   SettingsOption(
@@ -133,15 +148,14 @@ class DisplaySettingsSection extends ConsumerWidget {
                   (p) => p.copyWith(calendarSystem: system),
                 ),
               ),
-              _PreviewLine(l10n.settingsCalendarToday(todayLabel)),
-            ],
-          ),
+            ),
+            _PreviewLine(l10n.settingsCalendarToday(todayLabel)),
+          ],
         ),
-        _LabeledPicker(
-          label: l10n.settingsTermSetLabel,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+        SettingsSection(
+          title: l10n.settingsTermSetLabel,
+          children: [
+            padH(
               SettingsPicker<String>(
                 // Each option previews its far-revision term (manzil vs dhor)
                 // so the user recognises the vocabulary, not just a region name.
@@ -165,31 +179,36 @@ class DisplaySettingsSection extends ConsumerWidget {
                 selected: region,
                 onSelected: cycleWriter.setTermSetRegion,
               ),
-              // The ckb vocabulary is provisional pending native + scholarly
-              // review; surface that only when Kurdish is the active language.
-              if (locale.languageCode == 'ckb')
-                _PreviewLine(l10n.termSetProvisionalNote),
-            ],
-          ),
-        ),
-        _LabeledPicker(
-          label: l10n.settingsMushafLabel,
-          // One bundled edition today (Ḥafṣ ʿan ʿĀṣim, Madani); the picker stores
-          // the named choice and states the riwāyah — it never re-typesets,
-          // translates, or mirrors the glyph page (R1/R2). Warsh is roadmapped
-          // and will appear here as a second option.
-          child: SettingsPicker<String>(
-            options: [
-              SettingsOption(
-                value: kKfgqpcHafsMadaniV2Edition.mushafId,
-                label: l10n.mushafRiwayahLabel,
-              ),
-            ],
-            selected: profile?.mushafId ?? kKfgqpcHafsMadaniV2Edition.mushafId,
-            onSelected: (id) => writer.mutateActiveProfile(
-              (p) => p.copyWith(mushafId: id),
             ),
-          ),
+            // The ckb vocabulary is provisional pending native + scholarly
+            // review; surface that only when Kurdish is the active language.
+            if (locale.languageCode == 'ckb')
+              _PreviewLine(l10n.termSetProvisionalNote),
+          ],
+        ),
+        SettingsSection(
+          title: l10n.settingsMushafLabel,
+          children: [
+            padH(
+              // One bundled edition today (Ḥafṣ ʿan ʿĀṣim, Madani); the picker
+              // stores the named choice and states the riwāyah — it never
+              // re-typesets, translates, or mirrors the glyph page (R1/R2).
+              // Warsh is roadmapped and will appear here as a second option.
+              SettingsPicker<String>(
+                options: [
+                  SettingsOption(
+                    value: kKfgqpcHafsMadaniV2Edition.mushafId,
+                    label: l10n.mushafRiwayahLabel,
+                  ),
+                ],
+                selected:
+                    profile?.mushafId ?? kKfgqpcHafsMadaniV2Edition.mushafId,
+                onSelected: (id) => writer.mutateActiveProfile(
+                  (p) => p.copyWith(mushafId: id),
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -197,36 +216,6 @@ class DisplaySettingsSection extends ConsumerWidget {
 
   ProfileLocale _profileLocaleOf(Locale locale) => ProfileLocale.values
       .firstWhere((l) => l.wireValue == locale.languageCode);
-}
-
-/// A quiet sub-group label above a single picker (so a screen-reader and a
-/// sighted user can tell the language radiogroup from the theme one).
-class _LabeledPicker extends StatelessWidget {
-  const _LabeledPicker({required this.label, required this.child});
-
-  final String label;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final space = theme.extension<SpacingTokens>()!;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsetsDirectional.only(
-            start: space.space4,
-            end: space.space4,
-            top: space.space2,
-            bottom: space.space1,
-          ),
-          child: Text(label, style: theme.textTheme.titleSmall),
-        ),
-        child,
-      ],
-    );
-  }
 }
 
 /// A quiet caption line — the calendar picker's live "today in this calendar"

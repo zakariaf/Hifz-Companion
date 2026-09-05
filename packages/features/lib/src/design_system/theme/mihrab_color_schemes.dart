@@ -96,38 +96,83 @@ ColorScheme _seeded(Brightness brightness) => ColorScheme.fromSeed(
       contrastLevel: contrastLevelStandard,
     );
 
+// Mihrab-architecture appearance (owner-directed design amendment): a limestone
+// plaster surface, glazed-teal primary, and a deep tile-shadow ink — the palette
+// of a serene tiled mosque (concept 03). Every text/accent role is tuned to clear
+// the WCAG 2.2 AA floors re-audited in 03 §7 (the teal is deepened from the
+// concept's #1F7A6D so it holds 4.5:1 as chip/label text on the limestone).
 final ColorScheme _lightScheme = _seeded(Brightness.light).copyWith(
-  surface: const Color(0xFFF3F6F1),
-  surfaceContainer: const Color(0xFFE7ECE4),
-  onSurface: const Color(0xFF1A211E),
-  onSurfaceVariant: const Color(0xFF46514B),
-  primary: const Color(0xFF18745A),
+  // Plain redesign (2026-09-05 owner amendment): a neutral near-white ground,
+  // white cards, one hairline, one accent. No ornament tokens are read.
+  surface: const Color(0xFFF4F4F2),
+  surfaceContainer: const Color(0xFFFFFFFF),
+  surfaceContainerLow: const Color(0xFFFFFFFF),
+  surfaceContainerHigh: const Color(0xFFFFFFFF),
+  surfaceContainerHighest: const Color(0xFFEFEFEC),
+  onSurface: const Color(0xFF1A1C1B),
+  onSurfaceVariant: const Color(0xFF6B6F6D),
+  outline: const Color(0xFFC9CBC8),
+  outlineVariant: const Color(0xFFE6E6E2),
+  primary: const Color(0xFF157A63),
   onPrimary: const Color(0xFFFFFFFF),
+  primaryContainer: const Color(0xFFE3F1EC),
+  onPrimaryContainer: const Color(0xFF0F4F40),
+  secondaryContainer: const Color(0xFFEEF0EE),
+  onSecondaryContainer: const Color(0xFF3A423F),
+  tertiaryContainer: const Color(0xFFF0EFEA),
+  onTertiaryContainer: const Color(0xFF4A473F),
 );
 
 final ColorScheme _sepiaScheme = _seeded(Brightness.light).copyWith(
-  surface: const Color(0xFFF3EAD8),
-  surfaceContainer: const Color(0xFFE9DEC6),
+  // Plain redesign: warm paper ground, near-white cards, one hairline.
+  surface: const Color(0xFFF6F1E7),
+  surfaceContainer: const Color(0xFFFFFCF6),
+  surfaceContainerLow: const Color(0xFFFFFCF6),
+  surfaceContainerHigh: const Color(0xFFFFFCF6),
+  surfaceContainerHighest: const Color(0xFFEFE8DA),
   onSurface: const Color(0xFF2B2620),
-  onSurfaceVariant: const Color(0xFF5A5042),
+  onSurfaceVariant: const Color(0xFF6E6353),
+  outlineVariant: const Color(0xFFE6DFD0),
   primary: const Color(0xFF166650),
   onPrimary: const Color(0xFFFFFFFF),
+  primaryContainer: const Color(0xFFE0EEE6),
+  onPrimaryContainer: const Color(0xFF0F4F40),
+  secondaryContainer: const Color(0xFFF0EBE0),
+  onSecondaryContainer: const Color(0xFF4A4438),
 );
 
 final ColorScheme _darkScheme = _seeded(Brightness.dark).copyWith(
+  // Plain redesign: off-black ground, one step lighter cards, one hairline.
   surface: const Color(0xFF121413),
   surfaceContainer: const Color(0xFF1E211F),
+  surfaceContainerLow: const Color(0xFF1E211F),
+  surfaceContainerHigh: const Color(0xFF1E211F),
+  surfaceContainerHighest: const Color(0xFF2A2E2C),
   onSurface: const Color(0xFFE6EAE3),
   onSurfaceVariant: const Color(0xFFA7B0A8),
+  outlineVariant: const Color(0xFF2E3230),
   primary: const Color(0xFF6FC2A8),
   onPrimary: const Color(0xFF0C140F),
+  primaryContainer: const Color(0xFF1F3D34),
+  onPrimaryContainer: const Color(0xFFBFE6D8),
+  secondaryContainer: const Color(0xFF262A28),
+  onSecondaryContainer: const Color(0xFFC9D0CB),
 );
 
 final ColorScheme _nightScheme = _seeded(Brightness.dark).copyWith(
+  // Plain redesign: warm-dim ground, one step lighter cards, one hairline.
   surface: const Color(0xFF14110C),
   surfaceContainer: const Color(0xFF221C13),
+  surfaceContainerLow: const Color(0xFF221C13),
+  surfaceContainerHigh: const Color(0xFF221C13),
+  surfaceContainerHighest: const Color(0xFF2E271B),
   onSurface: const Color(0xFFD8CBB2),
   onSurfaceVariant: const Color(0xFFA89A80),
+  outlineVariant: const Color(0xFF332C20),
   primary: const Color(0xFF7FB48C),
   onPrimary: const Color(0xFF0C140F),
+  primaryContainer: const Color(0xFF233A2A),
+  onPrimaryContainer: const Color(0xFFCFE3C8),
+  secondaryContainer: const Color(0xFF2A241A),
+  onSecondaryContainer: const Color(0xFFCFC3A8),
 );

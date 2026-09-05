@@ -13,7 +13,6 @@ import 'package:quran/quran.dart'
         OverlayMarker,
         OverlayStyle;
 
-import '../../design_system/theme/mihrab_colors.dart';
 import '../../design_system/theme/motion_tokens.dart';
 import '../../design_system/theme/spacing_tokens.dart';
 import '../discrimination_drill_view_model.dart' show BranchPhase;
@@ -61,11 +60,14 @@ class DrillBranchView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final scheme = Theme.of(context).colorScheme;
+    final space = Theme.of(context).extension<SpacingTokens>()!;
     final motion = Theme.of(context).extension<MotionTokens>()!;
     final reduceMotion = MediaQuery.disableAnimationsOf(context);
     final lines = ref.watch(drillPageLinesProvider(member.pageNumber));
     final revealed = phase != BranchPhase.hidden;
     final anchored = phase == BranchPhase.anchored;
+    final cardRadius = Radius.circular(space.space4);
 
     final page = lines.maybeWhen(
       data: (refs) => MushafReaderPage(
@@ -80,29 +82,47 @@ class DrillBranchView extends ConsumerWidget {
       orElse: () => const SizedBox.expand(),
     );
 
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        // Tapping the revealed (pre-anchor) page adds the anchor. Opaque so the
-        // whole page area accepts the tap even before glyphs give it size.
-        GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: phase == BranchPhase.revealed ? onShowAnchor : null,
-          child: page,
-        ),
-        IgnorePointer(
-          ignoring: revealed,
-          child: AnimatedOpacity(
-            opacity: revealed ? 0 : 1,
-            duration: reduceMotion ? Duration.zero : motion.durationShort,
-            curve: motion.curveStandard,
-            child: _RevealCover(
-              label: l10n.mutashabihatDrillReveal,
-              onReveal: onReveal,
-            ),
+    // The immutable page framed as a calm limestone "verse card" (concept 05) —
+    // chrome only; the glyph layer and the gold anchor overlay are untouched.
+    return Padding(
+      padding: EdgeInsetsDirectional.all(space.space4),
+      child: DecoratedBox(
+        decoration: ShapeDecoration(
+          color: scheme.surfaceContainerLowest,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadiusDirectional.all(cardRadius),
+            side: BorderSide(color: scheme.outlineVariant),
           ),
         ),
-      ],
+        child: ClipRRect(
+          borderRadius: BorderRadiusDirectional.all(cardRadius),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              // Tapping the revealed (pre-anchor) page adds the anchor. Opaque
+              // so the whole page area accepts the tap even before glyphs give
+              // it size.
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: phase == BranchPhase.revealed ? onShowAnchor : null,
+                child: page,
+              ),
+              IgnorePointer(
+                ignoring: revealed,
+                child: AnimatedOpacity(
+                  opacity: revealed ? 0 : 1,
+                  duration: reduceMotion ? Duration.zero : motion.durationShort,
+                  curve: motion.curveStandard,
+                  child: _RevealCover(
+                    label: l10n.mutashabihatDrillReveal,
+                    onReveal: onReveal,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -110,7 +130,6 @@ class DrillBranchView extends ConsumerWidget {
     final words = ref.watch(drillAnchorWordsProvider)(member);
     if (words.isEmpty) return null; // E14-T09 supplies the real WordRefs
     final theme = Theme.of(context);
-    final colors = theme.extension<MihrabColors>()!;
     final space = theme.extension<SpacingTokens>()!;
     return MushafOverlayPainter(
       markers: [
@@ -121,7 +140,7 @@ class DrillBranchView extends ConsumerWidget {
         // A calm low-alpha gold over the divergence — never a red shame mark.
         fillColors: {
           OverlayKind.mutashabihAnchor:
-              colors.accentGold.withValues(alpha: 0.18),
+              theme.colorScheme.primary.withValues(alpha: 0.18),
         },
         cornerRadius: space.space1,
       ),

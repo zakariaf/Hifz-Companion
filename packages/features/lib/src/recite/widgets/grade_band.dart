@@ -43,16 +43,18 @@ class ReciteGradeBand extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
+          // Servant-to-the-teacher: the sign-off tile sits above the grade band
+          // (07-components §5) — the calm choice of grader precedes the verdict.
+          TeacherSignoffToggle(
+            teacherPresent: state.teacherPresent,
+            onChanged: (v) => controller.setTeacherPresent(present: v),
+          ),
+          SizedBox(height: space.space3),
           // The E10 GradeBand itself renders the calm "reveal to grade" waiting
           // hint when disabled — no duplicate hint here.
           GradeBand(
             enabled: state.hasRevealed,
             onGrade: (choice) => onGrade(_toReviewGrade(choice)),
-          ),
-          SizedBox(height: space.space3),
-          TeacherSignoffToggle(
-            teacherPresent: state.teacherPresent,
-            onChanged: (v) => controller.setTeacherPresent(present: v),
           ),
         ],
       ),

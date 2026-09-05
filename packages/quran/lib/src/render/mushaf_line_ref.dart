@@ -22,7 +22,14 @@ class MushafLineRef {
     required this.lineNumber,
     required this.lineType,
     required this.textGlyphRef,
+    this.surahName,
   });
+
+  /// For a `surahName` line: the already-resolved sūrah name from the read-only
+  /// `surah` reference table (chrome text drawn in the UI face inside a plain
+  /// band — never a Quran glyph, never parsed from the glyph layer). Null on
+  /// every other line type.
+  final String? surahName;
 
   /// The 1-based line number on the page.
   final int lineNumber;
@@ -38,8 +45,10 @@ class MushafLineRef {
       other is MushafLineRef &&
       other.lineNumber == lineNumber &&
       other.lineType == lineType &&
-      other.textGlyphRef == textGlyphRef;
+      other.textGlyphRef == textGlyphRef &&
+      other.surahName == surahName;
 
   @override
-  int get hashCode => Object.hash(lineNumber, lineType, textGlyphRef);
+  int get hashCode =>
+      Object.hash(lineNumber, lineType, textGlyphRef, surahName);
 }

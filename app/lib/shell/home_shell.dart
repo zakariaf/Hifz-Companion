@@ -6,14 +6,15 @@ import 'package:features/features.dart'
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-/// The persistent chrome around the five bottom-nav tabs, hosted by the router's
-/// `ShellRoute` (04 §6). It wires only: it derives the selected tab from the
-/// current location and routes a tap with `context.go` — no imperative
-/// `Navigator.push`, no business logic, no Quran glyph.
+/// The persistent chrome around the three bottom-nav tabs, hosted by the
+/// router's `ShellRoute` (04 §6). It wires only: it derives the selected tab
+/// from the current location and routes a tap with `context.go` — no imperative
+/// `Navigator.push`, no business logic, no Quran glyph, no header (each tab
+/// draws its own large title).
 ///
-/// The nav items are declared in logical order Today · Muṣḥaf · Mutashābihāt ·
-/// Progress · Settings; under the app-wide RTL `Directionality` the bar renders
-/// Today rightmost as the geometric result — never a manual `.reversed`.
+/// The nav items are declared in logical order Today · Muṣḥaf · Progress; under
+/// the app-wide RTL `Directionality` the bar renders Today rightmost as the
+/// geometric result — never a manual `.reversed`.
 class HomeShell extends StatelessWidget {
   /// Wraps the active tab's [child] in the shell chrome.
   const HomeShell({required this.child, super.key});
@@ -25,16 +26,12 @@ class HomeShell extends StatelessWidget {
   static const List<String> _tabPaths = <String>[
     '/today',
     '/mushaf',
-    '/mutashabihat',
     '/progress',
-    '/settings',
   ];
 
   @override
   Widget build(BuildContext context) {
     final location = GoRouterState.of(context).uri.path;
-    // Reuse the design-system scaffold (calm body + a MihrabNavigationBar slot)
-    // rather than re-assembling Scaffold + nav here.
     return MihrabScaffold(
       body: child,
       bottomNavigationBar: MihrabNavigationBar(

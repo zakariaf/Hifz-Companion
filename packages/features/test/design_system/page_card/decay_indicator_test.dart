@@ -1,9 +1,10 @@
 // SPDX-FileCopyrightText: 2026 Zakaria Fatahi and Hifz Companion contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-// E10-T03 — the decay indicator: the same fact three ways (ramp colour + glyph +
-// label), a muted-neutral decaying end (never red/amber), no number, and
-// STRUCTURALLY no "safe to drop"/"mastered" level (C-019).
+// E10-T03 — the decay indicator: the same fact redundantly (a coloured 8-point
+// star + label), no number, and STRUCTURALLY no "safe to drop"/"mastered" level
+// (C-019). Concept-02 redesign: the ready-for-revision end carries the palette's
+// calm terracotta accent (`semanticWarning`), the holding end the teal heat ramp.
 
 import 'package:features/features.dart';
 import 'package:flutter/material.dart';
@@ -34,64 +35,70 @@ void main() {
     );
   });
 
-  testWidgets('each level pairs the right ramp colour with the right glyph',
+  Text labelOf(WidgetTester tester) => tester.widget<Text>(
+        find.descendant(
+          of: find.byType(DecayIndicator),
+          matching: find.byType(Text),
+        ),
+      );
+
+  testWidgets('each level pairs the right hue with the star + label',
       (tester) async {
     final colors = mihrabColorsFor(MihrabAppearance.light);
-    final cases = <DecayLevel, (Color, IconData)>{
-      DecayLevel.solid: (colors.heatmapStrong, Icons.circle),
-      DecayLevel.holding: (colors.heatmapFair, Icons.contrast),
-      DecayLevel.needsRevision: (colors.heatmapWeak, Icons.circle_outlined),
+    // solid/holding share the calm teal heat ramp; ready-for-revision is the
+    // warm terracotta accent (the label word, not the hue, splits solid/holding).
+    final cases = <DecayLevel, Color>{
+      DecayLevel.solid: colors.heatmapStrong,
+      DecayLevel.holding: colors.heatmapStrong,
+      DecayLevel.needsRevision: colors.semanticWarning,
     };
     for (final entry in cases.entries) {
       await tester.pumpWidget(
         _host(DecayIndicator(level: entry.key, label: 'l')),
       );
-      final icon = tester.widget<Icon>(
-        find.descendant(
-          of: find.byType(DecayIndicator),
-          matching: find.byType(Icon),
-        ),
+      // The star (an 8-point CustomPaint, never `Icons.star`) and the label
+      // share the band hue.
+      expect(
+        labelOf(tester).style?.color,
+        entry.value,
+        reason: '${entry.key} hue',
       );
-      expect(icon.icon, entry.value.$2, reason: '${entry.key} glyph');
-      expect(icon.color, entry.value.$1, reason: '${entry.key} ramp colour');
+      expect(
+        labelOf(tester).style?.fontWeight,
+        FontWeight.bold,
+        reason: '${entry.key} label is bold so the low-chroma hue clears AA',
+      );
     }
   });
 
-  testWidgets('the swatch stays small (<= space.4)', (tester) async {
+  testWidgets('the star stays small (<= space.4)', (tester) async {
     await tester.pumpWidget(
       _host(const DecayIndicator(level: DecayLevel.solid, label: 'l')),
     );
     final space = Theme.of(tester.element(find.byType(DecayIndicator)))
         .extension<SpacingTokens>()!;
-    final icon = tester.widget<Icon>(
+    final star = tester.widget<CustomPaint>(
       find.descendant(
         of: find.byType(DecayIndicator),
-        matching: find.byType(Icon),
+        matching: find.byType(CustomPaint),
       ),
     );
-    expect(icon.size, lessThanOrEqualTo(space.space4));
+    expect(star.size.shortestSide, lessThanOrEqualTo(space.space4));
   });
 
-  testWidgets(
-      'the decaying end is a muted neutral, never the warning/alarm token',
+  testWidgets('the ready-for-revision end is the calm terracotta accent',
       (tester) async {
     await tester.pumpWidget(
       _host(const DecayIndicator(level: DecayLevel.needsRevision, label: 'l')),
     );
     final colors = Theme.of(tester.element(find.byType(DecayIndicator)))
         .extension<MihrabColors>()!;
-    final icon = tester.widget<Icon>(
-      find.descendant(
-        of: find.byType(DecayIndicator),
-        matching: find.byType(Icon),
-      ),
-    );
-    expect(icon.color, colors.heatmapWeak);
-    expect(icon.color, isNot(colors.semanticWarning));
+    // A warm clay (the concept's shared accent), never a saturated alarm-red.
+    expect(labelOf(tester).style?.color, colors.semanticWarning);
   });
 
   testWidgets(
-      'the label is spoken (color-independent), the glyph is decorative',
+      'the label is spoken (color-independent), the star is decorative',
       (tester) async {
     final handle = tester.ensureSemantics();
     await tester.pumpWidget(
@@ -99,8 +106,8 @@ void main() {
         const DecayIndicator(level: DecayLevel.needsRevision, label: 'needs'),
       ),
     );
-    // The meaning rides on a glyph + the spoken label, never colour alone.
-    assertColorIndependent(tester, icons: const [Icons.circle_outlined]);
+    // The meaning rides on the star + the spoken label, never colour alone.
+    assertColorIndependent(tester, labels: const ['needs']);
     expect(
       tester.getSemantics(find.byType(DecayIndicator)),
       isSemantics(label: 'needs'),

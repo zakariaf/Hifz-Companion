@@ -49,9 +49,12 @@ class CatchUpPlan {
 /// Domain-blind: it renders a pre-built [CatchUpPlan] (reusing the page card for
 /// each row) and the already-localized [empathy]/[factLine]/[pathLine], and emits
 /// a [CatchUpChoice] through [onChoice] — it computes no spread, reads no clock,
-/// mutates nothing, opens no socket. Calm `surfaceContainer` (Level 0–1), never a
-/// red overdue pile; any decay reads as receding green; never greets the gap,
-/// never "you're behind", no streak/celebration.
+/// mutates nothing, opens no socket. A calm cream card (`surfaceContainer`)
+/// carried by one warm terracotta accent (`semanticWarning`): a thick rule down
+/// the trailing edge, a small mihrab-niche `!` badge leading the announcement,
+/// and a terracotta-tinted headline — warm attention framing a way forward,
+/// never a red overdue pile; any decay reads as receding green; never greets the
+/// gap, never "you're behind", no streak/celebration.
 class CatchUpBanner extends StatelessWidget {
   /// Creates the banner from a pre-built plan + localized copy + a choice sink.
   const CatchUpBanner({
@@ -92,27 +95,35 @@ class CatchUpBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    final space = Theme.of(context).extension<SpacingTokens>()!;
-    final text = Theme.of(context).textTheme;
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final space = theme.extension<SpacingTokens>()!;
+    final text = theme.textTheme;
     final minTouch = Size(space.space8, space.space8);
 
     return Card(
       elevation: 0,
       color: scheme.surfaceContainer,
+      clipBehavior: Clip.antiAlias,
       child: Padding(
         padding: EdgeInsetsDirectional.all(space.space4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Empathy → fact → path read as one calm announcement.
+            // The calm announcement: empathy first, then the fact and the
+            // path as one muted body. Plain ink — warm attention is in the
+            // words, never in an alarm colour or a badge.
             MergeSemantics(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(empathy, style: text.bodyLarge),
+                  Text(
+                    empathy,
+                    style:
+                        text.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+                  ),
                   SizedBox(height: space.space2),
                   Text(factLine, style: text.bodyMedium),
                   SizedBox(height: space.space1),
@@ -131,7 +142,9 @@ class CatchUpBanner extends StatelessWidget {
                 child: MihrabPageCard(data: item, onOpen: () {}),
               ),
             SizedBox(height: space.space3),
-            // The choices — user-owned, never a single mandate.
+            // The choices — user-owned, never a single mandate. The primary
+            // path is the one accent fill; adjust is a plain outlined pill;
+            // deferring is blameless and low-emphasis.
             Wrap(
               spacing: space.space2,
               runSpacing: space.space2,
@@ -142,12 +155,22 @@ class CatchUpBanner extends StatelessWidget {
                 ),
                 OutlinedButton(
                   onPressed: () => onChoice(CatchUpChoice.adjust),
-                  style: OutlinedButton.styleFrom(minimumSize: minTouch),
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: minTouch,
+                    backgroundColor: scheme.surface,
+                    foregroundColor: scheme.onSurface,
+                    side: BorderSide(color: scheme.outline),
+                  ),
                   child: Text(adjustLabel),
                 ),
                 TextButton(
                   onPressed: () => onChoice(CatchUpChoice.defer),
-                  style: TextButton.styleFrom(minimumSize: minTouch),
+                  // Deferring is blameless and low-emphasis: a calm muted
+                  // label, never a bright competing call.
+                  style: TextButton.styleFrom(
+                    minimumSize: minTouch,
+                    foregroundColor: scheme.onSurfaceVariant,
+                  ),
                   child: Text(deferLabel),
                 ),
               ],
@@ -158,3 +181,9 @@ class CatchUpBanner extends StatelessWidget {
     );
   }
 }
+
+/// A small mihrab-niche badge holding a calm `!` — warm terracotta attention on
+/// a soft terracotta ground, the leading mark of the catch-up announcement.
+///
+/// Purely decorative: the missed-day meaning is carried by the headline text, so
+/// it is excluded from the semantics tree.

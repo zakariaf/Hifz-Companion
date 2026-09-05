@@ -150,6 +150,18 @@ class ReciteController extends Notifier<ReciteState> {
     );
   }
 
+  /// Reveals the whole page in one tap, after the recall attempt (the plain
+  /// redesign default; never a teleprompter — nothing is shown before the
+  /// reciter asks). Idempotent once everything is revealed.
+  void revealAll() {
+    final lines = ref.read(reciteReaderSurfaceProvider).lineCount(pageId);
+    if (state.revealedLineCount >= lines) return;
+    state = state.copyWith(
+      stage: ReciteStage.revealing,
+      revealedLineCount: lines,
+    );
+  }
+
   /// Toggles a 1-based stumble [line]; raises [ReciteState.missedOrAlteredWord]
   /// while any stumble is marked (the pipeline applies the sacred-text cap).
   void toggleStumbleLine(int line) {

@@ -79,7 +79,9 @@ void main() {
     );
     final overlay = button.style!.overlayColor!.resolve({WidgetState.pressed})!;
     expect(overlay.a, closeTo(0.10, 1e-6));
-    expect(overlay.r, scheme.onPrimary.r);
+    // The tile is a limestone `surfaceContainer` fill, so its pressed state layer
+    // resolves over the `onSurface` role on-color (not `onPrimary`).
+    expect(overlay.r, scheme.onSurface.r);
   });
 
   testWidgets('focus ring is wired per button (SC 2.4.7)', (tester) async {

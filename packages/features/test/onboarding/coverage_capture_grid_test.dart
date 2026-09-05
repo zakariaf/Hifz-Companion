@@ -71,11 +71,18 @@ void main() {
     expect(l10n.onboardingNotHeld.isNotEmpty, isTrue);
   });
 
-  testWidgets('held cell carries a check glyph; un-held carries an empty ring',
+  testWidgets('held cell carries a filled star; un-held carries a dashed ring',
       (t) async {
     await pump(t, held: const {3}, onToggle: (_) {});
-    expect(find.byIcon(Icons.check_circle), findsOneWidget); // the one held juz
-    expect(find.byIcon(Icons.circle_outlined), findsNWidgets(29));
+    // Scope to the interactive cells so the banner/legend glyphs don't count.
+    Finder cellGlyph(IconData icon) => find.descendant(
+          of: find.byType(InkWell),
+          matching: find.byWidgetPredicate(
+            (w) => w is Icon && w.icon == icon,
+          ),
+        );
+    expect(cellGlyph(Icons.check_circle), findsOneWidget); // held juz 3
+    expect(cellGlyph(Icons.circle_outlined), findsNWidgets(29));
   });
 
   testWidgets('each cell is a toggled, labelled, ≥48 dp target', (t) async {

@@ -123,6 +123,12 @@ abstract interface class ReferenceRepository {
   /// caller stays on the current page rather than guess a sacred boundary.
   Future<int?> firstPageOf(JumpTarget target);
 
+  /// The sūrahs whose first āyah falls on [pageNumber], ascending — one per
+  /// `surah_header` line on that page, in the same order, so the reader can
+  /// name each header band from the read-only `surah` table (never from the
+  /// glyph layer). Empty until the core reference pack is loaded.
+  Future<List<Surah>> surahsStartingOnPage(int pageNumber);
+
   /// Every scholar-reviewed mutashābihāt group (id + type + note key), ordered —
   /// the calm browse list for the trainer (E14-T06/T07). Empty until the
   /// read-only dataset is loaded (bundle-first).

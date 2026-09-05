@@ -65,6 +65,7 @@ TodaySession buildTodaySession(
     newSabaq: newSabaq,
     budgetOverflow: plan.budgetOverflow,
     catchUp: _catchUpFor(cards, today, engine),
+    reviewedTodayCount: cards.where((c) => c.lastReviewedDay == today).length,
   );
 }
 

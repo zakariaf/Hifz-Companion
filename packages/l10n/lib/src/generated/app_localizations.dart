@@ -403,6 +403,30 @@ abstract class AppLocalizations {
   /// **'الإعدادات'**
   String get navSettings;
 
+  /// Subtitle under the Today tab's mihrab-niche header. PROVISIONAL — best-effort fa/ckb, review pending.
+  ///
+  /// In ar, this message translates to:
+  /// **'مراجعة اليوم — هادئة وقصيرة'**
+  String get headerSubtitleToday;
+
+  /// Subtitle under the Mutashābihāt tab's header. PROVISIONAL — best-effort fa/ckb, review pending.
+  ///
+  /// In ar, this message translates to:
+  /// **'المواضع التي يكثر الخلط بينها'**
+  String get headerSubtitleMutashabihat;
+
+  /// Subtitle under the Progress tab's header. PROVISIONAL — best-effort fa/ckb, review pending.
+  ///
+  /// In ar, this message translates to:
+  /// **'القرآن كله، جدارٌ من الفسيفساء'**
+  String get headerSubtitleProgress;
+
+  /// Subtitle under the Settings tab's header. PROVISIONAL — best-effort fa/ckb, review pending.
+  ///
+  /// In ar, this message translates to:
+  /// **'تفضيلات هادئة للعرض'**
+  String get headerSubtitleSettings;
+
   /// Appearance switcher: follow the OS light/dark setting. Best-effort fa/ckb pending E09.
   ///
   /// In ar, this message translates to:
@@ -1417,6 +1441,12 @@ abstract class AppLocalizations {
   /// **'المتشابهات'**
   String get mushafOverlayMutashabihat;
 
+  /// Reader overlay toggle tooltip shown while that overlay is disabled because it has nothing to show on the current page — no weak-line/mutashābihāt data or per-word geometry yet. PROVISIONAL — best-effort fa/ckb, review in T09.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا شيء لعرضه في هذه الصفحة'**
+  String get mushafOverlayUnavailableOnPage;
+
   /// Reader zoom-in (+) control. PROVISIONAL — best-effort fa/ckb, review in T09.
   ///
   /// In ar, this message translates to:
@@ -1608,6 +1638,18 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'الأيام القادمة'**
   String get progressForecastTitle;
+
+  /// Progress tile-wall section banner heading — the whole-Quran heat-map framed as one mosaic (zellige) wall of your memorization. Calm, never a scoreboard. PROVISIONAL — pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'جدار فسيفساء حفظك'**
+  String get progressTileWallTitle;
+
+  /// Progress tile-wall explanatory line: each tile is one page, a deeper glaze means more firmly held, and the tile texture speaks alongside the colour (never colour alone — the a11y redundant-encoding rule). PROVISIONAL — pending native + scholarly review.
+  ///
+  /// In ar, this message translates to:
+  /// **'كل بلاطة صفحة؛ كلما كان الطلاء أغمق كان الحفظ أرسخ. ونقش البلاطة يتحدّث مع اللون — لا اللون وحده.'**
+  String get progressTileWallHint;
 
   /// E17 backup card: states BOTH halves of ownership — a local file the app moves nowhere, and the user holds the only copy (no cloud). PROVISIONAL — pending native + scholarly review.
   ///
@@ -2214,6 +2256,108 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'يعمل التطبيقُ بلا إنترنت تمامًا، ولا يسجِّل صوتَك ولا يُرسِل بياناتِك إلى أيِّ مكان.'**
   String get scienceClaimC048Headline;
+
+  /// The one primary action on Today (plain redesign): opens the continuous revision session over the day's pages. A calm invitation, never a command or a streak prompt. Best-effort fa/ckb pending native review.
+  ///
+  /// In ar, this message translates to:
+  /// **'ابدأ المراجعة'**
+  String get todayStartSession;
+
+  /// Today hero headline: the number of pages in today's (finite, budget-capped) session. ICU plural with ALL SIX Arabic CLDR categories; {count} is locale-numeral-shaped downstream by the caller. Neutral fact, no 'due'/'overdue'. Best-effort fa/ckb pending native review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, zero{لا صفحات} one{صفحة واحدة} two{صفحتان} few{{count} صفحات} many{{count} صفحة} other{{count} صفحة}}'**
+  String todayPagesCount(int count);
+
+  /// Today hero supporting line: the honest time estimate for the session ('about N minutes', from the engine's per-page estimate — CLAIMS C-010 budget framing). ICU plural with ALL SIX Arabic categories; {count} locale-numeral-shaped downstream. Best-effort fa/ckb pending native review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, zero{أقل من دقيقة} one{نحو دقيقة واحدة} two{نحو دقيقتين} few{نحو {count} دقائق} many{نحو {count} دقيقة} other{نحو {count} دقيقة}}'**
+  String todayAboutMinutes(int count);
+
+  /// Today row supporting text: how long ago the page was last recited — a neutral fact for orientation, never 'overdue'/'N days lost'. ICU plural with ALL SIX Arabic categories; {count} locale-numeral-shaped downstream. Best-effort fa/ckb pending native review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, zero{آخر مراجعة اليوم} one{آخر مراجعة أمس} two{آخر مراجعة قبل يومين} few{آخر مراجعة قبل {count} أيام} many{آخر مراجعة قبل {count} يوماً} other{آخر مراجعة قبل {count} يوم}}'**
+  String todayLastReviewedDaysAgo(int count);
+
+  /// Today row supporting text for a page that has no recitation on record yet (a cold-start seed). Neutral fact, no reproach. Best-effort fa/ckb pending native review.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم تُراجَع بعد'**
+  String get todayNotYetReviewed;
+
+  /// Screen-reader container label for the continuous revision session route (plain redesign). Best-effort fa/ckb pending native review.
+  ///
+  /// In ar, this message translates to:
+  /// **'جلسة المراجعة'**
+  String get sessionSemanticTitle;
+
+  /// Session progress readout 'page {position} of {total}' in the top bar. Both are pre-formatted locale-numeral, bidi-isolated String tokens — never raw ints. A position, never a score. Best-effort fa/ckb pending native review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{position} من {total}'**
+  String sessionPosition(String position, String total);
+
+  /// The calm guidance over the masked page before the reveal: recite from memory first, then show the page (reveal-on-tap, never a teleprompter — C-020). Best-effort fa/ckb pending native review.
+  ///
+  /// In ar, this message translates to:
+  /// **'اقرأ من الحفظ أولاً'**
+  String get sessionReciteFirst;
+
+  /// The one-tap reveal button on the masked session page (the whole page, after the recall attempt). Best-effort fa/ckb pending native review.
+  ///
+  /// In ar, this message translates to:
+  /// **'أظهر الصفحة'**
+  String get sessionShowPage;
+
+  /// Footer hint under the revealed page: tapping a line marks it as a stumble (the error-line signal for the grading pipeline). Calm, no blame. Best-effort fa/ckb pending native review.
+  ///
+  /// In ar, this message translates to:
+  /// **'انقر على السطر الذي تعثّرت فيه'**
+  String get sessionStumbleHint;
+
+  /// Footer count of stumble lines marked on the current page. ICU plural with ALL SIX Arabic categories; {count} locale-numeral-shaped downstream. Neutral fact. Best-effort fa/ckb pending native review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, zero{لم يُعلَّم أي سطر} one{عُلِّم سطر واحد} two{عُلِّم سطران} few{عُلِّمت {count} أسطر} many{عُلِّم {count} سطراً} other{عُلِّم {count} سطر}}'**
+  String sessionStumbleCount(int count);
+
+  /// The plain end-of-session headline: a factual close, no celebration, no praise, no streak (design 11 §5; C-019). Best-effort fa/ckb pending native review.
+  ///
+  /// In ar, this message translates to:
+  /// **'انتهت مراجعة اليوم'**
+  String get sessionDoneTitle;
+
+  /// End-of-session fact: how many pages were recited and graded in this session. ICU plural with ALL SIX Arabic categories; {count} locale-numeral-shaped downstream. Best-effort fa/ckb pending native review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, zero{لم تُراجَع صفحات} one{رُوجعت صفحة واحدة} two{رُوجعت صفحتان} few{رُوجعت {count} صفحات} many{رُوجعت {count} صفحة} other{رُوجعت {count} صفحة}}'**
+  String sessionPagesReviewed(int count);
+
+  /// End-of-session fact: elapsed minutes (a display stopwatch, never a scheduling input). ICU plural with ALL SIX Arabic categories; {count} locale-numeral-shaped downstream. Best-effort fa/ckb pending native review.
+  ///
+  /// In ar, this message translates to:
+  /// **'{count, plural, zero{أقل من دقيقة} one{دقيقة واحدة} two{دقيقتان} few{{count} دقائق} many{{count} دقيقة} other{{count} دقيقة}}'**
+  String sessionMinutesSpent(int count);
+
+  /// End-of-session row label: the pages graded Again/Hard that the engine pulls forward ('come back sooner'). Calm maintenance framing — pulled FORWARD, never 'failed'. Best-effort fa/ckb pending native review.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعود قريباً'**
+  String get sessionComesBackSooner;
+
+  /// End-of-session row label for tomorrow's expected count. Best-effort fa/ckb pending native review.
+  ///
+  /// In ar, this message translates to:
+  /// **'غداً'**
+  String get sessionTomorrow;
+
+  /// The single button on the end-of-session screen: return to Today. Best-effort fa/ckb pending native review.
+  ///
+  /// In ar, this message translates to:
+  /// **'رجوع'**
+  String get sessionBackToToday;
 }
 
 class _AppLocalizationsDelegate
